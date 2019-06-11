@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "317359709289",
+    "firebase_url": "https://dadguide-pad.firebaseio.com",
+    "project_id": "dadguide-pad",
+    "storage_bucket": "dadguide-pad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317359709289:android:8cae756be8e6606d",
+        "android_client_info": {
+          "package_name": "info.miru.dadguide2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317359709289-jv5315c8mup7oe31e8gkg0mh9p214u55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbtIHw0sXkM5JZBHSjzpD7uvGrbYCS8mM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317359709289-jv5315c8mup7oe31e8gkg0mh9p214u55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
