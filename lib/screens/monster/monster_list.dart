@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/monster.dart';
@@ -5,11 +6,19 @@ import 'package:dadguide2/data/monster_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonsterTab extends StatelessWidget {
+class MonsterTab extends StatefulWidget {
   MonsterTab({Key key}) : super(key: key);
 
   @override
+  _MonsterTabState createState() => _MonsterTabState();
+}
+
+class _MonsterTabState extends State<MonsterTab> {
+  final _memoizer = AsyncMemoizer<List<MonsterListModel>>();
+
+  @override
   Widget build(BuildContext context) {
+    print('adding a monstertab');
     return ChangeNotifierProvider(
       builder: (context) => MonsterDisplayState(),
       child: Column(children: <Widget>[
@@ -22,8 +31,9 @@ class MonsterTab extends StatelessWidget {
 
   FutureBuilder<List<MonsterListModel>> _searchResults() {
     final monsterDao = MonsterDao(DatabaseHelper.instance);
+    var dataFuture = _memoizer.runOnce(() => monsterDao.queryAllRows());
     return FutureBuilder<List<MonsterListModel>>(
-        future: monsterDao.queryAllRows(),
+        future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             print('no data!');
