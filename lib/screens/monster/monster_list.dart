@@ -5,24 +5,23 @@ import 'package:dadguide2/data/monster_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonsterTab extends StatefulWidget {
+class MonsterTab extends StatelessWidget {
   MonsterTab({Key key}) : super(key: key);
 
   @override
-  MonsterTabState createState() => MonsterTabState();
-}
-
-class MonsterTabState extends State<MonsterTab> {
-  final monsterDao = MonsterDao(DatabaseHelper.instance);
-  String _searchText = '';
-
-  void _onSearchUpdated() {
-    setState(() {
-//      _selectedIndex = index;
-    });
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      builder: (context) => MonsterDisplayState(),
+      child: Column(children: <Widget>[
+        MonsterSearchBar(),
+        Expanded(child: _searchResults()),
+        MonsterDisplayOptionsBar(),
+      ]),
+    );
   }
 
   FutureBuilder<List<MonsterListModel>> _searchResults() {
+    final monsterDao = MonsterDao(DatabaseHelper.instance);
     return FutureBuilder<List<MonsterListModel>>(
         future: monsterDao.queryAllRows(),
         builder: (context, snapshot) {
@@ -37,18 +36,6 @@ class MonsterTabState extends State<MonsterTab> {
             return MonsterListRow(monster);
           }).toList());
         });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (context) => MonsterDisplayState(),
-      child: Column(children: <Widget>[
-        MonsterSearchBar(),
-        Expanded(child: _searchResults()),
-        MonsterDisplayOptionsBar(),
-      ]),
-    );
   }
 }
 
