@@ -71,3 +71,6 @@
 
 # Exclude Gradle stuff?
 .gradle/
+
+# Database blob
+assets/data/*.sqlite

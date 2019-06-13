@@ -1,4 +1,5 @@
 import 'package:dadguide2/screens/event/event.dart';
+import 'package:dadguide2/screens/monster/monster_list.dart';
 import 'package:flutter/material.dart';
 
 class StatefulHomeScreen extends StatefulWidget {
@@ -11,11 +12,11 @@ class StatefulHomeScreen extends StatefulWidget {
 class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    EventTab(),
-    Container(color: Colors.red, child: Text('Monster')),
-    Text('Dungeon'),
-    Text('Util'),
-    Text('Setting'),
+    EventTab(key: PageStorageKey('EventTab')),
+    MonsterTab(key: PageStorageKey('MonsterTab')),
+    Text('Dungeon', key: PageStorageKey('DungeonTab')),
+    Text('Util', key: PageStorageKey('UtilTab')),
+    Text('Setting', key: PageStorageKey('SettingTab')),
   ];
 
   void _onItemTapped(int index) {
