@@ -49,6 +49,9 @@ dependencies:
   # Injection
   provider: ^3.0.0+1
 
+  # Settings page
+  preferences: ^4.0.0
+
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,12 @@
 import 'package:dadguide2/screens/home/home2.dart';
+import 'package:dadguide2/screens/settings/settings_manager.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(DadGuideApp());
+void main() async {
+  await preferenceInit();
+  runApp(DadGuideApp());
+}
 
 class DadGuideApp extends StatelessWidget {
   // This widget is the root of your application.
