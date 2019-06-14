@@ -73,9 +73,8 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MonsterDisplayState>(context);
-    return Container(
-      color: Colors.blueGrey,
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+    return Material(
+      color: Colors.grey[100],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
