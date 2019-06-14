@@ -1,8 +1,40 @@
 import 'package:dadguide2/screens/event/event.dart';
+import 'package:dadguide2/screens/monster/monster_info.dart';
 import 'package:dadguide2/screens/monster/monster_screen.dart';
 import 'package:dadguide2/screens/settings/settings_screen.dart';
 import 'package:dadguide2/screens/utils/utils_screen.dart';
 import 'package:flutter/material.dart';
+
+class TabNavigatorRoutes {
+  static const String root = '/';
+  static const String monsterDetail = '/monsterDetail';
+}
+
+class TabNavigator extends StatelessWidget {
+  final GlobalKey<NavigatorState> navigatorKey;
+  final Widget rootItem;
+
+  TabNavigator({this.navigatorKey, this.rootItem});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: navigatorKey,
+      initialRoute: TabNavigatorRoutes.root,
+      onGenerateRoute: (routeSettings) {
+        return MaterialPageRoute(builder: (context) {
+          if (routeSettings.name == TabNavigatorRoutes.root) {
+            return rootItem;
+          } else if (routeSettings.name == TabNavigatorRoutes.monsterDetail) {
+            return MonsterDetailScreen(1);
+          } else {
+            throw 'Unexpected route';
+          }
+        });
+      },
+    );
+  }
+}
 
 class StatefulHomeScreen extends StatefulWidget {
   StatefulHomeScreen({Key key}) : super(key: key);
@@ -13,9 +45,15 @@ class StatefulHomeScreen extends StatefulWidget {
 
 class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   int _selectedIndex = 0;
+
+  static final monsterNavKey = GlobalKey<NavigatorState>();
+
   static List<Widget> _widgetOptions = <Widget>[
     EventTab(key: PageStorageKey('EventTab')),
-    MonsterTab(key: PageStorageKey('MonsterTab')),
+    TabNavigator(
+      navigatorKey: monsterNavKey,
+      rootItem: MonsterTab(key: PageStorageKey('MonsterTab')),
+    ),
     Text('Dungeon', key: PageStorageKey('DungeonTab')),
     UtilsScreen(key: PageStorageKey('UtilTab')),
     SettingsScreen(key: PageStorageKey('SettingTab')),

@@ -170,9 +170,8 @@ class MonsterListRow extends StatelessWidget {
     var m = _model;
     return InkWell(
       onTap: () {
-//        Scaffold.of(context).showSnackBar(SnackBar(
-//          content: Text('Tap'),
-//        ));
+        print('pushing!');
+        Navigator.of(context).pushNamed('/monsterDetail');
       },
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
