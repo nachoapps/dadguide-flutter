@@ -74,3 +74,6 @@
 
 # Database blob
 assets/data/*.sqlite
+
+# Generated files
+*.g.dart
