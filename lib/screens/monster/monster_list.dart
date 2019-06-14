@@ -1,8 +1,7 @@
 import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/data/database.dart';
-import 'package:dadguide2/data/monster.dart';
-import 'package:dadguide2/data/monster_dao.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +13,7 @@ class MonsterTab extends StatefulWidget {
 }
 
 class _MonsterTabState extends State<MonsterTab> {
-  final _memoizer = AsyncMemoizer<List<MonsterListModel>>();
+  final _memoizer = AsyncMemoizer<List<MonsterData>>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +28,13 @@ class _MonsterTabState extends State<MonsterTab> {
     );
   }
 
-  FutureBuilder<List<MonsterListModel>> _searchResults() {
-    final monsterDao = MonsterDao(DatabaseHelper.instance);
-    var dataFuture = _memoizer.runOnce(() => monsterDao.queryAllRows());
-    return FutureBuilder<List<MonsterListModel>>(
+  FutureBuilder<List<MonsterData>> _searchResults() {
+    var dataFuture = _memoizer.runOnce(() async {
+      var database = await DatabaseHelper.instance.database;
+      return database.allMonsters;
+    });
+
+    return FutureBuilder<List<MonsterData>>(
         future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -80,8 +82,7 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.star_border),
             color: controller.favoritesOnly ? Colors.amber : Colors.black,
-            onPressed: () =>
-                controller.favoritesOnly = !controller.favoritesOnly,
+            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
           ),
           IconButton(
             icon: Icon(Icons.new_releases),
@@ -96,14 +97,12 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.sort),
             color: controller.useCustomSort ? Colors.amber : Colors.black,
-            onPressed: () =>
-                controller.useCustomSort = !controller.useCustomSort,
+            onPressed: () => controller.useCustomSort = !controller.useCustomSort,
           ),
           IconButton(
             icon: Icon(Icons.stars),
             color: controller.showAwakenings ? Colors.amber : Colors.black,
-            onPressed: () =>
-                controller.showAwakenings = !controller.showAwakenings,
+            onPressed: () => controller.showAwakenings = !controller.showAwakenings,
           ),
           IconButton(
             icon: Icon(Icons.change_history),
@@ -164,12 +163,12 @@ class MonsterDisplayState with ChangeNotifier {
 }
 
 class MonsterListRow extends StatelessWidget {
-  final MonsterListModel _model;
+  final MonsterData _model;
   const MonsterListRow(this._model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var m = _model.m;
+    var m = _model;
     return InkWell(
       onTap: () {
 //        Scaffold.of(context).showSnackBar(SnackBar(
@@ -193,22 +192,20 @@ class MonsterListRow extends StatelessWidget {
                     DefaultTextStyle(
                         style: Theme.of(context).textTheme.overline,
                         child: Row(children: [
-                          Text('No. ${m.monsterNo}'),
+                          Text('No. ${m.monsterNoJp}'),
                           Spacer(),
                           Text('MP ? / * ${m.cost} / S? -> ?'),
                         ])),
-                    Text(m.name.na),
+                    Text(m.nameNa),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.overline,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Lv. ${m.level}'),
-                            Text('HP ${m.hp.max}'),
-                            Text('ATK ${m.atk.max}'),
-                            Text('RCV ${m.rcv.max}'),
-                            Text('WT ??'),
-                          ]),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                        Text('Lv. ${m.level}'),
+                        Text('HP ${m.hpMax}'),
+                        Text('ATK ${m.atkMax}'),
+                        Text('RCV ${m.rcvMax}'),
+                        Text('WT ??'),
+                      ]),
                     ),
                   ],
                 ),
@@ -219,8 +216,8 @@ class MonsterListRow extends StatelessWidget {
   }
 }
 
-String imageUrl(MonsterListModel model) {
-  var paddedNo = model.m.monsterNo.toString().padLeft(4, '0');
+String imageUrl(MonsterData model) {
+  var paddedNo = model.monsterId.toString().padLeft(4, '0');
   return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
 }
 
