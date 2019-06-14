@@ -1,5 +1,5 @@
 import 'package:dadguide2/screens/event/event.dart';
-import 'package:dadguide2/screens/monster/monster_list.dart';
+import 'package:dadguide2/screens/monster/monster_screen.dart';
 import 'package:dadguide2/screens/settings/settings_screen.dart';
 import 'package:dadguide2/screens/utils/utils_screen.dart';
 import 'package:flutter/material.dart';
