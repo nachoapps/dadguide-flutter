@@ -25,11 +25,13 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
     print('adding a monsterdetail');
     return ChangeNotifierProvider(
       builder: (context) => MonsterDetailSearchState(),
-      child: Column(children: <Widget>[
-        MonsterDetailBar(),
-        Expanded(child: _retrieveMonster()),
-        MonsterDetailOptionsBar(),
-      ]),
+      child: Column(
+        children: <Widget>[
+          MonsterDetailBar(),
+          Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
+          MonsterDetailOptionsBar(),
+        ],
+      ),
     );
   }
 
@@ -71,12 +73,27 @@ class MonsterDetailContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(imageUrl(_data.monster));
-    return Column(children: [
-      MonsterDetailPortrait(_data),
-      Divider(),
-      MonsterDetailHeader(_data),
-      MonsterStatTable(_data),
-    ]);
+    return Column(
+      children: [
+        MonsterDetailPortrait(_data),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MonsterDetailHeader(_data),
+              MonsterStatTable(_data),
+              Text('+297 & fully awoken'),
+              MonsterStatTable(_data),
+              Text('Stat Bonus when assisting'),
+              MonsterStatTable(_data),
+              Text('Available Killer Awoken'),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -148,46 +165,43 @@ class MonsterDetailHeader extends StatelessWidget {
     var rarity = _data.monster.rarity;
     var topRightText = '★' * rarity + '($rarity) / Cost ${_data.monster.cost}';
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          sizedContainer(
-            CachedNetworkImage(
-              placeholder: (context, url) => CircularProgressIndicator(),
-              imageUrl: imageUrl2(_data.monster),
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        sizedContainer(
+          CachedNetworkImage(
+            placeholder: (context, url) => CircularProgressIndicator(),
+            imageUrl: imageUrl2(_data.monster),
           ),
-          SizedBox(width: 4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DefaultTextStyle(
-                  style: Theme.of(context).textTheme.overline,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('No. ${_data.monster.monsterNoNa}'),
-                      Text(topRightText),
-                    ],
-                  ),
+        ),
+        SizedBox(width: 4),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DefaultTextStyle(
+                style: Theme.of(context).textTheme.overline,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('No. ${_data.monster.monsterNoNa}'),
+                    Text(topRightText),
+                  ],
                 ),
-                Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
-                Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
-                Row(children: [
-                  Text(_data.monster.type1.toString()),
-                  SizedBox(width: 4),
-                  Text(_data.monster.type2.toString()),
-                  SizedBox(width: 4),
-                  Text(_data.monster.type3.toString()),
-                ])
-              ],
-            ),
-          )
-        ],
-      ),
+              ),
+              Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
+              Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
+              Row(children: [
+                Text(_data.monster.type1.toString()),
+                SizedBox(width: 4),
+                Text(_data.monster.type2.toString()),
+                SizedBox(width: 4),
+                Text(_data.monster.type3.toString()),
+              ])
+            ],
+          ),
+        )
+      ],
     );
   }
 }
@@ -228,7 +242,7 @@ class MonsterDetailOptionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey[100],
+      color: Colors.grey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -243,6 +257,14 @@ class MonsterDetailOptionsBar extends StatelessWidget {
 
 class MonsterDetailSearchState with ChangeNotifier {}
 
+TableCell cell(String text) {
+  return TableCell(child: Padding(padding: EdgeInsets.all(4), child: Center(child: Text(text))));
+}
+
+TableCell numCell(num value) {
+  return cell(value.toString());
+}
+
 class MonsterStatTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -256,26 +278,33 @@ class MonsterStatTable extends StatelessWidget {
 //        defaultColumnWidth: FractionColumnWidth(1.0),
 //        defaultColumnWidth: FlexColumnWidth(),
         // This sucks, bug.
-        defaultColumnWidth: FixedColumnWidth(50),
+        defaultColumnWidth: FixedColumnWidth(60),
         border: TableBorder.all(width: 1.0, color: Colors.black26),
-
         children: [
           TableRow(children: [
-            TableCell(child: Text('Lv.')),
-            TableCell(child: Text('HP')),
-            TableCell(child: Text('ATK')),
-            TableCell(child: Text('RCV')),
-            TableCell(child: Text('Weighted')),
-            TableCell(child: Text('EXP')),
+            cell('Lv.'),
+            cell('HP'),
+            cell('ATK'),
+            cell('RCV'),
+            cell('Weighted'),
+            cell('EXP'),
           ]),
           TableRow(children: [
-            TableCell(child: Text('1')),
-            TableCell(child: Text(_data.monster.hpMin.toString())),
-            TableCell(child: Text(_data.monster.atkMin.toString())),
-            TableCell(child: Text(_data.monster.rcvMin.toString())),
-            TableCell(child: Text('0?')),
-            TableCell(child: Text('0')),
-          ])
+            numCell(1),
+            numCell(_data.monster.hpMin),
+            numCell(_data.monster.atkMin),
+            numCell(_data.monster.rcvMin),
+            numCell(0),
+            numCell(0),
+          ]),
+          TableRow(children: [
+            numCell(_data.monster.level),
+            numCell(_data.monster.hpMax),
+            numCell(_data.monster.atkMax),
+            numCell(_data.monster.rcvMax),
+            numCell(0),
+            numCell(_data.monster.exp),
+          ]),
         ],
       ),
     );
