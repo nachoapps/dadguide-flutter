@@ -81,9 +81,9 @@ class Monster extends Table {
   IntColumn get leaderSkillId => integer().nullable()();
   IntColumn get activeSkillId => integer().nullable()();
 
-  IntColumn get type1 => integer()();
-  IntColumn get type2 => integer().nullable()();
-  IntColumn get type3 => integer().nullable()();
+  IntColumn get type1 => integer().named('type_1')();
+  IntColumn get type2 => integer().named('type_2').nullable()();
+  IntColumn get type3 => integer().named('type_3').nullable()();
 
   BoolColumn get inheritable => boolean()();
   IntColumn get fodderExp => integer()();
@@ -225,7 +225,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     var databasesPath = await sqflite.getDatabasesPath();
     var path = join(databasesPath, _dbName);
 
-    await File(path).delete();
+//    await File(path).delete();
     // Only copy if the database doesn't exist
     if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
       print('copying');
@@ -263,7 +263,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
   Future<List<MonsterData>> get allMonsters => select(monster).get();
 
-  Future<List<FullMonster>> fullMonster(int monsterId) {
+  Future<FullMonster> fullMonster(int monsterId) {
     final query = (select(monster)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(
           monsterActiveSkill, monsterActiveSkill.activeSkillId.equalsExp(monster.activeSkillId)),
@@ -280,7 +280,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
           row.readTable(monsterLeaderSkill),
           row.readTable(series),
         );
-      }).toList();
+      }).first;
     });
   }
 
