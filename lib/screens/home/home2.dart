@@ -1,6 +1,7 @@
 import 'package:dadguide2/screens/event/event.dart';
 import 'package:dadguide2/screens/monster/monster_list.dart';
 import 'package:dadguide2/screens/settings/settings_screen.dart';
+import 'package:dadguide2/screens/utils/utils_screen.dart';
 import 'package:flutter/material.dart';
 
 class StatefulHomeScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     EventTab(key: PageStorageKey('EventTab')),
     MonsterTab(key: PageStorageKey('MonsterTab')),
     Text('Dungeon', key: PageStorageKey('DungeonTab')),
-    Text('Util', key: PageStorageKey('UtilTab')),
+    UtilsScreen(key: PageStorageKey('UtilTab')),
     SettingsScreen(key: PageStorageKey('SettingTab')),
   ];
 
