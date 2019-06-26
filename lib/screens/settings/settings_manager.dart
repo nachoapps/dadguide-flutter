@@ -38,7 +38,7 @@ int langToValue(LangPref pref) {
   return pref.index;
 }
 
-void preferenceInit() async {
+Future<void> preferenceInit() async {
   await PrefService.init(prefix: 'pref_');
   PrefService.setDefaultValues({
     'info_language': langToValue(LangPref.english),
