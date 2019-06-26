@@ -438,6 +438,8 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
   Future<List<Monster>> get allMonsters => select(monsters).get();
 
+  Future<List<Dungeon>> get allDungeons => select(dungeons).get();
+
   Future<FullMonster> fullMonster(int monsterId) {
     final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),

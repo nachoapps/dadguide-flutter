@@ -1,3 +1,4 @@
+import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
@@ -54,7 +55,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
       navigatorKey: monsterNavKey,
       rootItem: MonsterTab(key: PageStorageKey('MonsterTab')),
     ),
-    Text('Dungeon', key: PageStorageKey('DungeonTab')),
+    DungeonTab(key: PageStorageKey('DungeonTab')),
     UtilsScreen(key: PageStorageKey('UtilTab')),
     SettingsScreen(key: PageStorageKey('SettingTab')),
   ];
