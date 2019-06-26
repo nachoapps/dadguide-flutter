@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -12,14 +13,19 @@ class ActiveSkills extends Table {
   IntColumn get activeSkillId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
 
   TextColumn get descJp => text()();
+
   TextColumn get descNa => text()();
+
   TextColumn get descKr => text()();
 
   IntColumn get turnMax => integer()();
+
   IntColumn get turnMin => integer()();
 
   IntColumn get tstamp => integer()();
@@ -29,9 +35,11 @@ class Awakenings extends Table {
   IntColumn get awakeningId => integer().autoIncrement()();
 
   IntColumn get monsterId => integer()();
+
   IntColumn get awokenSkillId => integer()();
 
   BoolColumn get isSuper => boolean()();
+
   IntColumn get orderIdx => integer()();
 
   IntColumn get tstamp => integer()();
@@ -41,15 +49,21 @@ class AwokenSkills extends Table {
   IntColumn get awokenSkillId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
 
   TextColumn get descJp => text()();
+
   TextColumn get descNa => text()();
+
   TextColumn get descKr => text()();
 
   IntColumn get adjHp => integer()();
+
   IntColumn get adjAtk => integer()();
+
   IntColumn get adjRcv => integer()();
 
   IntColumn get tstamp => integer()();
@@ -59,31 +73,45 @@ class Dungeons extends Table {
   IntColumn get dungeonId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
 
   IntColumn get dungeonType => integer()();
+
   IntColumn get seriesId => integer()();
 
+  IntColumn get iconId => integer()();
+
   TextColumn get commentJp => text()();
+
   TextColumn get commentNa => text()();
+
   TextColumn get commentKr => text()();
 
   BoolColumn get visible => boolean()();
+
   IntColumn get tstamp => integer()();
 }
 
 class Evolutions extends Table {
   IntColumn get evolutionId => integer().autoIncrement()();
+
   IntColumn get evolutionType => integer()();
 
   IntColumn get fromId => integer()();
+
   IntColumn get toId => integer()();
 
   IntColumn get mat1Id => integer()();
+
   IntColumn get mat2Id => integer().nullable()();
+
   IntColumn get mat3Id => integer().nullable()();
+
   IntColumn get mat4Id => integer().nullable()();
+
   IntColumn get mat5Id => integer().nullable()();
 
   IntColumn get tstamp => integer()();
@@ -93,16 +121,23 @@ class LeaderSkills extends Table {
   IntColumn get leaderSkillId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
 
   TextColumn get descJp => text()();
+
   TextColumn get descNa => text()();
+
   TextColumn get descKr => text()();
 
   RealColumn get maxHp => real()();
+
   RealColumn get maxAtk => real()();
+
   RealColumn get maxRcv => real()();
+
   RealColumn get maxShield => real()();
 
   IntColumn get tstamp => integer()();
@@ -110,75 +145,117 @@ class LeaderSkills extends Table {
 
 class Monsters extends Table {
   IntColumn get monsterId => integer().autoIncrement()();
+
   IntColumn get monsterNoJp => integer()();
+
   IntColumn get monsterNoNa => integer()();
+
   IntColumn get monsterNoKr => integer()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
+
   TextColumn get pronunciationJp => text()();
 
   IntColumn get hpMax => integer()();
+
   IntColumn get hpMin => integer()();
+
   RealColumn get hpScale => real()();
 
   IntColumn get atkMax => integer()();
+
   IntColumn get atkMin => integer()();
+
   RealColumn get atkScale => real()();
 
   IntColumn get rcvMax => integer()();
+
   IntColumn get rcvMin => integer()();
+
   RealColumn get rcvScale => real()();
 
   IntColumn get cost => integer()();
+
   IntColumn get exp => integer()();
+
   IntColumn get level => integer()();
+
   IntColumn get rarity => integer()();
+
   IntColumn get limitMult => integer().nullable()();
 
   IntColumn get attribute1Id => integer().named('attribute_1_id')();
+
   IntColumn get attribute2Id => integer().named('attribute_2_id').nullable()();
 
   IntColumn get leaderSkillId => integer().nullable()();
+
   IntColumn get activeSkillId => integer().nullable()();
 
   IntColumn get type1Id => integer().named('type_1_id')();
+
   IntColumn get type2Id => integer().named('type_2_id').nullable()();
+
   IntColumn get type3Id => integer().named('type_3_id').nullable()();
 
   BoolColumn get inheritable => boolean()();
+
   IntColumn get fodderExp => integer()();
+
   IntColumn get sellGold => integer()();
+
   IntColumn get sellMp => integer()();
+
   IntColumn get buyMp => integer()();
+
   TextColumn get regDate => text()();
 
   BoolColumn get onJp => boolean()();
+
   BoolColumn get onNa => boolean()();
+
   BoolColumn get onKr => boolean()();
 
   BoolColumn get palEgg => boolean()();
+
   BoolColumn get remEgg => boolean()();
+
   IntColumn get seriesId => integer().nullable()();
 
-  TextColumn get name_na_override => text().nullable()();
+  TextColumn get nameNaOverride => text().nullable()();
 
   IntColumn get tstamp => integer()();
 }
 
+@DataClassName("ScheduleEvent")
 class Schedule extends Table {
   IntColumn get eventId => integer().autoIncrement()();
+
   IntColumn get serverId => integer()();
+
   IntColumn get eventTypeId => integer()();
+
   IntColumn get startTimestamp => integer()();
+
   IntColumn get endTimestamp => integer()();
 
+  IntColumn get iconId => integer().nullable()();
+
   TextColumn get groupName => text().nullable()();
+
   IntColumn get dungeonId => integer().nullable()();
-  TextColumn get url => text()();
-  TextColumn get info => text()();
-  // TODO: infoNa/jp/kr
+
+  TextColumn get url => text().nullable()();
+
+  TextColumn get infoJp => text().nullable()();
+
+  TextColumn get infoNa => text().nullable()();
+
+  TextColumn get infoKr => text().nullable()();
 
   IntColumn get tstamp => integer()();
 }
@@ -188,7 +265,9 @@ class Series extends Table {
   IntColumn get seriesId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
+
   TextColumn get nameNa => text()();
+
   TextColumn get nameKr => text()();
 
   IntColumn get tstamp => integer()();
@@ -209,6 +288,7 @@ class Series extends Table {
 
 class Timestamps extends Table {
   TextColumn get name => text()();
+
   IntColumn get tstamp => integer()();
 
   @override
@@ -224,19 +304,92 @@ class FullMonster {
   FullMonster(this._monster, this._activeSkill, this._leaderSkill, this._series);
 
   Monster get monster => _monster;
+
   ActiveSkill get activeSkill => _activeSkill;
+
   LeaderSkill get leaderSkill => _leaderSkill;
+
   SeriesData get series => _series;
+}
+
+class FullEvent {
+  static final DateFormat longFormat = DateFormat.MMMd().add_jm();
+  static final DateFormat shortFormat = DateFormat.jm();
+
+  final ScheduleEvent _event;
+  final Dungeon _dungeon;
+
+  final DateTime _startTime;
+  final DateTime _endTime;
+
+  FullEvent(this._event, this._dungeon)
+      : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp, isUtc: true),
+        _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp, isUtc: true);
+
+  ScheduleEvent get event => _event;
+
+  Dungeon get dungeon => _dungeon;
+
+  String headerText() {
+    String text = _dungeon?.nameNa ?? _event.infoNa;
+    if (_event.groupName != null) {
+      text = '[${event.groupName}] $text';
+    }
+    return text ?? 'error';
+  }
+
+  String underlineText(DateTime displayedDate) {
+    String text = '';
+    if (!isOpen()) {
+      text = _adjDate(displayedDate, _startTime);
+    }
+    text += ' ~ ';
+    text += _adjDate(displayedDate, _endTime);
+
+    int deltaDays = _daysUntilClose();
+    if (deltaDays > 0) {
+      text += ' [$deltaDays Days]';
+    }
+    return text;
+  }
+
+  int get iconId => _dungeon?.iconId ?? _event.iconId;
+
+  DateTime get startTime => _startTime;
+
+  DateTime get endTime => _endTime;
+
+  bool isOpen() {
+    var now = DateTime.now();
+    return startTime.isBefore(now) && endTime.isAfter(now);
+  }
+
+  String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
+    displayedDate = displayedDate.toLocal();
+    timeToDisplay = timeToDisplay.toLocal();
+    if (displayedDate.day != timeToDisplay.day) {
+      return longFormat.format(timeToDisplay);
+    } else {
+      return shortFormat.format(timeToDisplay);
+    }
+  }
+
+  int _daysUntilClose() {
+    var now = DateTime.now();
+    return now.difference(_endTime).inDays;
+  }
 }
 
 @UseMoor(tables: [
   ActiveSkills,
   Awakenings,
   AwokenSkills,
+  Dungeons,
   Evolutions,
   LeaderSkills,
   Monsters,
   Series,
+  Schedule,
 //  SkillCondition,
   Timestamps,
 ])
@@ -247,7 +400,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     var databasesPath = await sqflite.getDatabasesPath();
     var path = join(databasesPath, _dbName);
 
-    await File(path).delete();
+//    await File(path).delete();
     // Only copy if the database doesn't exist
     if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
       print('copying');
@@ -305,6 +458,20 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
     return fullMonster;
   }
+
+  Future<List<FullEvent>> fullEvents() {
+    final query = (select(schedule).join([
+      leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
+    ]));
+
+    return query.get().then((rows) {
+      return rows.map((row) {
+        return FullEvent(row.readTable(schedule), row.readTable(dungeons));
+      }).toList();
+    });
+  }
+
+  Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
 
 //  Future<List<MonsterData>> get allMonsters => (select(monster)..where((m) => true)).watch();
 
