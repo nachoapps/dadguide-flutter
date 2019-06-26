@@ -52,6 +52,9 @@ dependencies:
   # Settings page
   preferences: ^4.0.0
 
+  # Date stuff
+  intl: ^0.15.8
+
 
 dev_dependencies:
   flutter_test:
