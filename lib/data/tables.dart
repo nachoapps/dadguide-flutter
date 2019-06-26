@@ -8,8 +8,37 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'tables.g.dart';
 
-class Awakening extends Table {
+class ActiveSkills extends Table {
+  IntColumn get activeSkillId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+  TextColumn get nameNa => text()();
+  TextColumn get nameKr => text()();
+
+  TextColumn get descJp => text()();
+  TextColumn get descNa => text()();
+  TextColumn get descKr => text()();
+
+  IntColumn get turnMax => integer()();
+  IntColumn get turnMin => integer()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class Awakenings extends Table {
   IntColumn get awakeningId => integer().autoIncrement()();
+
+  IntColumn get monsterId => integer()();
+  IntColumn get awokenSkillId => integer()();
+
+  BoolColumn get isSuper => boolean()();
+  IntColumn get orderIdx => integer()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class AwokenSkills extends Table {
+  IntColumn get awokenSkillId => integer().autoIncrement()();
 
   TextColumn get nameJp => text()();
   TextColumn get nameNa => text()();
@@ -26,7 +55,25 @@ class Awakening extends Table {
   IntColumn get tstamp => integer()();
 }
 
-class Evolution extends Table {
+class Dungeons extends Table {
+  IntColumn get dungeonId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+  TextColumn get nameNa => text()();
+  TextColumn get nameKr => text()();
+
+  IntColumn get dungeonType => integer()();
+  IntColumn get seriesId => integer()();
+
+  TextColumn get commentJp => text()();
+  TextColumn get commentNa => text()();
+  TextColumn get commentKr => text()();
+
+  BoolColumn get visible => boolean()();
+  IntColumn get tstamp => integer()();
+}
+
+class Evolutions extends Table {
   IntColumn get evolutionId => integer().autoIncrement()();
   IntColumn get evolutionType => integer()();
 
@@ -42,7 +89,26 @@ class Evolution extends Table {
   IntColumn get tstamp => integer()();
 }
 
-class Monster extends Table {
+class LeaderSkills extends Table {
+  IntColumn get leaderSkillId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+  TextColumn get nameNa => text()();
+  TextColumn get nameKr => text()();
+
+  TextColumn get descJp => text()();
+  TextColumn get descNa => text()();
+  TextColumn get descKr => text()();
+
+  RealColumn get maxHp => real()();
+  RealColumn get maxAtk => real()();
+  RealColumn get maxRcv => real()();
+  RealColumn get maxShield => real()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class Monsters extends Table {
   IntColumn get monsterId => integer().autoIncrement()();
   IntColumn get monsterNoJp => integer()();
   IntColumn get monsterNoNa => integer()();
@@ -52,10 +118,6 @@ class Monster extends Table {
   TextColumn get nameNa => text()();
   TextColumn get nameKr => text()();
   TextColumn get pronunciationJp => text()();
-
-  TextColumn get commentJp => text().nullable()();
-  TextColumn get commentNa => text().nullable()();
-  TextColumn get commentKr => text().nullable()();
 
   IntColumn get hpMax => integer()();
   IntColumn get hpMin => integer()();
@@ -75,15 +137,15 @@ class Monster extends Table {
   IntColumn get rarity => integer()();
   IntColumn get limitMult => integer().nullable()();
 
-  IntColumn get attributeMain => integer()();
-  IntColumn get attributeSub => integer().nullable()();
+  IntColumn get attribute1Id => integer().named('attribute_1_id')();
+  IntColumn get attribute2Id => integer().named('attribute_2_id').nullable()();
 
   IntColumn get leaderSkillId => integer().nullable()();
   IntColumn get activeSkillId => integer().nullable()();
 
-  IntColumn get type1 => integer().named('type_1')();
-  IntColumn get type2 => integer().named('type_2').nullable()();
-  IntColumn get type3 => integer().named('type_3').nullable()();
+  IntColumn get type1Id => integer().named('type_1_id')();
+  IntColumn get type2Id => integer().named('type_2_id').nullable()();
+  IntColumn get type3Id => integer().named('type_3_id').nullable()();
 
   BoolColumn get inheritable => boolean()();
   IntColumn get fodderExp => integer()();
@@ -105,58 +167,18 @@ class Monster extends Table {
   IntColumn get tstamp => integer()();
 }
 
-class MonsterActiveSkill extends Table {
-  IntColumn get activeSkillId => integer().autoIncrement()();
+class Schedule extends Table {
+  IntColumn get eventId => integer().autoIncrement()();
+  IntColumn get serverId => integer()();
+  IntColumn get eventTypeId => integer()();
+  IntColumn get startTimestamp => integer()();
+  IntColumn get endTimestamp => integer()();
 
-  TextColumn get nameJp => text()();
-  TextColumn get nameNa => text()();
-  TextColumn get nameKr => text()();
-
-  TextColumn get descJp => text()();
-  TextColumn get descNa => text()();
-  TextColumn get descKr => text()();
-
-  IntColumn get turnMax => integer()();
-  IntColumn get turnMin => integer()();
-
-  TextColumn get descJpOverride => text().nullable()();
-  TextColumn get descNaOverride => text().nullable()();
-  TextColumn get descKrOverride => text().nullable()();
-
-  IntColumn get tstamp => integer()();
-}
-
-class MonsterAwakening extends Table {
-  IntColumn get monsterAwakeningId => integer().autoIncrement()();
-
-  IntColumn get monsterId => integer()();
-  IntColumn get awakeningId => integer()();
-
-  BoolColumn get isSuper => boolean()();
-  IntColumn get orderIdx => integer()();
-
-  IntColumn get tstamp => integer()();
-}
-
-class MonsterLeaderSkill extends Table {
-  IntColumn get leaderSkillId => integer().autoIncrement()();
-
-  TextColumn get nameJp => text()();
-  TextColumn get nameNa => text()();
-  TextColumn get nameKr => text()();
-
-  TextColumn get descJp => text()();
-  TextColumn get descNa => text()();
-  TextColumn get descKr => text()();
-
-  IntColumn get maxHp => integer()();
-  IntColumn get maxAtk => integer()();
-  IntColumn get maxRcv => integer()();
-  RealColumn get maxShield => real()();
-
-  TextColumn get descJpOverride => text().nullable()();
-  TextColumn get descNaOverride => text().nullable()();
-  TextColumn get descKrOverride => text().nullable()();
+  TextColumn get groupName => text().nullable()();
+  IntColumn get dungeonId => integer().nullable()();
+  TextColumn get url => text()();
+  TextColumn get info => text()();
+  // TODO: infoNa/jp/kr
 
   IntColumn get tstamp => integer()();
 }
@@ -172,20 +194,20 @@ class Series extends Table {
   IntColumn get tstamp => integer()();
 }
 
-class SkillCondition extends Table {
-  IntColumn get conditionId => integer().autoIncrement()();
-  IntColumn get conditionType => integer()();
+//
+//class SkillCondition extends Table {
+//  IntColumn get conditionId => integer().autoIncrement()();
+//  IntColumn get conditionType => integer()();
+//
+//  TextColumn get nameJp => text()();
+//  TextColumn get nameNa => text()();
+//  TextColumn get nameKr => text()();
+//  IntColumn get orderIdx => integer()();
+//
+//  IntColumn get tstamp => integer()();
+//}
 
-  TextColumn get nameJp => text()();
-  TextColumn get nameNa => text()();
-  TextColumn get nameKr => text()();
-  IntColumn get orderIdx => integer()();
-
-  IntColumn get tstamp => integer()();
-}
-
-@DataClassName('TimestampRow')
-class Timestamp extends Table {
+class Timestamps extends Table {
   TextColumn get name => text()();
   IntColumn get tstamp => integer()();
 
@@ -194,29 +216,29 @@ class Timestamp extends Table {
 }
 
 class FullMonster {
-  MonsterData _monster;
-  MonsterActiveSkillData _activeSkill;
-  MonsterLeaderSkillData _leaderSkill;
+  Monster _monster;
+  ActiveSkill _activeSkill;
+  LeaderSkill _leaderSkill;
   SeriesData _series;
 
   FullMonster(this._monster, this._activeSkill, this._leaderSkill, this._series);
 
-  MonsterData get monster => _monster;
-  MonsterActiveSkillData get activeSkill => _activeSkill;
-  MonsterLeaderSkillData get leaderSkill => _leaderSkill;
+  Monster get monster => _monster;
+  ActiveSkill get activeSkill => _activeSkill;
+  LeaderSkill get leaderSkill => _leaderSkill;
   SeriesData get series => _series;
 }
 
 @UseMoor(tables: [
-  Awakening,
-  Evolution,
-  Monster,
-  MonsterActiveSkill,
-  MonsterAwakening,
-  MonsterLeaderSkill,
+  ActiveSkills,
+  Awakenings,
+  AwokenSkills,
+  Evolutions,
+  LeaderSkills,
+  Monsters,
   Series,
-  SkillCondition,
-  Timestamp,
+//  SkillCondition,
+  Timestamps,
 ])
 class DadGuideDatabase extends _$DadGuideDatabase {
   static final _dbName = 'database.sqlite';
@@ -225,7 +247,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     var databasesPath = await sqflite.getDatabasesPath();
     var path = join(databasesPath, _dbName);
 
-//    await File(path).delete();
+    await File(path).delete();
     // Only copy if the database doesn't exist
     if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
       print('copying');
@@ -261,27 +283,27 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     );
   }
 
-  Future<List<MonsterData>> get allMonsters => select(monster).get();
+  Future<List<Monster>> get allMonsters => select(monsters).get();
 
   Future<FullMonster> fullMonster(int monsterId) {
-    final query = (select(monster)..where((m) => m.monsterId.equals(monsterId))).join([
-      leftOuterJoin(
-          monsterActiveSkill, monsterActiveSkill.activeSkillId.equalsExp(monster.activeSkillId)),
-      leftOuterJoin(
-          monsterLeaderSkill, monsterLeaderSkill.leaderSkillId.equalsExp(monster.leaderSkillId)),
-      leftOuterJoin(series, series.seriesId.equalsExp(monster.seriesId)),
+    final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
+      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
+      leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)),
+      leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)),
     ]);
 
-    return query.get().then((rows) {
+    var fullMonster = query.get().then((rows) {
       return rows.map((row) {
         return FullMonster(
-          row.readTable(monster),
-          row.readTable(monsterActiveSkill),
-          row.readTable(monsterLeaderSkill),
+          row.readTable(monsters),
+          row.readTable(activeSkills),
+          row.readTable(leaderSkills),
           row.readTable(series),
         );
       }).first;
     });
+
+    return fullMonster;
   }
 
 //  Future<List<MonsterData>> get allMonsters => (select(monster)..where((m) => true)).watch();

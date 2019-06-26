@@ -55,12 +55,12 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   }
 }
 
-String imageUrl(MonsterData model) {
+String imageUrl(Monster model) {
   var paddedNo = model.monsterId.toString().padLeft(4, '0');
   return 'http://miru.info/padguide/images/icons/portrait_$paddedNo.png';
 }
 
-String imageUrl2(MonsterData model) {
+String imageUrl2(Monster model) {
   var paddedNo = model.monsterId.toString().padLeft(4, '0');
   return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
 }
@@ -192,11 +192,11 @@ class MonsterDetailHeader extends StatelessWidget {
               Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
               Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
               Row(children: [
-                Text(_data.monster.type1.toString()),
+                Text(_data.monster.type1Id.toString()),
                 SizedBox(width: 4),
-                Text(_data.monster.type2.toString()),
+                Text(_data.monster.type2Id.toString()),
                 SizedBox(width: 4),
-                Text(_data.monster.type3.toString()),
+                Text(_data.monster.type3Id.toString()),
               ])
             ],
           ),

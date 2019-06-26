@@ -13,7 +13,7 @@ class MonsterTab extends StatefulWidget {
 }
 
 class _MonsterTabState extends State<MonsterTab> {
-  final _memoizer = AsyncMemoizer<List<MonsterData>>();
+  final _memoizer = AsyncMemoizer<List<Monster>>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class _MonsterTabState extends State<MonsterTab> {
     );
   }
 
-  FutureBuilder<List<MonsterData>> _searchResults() {
+  FutureBuilder<List<Monster>> _searchResults() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
       return database.allMonsters;
     });
 
-    return FutureBuilder<List<MonsterData>>(
+    return FutureBuilder<List<Monster>>(
         future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -162,7 +162,7 @@ class MonsterDisplayState with ChangeNotifier {
 }
 
 class MonsterListRow extends StatelessWidget {
-  final MonsterData _model;
+  final Monster _model;
   const MonsterListRow(this._model, {Key key}) : super(key: key);
 
   @override
@@ -214,7 +214,7 @@ class MonsterListRow extends StatelessWidget {
   }
 }
 
-String imageUrl(MonsterData model) {
+String imageUrl(Monster model) {
   var paddedNo = model.monsterId.toString().padLeft(4, '0');
   return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
 }
