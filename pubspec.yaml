@@ -30,6 +30,7 @@ dependencies:
   # https://support.google.com/admob/answer/7356219?authuser=0&visit_id=636952174507726960-468773036&rd=1
   #  firebase_admob: ^0.9.0+1
   firebase_analytics: ^3.0.2
+  firebase_crashlytics: ^0.0.4+3
   firebase_performance: ^0.3.0
   firebase_remote_config: ^0.2.0+2
   cloud_firestore: ^0.12.1

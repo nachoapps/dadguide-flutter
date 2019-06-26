@@ -41,7 +41,8 @@ class _MonsterTabState extends State<MonsterTab> {
             print('no data!');
             return Center(child: CircularProgressIndicator());
           }
-          print('got data!');
+
+          print('got data! ${snapshot.data.length}');
 
           return ListView(
               children: snapshot.data.map((monster) {
