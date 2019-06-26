@@ -353,7 +353,7 @@ class FullEvent {
     return text;
   }
 
-  int get iconId => _dungeon?.iconId ?? _event.iconId;
+  int get iconId => _dungeon?.iconId ?? _event.iconId ?? 0;
 
   DateTime get startTime => _startTime;
 
