@@ -1,8 +1,8 @@
-import 'package:dadguide2/screens/event/event.dart';
-import 'package:dadguide2/screens/monster/monster_info.dart';
-import 'package:dadguide2/screens/monster/monster_screen.dart';
-import 'package:dadguide2/screens/settings/settings_screen.dart';
-import 'package:dadguide2/screens/utils/utils_screen.dart';
+import 'package:dadguide2/screens/event/event_tab.dart';
+import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
+import 'package:dadguide2/screens/monster/monster_list_tab.dart';
+import 'package:dadguide2/screens/settings/settings_tab.dart';
+import 'package:dadguide2/screens/utils/utils_tab.dart';
 import 'package:flutter/material.dart';
 
 class TabNavigatorRoutes {

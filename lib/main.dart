@@ -1,4 +1,4 @@
-import 'package:dadguide2/screens/home/home2.dart';
+import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/settings/settings_manager.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:flutter/material.dart';
