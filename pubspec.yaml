@@ -56,6 +56,13 @@ dependencies:
   # Date stuff
   intl: ^0.15.8
 
+  # Http downloads
+  dio: ^2.1.7
+
+  # Logging
+  flutter_fimber: ^0.3.0
+
+
 
 dev_dependencies:
   flutter_test:

@@ -62,14 +62,38 @@ class EventTabState extends State<EventTab> {
   }
 }
 
+void launchDialog(BuildContext context) async {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Utilities'),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, DatabaseHelper.instance.forceRedownloadDb());
+              },
+              child: const Text('Reload DB'),
+            ),
+          ],
+        );
+      });
+}
+
 class EventSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
       color: Colors.blue,
-      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+//      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       child: Row(
         children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.new_releases),
+            color: Colors.red,
+            onPressed: () => launchDialog(context),
+            padding: EdgeInsets.all(0),
+          ),
           Expanded(child: Center(child: Text('Guerrilla'))),
           Expanded(child: Center(child: Text('Special'))),
           Expanded(child: Center(child: Text('News'))),

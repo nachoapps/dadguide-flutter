@@ -1,11 +1,5 @@
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'tables.g.dart';
 
@@ -394,29 +388,6 @@ class FullEvent {
   Timestamps,
 ])
 class DadGuideDatabase extends _$DadGuideDatabase {
-  static final _dbName = 'database.sqlite';
-
-  static Future<DadGuideDatabase> fromAsset() async {
-    var databasesPath = await sqflite.getDatabasesPath();
-    var path = join(databasesPath, _dbName);
-
-//    await File(path).delete();
-    // Only copy if the database doesn't exist
-    if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
-      print('copying');
-      // Load database from asset and copy
-      ByteData data = await rootBundle.load(join('assets', 'data', _dbName));
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-      print(bytes.length);
-
-      // Save copied asset to documents
-      await new File(path).writeAsBytes(bytes);
-    }
-
-    return DadGuideDatabase(path);
-  }
-
   DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: true));
 
   @override
