@@ -317,8 +317,8 @@ class FullEvent {
   final DateTime _endTime;
 
   FullEvent(this._event, this._dungeon)
-      : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp, isUtc: true),
-        _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp, isUtc: true);
+      : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp * 1000, isUtc: true),
+        _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp * 1000, isUtc: true);
 
   ScheduleEvent get event => _event;
 
