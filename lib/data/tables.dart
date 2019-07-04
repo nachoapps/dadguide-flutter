@@ -78,11 +78,13 @@ class Dungeons extends Table {
 
   IntColumn get iconId => integer()();
 
-  TextColumn get commentJp => text()();
+  TextColumn get rewardJp => text().nullable()();
 
-  TextColumn get commentNa => text()();
+  TextColumn get rewardNa => text().nullable()();
 
-  TextColumn get commentKr => text()();
+  TextColumn get rewardKr => text().nullable()();
+
+  TextColumn get rewardIconIds => text().nullable()();
 
   BoolColumn get visible => boolean()();
 
@@ -279,6 +281,58 @@ class Series extends Table {
 //
 //  IntColumn get tstamp => integer()();
 //}
+
+class SubDungeons extends Table {
+  IntColumn get subDungeonId => integer().autoIncrement()();
+
+  IntColumn get dungeonId => integer()();
+
+  TextColumn get nameJp => text()();
+
+  TextColumn get nameNa => text()();
+
+  TextColumn get nameKr => text()();
+
+  TextColumn get rewardJp => text().nullable()();
+
+  TextColumn get rewardNa => text().nullable()();
+
+  TextColumn get rewardKr => text().nullable()();
+
+  TextColumn get rewardIconIds => text().nullable()();
+
+  IntColumn get coinMax => integer().nullable()();
+
+  IntColumn get coinMin => integer().nullable()();
+
+  IntColumn get coinAvg => integer().nullable()();
+
+  IntColumn get expMax => integer().nullable()();
+
+  IntColumn get expMin => integer().nullable()();
+
+  IntColumn get expAvg => integer().nullable()();
+
+  IntColumn get mpAvg => integer().nullable()();
+
+  IntColumn get iconId => integer().nullable()();
+
+  IntColumn get floors => integer()();
+
+  IntColumn get stamina => integer()();
+
+  RealColumn get hpMult => real()();
+
+  RealColumn get atkMult => real()();
+
+  RealColumn get defMult => real()();
+
+  IntColumn get sRank => integer().nullable()();
+
+  TextColumn get rewards => text().nullable()();
+
+  IntColumn get tstamp => integer()();
+}
 
 class Timestamps extends Table {
   TextColumn get name => text()();
