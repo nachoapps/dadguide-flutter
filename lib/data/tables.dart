@@ -343,6 +343,17 @@ class Timestamps extends Table {
   Set<Column> get primaryKey => {name};
 }
 
+class FullDungeon {
+  Dungeon _dungeon;
+  List<SubDungeon> _subDungeons;
+
+  FullDungeon(this._dungeon, this._subDungeons);
+
+  Dungeon get dungeon => _dungeon;
+
+  List<SubDungeon> get subDungeons => _subDungeons;
+}
+
 class FullMonster {
   Monster _monster;
   ActiveSkill _activeSkill;
@@ -438,6 +449,7 @@ class FullEvent {
   Monsters,
   Series,
   Schedule,
+  SubDungeons,
 //  SkillCondition,
   Timestamps,
 ])
@@ -484,6 +496,16 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     });
 
     return fullMonster;
+  }
+
+  Future<FullDungeon> fullDungeon(int dungeonId) async {
+    final query = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
+    Dungeon dungeon = (await query.get()).first;
+
+    final subQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
+    var subDungeonList = await subQuery.get();
+
+    return FullDungeon(dungeon, subDungeonList);
   }
 
   Future<List<FullEvent>> fullEvents() {
