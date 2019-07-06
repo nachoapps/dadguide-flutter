@@ -32,7 +32,8 @@ class DatabaseHelper {
     if (!dbFileExists) {
       await _downloadDb();
     }
-    _database = DadGuideDatabase(await _dbFilePath());
+
+    await _createDb();
   }
 
   Future<void> forceRedownloadDb() async {
