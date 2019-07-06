@@ -91,6 +91,42 @@ class Dungeons extends Table {
   IntColumn get tstamp => integer()();
 }
 
+class Encounters extends Table {
+  IntColumn get encounterId => integer().autoIncrement()();
+
+  IntColumn get dungeonId => integer()();
+
+  IntColumn get subDungeonId => integer()();
+
+  IntColumn get enemyId => integer()();
+
+  IntColumn get monsterId => integer()();
+
+  IntColumn get stage => integer()();
+
+  TextColumn get commentJp => text().nullable()();
+
+  TextColumn get commentNa => text().nullable()();
+
+  TextColumn get commentKr => text().nullable()();
+
+  IntColumn get amount => integer().nullable()();
+
+  IntColumn get orderIdx => integer()();
+
+  IntColumn get turns => integer()();
+
+  IntColumn get level => integer()();
+
+  IntColumn get hp => integer()();
+
+  IntColumn get atk => integer()();
+
+  IntColumn get defence => integer()();
+
+  IntColumn get tstamp => integer()();
+}
+
 class Evolutions extends Table {
   IntColumn get evolutionId => integer().autoIncrement()();
 
@@ -344,31 +380,50 @@ class Timestamps extends Table {
 }
 
 class FullDungeon {
-  Dungeon _dungeon;
-  List<SubDungeon> _subDungeons;
+  final Dungeon dungeon;
+  final List<SubDungeon> subDungeons;
+  final FullSubDungeon selectedSubDungeon;
 
-  FullDungeon(this._dungeon, this._subDungeons);
+  FullDungeon(this.dungeon, this.subDungeons, this.selectedSubDungeon);
+}
 
-  Dungeon get dungeon => _dungeon;
+class FullSubDungeon {
+  final SubDungeon subDungeon;
+  final List<FullEncounter> encounters;
 
-  List<SubDungeon> get subDungeons => _subDungeons;
+  FullSubDungeon(this.subDungeon, this.encounters);
+
+  FullEncounter get bossEncounter => encounters?.first;
+
+  String mpText() {
+    final mp = subDungeon.mpAvg;
+    final mpPerStam = mp / subDungeon.stamina;
+    return '$mp ($mpPerStam / Stamina';
+  }
+}
+
+class FullEncounter {
+  final Encounter encounter;
+  final Monster monster;
+  final List<Awakening> awakenings;
+
+  FullEncounter(this.encounter, this.monster, this.awakenings);
+}
+
+class _PartialEncounter {
+  final Encounter encounter;
+  final Monster monster;
+
+  _PartialEncounter(this.encounter, this.monster);
 }
 
 class FullMonster {
-  Monster _monster;
-  ActiveSkill _activeSkill;
-  LeaderSkill _leaderSkill;
-  SeriesData _series;
+  final Monster monster;
+  final ActiveSkill activeSkill;
+  final LeaderSkill leaderSkill;
+  final SeriesData series;
 
-  FullMonster(this._monster, this._activeSkill, this._leaderSkill, this._series);
-
-  Monster get monster => _monster;
-
-  ActiveSkill get activeSkill => _activeSkill;
-
-  LeaderSkill get leaderSkill => _leaderSkill;
-
-  SeriesData get series => _series;
+  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series);
 }
 
 class FullEvent {
@@ -444,6 +499,7 @@ class FullEvent {
   Awakenings,
   AwokenSkills,
   Dungeons,
+  Encounters,
   Evolutions,
   LeaderSkills,
   Monsters,
@@ -498,14 +554,48 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     return fullMonster;
   }
 
-  Future<FullDungeon> fullDungeon(int dungeonId) async {
-    final query = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
-    Dungeon dungeon = (await query.get()).first;
+  Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
+    final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
+    final dungeonItem = (await dungeonQuery.get()).first;
 
-    final subQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
-    var subDungeonList = await subQuery.get();
+    final subDungeonsQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
+    var subDungeonList = await subDungeonsQuery.get();
 
-    return FullDungeon(dungeon, subDungeonList);
+    subDungeonId == subDungeonId ?? subDungeonList.first.subDungeonId;
+    var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);
+
+    return FullDungeon(dungeonItem, subDungeonList, fullSubDungeon);
+  }
+
+  Future<FullSubDungeon> lookupFullSubDungeon(int subDungeonId) async {
+    final subDungeonQuery = select(subDungeons)
+      ..where((sd) => sd.subDungeonId.equals(subDungeonId));
+    final subDungeonItem = (await subDungeonQuery.get()).first;
+    final fullEncountersList = await lookupFullEncounters(subDungeonId);
+
+    return FullSubDungeon(subDungeonItem, fullEncountersList);
+  }
+
+  Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
+    final query = (select(encounters).join([
+      leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
+    ]));
+
+    var partialEncounters = await query.get().then((rows) {
+      return rows.map((row) {
+        return _PartialEncounter(row.readTable(encounters), row.readTable(monsters));
+      });
+    });
+
+    return Future.wait(partialEncounters.map((r) async {
+      final awakenings = await findAwakenings(r.encounter.monsterId);
+      return FullEncounter(r.encounter, r.monster, awakenings);
+    }));
+  }
+
+  Future<List<Awakening>> findAwakenings(int monsterId) async {
+    final query = select(awakenings)..where((a) => a.monsterId.equals(monsterId));
+    return (await query.get()).toList();
   }
 
   Future<List<FullEvent>> fullEvents() {
@@ -521,81 +611,4 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
-
-//  Future<List<MonsterData>> get allMonsters => (select(monster)..where((m) => true)).watch();
-
-//  Stream<List<CategoryWithCount>> categoriesWithCount() {
-//    // select all categories and load how many associated entries there are for
-//    // each category
-//    return customSelectStream(
-//      'SELECT c.*, (SELECT COUNT(*) FROM todos WHERE category = c.id) AS amount'
-//      ' FROM categories c '
-//      'UNION ALL SELECT null, null, '
-//      '(SELECT COUNT(*) FROM todos WHERE category IS NULL)',
-//      readsFrom: {todos, categories},
-//    ).map((rows) {
-//      // when we have the result set, map each row to the data class
-//      return rows.map((row) {
-//        final hasId = row.data['id'] != null;
-//
-//        return CategoryWithCount(
-//          hasId ? Category.fromData(row.data, this) : null,
-//          row.readInt('amount'),
-//        );
-//      }).toList();
-//    });
-//  }
-
-  /// Watches all entries in the given [category]. If the category is null, all
-  /// entries will be shown instead.
-//  Stream<List<EntryWithCategory>> watchEntriesInCategory(Category category) {
-//    final query = select(todos).join(
-//        [leftOuterJoin(categories, categories.id.equalsExp(todos.category))]);
-//
-//    if (category != null) {
-//      query.where(categories.id.equals(category.id));
-//    } else {
-//      query.where(isNull(categories.id));
-//    }
-//
-//    return query.watch().map((rows) {
-//      // read both the entry and the associated category for each row
-//      return rows.map((row) {
-//        return EntryWithCategory(
-//          row.readTable(todos),
-//          row.readTable(categories),
-//        );
-//      }).toList();
-//    });
-//  }
-
-//  Future createEntry(TodoEntry entry) {
-//    return into(todos).insert(entry);
-//  }
-
-  /// Updates the row in the database represents this entry by writing the
-  /// updated data.
-//  Future updateEntry(TodoEntry entry) {
-//    return update(todos).replace(entry);
-//  }
-//
-//  Future deleteEntry(TodoEntry entry) {
-//    return delete(todos).delete(entry);
-//  }
-//
-//  Future<int> createCategory(Category category) {
-//    return into(categories).insert(category);
-//  }
-//
-//  Future deleteCategory(Category category) {
-//    return transaction((t) async {
-//      await t.customUpdate(
-//        'UPDATE todos SET category = NULL WHERE category = ?',
-//        updates: {todos},
-//        variables: [Variable.withInt(category.id)],
-//      );
-//
-//      await t.delete(categories).delete(category);
-//    });
-//  }
 }
