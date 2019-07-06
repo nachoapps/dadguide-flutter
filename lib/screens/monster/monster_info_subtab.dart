@@ -5,20 +5,27 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonsterDetailScreen extends StatefulWidget {
+class MonsterDetailArgs {
+  static const routeName = '/monsterDetail';
   final int monsterId;
 
-  MonsterDetailScreen(this.monsterId);
+  MonsterDetailArgs(this.monsterId);
+}
+
+class MonsterDetailScreen extends StatefulWidget {
+  final MonsterDetailArgs _args;
+
+  MonsterDetailScreen(this._args);
 
   @override
-  _MonsterDetailScreenState createState() => _MonsterDetailScreenState(monsterId);
+  _MonsterDetailScreenState createState() => _MonsterDetailScreenState(_args);
 }
 
 class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
-  final int monsterId;
+  final MonsterDetailArgs _args;
   final _memoizer = AsyncMemoizer<FullMonster>();
 
-  _MonsterDetailScreenState(this.monsterId);
+  _MonsterDetailScreenState(this._args);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,9 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   FutureBuilder<FullMonster> _retrieveMonster() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.fullMonster(monsterId);
+      return database.fullMonster(_args.monsterId);
+    }).catchError((ex) {
+      print(ex);
     });
 
     return FutureBuilder<FullMonster>(

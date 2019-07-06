@@ -5,6 +5,8 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'monster_info_subtab.dart';
+
 class MonsterTab extends StatefulWidget {
   MonsterTab({Key key}) : super(key: key);
 
@@ -32,6 +34,8 @@ class _MonsterTabState extends State<MonsterTab> {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
       return database.allMonsters;
+    }).catchError((ex) {
+      print(ex);
     });
 
     return FutureBuilder<List<Monster>>(
@@ -171,8 +175,9 @@ class MonsterListRow extends StatelessWidget {
     var m = _model;
     return InkWell(
       onTap: () {
-        print('pushing!');
-        Navigator.of(context).pushNamed('/monsterDetail');
+        print('pushing monster detail!!');
+        var args = MonsterDetailArgs(m.monsterId);
+        Navigator.pushNamed(context, MonsterDetailArgs.routeName, arguments: args);
       },
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),

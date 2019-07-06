@@ -1,3 +1,4 @@
+import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
-  static const String monsterDetail = '/monsterDetail';
+  static const String monsterDetail = MonsterDetailArgs.routeName;
+  static const String dungeonDetail = DungeonDetailArgs.routeName;
 }
 
 class TabNavigator extends StatelessWidget {
@@ -20,20 +22,24 @@ class TabNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: navigatorKey,
-      initialRoute: TabNavigatorRoutes.root,
-      onGenerateRoute: (routeSettings) {
-        return MaterialPageRoute(builder: (context) {
-          if (routeSettings.name == TabNavigatorRoutes.root) {
-            return rootItem;
-          } else if (routeSettings.name == TabNavigatorRoutes.monsterDetail) {
-            return MonsterDetailScreen(1);
-          } else {
-            throw 'Unexpected route';
+        key: navigatorKey,
+        initialRoute: TabNavigatorRoutes.root,
+        onGenerateRoute: (routeSettings) {
+          switch (routeSettings.name) {
+            case TabNavigatorRoutes.root:
+              return MaterialPageRoute(builder: (context) => rootItem);
+            case TabNavigatorRoutes.monsterDetail:
+              MonsterDetailArgs args = routeSettings.arguments;
+              print('generating MD $args');
+              return MaterialPageRoute(builder: (context) => MonsterDetailScreen(args));
+            case TabNavigatorRoutes.dungeonDetail:
+              var args = routeSettings.arguments as DungeonDetailArgs;
+              print('generating DD $args');
+              return MaterialPageRoute(builder: (context) => DungeonDetailScreen(args));
+            default:
+              throw 'Unexpected route';
           }
         });
-      },
-    );
   }
 }
 
@@ -47,10 +53,14 @@ class StatefulHomeScreen extends StatefulWidget {
 class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   int _selectedIndex = 0;
 
+  static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
 
   static List<Widget> _widgetOptions = <Widget>[
-    EventTab(key: PageStorageKey('EventTab')),
+    TabNavigator(
+      navigatorKey: eventNavKey,
+      rootItem: EventTab(key: PageStorageKey('EventTab')),
+    ),
     TabNavigator(
       navigatorKey: monsterNavKey,
       rootItem: MonsterTab(key: PageStorageKey('MonsterTab')),

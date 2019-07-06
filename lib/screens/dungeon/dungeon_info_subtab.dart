@@ -6,24 +6,32 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DungeonDetailScreen extends StatefulWidget {
+class DungeonDetailArgs {
+  static const routeName = '/dungeonDetail';
   final int dungeonId;
+  final int subDungeonId;
 
-  DungeonDetailScreen(this.dungeonId);
+  DungeonDetailArgs(this.dungeonId, this.subDungeonId);
+}
+
+class DungeonDetailScreen extends StatefulWidget {
+  final DungeonDetailArgs args;
+
+  DungeonDetailScreen(this.args);
 
   @override
-  _DungeonDetailScreenState createState() => _DungeonDetailScreenState(dungeonId);
+  _DungeonDetailScreenState createState() => _DungeonDetailScreenState(args);
 }
 
 class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
-  final int dungeonId;
+  final DungeonDetailArgs _args;
   final _memoizer = AsyncMemoizer<FullDungeon>();
 
-  _DungeonDetailScreenState(this.dungeonId);
+  _DungeonDetailScreenState(this._args);
 
   @override
   Widget build(BuildContext context) {
-    print('adding a dungeondetail');
+    print('adding a dungeondetail for ${_args.dungeonId}');
     return ChangeNotifierProvider(
       builder: (context) => DungeonDetailSearchState(),
       child: Column(
@@ -39,14 +47,16 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   FutureBuilder<FullDungeon> _retrieveDungeon() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.lookupFullDungeon(dungeonId);
+      return database.lookupFullDungeon(_args.dungeonId);
+    }).catchError((ex) {
+      print(ex);
     });
 
     return FutureBuilder<FullDungeon>(
         future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            print('no data!');
+            print('no dungeon data!');
             return Center(child: CircularProgressIndicator());
           }
           print('got dungeon data!');

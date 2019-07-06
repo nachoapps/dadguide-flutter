@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 part 'tables.g.dart';
 
@@ -534,6 +535,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   Future<List<Dungeon>> get allDungeons => select(dungeons).get();
 
   Future<FullMonster> fullMonster(int monsterId) {
+    var s = new Stopwatch()..start();
     final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
       leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)),
@@ -551,35 +553,45 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       }).first;
     });
 
+    print('monster lookup complete in: ${s.elapsed}');
     return fullMonster;
   }
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
+    var s = new Stopwatch()..start();
+    print('doing full dungeon lookup');
     final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
     final dungeonItem = (await dungeonQuery.get()).first;
 
     final subDungeonsQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
     var subDungeonList = await subDungeonsQuery.get();
 
-    subDungeonId == subDungeonId ?? subDungeonList.first.subDungeonId;
+    subDungeonId = subDungeonId ?? subDungeonList.first.subDungeonId;
     var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);
+    print('dungeon lookup complete in: ${s.elapsed}');
 
     return FullDungeon(dungeonItem, subDungeonList, fullSubDungeon);
   }
 
   Future<FullSubDungeon> lookupFullSubDungeon(int subDungeonId) async {
+    var s = new Stopwatch()..start();
     final subDungeonQuery = select(subDungeons)
       ..where((sd) => sd.subDungeonId.equals(subDungeonId));
     final subDungeonItem = (await subDungeonQuery.get()).first;
     final fullEncountersList = await lookupFullEncounters(subDungeonId);
 
+    print('subdungeon lookup complete in: ${s.elapsed}');
+
     return FullSubDungeon(subDungeonItem, fullEncountersList);
   }
 
   Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
-    final query = (select(encounters).join([
+    var s = new Stopwatch()..start();
+    final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
-    ]));
+    ]);
+
+    debugPrint(query.constructQuery().sql);
 
     var partialEncounters = await query.get().then((rows) {
       return rows.map((row) {
@@ -587,10 +599,20 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       });
     });
 
-    return Future.wait(partialEncounters.map((r) async {
-      final awakenings = await findAwakenings(r.encounter.monsterId);
-      return FullEncounter(r.encounter, r.monster, awakenings);
+    print('encounter lookup partially complete in: ${s.elapsed} with ${partialEncounters.length}');
+
+    var results = Future.wait(partialEncounters.map((r) async {
+      return FullEncounter(r.encounter, r.monster, []);
     }));
+
+//    var results = Future.wait(partialEncounters.map((r) async {
+//      final awakenings = await findAwakenings(r.encounter.monsterId);
+//      return FullEncounter(r.encounter, r.monster, awakenings);
+//    }));
+
+    print('encounter lookup complete in: ${s.elapsed}');
+
+    return results;
   }
 
   Future<List<Awakening>> findAwakenings(int monsterId) async {
@@ -599,15 +621,19 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<List<FullEvent>> fullEvents() {
+    var s = new Stopwatch()..start();
     final query = (select(schedule).join([
       leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
     ]));
 
-    return query.get().then((rows) {
+    var results = query.get().then((rows) {
       return rows.map((row) {
         return FullEvent(row.readTable(schedule), row.readTable(dungeons));
       }).toList();
     });
+
+    print('events lookup complete in: ${s.elapsed}');
+    return results;
   }
 
   Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
