@@ -15,13 +15,6 @@ class EventTab extends StatefulWidget {
 
 class EventTabState extends State<EventTab> {
   final _memoizer = AsyncMemoizer<List<FullEvent>>();
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +32,7 @@ class EventTabState extends State<EventTab> {
   FutureBuilder<List<FullEvent>> _searchResults() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-
-      var y = await database.currentEvents;
-      return database.fullEvents();
+      return await database.fullEvents();
     }).catchError((ex) {
       print(ex);
     });
