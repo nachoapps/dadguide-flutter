@@ -1,6 +1,7 @@
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/settings/settings_manager.dart';
 import 'package:dadguide2/theme/theme.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -19,6 +20,11 @@ void main() async {
 
   // Set up logging.
   Fimber.plantTree(FimberTree());
+
+  // Initialize ads.
+  FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-6128472825595951~4484271468');
+  // Sample bottom banner
+  // ca-app-pub-3940256099942544/6300978111
 
   await preferenceInit();
   runApp(DadGuideApp());

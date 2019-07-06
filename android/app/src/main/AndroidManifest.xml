@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="info.miru.dadguide2">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="info.miru.dadguide2">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -9,7 +10,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="dadguide2"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -30,9 +32,11 @@
             </intent-filter>
         </activity>
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-            <!--android:value="[ADMOB_APP_ID]"/>-->
+        <!-- DadGuide2 ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6128472825595951~4484271468"/>
+
     </application>
 
 </manifest>
