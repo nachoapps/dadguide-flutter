@@ -15,7 +15,7 @@ class MonsterTab extends StatefulWidget {
 }
 
 class _MonsterTabState extends State<MonsterTab> {
-  final _memoizer = AsyncMemoizer<List<Monster>>();
+  final _memoizer = AsyncMemoizer<List<FullMonster>>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,15 @@ class _MonsterTabState extends State<MonsterTab> {
     );
   }
 
-  FutureBuilder<List<Monster>> _searchResults() {
+  FutureBuilder<List<FullMonster>> _searchResults() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.allMonsters;
+      return database.allMonstersWithAwakenings;
     }).catchError((ex) {
       print(ex);
     });
 
-    return FutureBuilder<List<Monster>>(
+    return FutureBuilder<List<FullMonster>>(
         future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -167,12 +167,12 @@ class MonsterDisplayState with ChangeNotifier {
 }
 
 class MonsterListRow extends StatelessWidget {
-  final Monster _model;
+  final FullMonster _model;
   const MonsterListRow(this._model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var m = _model;
+    var m = _model.monster;
     return InkWell(
       onTap: () {
         print('pushing monster detail!!');
@@ -185,7 +185,7 @@ class MonsterListRow extends StatelessWidget {
             children: <Widget>[
               sizedContainer(CachedNetworkImage(
                 placeholder: (context, url) => CircularProgressIndicator(),
-                imageUrl: imageUrl(_model),
+                imageUrl: imageUrl(m),
               )),
               SizedBox(width: 8),
               Expanded(

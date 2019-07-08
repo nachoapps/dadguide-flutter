@@ -1,6 +1,7 @@
+import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:flutter/foundation.dart';
 
 part 'tables.g.dart';
 
@@ -423,8 +424,9 @@ class FullMonster {
   final ActiveSkill activeSkill;
   final LeaderSkill leaderSkill;
   final SeriesData series;
+  final List<Awakening> awakenings;
 
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series);
+  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this.awakenings);
 }
 
 class FullEvent {
@@ -511,7 +513,7 @@ class FullEvent {
   Timestamps,
 ])
 class DadGuideDatabase extends _$DadGuideDatabase {
-  DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: true));
+  DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: false));
 
   @override
   int get schemaVersion => 1;
@@ -532,6 +534,27 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
   Future<List<Monster>> get allMonsters => select(monsters).get();
 
+  // TODO: change this to a more specific type
+  Future<List<FullMonster>> get allMonstersWithAwakenings {
+    Fimber.d('doing full dungeon lookup');
+    var s = new Stopwatch()..start();
+    var results = select(monsters).get().then((rows) {
+      return Future.wait(rows.map((monster) async {
+        final awakenings = await findAwakenings(monster.monsterId);
+        return FullMonster(
+          monster,
+          null,
+          null,
+          null,
+          awakenings,
+        );
+      }));
+    });
+    Fimber.d('mwa lookup complete in: ${s.elapsed}');
+
+    return results;
+  }
+
   Future<List<Dungeon>> get allDungeons => select(dungeons).get();
 
   Future<FullMonster> fullMonster(int monsterId) {
@@ -542,24 +565,24 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)),
     ]);
 
-    var fullMonster = query.get().then((rows) {
-      return rows.map((row) {
-        return FullMonster(
-          row.readTable(monsters),
-          row.readTable(activeSkills),
-          row.readTable(leaderSkills),
-          row.readTable(series),
-        );
-      }).first;
+    var fullMonster = query.getSingle().then((row) async {
+      final awakenings = await findAwakenings(monsterId);
+      return FullMonster(
+        row.readTable(monsters),
+        row.readTable(activeSkills),
+        row.readTable(leaderSkills),
+        row.readTable(series),
+        awakenings,
+      );
     });
 
-    print('monster lookup complete in: ${s.elapsed}');
+    Fimber.d('monster lookup complete in: ${s.elapsed}');
     return fullMonster;
   }
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
     var s = new Stopwatch()..start();
-    print('doing full dungeon lookup');
+    Fimber.d('doing full dungeon lookup');
     final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
     final dungeonItem = (await dungeonQuery.get()).first;
 
@@ -568,7 +591,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
     subDungeonId = subDungeonId ?? subDungeonList.first.subDungeonId;
     var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);
-    print('dungeon lookup complete in: ${s.elapsed}');
+    Fimber.d('dungeon lookup complete in: ${s.elapsed}');
 
     return FullDungeon(dungeonItem, subDungeonList, fullSubDungeon);
   }
@@ -580,7 +603,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     final subDungeonItem = (await subDungeonQuery.get()).first;
     final fullEncountersList = await lookupFullEncounters(subDungeonId);
 
-    print('subdungeon lookup complete in: ${s.elapsed}');
+    Fimber.d('subdungeon lookup complete in: ${s.elapsed}');
 
     return FullSubDungeon(subDungeonItem, fullEncountersList);
   }
@@ -599,18 +622,15 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       });
     });
 
-    print('encounter lookup partially complete in: ${s.elapsed} with ${partialEncounters.length}');
+    Fimber.d(
+        'encounter lookup partially complete in: ${s.elapsed} with ${partialEncounters.length}');
 
     var results = Future.wait(partialEncounters.map((r) async {
-      return FullEncounter(r.encounter, r.monster, []);
+      final awakenings = await findAwakenings(r.encounter.monsterId);
+      return FullEncounter(r.encounter, r.monster, awakenings);
     }));
 
-//    var results = Future.wait(partialEncounters.map((r) async {
-//      final awakenings = await findAwakenings(r.encounter.monsterId);
-//      return FullEncounter(r.encounter, r.monster, awakenings);
-//    }));
-
-    print('encounter lookup complete in: ${s.elapsed}');
+    Fimber.d('encounter lookup complete in: ${s.elapsed}');
 
     return results;
   }
@@ -632,7 +652,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       }).toList();
     });
 
-    print('events lookup complete in: ${s.elapsed}');
+    Fimber.d('events lookup complete in: ${s.elapsed}');
     return results;
   }
 
