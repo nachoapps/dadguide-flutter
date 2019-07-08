@@ -111,7 +111,7 @@ class DungeonHeader extends StatelessWidget {
                   ),
                   Text(m.dungeon.nameNa),
                   DefaultTextStyle(
-                      style: Theme.of(context).textTheme.overline,
+                      style: Theme.of(context).textTheme.caption,
                       child: Row(children: [
                         Icon(Icons.add),
                         Text(m.selectedSubDungeon.mpText()),

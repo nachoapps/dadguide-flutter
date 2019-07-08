@@ -150,7 +150,7 @@ class DungeonListRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DefaultTextStyle(
-                        style: Theme.of(context).textTheme.overline,
+                        style: Theme.of(context).textTheme.caption,
                         child: Row(children: [
                           Text(m.nameJp),
                           Spacer(),
@@ -158,7 +158,7 @@ class DungeonListRow extends StatelessWidget {
                         ])),
                     Text(m.nameNa),
                     DefaultTextStyle(
-                      style: Theme.of(context).textTheme.overline,
+                      style: Theme.of(context).textTheme.caption,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                         Text('srank'),
                         SizedBox(width: 8),

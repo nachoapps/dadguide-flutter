@@ -194,7 +194,7 @@ class MonsterListRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DefaultTextStyle(
-                        style: Theme.of(context).textTheme.overline,
+                        style: Theme.of(context).textTheme.caption,
                         child: Row(children: [
                           Text('No. ${m.monsterNoJp}'),
                           Spacer(),
@@ -202,7 +202,7 @@ class MonsterListRow extends StatelessWidget {
                         ])),
                     Text(m.nameNa),
                     DefaultTextStyle(
-                      style: Theme.of(context).textTheme.overline,
+                      style: Theme.of(context).textTheme.caption,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                         Text('Lv. ${m.level}'),
                         Text('HP ${m.hpMax}'),

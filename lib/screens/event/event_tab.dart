@@ -144,7 +144,7 @@ class ScheduleEventRow extends StatelessWidget {
                   children: [
                     Text(se.headerText()),
                     DefaultTextStyle(
-                      style: Theme.of(context).textTheme.overline,
+                      style: Theme.of(context).textTheme.caption,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [Text(se.underlineText(DateTime.now()))]),

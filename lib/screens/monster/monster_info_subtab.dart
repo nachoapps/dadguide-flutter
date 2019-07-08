@@ -189,7 +189,7 @@ class MonsterDetailHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DefaultTextStyle(
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.caption,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -282,7 +282,7 @@ class MonsterStatTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.overline,
+      style: Theme.of(context).textTheme.caption,
       child: Table(
 //        defaultColumnWidth: FractionColumnWidth(1.0),
 //        defaultColumnWidth: FlexColumnWidth(),
@@ -295,7 +295,7 @@ class MonsterStatTable extends StatelessWidget {
             cell('HP'),
             cell('ATK'),
             cell('RCV'),
-            cell('Weighted'),
+            cell('WAVG'),
             cell('EXP'),
           ]),
           TableRow(children: [
