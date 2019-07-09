@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
@@ -132,10 +132,7 @@ class ScheduleEventRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             children: <Widget>[
-              sizedContainer(CachedNetworkImage(
-                placeholder: (context, url) => CircularProgressIndicator(),
-                imageUrl: imageUrl(_model),
-              )),
+              iconContainer(se.iconId),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
@@ -156,19 +153,6 @@ class ScheduleEventRow extends StatelessWidget {
           )),
     );
   }
-}
-
-String imageUrl(FullEvent model) {
-  var paddedNo = model.iconId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
-}
-
-Widget sizedContainer(Widget child) {
-  return new SizedBox(
-    width: 48.0,
-    height: 48.0,
-    child: new Center(child: child),
-  );
 }
 
 class ScheduleEventDisplayState with ChangeNotifier {}

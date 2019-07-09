@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -142,7 +143,7 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
         alignment: Alignment.topRight,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            var maxHeight = constraints.biggest.height / 9;
+            var maxHeight = constraints.biggest.height / 10;
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -150,14 +151,18 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
                   Column(
                     children: [
                       for (var a in _data.superAwakenings)
-                        awakeningContainer(a.awakeningId, size: maxHeight),
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 2),
+                            child: awakeningContainer(a.awokenSkillId, size: maxHeight)),
                     ],
                   ),
                 if (_data.awakenings.isNotEmpty)
                   Column(
                     children: [
                       for (var a in _data.awakenings)
-                        awakeningContainer(a.awokenSkillId, size: maxHeight),
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 2),
+                            child: awakeningContainer(a.awokenSkillId, size: maxHeight)),
                     ],
                   )
               ],
@@ -180,7 +185,7 @@ class MonsterDetailHeader extends StatelessWidget {
     var topRightText = '★' * rarity + '($rarity) / Cost ${_data.monster.cost}';
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         iconContainer(_data.monster.monsterId),
         SizedBox(width: 4),
@@ -198,20 +203,49 @@ class MonsterDetailHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
-              Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
+              FittedBox(
+                alignment: Alignment.centerLeft,
+                child: Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
+              ),
+              FittedBox(
+                alignment: Alignment.centerLeft,
+                child: Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
+              ),
               Row(children: [
-                Text(_data.monster.type1Id.toString()),
-                SizedBox(width: 4),
-                Text(_data.monster.type2Id.toString()),
-                SizedBox(width: 4),
-                Text(_data.monster.type3Id.toString()),
+                TypeIconText(_data.type1),
+                if (_data.type2 != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 4),
+                    child: TypeIconText(_data.type2),
+                  ),
+                if (_data.type3 != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 4),
+                    child: TypeIconText(_data.type3),
+                  ),
               ])
             ],
           ),
         )
       ],
     );
+  }
+}
+
+class TypeIconText extends StatelessWidget {
+  MonsterType _monsterType;
+
+  TypeIconText(this._monsterType);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      typeContainer(_monsterType.id),
+      Text(
+        _monsterType.name,
+        style: Theme.of(context).textTheme.caption,
+      )
+    ]);
   }
 }
 

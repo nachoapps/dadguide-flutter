@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/enums.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
@@ -430,6 +431,10 @@ class FullMonster {
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
+
+  MonsterType get type1 => monsterTypeFor(monster.type1Id);
+  MonsterType get type2 => monsterTypeFor(monster.type2Id);
+  MonsterType get type3 => monsterTypeFor(monster.type3Id);
 }
 
 class FullEvent {

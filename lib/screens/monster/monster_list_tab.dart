@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -183,10 +183,7 @@ class MonsterListRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             children: <Widget>[
-              sizedContainer(CachedNetworkImage(
-                placeholder: (context, url) => CircularProgressIndicator(),
-                imageUrl: imageUrl(m),
-              )),
+              iconContainer(m.monsterId),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
@@ -218,17 +215,4 @@ class MonsterListRow extends StatelessWidget {
           )),
     );
   }
-}
-
-String imageUrl(Monster model) {
-  var paddedNo = model.monsterId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
-}
-
-Widget sizedContainer(Widget child) {
-  return new SizedBox(
-    width: 48.0,
-    height: 48.0,
-    child: new Center(child: child),
-  );
 }

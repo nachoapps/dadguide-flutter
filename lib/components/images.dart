@@ -45,6 +45,10 @@ Widget _loadingImage(String url) {
   print(url);
   return CachedNetworkImage(
     placeholder: (context, url) => CircularProgressIndicator(),
+    fadeInDuration: Duration(),
+    fadeOutDuration: Duration(),
+    fadeInCurve: Curves.linear,
+    fadeOutCurve: Curves.linear,
     imageUrl: url,
     errorWidget: (BuildContext context, String url, Object error) => Icon(Icons.error_outline),
   );
