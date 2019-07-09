@@ -213,16 +213,8 @@ class MonsterDetailHeader extends StatelessWidget {
               ),
               Row(children: [
                 TypeIconText(_data.type1),
-                if (_data.type2 != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 4),
-                    child: TypeIconText(_data.type2),
-                  ),
-                if (_data.type3 != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 4),
-                    child: TypeIconText(_data.type3),
-                  ),
+                TypeIconText(_data.type2),
+                TypeIconText(_data.type3),
               ])
             ],
           ),
@@ -233,14 +225,16 @@ class MonsterDetailHeader extends StatelessWidget {
 }
 
 class TypeIconText extends StatelessWidget {
-  MonsterType _monsterType;
+  final MonsterType _monsterType;
 
   TypeIconText(this._monsterType);
 
   @override
   Widget build(BuildContext context) {
+    if (_monsterType == null) return Container(width: 0.0, height: 0.0);
+
     return Row(children: [
-      typeContainer(_monsterType.id),
+      typeContainer(_monsterType.id, leftPadding: 4),
       Text(
         _monsterType.name,
         style: Theme.of(context).textTheme.caption,

@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -162,12 +163,17 @@ class DungeonListRow extends StatelessWidget {
                     Text(m.nameNa),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                        Text('srank'),
-                        SizedBox(width: 8),
-                        Text('mp'),
-                        Spacer(),
-                      ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DadGuideIcons.mp,
+                          Text('?'),
+                          SizedBox(width: 8),
+                          DadGuideIcons.srank,
+                          Text('?'),
+                          Spacer(),
+                        ],
+                      ),
                     ),
                   ],
                 ),

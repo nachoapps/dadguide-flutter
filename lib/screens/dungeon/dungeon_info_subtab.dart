@@ -90,6 +90,7 @@ class DungeonHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var m = _model;
+    var bossMonster = m.selectedSubDungeon.bossEncounter?.monster;
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Row(
@@ -105,9 +106,14 @@ class DungeonHeader extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(height: 12),
-                      if (m.selectedSubDungeon.bossEncounter != null)
-                        for (var a in m.selectedSubDungeon.bossEncounter.awakenings)
-                          awakeningContainer(a.awakeningId)
+                      if (bossMonster != null)
+                        Row(
+                          children: <Widget>[
+                            typeContainer(bossMonster.type1Id, leftPadding: 2),
+                            typeContainer(bossMonster.type2Id, leftPadding: 2),
+                            typeContainer(bossMonster.type3Id, leftPadding: 2),
+                          ]
+                        )
                     ],
                   ),
                   Text(m.dungeon.nameNa),
