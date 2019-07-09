@@ -2,19 +2,35 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-String portraitFor(int portraitId) {
-  var paddedNo = portraitId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/portrait_$paddedNo.png';
+Widget portraitImage(int portraitId) {
+  var url = _imageUrl('portrait', portraitId, 4);
+  return _loadingImage(url);
 }
 
-String _iconFor(int iconId) {
-  var paddedNo = iconId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
+Widget iconContainer(int iconId, {double size: 48}) {
+  // TODO: change this to 5?
+  var url = _imageUrl('icon', iconId, 4);
+  return _sizedContainer(_loadingImage(url), size);
 }
 
-String _awakeningFor(int awakeningId) {
-  var paddedNo = awakeningId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/awakening_$paddedNo.png';
+Widget awakeningContainer(int awakeningId, {double size: 24}) {
+  var url = _imageUrl('awoken', awakeningId, 3);
+  return _sizedContainer(_loadingImage(url), size);
+}
+
+Widget latentContainer(int latentId, {double size: 24}) {
+  var url = _imageUrl('latent', latentId, 3);
+  return _sizedContainer(_loadingImage(url), size);
+}
+
+Widget typeContainer(int typeId, {double size: 24}) {
+  var url = _imageUrl('type', typeId, 3);
+  return _sizedContainer(_loadingImage(url), size);
+}
+
+String _imageUrl(String category, int value, int length) {
+  var paddedNo = value.toString().padLeft(length, '0');
+  return 'http://miru.info/dadguide/images/${category}_$paddedNo.png';
 }
 
 Widget _sizedContainer(Widget child, double size) {
@@ -25,17 +41,11 @@ Widget _sizedContainer(Widget child, double size) {
   );
 }
 
-Widget loadingImage(String url) {
+Widget _loadingImage(String url) {
+  print(url);
   return CachedNetworkImage(
     placeholder: (context, url) => CircularProgressIndicator(),
     imageUrl: url,
+    errorWidget: (BuildContext context, String url, Object error) => Icon(Icons.error_outline),
   );
-}
-
-Widget iconContainer(int iconId) {
-  return _sizedContainer(loadingImage(_iconFor(iconId)), 48);
-}
-
-Widget awakeningContainer(int awakeningId) {
-  return _sizedContainer(loadingImage(_awakeningFor(awakeningId)), 12);
 }

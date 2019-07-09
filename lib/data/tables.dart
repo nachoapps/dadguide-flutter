@@ -424,9 +424,12 @@ class FullMonster {
   final ActiveSkill activeSkill;
   final LeaderSkill leaderSkill;
   final SeriesData series;
-  final List<Awakening> awakenings;
+  final List<Awakening> _awakenings;
 
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this.awakenings);
+  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this._awakenings);
+
+  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
+  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
 }
 
 class FullEvent {
@@ -532,13 +535,20 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     );
   }
 
-  Future<List<Monster>> get allMonsters => select(monsters).get();
+  Future<List<Monster>> get allMonsters async {
+    var sss = select(monsters)
+      ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]);
+    return await sss.get();
+  }
 
   // TODO: change this to a more specific type
   Future<List<FullMonster>> get allMonstersWithAwakenings {
     Fimber.d('doing full dungeon lookup');
     var s = new Stopwatch()..start();
-    var results = select(monsters).get().then((rows) {
+    var results = (select(monsters)
+          ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]))
+        .get()
+        .then((rows) {
       return Future.wait(rows.map((monster) async {
         final awakenings = await findAwakenings(monster.monsterId);
         return FullMonster(
@@ -614,8 +624,6 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
     ]);
 
-    debugPrint(query.constructQuery().sql);
-
     var partialEncounters = await query.get().then((rows) {
       return rows.map((row) {
         return _PartialEncounter(row.readTable(encounters), row.readTable(monsters));
@@ -636,7 +644,9 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<List<Awakening>> findAwakenings(int monsterId) async {
-    final query = select(awakenings)..where((a) => a.monsterId.equals(monsterId));
+    final query = select(awakenings)
+      ..where((a) => a.monsterId.equals(monsterId))
+      ..orderBy([(a) => OrderingTerm(expression: a.orderIdx)]);
     return (await query.get()).toList();
   }
 

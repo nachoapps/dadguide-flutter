@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -64,16 +64,6 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   }
 }
 
-String imageUrl(Monster model) {
-  var paddedNo = model.monsterId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/portrait_$paddedNo.png';
-}
-
-String imageUrl2(Monster model) {
-  var paddedNo = model.monsterId.toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
-}
-
 class MonsterDetailContents extends StatelessWidget {
   final FullMonster _data;
 
@@ -81,7 +71,6 @@ class MonsterDetailContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(imageUrl(_data.monster));
     return Column(
       children: [
         MonsterDetailPortrait(_data),
@@ -116,18 +105,13 @@ class MonsterDetailPortrait extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 5 / 3,
       child: Stack(children: [
-        CachedNetworkImage(
-          placeholder: (context, url) => CircularProgressIndicator(),
-          imageUrl: imageUrl(_data.monster),
-        ),
+        portraitImage(_data.monster.monsterId),
         Positioned(
           left: 10,
           top: 10,
           child: new Icon(Icons.autorenew),
         ),
-        Positioned(
-          right: 10,
-          top: 10,
+        Positioned.fill(
           child: MonsterDetailPortraitAwakenings(_data),
         ),
         Positioned(
@@ -152,16 +136,37 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.compare);
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, right: 10, bottom: 30),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            var maxHeight = constraints.biggest.height / 9;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                if (_data.superAwakenings.isNotEmpty)
+                  Column(
+                    children: [
+                      for (var a in _data.superAwakenings)
+                        awakeningContainer(a.awakeningId, size: maxHeight),
+                    ],
+                  ),
+                if (_data.awakenings.isNotEmpty)
+                  Column(
+                    children: [
+                      for (var a in _data.awakenings)
+                        awakeningContainer(a.awokenSkillId, size: maxHeight),
+                    ],
+                  )
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
-}
-
-Widget sizedContainer(Widget child) {
-  return new SizedBox(
-    width: 48.0,
-    height: 48.0,
-    child: new Center(child: child),
-  );
 }
 
 class MonsterDetailHeader extends StatelessWidget {
@@ -175,14 +180,9 @@ class MonsterDetailHeader extends StatelessWidget {
     var topRightText = '★' * rarity + '($rarity) / Cost ${_data.monster.cost}';
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        sizedContainer(
-          CachedNetworkImage(
-            placeholder: (context, url) => CircularProgressIndicator(),
-            imageUrl: imageUrl2(_data.monster),
-          ),
-        ),
+        iconContainer(_data.monster.monsterId),
         SizedBox(width: 4),
         Expanded(
           child: Column(
