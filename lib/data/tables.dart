@@ -408,16 +408,8 @@ class FullSubDungeon {
 class FullEncounter {
   final Encounter encounter;
   final Monster monster;
-  final List<Awakening> awakenings;
 
-  FullEncounter(this.encounter, this.monster, this.awakenings);
-}
-
-class _PartialEncounter {
-  final Encounter encounter;
-  final Monster monster;
-
-  _PartialEncounter(this.encounter, this.monster);
+  FullEncounter(this.encounter, this.monster);
 }
 
 class FullMonster {
@@ -629,19 +621,11 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
     ]);
 
-    var partialEncounters = await query.get().then((rows) {
+    var results = await query.get().then((rows) {
       return rows.map((row) {
-        return _PartialEncounter(row.readTable(encounters), row.readTable(monsters));
-      });
+        return FullEncounter(row.readTable(encounters), row.readTable(monsters));
+      }).toList();
     });
-
-    Fimber.d(
-        'encounter lookup partially complete in: ${s.elapsed} with ${partialEncounters.length}');
-
-    var results = Future.wait(partialEncounters.map((r) async {
-      final awakenings = await findAwakenings(r.encounter.monsterId);
-      return FullEncounter(r.encounter, r.monster, awakenings);
-    }));
 
     Fimber.d('encounter lookup complete in: ${s.elapsed}');
 
