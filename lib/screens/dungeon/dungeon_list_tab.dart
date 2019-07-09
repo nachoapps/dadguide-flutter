@@ -5,6 +5,8 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'dungeon_info_subtab.dart';
+
 class DungeonTab extends StatefulWidget {
   DungeonTab({Key key}) : super(key: key);
 
@@ -133,7 +135,8 @@ class DungeonListRow extends StatelessWidget {
     var m = _model;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/dungeonDetail');
+        var args = DungeonDetailArgs(_model.dungeonId, 0);
+        Navigator.pushNamed(context, DungeonDetailArgs.routeName, arguments: args);
       },
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),

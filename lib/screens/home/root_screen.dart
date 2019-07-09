@@ -27,6 +27,7 @@ class TabNavigator extends StatelessWidget {
         onGenerateRoute: (routeSettings) {
           switch (routeSettings.name) {
             case TabNavigatorRoutes.root:
+              print('generating root');
               return MaterialPageRoute(builder: (context) => rootItem);
             case TabNavigatorRoutes.monsterDetail:
               MonsterDetailArgs args = routeSettings.arguments;
@@ -55,6 +56,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
 
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
+  static final dungeonNavKey = GlobalKey<NavigatorState>();
 
   static List<Widget> _widgetOptions = <Widget>[
     TabNavigator(
@@ -65,7 +67,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
       navigatorKey: monsterNavKey,
       rootItem: MonsterTab(key: PageStorageKey('MonsterTab')),
     ),
-    DungeonTab(key: PageStorageKey('DungeonTab')),
+    TabNavigator(
+      navigatorKey: dungeonNavKey,
+      rootItem: DungeonTab(key: PageStorageKey('DungeonTab')),
+    ),
     UtilsScreen(key: PageStorageKey('UtilTab')),
     SettingsScreen(key: PageStorageKey('SettingTab')),
   ];
