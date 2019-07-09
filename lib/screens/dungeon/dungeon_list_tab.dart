@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/components/icons.dart';
+import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class DungeonTab extends StatefulWidget {
 }
 
 class _DungeonTabState extends State<DungeonTab> {
-  final _memoizer = AsyncMemoizer<List<Dungeon>>();
+  final _memoizer = AsyncMemoizer<List<ListDungeon>>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,13 @@ class _DungeonTabState extends State<DungeonTab> {
     );
   }
 
-  FutureBuilder<List<Dungeon>> _searchResults() {
+  FutureBuilder<List<ListDungeon>> _searchResults() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.allDungeons;
+      return database.allListDungeons;
     });
 
-    return FutureBuilder<List<Dungeon>>(
+    return FutureBuilder<List<ListDungeon>>(
         future: dataFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -128,25 +128,23 @@ class DungeonDisplayState with ChangeNotifier {
 }
 
 class DungeonListRow extends StatelessWidget {
-  final Dungeon _model;
+  final ListDungeon _model;
   const DungeonListRow(this._model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var m = _model;
+    var d = _model.dungeon;
+    var m = _model.iconMonster;
     return InkWell(
       onTap: () {
-        var args = DungeonDetailArgs(_model.dungeonId, 0);
+        var args = DungeonDetailArgs(d.dungeonId, 0);
         Navigator.pushNamed(context, DungeonDetailArgs.routeName, arguments: args);
       },
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             children: <Widget>[
-              sizedContainer(CachedNetworkImage(
-                placeholder: (context, url) => CircularProgressIndicator(),
-                imageUrl: imageUrl(_model),
-              )),
+              iconContainer(d.iconId),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
@@ -156,21 +154,21 @@ class DungeonListRow extends StatelessWidget {
                     DefaultTextStyle(
                         style: Theme.of(context).textTheme.caption,
                         child: Row(children: [
-                          Text(m.nameJp),
+                          Text(d.nameJp),
                           Spacer(),
-                          Text('Awakenings here'),
+                          typeContainer(m?.type1Id, size: 18, leftPadding: 4),
+                          typeContainer(m?.type2Id, size: 18, leftPadding: 4),
+                          typeContainer(m?.type3Id, size: 18, leftPadding: 4),
                         ])),
-                    Text(m.nameNa),
+                    Text(d.nameNa),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DadGuideIcons.mp,
-                          Text('?'),
+                          IconAndText(DadGuideIcons.mp, _model.maxAvgMp?.toString()),
                           SizedBox(width: 8),
-                          DadGuideIcons.srank,
-                          Text('?'),
+                          IconAndText(DadGuideIcons.srank, _model.maxScore?.toString()),
                           Spacer(),
                         ],
                       ),
@@ -184,15 +182,19 @@ class DungeonListRow extends StatelessWidget {
   }
 }
 
-String imageUrl(Dungeon model) {
-  var paddedNo = (model.iconId ?? 0).toString().padLeft(4, '0');
-  return 'http://miru.info/padguide/images/icons/icon_$paddedNo.png';
-}
+class IconAndText extends StatelessWidget {
+  final Widget _icon;
+  final String _text;
 
-Widget sizedContainer(Widget child) {
-  return new SizedBox(
-    width: 48.0,
-    height: 48.0,
-    child: new Center(child: child),
-  );
+  IconAndText(this._icon, this._text);
+
+  @override
+  Widget build(BuildContext context) {
+    if (_text == null) return Container(width: 0.0, height: 0.0);
+
+    return Row(children: [
+      _icon,
+      Text(_text, style: Theme.of(context).textTheme.caption),
+    ]);
+  }
 }

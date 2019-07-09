@@ -382,6 +382,15 @@ class Timestamps extends Table {
   Set<Column> get primaryKey => {name};
 }
 
+class ListDungeon {
+  final Dungeon dungeon;
+  final Monster iconMonster;
+  final int maxScore;
+  final int maxAvgMp;
+
+  ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp);
+}
+
 class FullDungeon {
   final Dungeon dungeon;
   final List<SubDungeon> subDungeons;
@@ -497,21 +506,28 @@ class FullEvent {
   }
 }
 
-@UseMoor(tables: [
-  ActiveSkills,
-  Awakenings,
-  AwokenSkills,
-  Dungeons,
-  Encounters,
-  Evolutions,
-  LeaderSkills,
-  Monsters,
-  Series,
-  Schedule,
-  SubDungeons,
+@UseMoor(
+  tables: [
+    ActiveSkills,
+    Awakenings,
+    AwokenSkills,
+    Dungeons,
+    Encounters,
+    Evolutions,
+    LeaderSkills,
+    Monsters,
+    Series,
+    Schedule,
+    SubDungeons,
 //  SkillCondition,
-  Timestamps,
-])
+    Timestamps,
+  ],
+  queries: {
+    'srankForDungeon':
+        'SELECT MAX(s_rank) as "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
+    'mpForDungeon': 'SELECT MAX(mp_avg) as "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId'
+  },
+)
 class DadGuideDatabase extends _$DadGuideDatabase {
   DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: false));
 
@@ -558,6 +574,28 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       }));
     });
     Fimber.d('mwa lookup complete in: ${s.elapsed}');
+
+    return results;
+  }
+
+  Future<List<ListDungeon>> get allListDungeons {
+    var s = new Stopwatch()..start();
+    final query = select(dungeons).join([
+      leftOuterJoin(monsters, dungeons.iconId.equalsExp(monsters.monsterId)),
+    ]);
+
+    var results = query.get().then((rows) {
+      return Future.wait(rows.map((row) async {
+        var dungeon = row.readTable(dungeons);
+        var iconMonster = row.readTable(monsters);
+        var sRank = (await srankForDungeon(dungeon.dungeonId)).first;
+        var mpAvg = (await mpForDungeon(dungeon.dungeonId)).first;
+
+        return ListDungeon(dungeon, iconMonster, sRank?.sRank, mpAvg?.mpAvg);
+      }));
+    });
+
+    Fimber.d('list dungeon lookup complete in: ${s.elapsed}');
 
     return results;
   }
