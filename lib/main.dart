@@ -45,6 +45,7 @@ class DadGuideApp extends StatelessWidget {
       child: MaterialApp(
         title: 'DadGuide',
         theme: appTheme(),
+        debugShowCheckedModeBanner: false,
         navigatorObservers: [observer],
 //      initialRoute: '/',
 //      routes: <String, WidgetBuilder>{

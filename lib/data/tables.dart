@@ -412,6 +412,12 @@ class FullSubDungeon {
     final mpPerStam = (mp / subDungeon.stamina).toStringAsFixed(2);
     return '$mp ($mpPerStam / Stamina';
   }
+
+  List<int> get rewardIconIds => (subDungeon.rewardIconIds ?? '')
+      .split(',')
+      .where((x) => num.tryParse(x) != null)
+      .map((x) => int.parse(x))
+      .toList();
 }
 
 class FullEncounter {

@@ -74,6 +74,7 @@ class DungeonDetailContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DungeonHeader(_data),
         DungeonSubHeader(_data.selectedSubDungeon),
@@ -105,15 +106,13 @@ class DungeonHeader extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      SizedBox(height: 12),
+                      SizedBox(height: 18),
                       if (bossMonster != null)
-                        Row(
-                          children: <Widget>[
-                            typeContainer(bossMonster.type1Id, leftPadding: 2),
-                            typeContainer(bossMonster.type2Id, leftPadding: 2),
-                            typeContainer(bossMonster.type3Id, leftPadding: 2),
-                          ]
-                        )
+                        Row(children: <Widget>[
+                          typeContainer(bossMonster.type1Id, leftPadding: 2, size: 18),
+                          typeContainer(bossMonster.type2Id, leftPadding: 2, size: 18),
+                          typeContainer(bossMonster.type3Id, leftPadding: 2, size: 18),
+                        ])
                     ],
                   ),
                   Text(m.dungeon.nameNa),
@@ -140,20 +139,89 @@ class DungeonSubHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     var m = _model;
     return Container(
+      color: Colors.grey[300],
       padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(m.subDungeon.nameNa),
-          Text(m.subDungeon.nameJp),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FittedBox(
+                    alignment: Alignment.centerLeft,
+                    child: Text(m.subDungeon.nameNa),
+                  ),
+                  FittedBox(
+                    alignment: Alignment.centerLeft,
+                    child: Text(m.subDungeon.nameJp),
+                  ),
+                ],
+              ),
+              Spacer(),
+              for (var rewardIconId in m.rewardIconIds) iconContainer(rewardIconId, size: 32)
+            ],
+          ),
           // Probably should be a row with col, sizedbox, col
-          Text('Stamina: ${m.subDungeon.stamina}'),
-          Text('Battles: ${m.subDungeon.floors}'),
+          DefaultTextStyle(
+            style: Theme.of(context).textTheme.caption,
+            child: Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Stamina: ${m.subDungeon.stamina}'),
+                    Text('Battles: ${m.subDungeon.floors}'),
+                  ],
+                ),
+                SizedBox(width: 20),
+                Expanded(child: ExpCoinTable(m.subDungeon)),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+class ExpCoinTable extends StatelessWidget {
+  final SubDungeon sd;
+  const ExpCoinTable(this.sd, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Table(
+      children: [
+        TableRow(children: [
+          cell(''),
+          cell('Min'),
+          cell('Max'),
+          cell('Avg'),
+          cell('Avg/Stam'),
+        ]),
+        TableRow(children: [
+          cell('EXP'),
+          cell(sd.expMin.toString()),
+          cell(sd.expMax.toString()),
+          cell(sd.expAvg.toString()),
+          cell((sd.expAvg ~/ sd.stamina).toString()),
+        ]),
+        TableRow(children: [
+          cell('Coin'),
+          cell(sd.coinMin.toString()),
+          cell(sd.coinMax.toString()),
+          cell(sd.coinAvg.toString()),
+          cell((sd.coinAvg ~/ sd.stamina).toString()),
+        ]),
+      ],
+    );
+  }
+
+  Widget cell(String text) => TableCell(child: Text(text, textAlign: TextAlign.end));
 }
 
 class DungeonDetailActionsBar extends StatelessWidget {

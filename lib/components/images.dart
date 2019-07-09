@@ -47,7 +47,6 @@ Widget _sizedContainer(Widget child, double size) {
 }
 
 Widget _loadingImage(String url) {
-  print(url);
   return CachedNetworkImage(
     placeholder: (context, url) => CircularProgressIndicator(),
     fadeInDuration: Duration(),
