@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -113,7 +114,7 @@ class DungeonHeader extends StatelessWidget {
                   DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(children: [
-                        Icon(Icons.add),
+                        DadGuideIcons.mp,
                         Text(m.selectedSubDungeon.mpText()),
                       ])),
                 ],

@@ -400,7 +400,7 @@ class FullSubDungeon {
 
   String mpText() {
     final mp = subDungeon.mpAvg;
-    final mpPerStam = mp / subDungeon.stamina;
+    final mpPerStam = (mp / subDungeon.stamina).toStringAsFixed(2);
     return '$mp ($mpPerStam / Stamina';
   }
 }
