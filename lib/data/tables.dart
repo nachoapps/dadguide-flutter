@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -90,6 +91,16 @@ class Dungeons extends Table {
   TextColumn get rewardIconIds => text().nullable()();
 
   BoolColumn get visible => boolean()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class Drops extends Table {
+  IntColumn get dropId => integer().autoIncrement()();
+
+  IntColumn get encounterId => integer()();
+
+  IntColumn get monsterId => integer()();
 
   IntColumn get tstamp => integer()();
 }
@@ -402,8 +413,9 @@ class FullDungeon {
 class FullSubDungeon {
   final SubDungeon subDungeon;
   final List<FullEncounter> encounters;
+  final List<Battle> battles;
 
-  FullSubDungeon(this.subDungeon, this.encounters);
+  FullSubDungeon(this.subDungeon, this.encounters) : battles = _computeBattles(encounters);
 
   FullEncounter get bossEncounter => encounters?.first;
 
@@ -418,13 +430,30 @@ class FullSubDungeon {
       .where((x) => num.tryParse(x) != null)
       .map((x) => int.parse(x))
       .toList();
+
+  static List<Battle> _computeBattles(List<FullEncounter> encounters) {
+    return groupBy(encounters, (x) => x.encounter.stage)
+        .entries
+        .map((e) => Battle(
+            e.key, e.value.toList()..sort((l, r) => l.encounter.orderIdx - r.encounter.orderIdx)))
+        .toList()
+          ..sort((l, r) => l.stage - r.stage);
+  }
 }
 
 class FullEncounter {
   final Encounter encounter;
   final Monster monster;
+  final List<Drop> drops;
 
-  FullEncounter(this.encounter, this.monster);
+  FullEncounter(this.encounter, this.monster, this.drops);
+}
+
+class Battle {
+  final int stage;
+  final List<FullEncounter> encounters;
+
+  Battle(this.stage, this.encounters);
 }
 
 class FullMonster {
@@ -517,6 +546,7 @@ class FullEvent {
     ActiveSkills,
     Awakenings,
     AwokenSkills,
+    Drops,
     Dungeons,
     Encounters,
     Evolutions,
@@ -666,14 +696,25 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     ]);
 
     var results = await query.get().then((rows) {
-      return rows.map((row) {
-        return FullEncounter(row.readTable(encounters), row.readTable(monsters));
-      }).toList();
+      return Future.wait(rows.map((row) async {
+        var encounter = row.readTable(encounters);
+        var monster = row.readTable(monsters);
+        var dropList = await findDrops(encounter.encounterId);
+        print(dropList.length);
+        return FullEncounter(encounter, monster, dropList);
+      }).toList());
     });
 
     Fimber.d('encounter lookup complete in: ${s.elapsed}');
 
     return results;
+  }
+
+  Future<List<Drop>> findDrops(int encounterId) async {
+    var query = select(drops)
+      ..where((d) => d.encounterId.equals(encounterId))
+      ..orderBy([(d) => OrderingTerm(expression: d.monsterId)]);
+    return (await query.get()).toList();
   }
 
   Future<List<Awakening>> findAwakenings(int monsterId) async {
