@@ -57,8 +57,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
+  static final utilsNavKey = GlobalKey<NavigatorState>();
+  static final settingsNavKey = GlobalKey<NavigatorState>();
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static List<TabNavigator> _widgetOptions = [
     TabNavigator(
       navigatorKey: eventNavKey,
       rootItem: EventTab(key: PageStorageKey('EventTab')),
@@ -71,8 +73,14 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
       navigatorKey: dungeonNavKey,
       rootItem: DungeonTab(key: PageStorageKey('DungeonTab')),
     ),
-    UtilsScreen(key: PageStorageKey('UtilTab')),
-    SettingsScreen(key: PageStorageKey('SettingTab')),
+    TabNavigator(
+      navigatorKey: utilsNavKey,
+      rootItem: UtilsScreen(key: PageStorageKey('UtilsTab')),
+    ),
+    TabNavigator(
+      navigatorKey: settingsNavKey,
+      rootItem: SettingsScreen(key: PageStorageKey('SettingsTab')),
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -83,38 +91,42 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            title: Text('Event'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.format_line_spacing),
-            title: Text('Monster'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Dungeon'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.move_to_inbox),
-            title: Text('Util'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Setting'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
+    return WillPopScope(
+      onWillPop: () async =>
+          !await _widgetOptions[_selectedIndex].navigatorKey.currentState.maybePop(),
+      child: Scaffold(
+        body: SafeArea(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              title: Text('Event'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.format_line_spacing),
+              title: Text('Monster'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Dungeon'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.move_to_inbox),
+              title: Text('Util'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Setting'),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
