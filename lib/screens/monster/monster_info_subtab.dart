@@ -82,11 +82,11 @@ class MonsterDetailContents extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MonsterDetailHeader(_data),
-              MonsterStatTable(_data),
+              MonsterLevelStatTable(_data),
               Text('+297 & fully awoken'),
-              MonsterStatTable(_data),
+              MonsterWeightedStatTable(_data),
               Text('Stat Bonus when assisting'),
-              MonsterStatTable(_data),
+              MonsterAssistStatTable(_data),
               Text('Available Killer Awoken'),
             ],
           ),
@@ -294,28 +294,19 @@ class MonsterDetailOptionsBar extends StatelessWidget {
 
 class MonsterDetailSearchState with ChangeNotifier {}
 
-TableCell cell(String text) {
-  return TableCell(child: Padding(padding: EdgeInsets.all(4), child: Center(child: Text(text))));
-}
-
-TableCell numCell(num value) {
-  return cell(value.toString());
-}
-
-class MonsterStatTable extends StatelessWidget {
+class MonsterLevelStatTable extends StatelessWidget {
   final FullMonster _data;
 
-  const MonsterStatTable(this._data, {Key key}) : super(key: key);
+  const MonsterLevelStatTable(this._data, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var m = _data.monster;
+    var limitMult = (m.limitMult ?? 0) + 100;
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: Table(
-//        defaultColumnWidth: FractionColumnWidth(1.0),
-//        defaultColumnWidth: FlexColumnWidth(),
-        // This sucks, bug.
-        defaultColumnWidth: FixedColumnWidth(60),
+        columnWidths: {0: FixedColumnWidth(40)},
         border: TableBorder.all(width: 1.0, color: Colors.black26),
         children: [
           TableRow(children: [
@@ -323,27 +314,149 @@ class MonsterStatTable extends StatelessWidget {
             cell('HP'),
             cell('ATK'),
             cell('RCV'),
-            cell('WAVG'),
             cell('EXP'),
           ]),
           TableRow(children: [
             numCell(1),
-            numCell(_data.monster.hpMin),
-            numCell(_data.monster.atkMin),
-            numCell(_data.monster.rcvMin),
-            numCell(0),
+            numCell(m.hpMin),
+            numCell(m.atkMin),
+            numCell(m.rcvMin),
             numCell(0),
           ]),
           TableRow(children: [
-            numCell(_data.monster.level),
-            numCell(_data.monster.hpMax),
-            numCell(_data.monster.atkMax),
-            numCell(_data.monster.rcvMax),
-            numCell(0),
-            numCell(_data.monster.exp),
+            numCell(m.level),
+            numCell(m.hpMax),
+            numCell(m.atkMax),
+            numCell(m.rcvMax),
+            numCell(m.exp),
+          ]),
+          if (limitMult > 1)
+            TableRow(children: [
+              numCell(110),
+              numCell(m.hpMax * limitMult ~/ 100),
+              numCell(m.atkMax * limitMult ~/ 100),
+              numCell(m.rcvMax * limitMult ~/ 100),
+              numCell(m.exp + 50000000),
+            ]),
+        ],
+      ),
+    );
+  }
+}
+
+class MonsterWeightedStatTable extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterWeightedStatTable(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var m = _data.monster;
+    var limitMult = m.limitMult ?? 0;
+    var maxHp = m.hpMax + 99 * 10;
+    var atkMax = m.atkMax + 99 * 5;
+    var rcvMax = m.rcvMax + 99 * 3;
+    // TODO: account for stat boosts
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.caption,
+      child: Table(
+        columnWidths: {0: FixedColumnWidth(40)},
+        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        children: [
+          TableRow(children: [
+            cell('Lv.'),
+            cell('HP'),
+            cell('ATK'),
+            cell('RCV'),
+            cell('Weighted'),
+          ]),
+          TableRow(children: [
+            numCell(m.level),
+            numCell(maxHp),
+            numCell(atkMax),
+            numCell(rcvMax),
+            numCell(_weighted(maxHp, atkMax, rcvMax)),
+          ]),
+          if (limitMult > 1)
+            TableRow(children: [
+              numCell(110),
+              numCell(maxHp * limitMult ~/ 100),
+              numCell(atkMax * limitMult ~/ 100),
+              numCell(rcvMax * limitMult ~/ 100),
+              numCell(_weighted(maxHp, atkMax, rcvMax, limitMult: limitMult)),
+            ]),
+        ],
+      ),
+    );
+  }
+}
+
+class MonsterAssistStatTable extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterAssistStatTable(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var m = _data.monster;
+    // TODO: account for stat boosts
+    var hpMax = m.hpMax * .1;
+    var atkMax = m.atkMax * .05;
+    var rcvMax = m.rcvMax * .15;
+    var hp297Max = hpMax + 99 * 10 * .1;
+    var atk297Max = atkMax + 99 * 5 * .05;
+    var rcv297Max = rcvMax + 99 * 3 * .15;
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.caption,
+      child: Table(
+        columnWidths: {0: FixedColumnWidth(40)},
+        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        children: [
+          TableRow(children: [
+            cell('Lv.'),
+            cell('HP'),
+            cell('ATK'),
+            cell('RCV'),
+            cell('Weighted'),
+          ]),
+          TableRow(children: [
+            cell('99'),
+            numCell(hpMax),
+            numCell(atkMax),
+            numCell(rcvMax),
+            numCell(_weighted(hpMax, atkMax, rcvMax)),
+          ]),
+          TableRow(children: [
+            cell('99\n+297'),
+            numCell(hp297Max),
+            numCell(atk297Max),
+            numCell(rcv297Max),
+            numCell(_weighted(hp297Max, atk297Max, rcv297Max)),
           ]),
         ],
       ),
     );
   }
 }
+
+TableCell cell(String text) {
+  return TableCell(
+    child: Padding(
+      padding: EdgeInsets.all(4),
+      child: Text(text, textAlign: TextAlign.center),
+    ),
+    verticalAlignment: TableCellVerticalAlignment.middle,
+  );
+}
+
+TableCell numCell(num value) {
+  return cell(value.toInt().toString());
+}
+
+//Widget cell(String text) =>
+//    TableCell(child: Text(text), verticalAlignment: TableCellVerticalAlignment.fill);
+////  Widget cell(String text) => TableCell(child: Text(text, textAlign: TextAlign.end));
+//Widget intCell(int value) => cell(value?.toString() ?? '');
+
+int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
+    (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;
