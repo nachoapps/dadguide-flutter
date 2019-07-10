@@ -61,6 +61,9 @@ dependencies:
   # More icons
   flutter_icons: ^0.1.4
 
+  # Dependency injection
+  get_it: ^1.0.3+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
