@@ -417,10 +417,10 @@ class FullSubDungeon {
 
   FullSubDungeon(this.subDungeon, this.encounters) : battles = _computeBattles(encounters);
 
-  FullEncounter get bossEncounter => encounters?.first;
+  FullEncounter get bossEncounter => battles.isEmpty ? null : battles.last.encounters.last;
 
   String mpText() {
-    final mp = subDungeon.mpAvg;
+    final mp = subDungeon.mpAvg ?? 0;
     final mpPerStam = (mp / subDungeon.stamina).toStringAsFixed(2);
     return '$mp ($mpPerStam / Stamina';
   }

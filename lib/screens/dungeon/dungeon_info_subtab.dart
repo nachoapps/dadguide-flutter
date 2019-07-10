@@ -196,6 +196,8 @@ class ExpCoinTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (sd.expMin == null) return Container(width: 0.0, height: 0.0);
+
     return Table(
       children: [
         TableRow(children: [
@@ -207,23 +209,25 @@ class ExpCoinTable extends StatelessWidget {
         ]),
         TableRow(children: [
           cell('EXP'),
-          cell(sd.expMin.toString()),
-          cell(sd.expMax.toString()),
-          cell(sd.expAvg.toString()),
-          cell((sd.expAvg ~/ sd.stamina).toString()),
+          intCell(sd.expMin),
+          intCell(sd.expMax),
+          intCell(sd.expAvg),
+          intCell((sd.expAvg ?? 0 ~/ sd.stamina)),
         ]),
         TableRow(children: [
           cell('Coin'),
-          cell(sd.coinMin.toString()),
-          cell(sd.coinMax.toString()),
-          cell(sd.coinAvg.toString()),
-          cell((sd.coinAvg ~/ sd.stamina).toString()),
+          intCell(sd.coinMin),
+          intCell(sd.coinMax),
+          intCell(sd.coinAvg),
+          intCell((sd.coinAvg ?? 0 ~/ sd.stamina)),
         ]),
       ],
     );
   }
 
   Widget cell(String text) => TableCell(child: Text(text, textAlign: TextAlign.end));
+  Widget intCell(int value) =>
+      TableCell(child: Text(value?.toString() ?? '', textAlign: TextAlign.end));
 }
 
 class DungeonBattle extends StatelessWidget {
