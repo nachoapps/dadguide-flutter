@@ -86,8 +86,14 @@ class MonsterDetailContents extends StatelessWidget {
               Text('+297 & fully awoken'),
               MonsterWeightedStatTable(_data),
               Text('Stat Bonus when assisting'),
+
               MonsterAssistStatTable(_data),
               Text('Available Killer Awoken'),
+              // TODO: make this a widget; merge type2/type3 killers
+              Row(children: [
+                for (var killer in monsterTypeFor(_data.monster.type1Id).killers)
+                  latentContainer(killer.id, size: 36)
+              ])
             ],
           ),
         ),
