@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:dadguide2/components/cache.dart';
 import 'package:dadguide2/components/service_locator.dart';
-import 'package:dadguide2/components/task.dart';
+import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';

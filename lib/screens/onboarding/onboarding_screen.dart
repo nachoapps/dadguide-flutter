@@ -1,5 +1,5 @@
 import 'package:dadguide2/components/icons.dart';
-import 'package:dadguide2/components/task.dart';
+import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:flutter/material.dart';
 

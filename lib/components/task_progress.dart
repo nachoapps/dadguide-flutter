@@ -131,17 +131,23 @@ class TaskProgress {
 }
 
 mixin TaskPublisher {
-  final StreamController<TaskProgress> _controller = StreamController.broadcast();
+  @protected
+  final StreamController<TaskProgress> controller = StreamController.broadcast();
 
-  Stream<TaskProgress> get stream => _controller.stream;
+  Stream<TaskProgress> get stream => controller.stream;
 
   @protected
   void finishStream() {
-    _controller.close();
+    controller.close();
   }
 
   @protected
   void publish(TaskProgress update) {
-    _controller.add(update);
+    controller.add(update);
+  }
+
+  @protected
+  void pipeTo(TaskPublisher sink) {
+    stream.pipe(sink.controller);
   }
 }
