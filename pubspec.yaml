@@ -42,7 +42,7 @@ dependencies:
   protobuf: any
 
   # Database codegen
-  moor_flutter: ^1.4.0
+  moor_flutter: ^1.5.0
 
   # Injection
   provider: ^3.0.0+1

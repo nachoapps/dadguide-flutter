@@ -349,6 +349,8 @@ class MonsterColorBar extends StatelessWidget {
         return Colors.yellow;
       case 4:
         return Colors.deepPurple;
+      default:
+        throw 'Unexpected attribute id: $attributeId';
     }
   }
 }

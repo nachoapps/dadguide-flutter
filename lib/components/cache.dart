@@ -54,7 +54,6 @@ class PermanentCacheManager extends BaseCacheManager {
 
     // Based on cache_manager.dart:put_file
     // Reimplemented for bulk put efficiency.
-    var filesProcessed = 0;
     var baseFile = Directory(await getFilePath());
     if (!(await baseFile.exists())) {
       baseFile.createSync(recursive: true);

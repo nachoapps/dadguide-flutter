@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -9,8 +8,6 @@ import 'tables.dart';
 
 class DatabaseHelper {
   // TODO: make this injected
-  static final dio = Dio();
-  static final _dbRemotePath = 'https://f002.backblazeb2.com/file/dadguide-data/db/dadguide.sqlite';
   static final _dbName = 'dadguide.sqlite';
   static final DatabaseHelper instance = DatabaseHelper._internal();
 

@@ -63,6 +63,7 @@ class DadGuideApp extends StatelessWidget {
           } else if (settings.name == '/onboarding') {
             return MaterialPageRoute(builder: (_) => OnboardingScreen());
           }
+          throw 'Route not implemented: ${settings.name}';
         },
       ),
     );
@@ -83,7 +84,7 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator();
+    return Center(child: CircularProgressIndicator());
   }
 
   Future<void> _checkSetupRequired() async {
