@@ -572,16 +572,11 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
   @override
   MigrationStrategy get migration {
-    return MigrationStrategy(
-      onCreate: (Migrator m) {
-        return m.createAllTables();
-      },
-//      onUpgrade: (Migrator m, int from, int to) async {
-//        if (from == 1) {
-//          await m.addColumn(todos, todos.targetDate);
-//        }
-//      },
-    );
+    return MigrationStrategy(onCreate: (Migrator m) {
+      throw 'Unexpected creation of database tables';
+    }, onUpgrade: (Migrator m, int from, int to) async {
+      throw 'Unexpected upgrade of database tables';
+    });
   }
 
   Future<List<Monster>> get allMonsters async {
@@ -740,4 +735,14 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
+
+  Future<int> maxTstamp(TableInfo info) async {
+    var result = await customSelect('SELECT MAX(tstamp) AS tstamp from ${info.actualTableName}');
+    return result.first.readInt('tstamp');
+  }
+
+  Future<void> upsertData<TD extends Table, D extends DataClass>(
+      TableInfo<TD, D> info, Insertable<D> entity) {
+    into(info).insert(entity, orReplace: true);
+  }
 }

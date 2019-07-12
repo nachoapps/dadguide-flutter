@@ -3,6 +3,7 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
+import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,6 +67,12 @@ void launchDialog(BuildContext context) async {
                 Navigator.pop(context, DatabaseHelper.instance.reloadDb());
               },
               child: const Text('Reload DB'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, updateManager.start());
+              },
+              child: const Text('Trigger Update'),
             ),
           ],
         );
