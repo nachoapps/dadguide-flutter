@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:dadguide2/components/cache.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/task.dart';
 import 'package:dadguide2/data/database.dart';
@@ -11,8 +12,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
-
-import 'cache.dart';
 
 var onboardingManager = OnboardingTaskManager._();
 

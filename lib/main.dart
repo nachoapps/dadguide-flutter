@@ -1,8 +1,8 @@
-import 'package:dadguide2/components/onboarding_task.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
+import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';

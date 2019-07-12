@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/icons.dart';
-import 'package:dadguide2/components/onboarding_task.dart';
 import 'package:dadguide2/components/task.dart';
+import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
