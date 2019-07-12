@@ -1,5 +1,8 @@
+import 'package:dadguide2/components/onboarding_task.dart';
+import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
-import 'package:dadguide2/screens/settings/settings_manager.dart';
+import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -9,14 +12,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
+bool inDevMode = true;
+
 void main() async {
   // Dont report errors from dev mode to crashlytics.
   Crashlytics.instance.enableInDevMode = false;
 
   // Pass all uncaught errors to Crashlytics.
-  FlutterError.onError = (FlutterErrorDetails details) {
-    Crashlytics.instance.onError(details);
-  };
+  if (!inDevMode) {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      Crashlytics.instance.onError(details);
+    };
+  }
 
   // Set up logging.
   Fimber.plantTree(FimberTree());
@@ -27,6 +34,7 @@ void main() async {
   // ca-app-pub-3940256099942544/6300978111
 
   await preferenceInit();
+  initializeServiceLocator();
   runApp(DadGuideApp());
 }
 
@@ -39,6 +47,7 @@ class DadGuideApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // TODO: Convert this to get_it ?
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
       ],
@@ -47,14 +56,49 @@ class DadGuideApp extends StatelessWidget {
         theme: appTheme(),
         debugShowCheckedModeBanner: false,
         navigatorObservers: [observer],
-//      initialRoute: '/',
-//      routes: <String, WidgetBuilder>{
-//        "/": (BuildContext context) => HomeScreen(),
-////        "/ExScreen2": (BuildContext context) => ExScreen2(),
-//      },
-//    ),
-        home: StatefulHomeScreen(),
+        home: SetupRequiredChecker(),
+        onGenerateRoute: (settings) {
+          if (settings.name == '/home') {
+            return MaterialPageRoute(builder: (_) => StatefulHomeScreen());
+          } else if (settings.name == '/onboarding') {
+            return MaterialPageRoute(builder: (_) => OnboardingScreen());
+          }
+        },
       ),
     );
+  }
+}
+
+class SetupRequiredChecker extends StatefulWidget {
+  @override
+  SetupRequiredCheckerState createState() => new SetupRequiredCheckerState();
+}
+
+class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
+  @override
+  void initState() {
+    super.initState();
+    _checkSetupRequired();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CircularProgressIndicator();
+  }
+
+  Future<void> _checkSetupRequired() async {
+    Fimber.i('Checking if setup is required');
+    if (await onboardingManager.mustRun()) {
+      Fimber.i('Navigating to onboarding');
+      Navigator.pushNamed(context, '/onboarding');
+      onboardingManager.start().then((_) => _goHome(context));
+    } else {
+      _goHome(context);
+    }
+  }
+
+  void _goHome(BuildContext ctx) {
+    Fimber.i('Navigating to home');
+    Navigator.pushNamed(ctx, '/home');
   }
 }

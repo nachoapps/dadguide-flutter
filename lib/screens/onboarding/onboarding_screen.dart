@@ -1,17 +1,15 @@
 import 'package:dadguide2/components/icons.dart';
+import 'package:dadguide2/components/onboarding_task.dart';
+import 'package:dadguide2/components/task.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    int _index =
-        0; // Make sure this is outside build(), otherwise every setState will chage the value back to 0
-
     return Scaffold(
       appBar: AppBar(
         title: Text('DadGuide'),
       ),
-
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -24,30 +22,24 @@ class OnboardingScreen extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Divider(),
+              TaskListProgress(onboardingManager.instance),
+              SizedBox(height: 5),
+              Divider(),
               ListTile(
-                title: Text('Select the UI display language'),
-                subtitle: Text('Elements like this text will be updated'),
+                title: Text('UI display language'),
+                subtitle: Text('Applies to DadGuide text elements'),
               ),
               SupportedLanguageSelector(),
               SizedBox(height: 5),
               Divider(),
               ListTile(
-                title: Text('Select the data language'),
-                subtitle: Text('This will be used when displaying PAD data'),
+                title: Text('PAD data language'),
+                subtitle: Text('Preferred server for monster/skill text'),
               ),
               SupportedLanguageSelector(),
             ],
           )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => print('hi'),
-        tooltip: 'Increment Counter',
-        child: Icon(Icons.chevron_right), //Change Icon
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.endFloat, //Change for different locations
     );
-
-    return Container();
   }
 }
 
@@ -79,9 +71,7 @@ class SupportedLanguageSelectorState extends State<SupportedLanguageSelector> {
   SupportedLanguage get language => _language;
 
   void _applyLanguage(SupportedLanguage l) {
-    print('changing language from $_language to $l');
     setState(() => _language = l);
-    print('done changing language from $_language to $l');
   }
 }
 
@@ -99,7 +89,7 @@ class LanguageRadio extends StatelessWidget {
       child: RadioListTile<SupportedLanguage>(
         dense: true,
         title: icon,
-        value: SupportedLanguage.korean,
+        value: language,
         groupValue: selectedLanguage,
         onChanged: (SupportedLanguage value) {
           languageCallback(value);

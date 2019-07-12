@@ -700,7 +700,6 @@ class DadGuideDatabase extends _$DadGuideDatabase {
         var encounter = row.readTable(encounters);
         var monster = row.readTable(monsters);
         var dropList = await findDrops(encounter.encounterId);
-        print(dropList.length);
         return FullEncounter(encounter, monster, dropList);
       }).toList());
     });

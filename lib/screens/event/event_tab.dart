@@ -63,7 +63,7 @@ void launchDialog(BuildContext context) async {
           children: <Widget>[
             SimpleDialogOption(
               onPressed: () {
-                Navigator.pop(context, DatabaseHelper.instance.forceRedownloadDb());
+                Navigator.pop(context, DatabaseHelper.instance.reloadDb());
               },
               child: const Text('Reload DB'),
             ),
@@ -86,6 +86,7 @@ class EventSearchBar extends StatelessWidget {
             onPressed: () => launchDialog(context),
             padding: EdgeInsets.all(0),
           ),
+          Expanded(child: Center(child: Text('All'))),
           Expanded(child: Center(child: Text('Guerrilla'))),
           Expanded(child: Center(child: Text('Special'))),
           Expanded(child: Center(child: Text('News'))),

@@ -2,6 +2,7 @@ import 'package:preferences/preferences.dart';
 
 // TODO: probably can combine this into a more concrete class that wraps this stuff
 // TODO: should add something to enforce good values in prefInit
+// TODO: use constants for pref names
 
 enum LangPref {
   english,
@@ -46,5 +47,6 @@ Future<void> preferenceInit() async {
     'events_show_red': true,
     'events_show_blue': true,
     'events_show_green': true,
+    'icons_downloaded': false,
   });
 }

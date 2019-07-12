@@ -28,42 +28,26 @@ class DatabaseHelper {
       return;
     }
 
-    var dbFileExists = await _dbFileExists();
-    if (!dbFileExists) {
-      await _downloadDb();
+    if (!await dbFileExists()) {
+      throw 'DB File does not exist';
     }
 
-    await _createDb();
-  }
-
-  Future<void> forceRedownloadDb() async {
-    Fimber.d('Forcing DB Reload');
-    _database = null;
-    await _deleteDb();
-    await ensureDb();
-    Fimber.d('Reload Complete');
-  }
-
-  Future<void> _createDb() async {
     Fimber.d('Creating DB');
     _database = new DadGuideDatabase(await _dbFilePath());
   }
 
-  Future<void> _deleteDb() async {
-    Fimber.d('Deleting DB');
-    await File(await _dbFilePath()).delete();
+  Future<void> reloadDb() async {
+    Fimber.d('Forcing DB Reload');
+    _database = null;
+    await ensureDb();
+    Fimber.d('Reload Complete');
   }
 
-  Future<void> _downloadDb() async {
-    Fimber.d('Downloading DB');
-    await dio.download(_dbRemotePath, await _dbFilePath());
-  }
-
-  Future<bool> _dbFileExists() async {
+  static Future<bool> dbFileExists() async {
     return FileSystemEntity.typeSync(await _dbFilePath()) == FileSystemEntityType.file;
   }
 
-  Future<String> _dbFilePath() async {
+  static Future<String> _dbFilePath() async {
     return join(await sqflite.getDatabasesPath(), _dbName);
   }
 }

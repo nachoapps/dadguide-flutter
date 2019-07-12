@@ -37,7 +37,8 @@ dependencies:
   path_provider: ^1.1.0
 
   stack_trace: ^1.9.3
-  cached_network_image: ^1.0.0
+  # If updating this, need to verify cache.dart
+  cached_network_image: 1.0.0
   protobuf: any
 
   # Database codegen
@@ -63,6 +64,9 @@ dependencies:
 
   # Dependency injection
   get_it: ^1.0.3+2
+
+  # Utilities
+  quiver: '>=2.0.0 <3.0.0'
 
 dev_dependencies:
   flutter_test:

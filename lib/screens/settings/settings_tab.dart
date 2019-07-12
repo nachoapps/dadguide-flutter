@@ -1,4 +1,4 @@
-import 'package:dadguide2/screens/settings/settings_manager.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 
