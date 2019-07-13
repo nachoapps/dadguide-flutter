@@ -1,60 +1,84 @@
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor/moor.dart';
+import 'package:tuple/tuple.dart';
 
-var updateManager = UpdateManager._();
+final updateManager = UpdateManager._();
 
-class UpdateManager {
-  UpdateTask instance;
+class UpdateManager with TaskPublisher {
+  Future<void> runningTask;
 
   UpdateManager._();
 
-  Future<void> start() async {
-    if (instance != null) {
-      Fimber.w('Tried to start but was already started!');
-      return null;
+  Future<bool> start() async {
+    if (runningTask != null) {
+      await runningTask;
+      return false;
     }
+
     var db = await DatabaseHelper.instance.database;
-    instance = UpdateTask(db, getIt<Dio>(), getIt<Endpoints>());
+    var instance = UpdateTask(db, getIt<Dio>(), getIt<Endpoints>());
+    instance.pipeTo(this);
     try {
-      instance.start();
-    } catch (e) {
-      instance = null;
-      throw e;
+      runningTask = instance.start();
+      await runningTask;
+      return true;
+    } finally {
+      runningTask = null;
     }
-    instance = null;
   }
 }
 
-class UpdateTask {
+class UpdateTask with TaskPublisher {
   final DadGuideDatabase _database;
   final Dio _dio;
   final Endpoints _endpoints;
 
   UpdateTask(this._database, this._dio, this._endpoints);
 
+  void _pub(int index, int count, {int progress}) {
+    publish(TaskProgress('Updating', index, count, TaskStatus.started, progress: progress));
+  }
+
   Future<void> start() async {
     Fimber.i('Checking for table updates');
+    _pub(0, 0);
     var timestamps = await _retrieveTimestamps();
+
+    List<Tuple2<TableInfo, int>> tablesToUpdate = [];
     for (var table in _updateOrder()) {
       var tableTstamp = await _database.maxTstamp(table) ?? 0;
       var remoteTstamp = timestamps[table.actualTableName] ?? 0;
 
       if (remoteTstamp > tableTstamp) {
         Fimber.v('Table $table needs update, $remoteTstamp > $tableTstamp');
-        await _updateTable(table, tableTstamp);
+        tablesToUpdate.add(Tuple2(table, tableTstamp));
       }
     }
+
+    for (var tableAndTstamp in tablesToUpdate) {
+      await _updateTable(
+          tableAndTstamp.item1,
+          tableAndTstamp.item2,
+          (p) =>
+              _pub(tablesToUpdate.indexOf(tableAndTstamp) + 1, tablesToUpdate.length, progress: p));
+    }
+
     Fimber.i('Table update complete');
   }
 
-  Future<void> _updateTable(TableInfo table, int localTstamp) async {
+  Future<void> _updateTable(TableInfo table, int localTstamp, void Function(int) progressFn) async {
+    // TODO: this definitely needs batching, it's slow as fuck
+
     var data = await _retrieveTableData(table.actualTableName, tstamp: localTstamp);
     Fimber.i('Retrieved ${data.length} rows for ${table.actualTableName}');
+    int complete = 0;
+    progressFn(complete * 100 ~/ data.length);
     for (var row in data) {
 //      var item = table.map(row) as Insertable;
 //      await _database.upsertData(table, item);
@@ -87,6 +111,8 @@ class UpdateTask {
       } else {
         throw 'Unexpected table: ${table.actualTableName}';
       }
+      complete++;
+      progressFn(complete * 100 ~/ data.length);
     }
   }
 

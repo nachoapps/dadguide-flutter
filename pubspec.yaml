@@ -67,6 +67,7 @@ dependencies:
 
   # Utilities
   quiver: '>=2.0.0 <3.0.0'
+  tuple: ^1.0.2
 
 dev_dependencies:
   flutter_test:

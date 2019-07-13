@@ -256,7 +256,7 @@ class Monsters extends Table {
 
   IntColumn get sellMp => integer()();
 
-  IntColumn get buyMp => integer()();
+  IntColumn get buyMp => integer().nullable()();
 
   TextColumn get regDate => text()();
 
@@ -742,7 +742,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<void> upsertData<TD extends Table, D extends DataClass>(
-      TableInfo<TD, D> info, Insertable<D> entity) {
-    into(info).insert(entity, orReplace: true);
+      TableInfo<TD, D> info, Insertable<D> entity) async {
+    await into(info).insert(entity, orReplace: true);
   }
 }

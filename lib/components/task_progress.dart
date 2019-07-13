@@ -22,7 +22,7 @@ class _TaskListProgressState extends State<TaskListProgress> {
         stream: _tasks.stream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
-            return buildStarting(context);
+            return buildIdle(context);
           }
 
           if (snapshot.hasError) {
@@ -45,12 +45,15 @@ class _TaskListProgressState extends State<TaskListProgress> {
   }
 
   Widget buildRunning(BuildContext context, TaskProgress update) {
+    var executingText = update.index > 0
+        ? 'Executing task (${update.index}/${update.taskCount})'
+        : 'Executing task';
     return Card(
       child: Column(
         children: <Widget>[
           ListTile(
             leading: CircularProgressIndicator(),
-            title: Text('Executing task (${update.index}/${update.taskCount})'),
+            title: Text(executingText),
             subtitle: Row(
               children: <Widget>[
                 Text(update.taskName),
@@ -80,14 +83,13 @@ class _TaskListProgressState extends State<TaskListProgress> {
             title: Text('Task ${update.index} of ${update.taskCount} failed'),
             subtitle: Text(update.taskName),
           ),
-          Text('Check your internet connection.'),
-          Text('Automatically restarting.'),
+          Text(update.message ?? 'Check your internet connection.\nAutomatically restarting.'),
         ],
       ),
     );
   }
 
-  Widget buildStarting(BuildContext context) {
+  Widget buildIdle(BuildContext context) {
     return Card(
       child: ListTile(
         leading: SizedBox(width: 36, height: 36, child: Icon(Icons.schedule, color: Colors.yellow)),
@@ -148,6 +150,6 @@ mixin TaskPublisher {
 
   @protected
   void pipeTo(TaskPublisher sink) {
-    stream.pipe(sink.controller);
+    stream.listen((e) => sink.controller.add(e));
   }
 }

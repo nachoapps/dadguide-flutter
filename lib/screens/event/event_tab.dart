@@ -3,7 +3,7 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
-import 'package:dadguide2/services/update_service.dart';
+import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,19 +58,21 @@ class EventTabState extends State<EventTab> {
 void launchDialog(BuildContext context) async {
   showDialog(
       context: context,
-      builder: (context) {
+      builder: (innerContext) {
         return SimpleDialog(
           title: const Text('Utilities'),
           children: <Widget>[
             SimpleDialogOption(
-              onPressed: () {
-                Navigator.pop(context, DatabaseHelper.instance.reloadDb());
+              onPressed: () async {
+                Navigator.pop(innerContext);
+                await DatabaseHelper.instance.reloadDb();
               },
               child: const Text('Reload DB'),
             ),
             SimpleDialogOption(
-              onPressed: () {
-                Navigator.pop(context, updateManager.start());
+              onPressed: () async {
+                Navigator.pop(innerContext);
+                await showUpdateDialog(context);
               },
               child: const Text('Trigger Update'),
             ),
