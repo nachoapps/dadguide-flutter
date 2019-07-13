@@ -111,6 +111,9 @@ class MonsterDetailContents extends StatelessWidget {
                 Padding(
                     child: MonsterLeaderSkillSection(_data.leaderSkill),
                     padding: EdgeInsets.only(top: 4)),
+
+              SizedBox(height: 8),
+              MonsterHistory(_data),
             ],
           ),
         ),
@@ -534,5 +537,22 @@ class MonsterLeaderSkillSection extends StatelessWidget {
       SizedBox(height: 2),
       Text(_skill.descNa),
     ]);
+  }
+}
+
+class MonsterHistory extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterHistory(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('History'),
+        Text('[${_data.monster.regDate}] Added'),
+      ],
+    );
   }
 }
