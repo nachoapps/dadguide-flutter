@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';

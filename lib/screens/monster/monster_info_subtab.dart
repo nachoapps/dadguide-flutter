@@ -1,17 +1,11 @@
 import 'package:async/async.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class MonsterDetailArgs {
-  static const routeName = '/monsterDetail';
-  final int monsterId;
-
-  MonsterDetailArgs(this.monsterId);
-}
 
 class MonsterDetailScreen extends StatefulWidget {
   final MonsterDetailArgs _args;
@@ -193,7 +187,7 @@ class MonsterDetailHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        iconContainer(_data.monster.monsterId),
+        PadIcon(_data.monster.monsterId),
         SizedBox(width: 4),
         Expanded(
           child: Column(

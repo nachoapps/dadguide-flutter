@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
-import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -135,15 +135,12 @@ class DungeonListRow extends StatelessWidget {
     var d = _model.dungeon;
     var m = _model.iconMonster;
     return InkWell(
-      onTap: () {
-        var args = DungeonDetailArgs(d.dungeonId, 0);
-        Navigator.pushNamed(context, DungeonDetailArgs.routeName, arguments: args);
-      },
+      onTap: goToDungeonFn(context, d.dungeonId, 0),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             children: <Widget>[
-              iconContainer(d.iconId),
+              PadIcon(d.iconId),
               SizedBox(width: 8),
               Expanded(
                 child: Column(

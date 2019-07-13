@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,10 +10,38 @@ Widget portraitImage(int portraitId) {
   return _loadingImage(url);
 }
 
-Widget iconContainer(int iconId, {double size: 48}) {
-  iconId ??= 0;
-  var url = _imageUrl('icons', iconId, 5);
-  return _sizedContainer(_loadingImage(url), size);
+class PadIcon extends StatelessWidget {
+  final int iconId;
+  final double size;
+  final bool monsterLink;
+  final bool dungeonLink;
+  final int subDungeonId;
+  final bool ink;
+
+  PadIcon(this.iconId,
+      {this.size = 48,
+      this.monsterLink = false,
+      this.dungeonLink = false,
+      this.subDungeonId,
+      this.ink = false});
+
+  @override
+  Widget build(BuildContext context) {
+    var finalIconId = iconId ?? 0;
+    var url = _imageUrl('icons', iconId, 5);
+    var container = _sizedContainer(_loadingImage(url), size);
+    if (monsterLink && isMonsterId(finalIconId)) {
+      return wrapMonsterLink(context, container, finalIconId, ink: ink);
+    } else if (dungeonLink) {
+      return wrapDungeonLink(context, container, finalIconId, ink: ink, subDungeonId: subDungeonId);
+    }
+    return container;
+  }
+}
+
+// TODO: should probably adjust the special icon range
+bool isMonsterId(int monsterId) {
+  return monsterId < 9000 || monsterId > 9999;
 }
 
 Widget awakeningContainer(int awakeningId, {double size: 24}) {

@@ -1,19 +1,12 @@
 import 'package:async/async.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-
-class DungeonDetailArgs {
-  static const routeName = '/dungeonDetail';
-  final int dungeonId;
-  final int subDungeonId;
-
-  DungeonDetailArgs(this.dungeonId, this.subDungeonId);
-}
 
 class DungeonDetailScreen extends StatefulWidget {
   final DungeonDetailArgs args;
@@ -98,7 +91,7 @@ class DungeonHeader extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         child: Row(
           children: <Widget>[
-            iconContainer(_model.dungeon.iconId),
+            PadIcon(_model.dungeon.iconId),
             SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -164,7 +157,8 @@ class DungeonSubHeader extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              for (var rewardIconId in m.rewardIconIds) iconContainer(rewardIconId, size: 32)
+              for (var rewardIconId in m.rewardIconIds)
+                PadIcon(rewardIconId, size: 32, monsterLink: true)
             ],
           ),
           // Probably should be a row with col, sizedbox, col
@@ -266,7 +260,7 @@ class DungeonEncounter extends StatelessWidget {
         children: [
           Column(
             children: [
-              iconContainer(_model.monster.monsterId),
+              PadIcon(_model.monster.monsterId, monsterLink: true),
               SizedBox(height: 2),
               MonsterColorBar(_model.monster),
             ],
@@ -299,7 +293,9 @@ class DungeonEncounter extends StatelessWidget {
                   ),
                 ]),
           ),
-          Column(children: [for (var drop in _model.drops) iconContainer(drop.monsterId, size: 24)])
+          Column(children: [
+            for (var drop in _model.drops) PadIcon(drop.monsterId, size: 24, monsterLink: true)
+          ])
         ],
       ),
     );
