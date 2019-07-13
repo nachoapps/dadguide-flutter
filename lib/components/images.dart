@@ -54,7 +54,7 @@ Widget latentContainer(int latentId, {double size: 24}) {
   return _sizedContainer(_loadingImage(url), size);
 }
 
-Widget typeContainer(int typeId, {double size: 24, double leftPadding: 0}) {
+Widget typeContainer(int typeId, {double size: 16, double leftPadding: 0}) {
   if (typeId == null) return Container(width: 0.0, height: 0.0);
   var url = _imageUrl('types', typeId, 3);
   var container = _sizedContainer(_loadingImage(url), size);

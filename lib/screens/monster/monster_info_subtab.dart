@@ -76,18 +76,41 @@ class MonsterDetailContents extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MonsterDetailHeader(_data),
+
+              SizedBox(height: 4),
               MonsterLevelStatTable(_data),
+
+              SizedBox(height: 4),
               Text('+297 & fully awoken'),
               MonsterWeightedStatTable(_data),
-              Text('Stat Bonus when assisting'),
 
+              SizedBox(height: 4),
+              Text('Stat bonus when assisting'),
               MonsterAssistStatTable(_data),
+
+              SizedBox(height: 4),
               Text('Available Killer Awoken'),
               // TODO: make this a widget; merge type2/type3 killers
               Row(children: [
                 for (var killer in monsterTypeFor(_data.monster.type1Id).killers)
                   latentContainer(killer.id, size: 36)
-              ])
+              ]),
+
+              if (_data.activeSkill != null)
+                Divider(),
+
+              if (_data.activeSkill != null)
+                Padding(
+                    child: MonsterActiveSkillSection(_data.activeSkill),
+                    padding: EdgeInsets.only(top: 4)),
+
+              if (_data.leaderSkill != null)
+                Divider(),
+
+              if (_data.leaderSkill != null)
+                Padding(
+                    child: MonsterLeaderSkillSection(_data.leaderSkill),
+                    padding: EdgeInsets.only(top: 4)),
             ],
           ),
         ),
@@ -235,9 +258,9 @@ class TypeIconText extends StatelessWidget {
 
     return Row(children: [
       typeContainer(_monsterType.id, leftPadding: 4),
-      Text(
-        _monsterType.name,
-        style: Theme.of(context).textTheme.caption,
+      Padding(
+        padding: const EdgeInsets.only(left: 2),
+        child: Text(_monsterType.name, style: Theme.of(context).textTheme.caption),
       )
     ]);
   }
@@ -460,3 +483,56 @@ TableCell numCell(num value) {
 
 int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
     (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;
+
+class MonsterActiveSkillSection extends StatelessWidget {
+  final ActiveSkill _skill;
+
+  const MonsterActiveSkillSection(this._skill, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var skillLevels = _skill.turnMax - _skill.turnMin;
+    var lvlText = skillLevels == 0
+        ? 'Lv.MAX Turn : ${_skill.turnMax}'
+        : 'Lv.1 Turn : ${_skill.turnMax} (Lv.$skillLevels Turn: ${_skill.turnMin})';
+    return Column(children: [
+      Row(
+        children: [
+          Text('Skill:'),
+          SizedBox(width: 8),
+          Text(_skill.nameNa, style: TextStyle(color: Colors.blue)),
+        ],
+      ),
+      SizedBox(height: 2),
+      Row(
+        children: [
+          Spacer(),
+          Text(lvlText, style: Theme.of(context).textTheme.caption),
+        ],
+      ),
+      SizedBox(height: 2),
+      Text(_skill.descNa),
+    ]);
+  }
+}
+
+class MonsterLeaderSkillSection extends StatelessWidget {
+  final LeaderSkill _skill;
+
+  const MonsterLeaderSkillSection(this._skill, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Row(
+        children: [
+          Text('Leader skill:'),
+          SizedBox(width: 8),
+          Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
+        ],
+      ),
+      SizedBox(height: 2),
+      Text(_skill.descNa),
+    ]);
+  }
+}
