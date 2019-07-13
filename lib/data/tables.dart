@@ -573,9 +573,8 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(onCreate: (Migrator m) {
-      throw 'Unexpected creation of database tables';
-    }, onUpgrade: (Migrator m, int from, int to) async {
-      throw 'Unexpected upgrade of database tables';
+      Fimber.i('Initial database creation; skipping onCreate');
+      return null;
     });
   }
 
