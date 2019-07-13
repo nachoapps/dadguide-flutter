@@ -114,6 +114,9 @@ class MonsterDetailContents extends StatelessWidget {
 
               SizedBox(height: 8),
               MonsterHistory(_data),
+
+              SizedBox(height: 8),
+              MailIssues(_data),
             ],
           ),
         ),
@@ -554,5 +557,25 @@ class MonsterHistory extends StatelessWidget {
         Text('[${_data.monster.regDate}] Added'),
       ],
     );
+  }
+}
+
+// TODO: add onclick with implementation
+class MailIssues extends StatelessWidget {
+  final FullMonster _data;
+
+  const MailIssues(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        color: Colors.grey[300],
+        child: Row(
+          children: [
+            Icon(Icons.mail_outline),
+            Text('Report incorrect information',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+          ],
+        ));
   }
 }
