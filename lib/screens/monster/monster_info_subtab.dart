@@ -125,44 +125,57 @@ class MonsterDetailContents extends StatelessWidget {
   }
 }
 
-class MonsterDetailPortrait extends StatelessWidget {
+class MonsterDetailPortrait extends StatefulWidget {
   final FullMonster _data;
 
   const MonsterDetailPortrait(this._data, {Key key}) : super(key: key);
 
   @override
+  _MonsterDetailPortraitState createState() => _MonsterDetailPortraitState();
+}
+
+class _MonsterDetailPortraitState extends State<MonsterDetailPortrait> {
+  @override
   Widget build(BuildContext context) {
     return AspectRatio(
         aspectRatio: 5 / 3,
         child: Stack(children: [
-          Center(child: portraitImage(_data.monster.monsterId)),
+          Center(child: portraitImage(widget._data.monster.monsterId)),
           Positioned(
             left: 10,
             top: 10,
-            child: new Icon(Icons.autorenew),
+            child: InkWell(
+              child: new Icon(Icons.autorenew),
+              onTap: _refreshIcon,
+            ),
           ),
           Positioned.fill(
-            child: MonsterDetailPortraitAwakenings(_data),
+            child: MonsterDetailPortraitAwakenings(widget._data),
           ),
-          if (_data.prevMonsterId != null)
+          if (widget._data.prevMonsterId != null)
             Positioned(
               left: 10,
               bottom: 4,
               child: InkWell(
                 child: Icon(Icons.chevron_left),
-                onTap: goToMonsterFn(context, _data.prevMonsterId),
+                onTap: goToMonsterFn(context, widget._data.prevMonsterId),
               ),
             ),
-          if (_data.nextMonsterId != null)
+          if (widget._data.nextMonsterId != null)
             Positioned(
               right: 10,
               bottom: 4,
               child: InkWell(
                 child: Icon(Icons.chevron_right),
-                onTap: goToMonsterFn(context, _data.nextMonsterId),
+                onTap: goToMonsterFn(context, widget._data.nextMonsterId),
               ),
             ),
         ]));
+  }
+
+  _refreshIcon() async {
+    await clearImageCache(widget._data.monster.monsterId);
+    setState(() {});
   }
 }
 

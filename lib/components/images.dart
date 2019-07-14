@@ -5,6 +5,12 @@ import 'package:dadguide2/components/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+Future<void> clearImageCache(int monsterId) async {
+  var cacheManager = getIt<PermanentCacheManager>();
+  await cacheManager.removeFile(_imageUrl('portraits', monsterId, 5));
+  await cacheManager.removeFile(_imageUrl('icons', monsterId, 5));
+}
+
 Widget portraitImage(int portraitId) {
   var url = _imageUrl('portraits', portraitId, 5);
   return _loadingImage(url);
