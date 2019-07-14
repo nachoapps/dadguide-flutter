@@ -133,29 +133,36 @@ class MonsterDetailPortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5 / 3,
-      child: Stack(children: [
-        portraitImage(_data.monster.monsterId),
-        Positioned(
-          left: 10,
-          top: 10,
-          child: new Icon(Icons.autorenew),
-        ),
-        Positioned.fill(
-          child: MonsterDetailPortraitAwakenings(_data),
-        ),
-        Positioned(
-          left: 10,
-          bottom: 4,
-          child: Icon(Icons.chevron_left),
-        ),
-        Positioned(
-          right: 10,
-          bottom: 4,
-          child: Icon(Icons.chevron_right),
-        ),
-      ]),
-    );
+        aspectRatio: 5 / 3,
+        child: Stack(children: [
+          Center(child: portraitImage(_data.monster.monsterId)),
+          Positioned(
+            left: 10,
+            top: 10,
+            child: new Icon(Icons.autorenew),
+          ),
+          Positioned.fill(
+            child: MonsterDetailPortraitAwakenings(_data),
+          ),
+          if (_data.prevMonsterId != null)
+            Positioned(
+              left: 10,
+              bottom: 4,
+              child: InkWell(
+                child: Icon(Icons.chevron_left),
+                onTap: goToMonsterFn(context, _data.prevMonsterId),
+              ),
+            ),
+          if (_data.nextMonsterId != null)
+            Positioned(
+              right: 10,
+              bottom: 4,
+              child: InkWell(
+                child: Icon(Icons.chevron_right),
+                onTap: goToMonsterFn(context, _data.nextMonsterId),
+              ),
+            ),
+        ]));
   }
 }
 
@@ -280,7 +287,10 @@ class MonsterDetailBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       child: Row(
         children: <Widget>[
-          Icon(Icons.chevron_left),
+          InkWell(
+            child: Icon(Icons.chevron_left),
+            onTap: () => Navigator.of(context).pop(),
+          ),
           Expanded(
             child: TextField(
               decoration: InputDecoration(prefixIcon: Icon(Icons.search)),

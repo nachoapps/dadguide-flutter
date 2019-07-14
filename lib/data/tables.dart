@@ -462,8 +462,11 @@ class FullMonster {
   final LeaderSkill leaderSkill;
   final SeriesData series;
   final List<Awakening> _awakenings;
+  final int prevMonsterId;
+  final int nextMonsterId;
 
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this._awakenings);
+  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this._awakenings,
+      this.prevMonsterId, this.nextMonsterId);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
@@ -560,8 +563,12 @@ class FullEvent {
   ],
   queries: {
     'srankForDungeon':
-        'SELECT MAX(s_rank) as "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
-    'mpForDungeon': 'SELECT MAX(mp_avg) as "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId'
+        'SELECT MAX(s_rank) AS "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
+    'mpForDungeon': 'SELECT MAX(mp_avg) AS "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
+    'prevMonsterId':
+        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp < :monster_id',
+    'nextMonsterId':
+        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp > :monster_id',
   },
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
@@ -594,13 +601,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
         .then((rows) {
       return Future.wait(rows.map((monster) async {
         final awakenings = await findAwakenings(monster.monsterId);
-        return FullMonster(
-          monster,
-          null,
-          null,
-          null,
-          awakenings,
-        );
+        return FullMonster(monster, null, null, null, awakenings, null, null);
       }));
     });
     Fimber.d('mwa lookup complete in: ${s.elapsed}');
@@ -642,12 +643,17 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
     var fullMonster = query.getSingle().then((row) async {
       final awakenings = await findAwakenings(monsterId);
+      var prevMonsterResult = (await prevMonsterId(monsterId));
+      var nextMonsterResult = (await nextMonsterId(monsterId));
+
       return FullMonster(
         row.readTable(monsters),
         row.readTable(activeSkills),
         row.readTable(leaderSkills),
         row.readTable(series),
         awakenings,
+        prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
+        nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
       );
     });
 
