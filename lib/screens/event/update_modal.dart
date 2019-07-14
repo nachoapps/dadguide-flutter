@@ -3,7 +3,7 @@ import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
-void showUpdateDialog(BuildContext context) async {
+Future<void> showUpdateDialog(BuildContext context) async {
   Fimber.i('Displaying update dialog');
   showDialog(
       context: context,
