@@ -117,6 +117,21 @@ class MonsterDetailContents extends StatelessWidget {
               if (_data.leaderSkill != null)
                 Padding(child: MonsterLeaderInfoTable(_data), padding: EdgeInsets.only(top: 4)),
 
+              if (_data.activeSkill != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: MonsterSkillups(_data.skillUpMonsters),
+                ),
+
+              if (_data.activeSkill != null)
+                Padding(child: MonsterSkillupDropLocations(), padding: EdgeInsets.only(top: 4)),
+
+              SizedBox(height: 8),
+              MonsterDropLocations(),
+
+              if (_data.fullSeries != null)
+                Padding(child: MonsterSeries(_data), padding: EdgeInsets.only(top: 4)),
+
               SizedBox(height: 8),
               MonsterHistory(_data),
 
@@ -584,7 +599,7 @@ class MonsterLeaderSkillSection extends StatelessWidget {
           Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
         ],
       ),
-      SizedBox(height: 2),
+      SizedBox(height: 8),
       Text(_skill.descNa),
     ]);
   }
@@ -679,6 +694,77 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           ]),
         ],
       ),
+    );
+  }
+}
+
+class MonsterSkillups extends StatelessWidget {
+  final List<int> _monsterIds;
+
+  const MonsterSkillups(this._monsterIds, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Skill Up - Monster'),
+        Wrap(children: [
+          for (var id in _monsterIds)
+            Padding(padding: EdgeInsets.all(2), child: PadIcon(id, monsterLink: true))
+        ]),
+      ],
+    );
+  }
+}
+
+class MonsterDropLocations extends StatelessWidget {
+  const MonsterDropLocations({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Drop Dungeons'),
+        Text('Not implemented yet =(', style: Theme.of(context).textTheme.caption),
+      ],
+    );
+  }
+}
+
+class MonsterSkillupDropLocations extends StatelessWidget {
+  const MonsterSkillupDropLocations({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Skill Up - Dungeon'),
+        // TODO: if monster appears in a skill-up dungeon should not that too
+        Text('Not implemented yet =(', style: Theme.of(context).textTheme.caption),
+      ],
+    );
+  }
+}
+
+class MonsterSeries extends StatelessWidget {
+  final FullMonster _fullMonster;
+
+  const MonsterSeries(this._fullMonster, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Series - ${_fullMonster.fullSeries.series.nameNa}'),
+        Wrap(children: [
+          for (var id in _fullMonster.fullSeries.members)
+            Padding(padding: EdgeInsets.all(2), child: PadIcon(id, monsterLink: true))
+        ]),
+      ],
     );
   }
 }

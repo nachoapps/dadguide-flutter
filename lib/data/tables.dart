@@ -441,6 +441,13 @@ class FullSubDungeon {
   }
 }
 
+class FullSeries {
+  final SeriesData series;
+  final List<int> members;
+
+  FullSeries(this.series, this.members);
+}
+
 class FullEncounter {
   final Encounter encounter;
   final Monster monster;
@@ -460,13 +467,14 @@ class FullMonster {
   final Monster monster;
   final ActiveSkill activeSkill;
   final LeaderSkill leaderSkill;
-  final SeriesData series;
+  final FullSeries fullSeries;
   final List<Awakening> _awakenings;
   final int prevMonsterId;
   final int nextMonsterId;
+  final List<int> skillUpMonsters;
 
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.series, this._awakenings,
-      this.prevMonsterId, this.nextMonsterId);
+  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
+      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
@@ -574,9 +582,13 @@ class FullEvent {
         'SELECT MAX(s_rank) AS "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
     'mpForDungeon': 'SELECT MAX(mp_avg) AS "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
     'prevMonsterId':
-        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp < :monsterId',
+        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp < :monsterId',
     'nextMonsterId':
-        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp > :monsterId',
+        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp > :monsterId',
+    'skillUpMonsterIds':
+        'SELECT monster_id AS "monsterId" FROM monsters WHERE active_skill_id = :activeSkillId',
+    'seriesMonsterIds':
+        'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
   },
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
@@ -609,7 +621,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
         .then((rows) {
       return Future.wait(rows.map((monster) async {
         final awakenings = await findAwakenings(monster.monsterId);
-        return FullMonster(monster, null, null, null, awakenings, null, null);
+        return FullMonster(monster, null, null, null, awakenings, null, null, []);
       }));
     });
     Fimber.d('mwa lookup complete in: ${s.elapsed}');
@@ -641,7 +653,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 
   Future<List<Dungeon>> get allDungeons => select(dungeons).get();
 
-  Future<FullMonster> fullMonster(int monsterId) {
+  Future<FullMonster> fullMonster(int monsterId) async {
     var s = new Stopwatch()..start();
     final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
@@ -649,24 +661,42 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)),
     ]);
 
-    var fullMonster = query.getSingle().then((row) async {
-      final awakenings = await findAwakenings(monsterId);
-      var prevMonsterResult = (await prevMonsterId(monsterId));
-      var nextMonsterResult = (await nextMonsterId(monsterId));
+    final row = await query.getSingle();
+    final resultMonster = row.readTable(monsters);
+    final resultSeries = await fullSeries(resultMonster.seriesId);
 
-      return FullMonster(
-        row.readTable(monsters),
-        row.readTable(activeSkills),
-        row.readTable(leaderSkills),
-        row.readTable(series),
-        awakenings,
-        prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
-        nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
-      );
-    });
+    final awakenings = await findAwakenings(monsterId);
+    final prevMonsterResult = await prevMonsterId(monsterId);
+    final nextMonsterResult = await nextMonsterId(monsterId);
+    final skillUpMonsterIdsResult = resultMonster.activeSkillId == null
+        ? []
+        : (await skillUpMonsterIds(resultMonster.activeSkillId)).map((x) => x.monsterId).toList();
+
+    var fullMonster = FullMonster(
+      resultMonster,
+      row.readTable(activeSkills),
+      row.readTable(leaderSkills),
+      resultSeries,
+      awakenings,
+      prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
+      nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
+      skillUpMonsterIdsResult,
+    );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
     return fullMonster;
+  }
+
+  Future<FullSeries> fullSeries(int seriesId) async {
+    // TODO: probably make series non-nullable?
+    if (seriesId == null) return null;
+    final s = new Stopwatch()..start();
+    final seriesValue =
+        await (select(series)..where((s) => s.seriesId.equals(seriesId))).getSingle();
+    final seriesMonsters = (await seriesMonsterIds(seriesId)).map((r) => r.monsterId).toList();
+    final result = FullSeries(seriesValue, seriesMonsters);
+    Fimber.d('series lookup complete in: ${s.elapsed}');
+    return result;
   }
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
