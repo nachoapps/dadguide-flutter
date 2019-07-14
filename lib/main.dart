@@ -91,7 +91,7 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
     Fimber.i('Checking if setup is required');
     if (await onboardingManager.mustRun()) {
       Fimber.i('Navigating to onboarding');
-      Navigator.pushNamed(context, '/onboarding');
+      Navigator.pushReplacementNamed(context, '/onboarding');
       onboardingManager.start().then((_) => _goHome(context));
     } else {
       _goHome(context);
@@ -100,6 +100,6 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
 
   void _goHome(BuildContext ctx) {
     Fimber.i('Navigating to home');
-    Navigator.pushNamed(ctx, '/home');
+    Navigator.pushReplacementNamed(ctx, '/home');
   }
 }
