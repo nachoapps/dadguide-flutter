@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:async/async.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
@@ -111,6 +113,9 @@ class MonsterDetailContents extends StatelessWidget {
                 Padding(
                     child: MonsterLeaderSkillSection(_data.leaderSkill),
                     padding: EdgeInsets.only(top: 4)),
+
+              if (_data.leaderSkill != null)
+                Padding(child: MonsterLeaderInfoTable(_data), padding: EdgeInsets.only(top: 4)),
 
               SizedBox(height: 8),
               MonsterHistory(_data),
@@ -503,17 +508,25 @@ class MonsterAssistStatTable extends StatelessWidget {
 }
 
 TableCell cell(String text) {
-  return TableCell(
-    child: Padding(
-      padding: EdgeInsets.all(4),
-      child: Text(text, textAlign: TextAlign.center),
-    ),
-    verticalAlignment: TableCellVerticalAlignment.middle,
-  );
+  return widgetCell(Text(text, textAlign: TextAlign.center));
+}
+
+TableCell emptyCell() {
+  return TableCell(child: Container());
 }
 
 TableCell numCell(num value) {
   return cell(value.toInt().toString());
+}
+
+TableCell widgetCell(Widget widget) {
+  return TableCell(
+    child: Padding(
+      padding: EdgeInsets.all(4),
+      child: widget,
+    ),
+    verticalAlignment: TableCellVerticalAlignment.middle,
+  );
 }
 
 //Widget cell(String text) =>
@@ -611,5 +624,61 @@ class MailIssues extends StatelessWidget {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
           ],
         ));
+  }
+}
+
+class MonsterLeaderInfoTable extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterLeaderInfoTable(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var m = _data.monster;
+    var ls = _data.leaderSkill;
+
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.caption,
+      child: Table(
+        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        children: [
+          TableRow(children: [
+            Container(),
+            widgetCell(PadIcon(
+              m.monsterId,
+              size: 24,
+            )),
+            widgetCell(Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PadIcon(m.monsterId, size: 24),
+                SizedBox(width: 4),
+                PadIcon(m.monsterId, size: 24),
+              ],
+            )),
+          ]),
+          TableRow(children: [
+            cell('HP'),
+            cell(ls.maxHp == 1 ? '-' : 'x ${ls.maxHp}'),
+            cell(ls.maxHp == 1 ? '-' : 'x ${ls.maxHp * ls.maxHp}'),
+          ]),
+          TableRow(children: [
+            cell('ATK'),
+            cell(ls.maxAtk == 1 ? '-' : 'x ${ls.maxAtk}'),
+            cell(ls.maxAtk == 1 ? '-' : 'x ${ls.maxAtk * ls.maxAtk}'),
+          ]),
+          TableRow(children: [
+            cell('RCV'),
+            cell(ls.maxRcv == 1 ? '-' : 'x ${ls.maxRcv}'),
+            cell(ls.maxRcv == 1 ? '-' : 'x ${ls.maxRcv * ls.maxRcv}'),
+          ]),
+          TableRow(children: [
+            cell('Reduce Dmg.'),
+            cell(ls.maxShield == 0 ? '-' : '${ls.maxShield} %'),
+            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(1 - ls.maxRcv, 2))} %'),
+          ]),
+        ],
+      ),
+    );
   }
 }
