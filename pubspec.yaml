@@ -37,8 +37,9 @@ dependencies:
   path_provider: ^1.1.0
 
   stack_trace: ^1.9.3
+  cached_network_image: 1.1.0
   # If updating this, need to verify cache.dart
-  cached_network_image: 1.0.0
+  flutter_cache_manager: 1.1.0
   protobuf: any
 
   # Database codegen
