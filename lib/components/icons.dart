@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 class DadGuideIcons {
+  // TODO: replace these with boxfit/width/height?
   static Widget get mp =>
       SizedBox(width: 12, height: 12, child: Image.asset('assets/images/mp_icon.png'));
+  static Widget get largeMp =>
+      Image.asset('assets/images/mp_icon.png', width: 18, height: 18, fit: BoxFit.fill);
   static Widget get srank =>
       SizedBox(width: 12, height: 12, child: Image.asset('assets/images/srank.png'));
   static Widget get enOn =>

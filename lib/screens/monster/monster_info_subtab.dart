@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
@@ -236,7 +237,18 @@ class MonsterDetailHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PadIcon(_data.monster.monsterId),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PadIcon(_data.monster.monsterId),
+            Row(
+              children: [
+                DadGuideIcons.largeMp,
+                Text(_data.monster.sellMp.toString(), style: Theme.of(context).textTheme.caption),
+              ],
+            )
+          ],
+        ),
         SizedBox(width: 4),
         Expanded(
           child: Column(
