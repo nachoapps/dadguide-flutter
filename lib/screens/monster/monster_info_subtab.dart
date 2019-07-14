@@ -93,8 +93,7 @@ class MonsterDetailContents extends StatelessWidget {
               Text('Available Killer Awoken'),
               // TODO: make this a widget; merge type2/type3 killers
               Row(children: [
-                for (var killer in monsterTypeFor(_data.monster.type1Id).killers)
-                  latentContainer(killer.id, size: 36)
+                for (var killer in _data.killers) latentContainer(killer.id, size: 36)
               ]),
 
               if (_data.activeSkill != null)

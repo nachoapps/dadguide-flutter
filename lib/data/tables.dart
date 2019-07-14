@@ -474,6 +474,14 @@ class FullMonster {
   MonsterType get type1 => monsterTypeFor(monster.type1Id);
   MonsterType get type2 => monsterTypeFor(monster.type2Id);
   MonsterType get type3 => monsterTypeFor(monster.type3Id);
+
+  Set<KillerLatent> get killers {
+    var killers = Set<KillerLatent>();
+    killers.addAll(type1.killers);
+    killers.addAll(type2?.killers ?? []);
+    killers.addAll(type3?.killers ?? []);
+    return killers;
+  }
 }
 
 class FullEvent {
