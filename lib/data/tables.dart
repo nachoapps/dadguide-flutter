@@ -574,9 +574,9 @@ class FullEvent {
         'SELECT MAX(s_rank) AS "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
     'mpForDungeon': 'SELECT MAX(mp_avg) AS "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
     'prevMonsterId':
-        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp < :monster_id',
+        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp < :monsterId',
     'nextMonsterId':
-        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp > :monster_id',
+        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters where monster_no_jp > :monsterId',
   },
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
