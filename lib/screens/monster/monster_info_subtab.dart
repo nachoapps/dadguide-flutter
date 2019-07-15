@@ -569,24 +569,29 @@ class MonsterActiveSkillSection extends StatelessWidget {
     var lvlText = skillLevels == 0
         ? 'Lv.MAX Turn : ${_skill.turnMax}'
         : 'Lv.1 Turn : ${_skill.turnMax} (Lv.$skillLevels Turn: ${_skill.turnMin})';
-    return Column(children: [
-      Row(
-        children: [
-          Text('Skill:'),
-          SizedBox(width: 8),
-          Text(_skill.nameNa, style: TextStyle(color: Colors.blue)),
-        ],
-      ),
-      SizedBox(height: 2),
-      Row(
-        children: [
-          Spacer(),
-          Text(lvlText, style: Theme.of(context).textTheme.caption),
-        ],
-      ),
-      SizedBox(height: 2),
-      Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
-    ]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FittedBox(
+          child: Row(
+            children: [
+              Text('Skill:'),
+              SizedBox(width: 8),
+              Text(_skill.nameNa, style: TextStyle(color: Colors.blue)),
+            ],
+          ),
+        ),
+        SizedBox(height: 2),
+        Row(
+          children: [
+            Spacer(),
+            Text(lvlText, style: Theme.of(context).textTheme.caption),
+          ],
+        ),
+        SizedBox(height: 2),
+        Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
+      ],
+    );
   }
 }
 
@@ -597,17 +602,22 @@ class MonsterLeaderSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: [
-          Text('Leader skill:'),
-          SizedBox(width: 8),
-          Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
-        ],
-      ),
-      SizedBox(height: 8),
-      Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
-    ]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FittedBox(
+          child: Row(
+            children: [
+              Text('Leader skill:'),
+              SizedBox(width: 8),
+              Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
+            ],
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
+      ],
+    );
   }
 }
 
