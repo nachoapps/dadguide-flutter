@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -57,16 +58,13 @@ class MonsterSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MonsterDisplayState>(context);
-    return Container(
-      color: Colors.blue,
-      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.clear_all),
-          Expanded(child: TextField()),
-          Icon(Icons.cancel),
-        ],
+    return TopTextInputBar(
+      'Search: Monster Name/No./Series',
+      InkWell(
+        child: Icon(Icons.clear_all),
+        onTap: () => Navigator.of(context).pop(),
       ),
+      Icon(Icons.cancel),
     );
   }
 }

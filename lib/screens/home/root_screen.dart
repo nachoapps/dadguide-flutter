@@ -99,6 +99,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
         body: SafeArea(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
+        resizeToAvoidBottomInset: false,
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

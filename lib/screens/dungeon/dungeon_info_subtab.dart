@@ -355,16 +355,20 @@ class DungeonDetailActionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
-      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.chevron_left),
-          Spacer(),
-          Icon(Icons.star_border),
-        ],
-      ),
-    );
+        color: Colors.blue,
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+                width: 32,
+                height: 32,
+                child: InkWell(
+                  child: Icon(Icons.chevron_left),
+                  onTap: () => Navigator.of(context).pop(),
+                )),
+            Spacer(),
+          ],
+        ));
   }
 }
 

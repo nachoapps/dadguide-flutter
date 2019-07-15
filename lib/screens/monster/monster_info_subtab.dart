@@ -5,6 +5,7 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -332,23 +333,13 @@ class TypeIconText extends StatelessWidget {
 class MonsterDetailBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-      child: Row(
-        children: <Widget>[
-          InkWell(
-            child: Icon(Icons.chevron_left),
-            onTap: () => Navigator.of(context).pop(),
-          ),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
-            ),
-          ),
-          Icon(Icons.star_border),
-        ],
+    return TopTextInputBar(
+      'Search: Monster Name/No./Series',
+      InkWell(
+        child: Icon(Icons.chevron_left),
+        onTap: () => Navigator.of(context).pop(),
       ),
+      Icon(Icons.star_border),
     );
   }
 }
