@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
@@ -14,7 +13,13 @@ class MonsterTab extends StatefulWidget {
 }
 
 class _MonsterTabState extends State<MonsterTab> {
-  final _memoizer = AsyncMemoizer<List<FullMonster>>();
+  Future<List<FullMonster>> loadingFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    loadingFuture = DatabaseHelper.instance.database.then((db) => db.allMonstersWithAwakenings);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +35,8 @@ class _MonsterTabState extends State<MonsterTab> {
   }
 
   FutureBuilder<List<FullMonster>> _searchResults() {
-    var dataFuture = _memoizer.runOnce(() async {
-      var database = await DatabaseHelper.instance.database;
-      return database.allMonstersWithAwakenings;
-    }).catchError((ex) {
-      print(ex);
-    });
-
     return FutureBuilder<List<FullMonster>>(
-        future: dataFuture,
+        future: loadingFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             print('no data!');
