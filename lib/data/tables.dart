@@ -150,15 +150,15 @@ class Evolutions extends Table {
 
   IntColumn get toId => integer()();
 
-  IntColumn get mat1Id => integer()();
+  IntColumn get mat1Id => integer().named('mat_1_id')();
 
-  IntColumn get mat2Id => integer().nullable()();
+  IntColumn get mat2Id => integer().named('mat_2_id').nullable()();
 
-  IntColumn get mat3Id => integer().nullable()();
+  IntColumn get mat3Id => integer().named('mat_3_id').nullable()();
 
-  IntColumn get mat4Id => integer().nullable()();
+  IntColumn get mat4Id => integer().named('mat_4_id').nullable()();
 
-  IntColumn get mat5Id => integer().nullable()();
+  IntColumn get mat5Id => integer().named('mat_5_id').nullable()();
 
   IntColumn get tstamp => integer()();
 }
@@ -472,9 +472,10 @@ class FullMonster {
   final int prevMonsterId;
   final int nextMonsterId;
   final List<int> skillUpMonsters;
+  final List<FullEvolution> evolutions;
 
   FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
-      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters);
+      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
@@ -489,6 +490,24 @@ class FullMonster {
     killers.addAll(type2?.killers ?? []);
     killers.addAll(type3?.killers ?? []);
     return killers;
+  }
+}
+
+class FullEvolution {
+  final Evolution evolution;
+  final Monster fromMonster;
+  final Monster toMonster;
+
+  FullEvolution(this.evolution, this.fromMonster, this.toMonster);
+
+  List<int> get evoMatIds {
+    List<int> result = [];
+    result.add(evolution.mat1Id);
+    if (evolution.mat2Id != null) result.add(evolution.mat2Id);
+    if (evolution.mat3Id != null) result.add(evolution.mat3Id);
+    if (evolution.mat4Id != null) result.add(evolution.mat4Id);
+    if (evolution.mat5Id != null) result.add(evolution.mat5Id);
+    return result;
   }
 }
 
@@ -589,6 +608,8 @@ class FullEvent {
         'SELECT monster_id AS "monsterId" FROM monsters WHERE active_skill_id = :activeSkillId',
     'seriesMonsterIds':
         'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
+    'ancestorMonsterId':
+        'SELECT from_id as "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
   },
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
@@ -621,7 +642,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
         .then((rows) {
       return Future.wait(rows.map((monster) async {
         final awakenings = await findAwakenings(monster.monsterId);
-        return FullMonster(monster, null, null, null, awakenings, null, null, []);
+        return FullMonster(monster, null, null, null, awakenings, null, null, [], []);
       }));
     });
     Fimber.d('mwa lookup complete in: ${s.elapsed}');
@@ -672,6 +693,8 @@ class DadGuideDatabase extends _$DadGuideDatabase {
         ? []
         : (await skillUpMonsterIds(resultMonster.activeSkillId)).map((x) => x.monsterId).toList();
 
+    final evolutionList = await allEvolutionsForTree(resultMonster.monsterId);
+
     var fullMonster = FullMonster(
       resultMonster,
       row.readTable(activeSkills),
@@ -681,6 +704,7 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
       nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
       skillUpMonsterIdsResult,
+      evolutionList,
     );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
@@ -697,6 +721,43 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     final result = FullSeries(seriesValue, seriesMonsters);
     Fimber.d('series lookup complete in: ${s.elapsed}');
     return result;
+  }
+
+  Future<List<FullEvolution>> allEvolutionsForTree(int monsterId) async {
+    var ancestorId = monsterId;
+    while (true) {
+      print(ancestorId);
+      var possibleAncestor = await ancestorMonsterId(ancestorId);
+      if (possibleAncestor.isNotEmpty) {
+        ancestorId = possibleAncestor.first.fromMonsterId;
+      } else {
+        break;
+      }
+    }
+
+    var ancestorMonster =
+        await (select(monsters)..where((m) => m.monsterId.equals(ancestorId))).getSingle();
+
+    List<FullEvolution> results = [];
+    var toSearch = [ancestorMonster];
+
+    while (toSearch.isNotEmpty) {
+      var fromMonster = toSearch.first;
+      toSearch.remove(fromMonster);
+
+      final query = (select(evolutions)..where((e) => e.fromId.equals(fromMonster.monsterId)))
+          .join([innerJoin(monsters, monsters.monsterId.equalsExp(evolutions.toId))]);
+
+      for (var evoRow in await query.get()) {
+        final toMonster = evoRow.readTable(monsters);
+        final evolution = evoRow.readTable(evolutions);
+
+        toSearch.add(toMonster);
+        results.add(FullEvolution(evolution, fromMonster, toMonster));
+      }
+    }
+
+    return results;
   }
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {

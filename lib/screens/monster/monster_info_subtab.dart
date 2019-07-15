@@ -129,6 +129,12 @@ class MonsterDetailContents extends StatelessWidget {
               SizedBox(height: 8),
               MonsterDropLocations(),
 
+              SizedBox(height: 8),
+              MonsterBuySellFeedSection(_data.monster),
+
+              if (_data.evolutions.isNotEmpty)
+                Padding(child: MonsterEvolutions(_data), padding: EdgeInsets.only(top: 8)),
+
               if (_data.fullSeries != null)
                 Padding(child: MonsterSeries(_data), padding: EdgeInsets.only(top: 4)),
 
@@ -579,7 +585,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
         ],
       ),
       SizedBox(height: 2),
-      Text(_skill.descNa),
+      Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
     ]);
   }
 }
@@ -600,7 +606,7 @@ class MonsterLeaderSkillSection extends StatelessWidget {
         ],
       ),
       SizedBox(height: 8),
-      Text(_skill.descNa),
+      Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
     ]);
   }
 }
@@ -616,7 +622,7 @@ class MonsterHistory extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text('History'),
-        Text('[${_data.monster.regDate}] Added'),
+        Text('[${_data.monster.regDate}] Added', style: Theme.of(context).textTheme.body2),
       ],
     );
   }
@@ -727,7 +733,7 @@ class MonsterDropLocations extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Drop Dungeons'),
-        Text('Not implemented yet =(', style: Theme.of(context).textTheme.caption),
+        Text('Not implemented yet =(', style: Theme.of(context).textTheme.body2),
       ],
     );
   }
@@ -743,8 +749,58 @@ class MonsterSkillupDropLocations extends StatelessWidget {
       children: [
         Text('Skill Up - Dungeon'),
         // TODO: if monster appears in a skill-up dungeon should not that too
-        Text('Not implemented yet =(', style: Theme.of(context).textTheme.caption),
+        Text('Not implemented yet =(', style: Theme.of(context).textTheme.body2),
       ],
+    );
+  }
+}
+
+class MonsterBuySellFeedSection extends StatelessWidget {
+  final Monster _monster;
+
+  const MonsterBuySellFeedSection(this._monster, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.body2,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Table(
+              border: TableBorder.all(width: 1.0, color: Colors.black26),
+              children: [
+                TableRow(children: [
+                  cell(''),
+                  cell('At max level'),
+                ]),
+                TableRow(children: [
+                  cell('Sell Gold'),
+                  numCell(_monster.sellGold),
+                ]),
+                TableRow(children: [
+                  cell('Sell MP'),
+                  numCell(_monster.sellMp),
+                ]),
+                if (_monster.buyMp != null)
+                  TableRow(children: [
+                    cell('Buy MP'),
+                    numCell(_monster.buyMp),
+                  ]),
+                TableRow(children: [
+                  cell('Feed XP'),
+                  numCell(_monster.fodderExp),
+                ]),
+                TableRow(children: [
+                  cell('Feed XP\n(on color)'),
+                  numCell(_monster.fodderExp * 1.5),
+                ]),
+              ],
+            ),
+          ),
+          Spacer(),
+        ],
+      ),
     );
   }
 }
@@ -764,6 +820,110 @@ class MonsterSeries extends StatelessWidget {
           for (var id in _fullMonster.fullSeries.members)
             Padding(padding: EdgeInsets.all(2), child: PadIcon(id, monsterLink: true))
         ]),
+      ],
+    );
+  }
+}
+
+class MonsterEvolutions extends StatelessWidget {
+  final FullMonster _fullMonster;
+
+  const MonsterEvolutions(this._fullMonster, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Evolution'),
+        for (var evo in _fullMonster.evolutions)
+          Padding(
+            child: MonsterEvoRow(evo),
+            padding: EdgeInsets.symmetric(vertical: 4),
+          ),
+      ],
+    );
+  }
+}
+
+class MonsterEvoRow extends StatelessWidget {
+  final FullEvolution _evo;
+
+  const MonsterEvoRow(this._evo, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var hpDiff = _evo.toMonster.hpMax - _evo.fromMonster.hpMax;
+    var atkDiff = _evo.toMonster.atkMax - _evo.fromMonster.atkMax;
+    var rcvDiff = _evo.toMonster.rcvMax - _evo.fromMonster.rcvMax;
+    var deltas = [];
+
+    if (hpDiff > 0)
+      deltas.add('HP +$hpDiff');
+    else if (hpDiff < 0) deltas.add('HP $hpDiff');
+
+    if (atkDiff > 0)
+      deltas.add('ATK +$atkDiff');
+    else if (atkDiff < 0) deltas.add('ATK $atkDiff');
+
+    if (rcvDiff > 0)
+      deltas.add('RCV +$rcvDiff');
+    else if (rcvDiff < 0) deltas.add('RCV $rcvDiff');
+
+    var statText = deltas.join(' / ');
+
+    return Table(
+      defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+      columnWidths: {
+        0: IntrinsicColumnWidth(),
+        2: IntrinsicColumnWidth(),
+        4: IntrinsicColumnWidth(),
+      },
+      children: [
+        TableRow(
+          children: [
+            PadIcon(_evo.fromMonster.monsterId),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Icon(Icons.add),
+            ),
+            Row(children: [
+              for (var matId in _evo.evoMatIds)
+                Padding(
+                  child: PadIcon(matId, size: 38),
+                  padding: EdgeInsets.symmetric(horizontal: 2),
+                ),
+            ]),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Icon(Icons.chevron_right),
+            ),
+            PadIcon(_evo.toMonster.monsterId),
+          ],
+        ),
+        TableRow(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                typeContainer(_evo.fromMonster.type1Id),
+                typeContainer(_evo.fromMonster.type2Id),
+                typeContainer(_evo.fromMonster.type3Id),
+              ],
+            ),
+            Container(),
+            Center(child: Text(statText, style: Theme.of(context).textTheme.caption)),
+            Container(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                typeContainer(_evo.toMonster.type1Id),
+                typeContainer(_evo.toMonster.type2Id),
+                typeContainer(_evo.toMonster.type3Id),
+              ],
+            ),
+          ],
+        )
       ],
     );
   }
