@@ -892,7 +892,7 @@ class MonsterEvoRow extends StatelessWidget {
       children: [
         TableRow(
           children: [
-            PadIcon(_evo.fromMonster.monsterId),
+            PadIcon(_evo.fromMonster.monsterId, monsterLink: true),
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Icon(Icons.add),
@@ -900,7 +900,7 @@ class MonsterEvoRow extends StatelessWidget {
             Row(children: [
               for (var matId in _evo.evoMatIds)
                 Padding(
-                  child: PadIcon(matId, size: 38),
+                  child: PadIcon(matId, size: 38, monsterLink: true),
                   padding: EdgeInsets.symmetric(horizontal: 2),
                 ),
             ]),
@@ -908,7 +908,7 @@ class MonsterEvoRow extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 6),
               child: Icon(Icons.chevron_right),
             ),
-            PadIcon(_evo.toMonster.monsterId),
+            PadIcon(_evo.toMonster.monsterId, monsterLink: true),
           ],
         ),
         TableRow(
