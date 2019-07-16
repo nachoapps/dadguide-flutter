@@ -39,6 +39,10 @@ class _MonsterTabState extends State<MonsterTab> {
     return FutureBuilder<List<FullMonster>>(
         future: loadingFuture,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Icon(Icons.error));
+          }
           if (!snapshot.hasData) {
             print('no data!');
             return Center(child: CircularProgressIndicator());

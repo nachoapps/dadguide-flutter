@@ -49,6 +49,10 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
     return FutureBuilder<FullDungeon>(
         future: dataFuture,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Icon(Icons.error));
+          }
           if (!snapshot.hasData) {
             print('no dungeon data!');
             return Center(child: CircularProgressIndicator());

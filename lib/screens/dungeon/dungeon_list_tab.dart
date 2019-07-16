@@ -40,6 +40,10 @@ class _DungeonTabState extends State<DungeonTab> {
     return FutureBuilder<List<ListDungeon>>(
         future: dataFuture,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Icon(Icons.error));
+          }
           if (!snapshot.hasData) {
             print('no data!');
             return Center(child: CircularProgressIndicator());

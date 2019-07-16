@@ -52,6 +52,10 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
     return FutureBuilder<FullMonster>(
         future: dataFuture,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Icon(Icons.error));
+          }
           if (!snapshot.hasData) {
             print('no data!');
             return Center(child: CircularProgressIndicator());
