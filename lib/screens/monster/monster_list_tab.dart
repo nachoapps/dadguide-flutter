@@ -14,7 +14,7 @@ class MonsterTab extends StatefulWidget {
 }
 
 class _MonsterTabState extends State<MonsterTab> {
-  Future<List<FullMonster>> loadingFuture;
+  Future<List<WithAwakeningsMonster>> loadingFuture;
 
   @override
   void initState() {
@@ -35,8 +35,8 @@ class _MonsterTabState extends State<MonsterTab> {
     );
   }
 
-  FutureBuilder<List<FullMonster>> _searchResults() {
-    return FutureBuilder<List<FullMonster>>(
+  FutureBuilder<List<WithAwakeningsMonster>> _searchResults() {
+    return FutureBuilder<List<WithAwakeningsMonster>>(
         future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -48,12 +48,13 @@ class _MonsterTabState extends State<MonsterTab> {
             return Center(child: CircularProgressIndicator());
           }
 
-          print('got data! ${snapshot.data.length}');
+          var data = snapshot.data;
+          print('got data! ${data.length}');
 
-          return ListView(
-              children: snapshot.data.map((monster) {
-            return MonsterListRow(monster);
-          }).toList());
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) => MonsterListRow(data[index]),
+          );
         });
   }
 }
@@ -166,7 +167,7 @@ class MonsterDisplayState with ChangeNotifier {
 }
 
 class MonsterListRow extends StatelessWidget {
-  final FullMonster _model;
+  final WithAwakeningsMonster _model;
   const MonsterListRow(this._model, {Key key}) : super(key: key);
 
   @override

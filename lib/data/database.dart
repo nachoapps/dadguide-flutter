@@ -4,7 +4,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import 'tables.dart';
+import 'package:dadguide2/data/tables.dart';
 
 class DatabaseHelper {
   // TODO: make this injected

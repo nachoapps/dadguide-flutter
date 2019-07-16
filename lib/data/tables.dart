@@ -493,6 +493,20 @@ class FullMonster {
   }
 }
 
+class WithAwakeningsMonster {
+  final Monster monster;
+  final List<Awakening> _awakenings;
+
+  WithAwakeningsMonster(this.monster, this._awakenings);
+
+  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
+  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
+
+  MonsterType get type1 => monsterTypeFor(monster.type1Id);
+  MonsterType get type2 => monsterTypeFor(monster.type2Id);
+  MonsterType get type3 => monsterTypeFor(monster.type3Id);
+}
+
 class FullEvolution {
   final Evolution evolution;
   final Monster fromMonster;
@@ -597,9 +611,8 @@ class FullEvent {
     Timestamps,
   ],
   queries: {
-    'srankForDungeon':
-        'SELECT MAX(s_rank) AS "sRank" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
-    'mpForDungeon': 'SELECT MAX(mp_avg) AS "mpAvg" FROM sub_dungeons WHERE dungeon_id = :dungeonId',
+    'mpAndSrankForDungeons':
+        'SELECT dungeon_id AS "dungeonId", MAX(mp_avg) AS "mpAvg", MAX(s_rank) AS "sRank" FROM sub_dungeons GROUP BY dungeon_id',
     'prevMonsterId':
         'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp < :monsterId',
     'nextMonsterId':
@@ -632,43 +645,54 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     return await sss.get();
   }
 
-  // TODO: change this to a more specific type
-  Future<List<FullMonster>> get allMonstersWithAwakenings {
-    Fimber.d('doing full dungeon lookup');
+  Future<List<WithAwakeningsMonster>> get allMonstersWithAwakenings async {
+    Fimber.d('doing monster with awakenings lookup');
     var s = new Stopwatch()..start();
-    var results = (select(monsters)
+
+    final awakeningResults = await select(awakenings).get();
+
+    var monsterAwakenings = Map<int, List<Awakening>>();
+    awakeningResults.forEach((a) {
+      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
+    });
+
+    var results = await (select(monsters)
           ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]))
         .get()
-        .then((rows) {
-      return Future.wait(rows.map((monster) async {
-        final awakenings = await findAwakenings(monster.monsterId);
-        return FullMonster(monster, null, null, null, awakenings, null, null, [], []);
-      }));
-    });
-    Fimber.d('mwa lookup complete in: ${s.elapsed}');
+        .then((rows) => rows.map((m) {
+              var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
+                ..sort((a, b) => a.orderIdx - b.orderIdx);
+              return WithAwakeningsMonster(m, awakeningList);
+            }).toList());
+
+    Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
 
     return results;
   }
 
-  Future<List<ListDungeon>> get allListDungeons {
+  Future<List<ListDungeon>> get allListDungeons async {
     var s = new Stopwatch()..start();
     final query = select(dungeons).join([
       leftOuterJoin(monsters, dungeons.iconId.equalsExp(monsters.monsterId)),
     ]);
 
-    var results = query.get().then((rows) {
+    var mpAndSrankResults =
+        Map.fromIterable(await mpAndSrankForDungeons(), key: (r) => r.dungeonId);
+
+    var results = await query.get().then((rows) {
       return Future.wait(rows.map((row) async {
         var dungeon = row.readTable(dungeons);
         var iconMonster = row.readTable(monsters);
-        var sRank = (await srankForDungeon(dungeon.dungeonId)).first;
-        var mpAvg = (await mpForDungeon(dungeon.dungeonId)).first;
 
-        return ListDungeon(dungeon, iconMonster, sRank?.sRank, mpAvg?.mpAvg);
+        var mpAndSrankValue = mpAndSrankResults[dungeon.dungeonId];
+        var mpAvgValue = mpAndSrankValue?.mpAvg;
+        var sRankValue = mpAndSrankValue?.sRank;
+
+        return ListDungeon(dungeon, iconMonster, sRankValue, mpAvgValue);
       }));
     });
 
     Fimber.d('list dungeon lookup complete in: ${s.elapsed}');
-
     return results;
   }
 
