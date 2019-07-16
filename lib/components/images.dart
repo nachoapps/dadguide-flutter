@@ -34,7 +34,7 @@ class PadIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var finalIconId = iconId ?? 0;
-    var url = _imageUrl('icons', iconId, 5);
+    var url = _imageUrl('icons', finalIconId, 5);
     var container = _sizedContainer(_loadingImage(url), size);
     if (monsterLink && isMonsterId(finalIconId)) {
       return wrapMonsterLink(context, container, finalIconId, ink: ink);
