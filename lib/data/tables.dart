@@ -571,6 +571,12 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   }
 }
 
+class MonsterSearchArgs {
+  final String text;
+
+  MonsterSearchArgs({this.text = ''});
+}
+
 @UseDao(
   tables: [
     ActiveSkills,
@@ -598,8 +604,8 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
   MonstersDao(DadGuideDatabase db) : super(db);
 
-  Future<List<WithAwakeningsMonster>> allMonstersWithAwakenings() async {
-    Fimber.d('doing monster with awakenings lookup');
+  Future<List<ListMonster>> findListMonsters(MonsterSearchArgs args) async {
+    Fimber.d('doing list monster lookup');
     var s = new Stopwatch()..start();
 
     final awakeningResults = await select(awakenings).get();
@@ -609,14 +615,18 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
     });
 
-    var results = await (select(monsters)
-          ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]))
-        .get()
-        .then((rows) => rows.map((m) {
-              var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
-                ..sort((a, b) => a.orderIdx - b.orderIdx);
-              return WithAwakeningsMonster(m, awakeningList);
-            }).toList());
+    var query = select(monsters)
+      ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]);
+
+    if (args.text.isNotEmpty) {
+      query.where((m) => m.nameNa.like('%${args.text}%'));
+    }
+
+    var results = await query.get().then((rows) => rows.map((m) {
+          var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
+            ..sort((a, b) => a.orderIdx - b.orderIdx);
+          return ListMonster(m, awakeningList);
+        }).toList());
 
     Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
 

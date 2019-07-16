@@ -72,6 +72,7 @@ class DungeonSearchBar extends StatelessWidget {
         onTap: () => Navigator.of(context).pop(),
       ),
       Icon(Icons.cancel),
+      (t) => {},
     );
   }
 }

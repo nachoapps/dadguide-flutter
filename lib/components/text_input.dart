@@ -4,8 +4,10 @@ class TopTextInputBar extends StatelessWidget {
   final String _hintText;
   final Widget _leftWidget;
   final Widget _rightWidget;
+  final void Function(String) _onSubmitted;
 
-  const TopTextInputBar(this._hintText, this._leftWidget, this._rightWidget, {Key key})
+  const TopTextInputBar(this._hintText, this._leftWidget, this._rightWidget, this._onSubmitted,
+      {Key key})
       : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class TopTextInputBar extends StatelessWidget {
             SizedBox(width: 32, height: 32, child: _leftWidget),
             Expanded(
               child: TextField(
+                onSubmitted: _onSubmitted,
                 decoration: InputDecoration(
                   border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
                   focusedBorder:

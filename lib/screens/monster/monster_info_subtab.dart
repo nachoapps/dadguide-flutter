@@ -345,6 +345,7 @@ class MonsterDetailBar extends StatelessWidget {
         onTap: () => Navigator.of(context).pop(),
       ),
       Icon(Icons.star_border),
+      (t) => {},
     );
   }
 }

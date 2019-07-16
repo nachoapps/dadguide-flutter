@@ -103,11 +103,11 @@ class FullMonster {
   }
 }
 
-class WithAwakeningsMonster {
+class ListMonster {
   final Monster monster;
   final List<Awakening> _awakenings;
 
-  WithAwakeningsMonster(this.monster, this._awakenings);
+  ListMonster(this.monster, this._awakenings);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
