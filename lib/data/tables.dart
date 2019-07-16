@@ -1,9 +1,8 @@
-import 'package:collection/collection.dart';
-import 'package:dadguide2/components/enums.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+
+import 'data_objects.dart';
 
 part 'tables.g.dart';
 
@@ -393,207 +392,12 @@ class Timestamps extends Table {
   Set<Column> get primaryKey => {name};
 }
 
-class ListDungeon {
-  final Dungeon dungeon;
-  final Monster iconMonster;
-  final int maxScore;
-  final int maxAvgMp;
-
-  ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp);
-}
-
-class FullDungeon {
-  final Dungeon dungeon;
-  final List<SubDungeon> subDungeons;
-  final FullSubDungeon selectedSubDungeon;
-
-  FullDungeon(this.dungeon, this.subDungeons, this.selectedSubDungeon);
-}
-
-class FullSubDungeon {
-  final SubDungeon subDungeon;
-  final List<FullEncounter> encounters;
-  final List<Battle> battles;
-
-  FullSubDungeon(this.subDungeon, this.encounters) : battles = _computeBattles(encounters);
-
-  FullEncounter get bossEncounter => battles.isEmpty ? null : battles.last.encounters.last;
-
-  String mpText() {
-    final mp = subDungeon.mpAvg ?? 0;
-    final mpPerStam = (mp / subDungeon.stamina).toStringAsFixed(2);
-    return '$mp ($mpPerStam / Stamina';
-  }
-
-  List<int> get rewardIconIds => (subDungeon.rewardIconIds ?? '')
-      .split(',')
-      .where((x) => num.tryParse(x) != null)
-      .map((x) => int.parse(x))
-      .toList();
-
-  static List<Battle> _computeBattles(List<FullEncounter> encounters) {
-    return groupBy(encounters, (x) => x.encounter.stage)
-        .entries
-        .map((e) => Battle(
-            e.key, e.value.toList()..sort((l, r) => l.encounter.orderIdx - r.encounter.orderIdx)))
-        .toList()
-          ..sort((l, r) => l.stage - r.stage);
-  }
-}
-
-class FullSeries {
-  final SeriesData series;
-  final List<int> members;
-
-  FullSeries(this.series, this.members);
-}
-
-class FullEncounter {
-  final Encounter encounter;
-  final Monster monster;
-  final List<Drop> drops;
-
-  FullEncounter(this.encounter, this.monster, this.drops);
-}
-
-class Battle {
-  final int stage;
-  final List<FullEncounter> encounters;
-
-  Battle(this.stage, this.encounters);
-}
-
-class FullMonster {
-  final Monster monster;
-  final ActiveSkill activeSkill;
-  final LeaderSkill leaderSkill;
-  final FullSeries fullSeries;
-  final List<Awakening> _awakenings;
-  final int prevMonsterId;
-  final int nextMonsterId;
-  final List<int> skillUpMonsters;
-  final List<FullEvolution> evolutions;
-
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
-      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions);
-
-  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
-  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
-
-  MonsterType get type1 => monsterTypeFor(monster.type1Id);
-  MonsterType get type2 => monsterTypeFor(monster.type2Id);
-  MonsterType get type3 => monsterTypeFor(monster.type3Id);
-
-  Set<KillerLatent> get killers {
-    var killers = Set<KillerLatent>();
-    killers.addAll(type1.killers);
-    killers.addAll(type2?.killers ?? []);
-    killers.addAll(type3?.killers ?? []);
-    return killers;
-  }
-}
-
-class WithAwakeningsMonster {
-  final Monster monster;
-  final List<Awakening> _awakenings;
-
-  WithAwakeningsMonster(this.monster, this._awakenings);
-
-  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
-  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
-
-  MonsterType get type1 => monsterTypeFor(monster.type1Id);
-  MonsterType get type2 => monsterTypeFor(monster.type2Id);
-  MonsterType get type3 => monsterTypeFor(monster.type3Id);
-}
-
-class FullEvolution {
-  final Evolution evolution;
-  final Monster fromMonster;
-  final Monster toMonster;
-
-  FullEvolution(this.evolution, this.fromMonster, this.toMonster);
-
-  List<int> get evoMatIds {
-    List<int> result = [];
-    result.add(evolution.mat1Id);
-    if (evolution.mat2Id != null) result.add(evolution.mat2Id);
-    if (evolution.mat3Id != null) result.add(evolution.mat3Id);
-    if (evolution.mat4Id != null) result.add(evolution.mat4Id);
-    if (evolution.mat5Id != null) result.add(evolution.mat5Id);
-    return result;
-  }
-}
-
-class FullEvent {
-  static final DateFormat longFormat = DateFormat.MMMd().add_jm();
-  static final DateFormat shortFormat = DateFormat.jm();
-
-  final ScheduleEvent _event;
-  final Dungeon _dungeon;
-
-  final DateTime _startTime;
-  final DateTime _endTime;
-
-  FullEvent(this._event, this._dungeon)
-      : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp * 1000, isUtc: true),
-        _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp * 1000, isUtc: true);
-
-  ScheduleEvent get event => _event;
-
-  Dungeon get dungeon => _dungeon;
-
-  String headerText() {
-    String text = _dungeon?.nameNa ?? _event.infoNa;
-    if (_event.groupName != null) {
-      text = '[${event.groupName}] $text';
-    }
-    return text ?? 'error';
-  }
-
-  String underlineText(DateTime displayedDate) {
-    String text = '';
-    if (!isOpen()) {
-      text = _adjDate(displayedDate, _startTime);
-    }
-    text += ' ~ ';
-    text += _adjDate(displayedDate, _endTime);
-
-    int deltaDays = _daysUntilClose();
-    if (deltaDays > 0) {
-      text += ' [$deltaDays Days]';
-    }
-    return text;
-  }
-
-  int get iconId => _dungeon?.iconId ?? _event.iconId ?? 0;
-
-  DateTime get startTime => _startTime;
-
-  DateTime get endTime => _endTime;
-
-  bool isOpen() {
-    var now = DateTime.now();
-    return startTime.isBefore(now) && endTime.isAfter(now);
-  }
-
-  String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
-    displayedDate = displayedDate.toLocal();
-    timeToDisplay = timeToDisplay.toLocal();
-    if (displayedDate.day != timeToDisplay.day) {
-      return longFormat.format(timeToDisplay);
-    } else {
-      return shortFormat.format(timeToDisplay);
-    }
-  }
-
-  int _daysUntilClose() {
-    var now = DateTime.now();
-    return now.difference(_endTime).inDays;
-  }
-}
-
 @UseMoor(
+  daos: [
+    DungeonsDao,
+    MonstersDao,
+    ScheduleDao,
+  ],
   tables: [
     ActiveSkills,
     Awakenings,
@@ -610,20 +414,7 @@ class FullEvent {
 //  SkillCondition,
     Timestamps,
   ],
-  queries: {
-    'mpAndSrankForDungeons':
-        'SELECT dungeon_id AS "dungeonId", MAX(mp_avg) AS "mpAvg", MAX(s_rank) AS "sRank" FROM sub_dungeons GROUP BY dungeon_id',
-    'prevMonsterId':
-        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp < :monsterId',
-    'nextMonsterId':
-        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp > :monsterId',
-    'skillUpMonsterIds':
-        'SELECT monster_id AS "monsterId" FROM monsters WHERE active_skill_id = :activeSkillId',
-    'seriesMonsterIds':
-        'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
-    'ancestorMonsterId':
-        'SELECT from_id as "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
-  },
+  queries: {},
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
   DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: false));
@@ -639,36 +430,62 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     });
   }
 
-  Future<List<Monster>> get allMonsters async {
-    var sss = select(monsters)
-      ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]);
-    return await sss.get();
+  Future<int> maxTstamp(TableInfo info) async {
+    var result = await customSelect('SELECT MAX(tstamp) AS tstamp from ${info.actualTableName}');
+    return result.first.readInt('tstamp');
   }
 
-  Future<List<WithAwakeningsMonster>> get allMonstersWithAwakenings async {
-    Fimber.d('doing monster with awakenings lookup');
+  Future<void> upsertData<TD extends Table, D extends DataClass>(
+      TableInfo<TD, D> info, Insertable<D> entity) async {
+    await into(info).insert(entity, orReplace: true);
+  }
+}
+
+@UseDao(
+  tables: [
+    Dungeons,
+    Schedule,
+  ],
+)
+class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoMixin {
+  ScheduleDao(DadGuideDatabase db) : super(db);
+
+  Future<List<FullEvent>> fullEvents() {
     var s = new Stopwatch()..start();
+    final query = (select(schedule).join([
+      leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
+    ]));
 
-    final awakeningResults = await select(awakenings).get();
-
-    var monsterAwakenings = Map<int, List<Awakening>>();
-    awakeningResults.forEach((a) {
-      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
+    var results = query.get().then((rows) {
+      return rows.map((row) {
+        return FullEvent(row.readTable(schedule), row.readTable(dungeons));
+      }).toList();
     });
 
-    var results = await (select(monsters)
-          ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]))
-        .get()
-        .then((rows) => rows.map((m) {
-              var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
-                ..sort((a, b) => a.orderIdx - b.orderIdx);
-              return WithAwakeningsMonster(m, awakeningList);
-            }).toList());
-
-    Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
-
+    Fimber.d('events lookup complete in: ${s.elapsed}');
     return results;
   }
+
+  Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
+}
+
+@UseDao(
+  tables: [
+    Awakenings,
+    Drops,
+    Dungeons,
+    Encounters,
+    Evolutions,
+    Monsters,
+    SubDungeons,
+  ],
+  queries: {
+    'mpAndSrankForDungeons':
+        'SELECT dungeon_id AS "dungeonId", MAX(mp_avg) AS "mpAvg", MAX(s_rank) AS "sRank" FROM sub_dungeons GROUP BY dungeon_id',
+  },
+)
+class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoMixin {
+  DungeonsDao(DadGuideDatabase db) : super(db);
 
   Future<List<ListDungeon>> get allListDungeons async {
     var s = new Stopwatch()..start();
@@ -697,6 +514,114 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<List<Dungeon>> get allDungeons => select(dungeons).get();
+
+  Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
+    var s = new Stopwatch()..start();
+    Fimber.d('doing full dungeon lookup');
+    final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
+    final dungeonItem = (await dungeonQuery.get()).first;
+
+    final subDungeonsQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
+    var subDungeonList = await subDungeonsQuery.get();
+
+    subDungeonId = subDungeonId ?? subDungeonList.first.subDungeonId;
+    var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);
+    Fimber.d('dungeon lookup complete in: ${s.elapsed}');
+
+    return FullDungeon(dungeonItem, subDungeonList, fullSubDungeon);
+  }
+
+  Future<FullSubDungeon> lookupFullSubDungeon(int subDungeonId) async {
+    var s = new Stopwatch()..start();
+    final subDungeonQuery = select(subDungeons)
+      ..where((sd) => sd.subDungeonId.equals(subDungeonId));
+    final subDungeonItem = (await subDungeonQuery.get()).first;
+    final fullEncountersList = await lookupFullEncounters(subDungeonId);
+
+    Fimber.d('subdungeon lookup complete in: ${s.elapsed}');
+
+    return FullSubDungeon(subDungeonItem, fullEncountersList);
+  }
+
+  Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
+    var s = new Stopwatch()..start();
+    final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
+      leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
+    ]);
+
+    var results = await query.get().then((rows) {
+      return Future.wait(rows.map((row) async {
+        var encounter = row.readTable(encounters);
+        var monster = row.readTable(monsters);
+        var dropList = await findDrops(encounter.encounterId);
+        return FullEncounter(encounter, monster, dropList);
+      }).toList());
+    });
+
+    Fimber.d('encounter lookup complete in: ${s.elapsed}');
+
+    return results;
+  }
+
+  Future<List<Drop>> findDrops(int encounterId) async {
+    var query = select(drops)
+      ..where((d) => d.encounterId.equals(encounterId))
+      ..orderBy([(d) => OrderingTerm(expression: d.monsterId)]);
+    return (await query.get()).toList();
+  }
+}
+
+@UseDao(
+  tables: [
+    ActiveSkills,
+    Awakenings,
+    Evolutions,
+    LeaderSkills,
+    Monsters,
+    Series,
+  ],
+  queries: {
+    'mpAndSrankForDungeons':
+        'SELECT dungeon_id AS "dungeonId", MAX(mp_avg) AS "mpAvg", MAX(s_rank) AS "sRank" FROM sub_dungeons GROUP BY dungeon_id',
+    'prevMonsterId':
+        'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp < :monsterId',
+    'nextMonsterId':
+        'SELECT MIN(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp > :monsterId',
+    'skillUpMonsterIds':
+        'SELECT monster_id AS "monsterId" FROM monsters WHERE active_skill_id = :activeSkillId',
+    'seriesMonsterIds':
+        'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
+    'ancestorMonsterId':
+        'SELECT from_id as "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
+  },
+)
+class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
+  MonstersDao(DadGuideDatabase db) : super(db);
+
+  Future<List<WithAwakeningsMonster>> allMonstersWithAwakenings() async {
+    Fimber.d('doing monster with awakenings lookup');
+    var s = new Stopwatch()..start();
+
+    final awakeningResults = await select(awakenings).get();
+
+    var monsterAwakenings = Map<int, List<Awakening>>();
+    awakeningResults.forEach((a) {
+      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
+    });
+
+    var results = await (select(monsters)
+          ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]))
+        .get()
+        .then((rows) => rows.map((m) {
+              var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
+                ..sort((a, b) => a.orderIdx - b.orderIdx);
+              return WithAwakeningsMonster(m, awakeningList);
+            }).toList());
+
+    Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
+
+    return results;
+  }
 
   Future<FullMonster> fullMonster(int monsterId) async {
     var s = new Stopwatch()..start();
@@ -784,93 +709,10 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     return results;
   }
 
-  Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
-    var s = new Stopwatch()..start();
-    Fimber.d('doing full dungeon lookup');
-    final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
-    final dungeonItem = (await dungeonQuery.get()).first;
-
-    final subDungeonsQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
-    var subDungeonList = await subDungeonsQuery.get();
-
-    subDungeonId = subDungeonId ?? subDungeonList.first.subDungeonId;
-    var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);
-    Fimber.d('dungeon lookup complete in: ${s.elapsed}');
-
-    return FullDungeon(dungeonItem, subDungeonList, fullSubDungeon);
-  }
-
-  Future<FullSubDungeon> lookupFullSubDungeon(int subDungeonId) async {
-    var s = new Stopwatch()..start();
-    final subDungeonQuery = select(subDungeons)
-      ..where((sd) => sd.subDungeonId.equals(subDungeonId));
-    final subDungeonItem = (await subDungeonQuery.get()).first;
-    final fullEncountersList = await lookupFullEncounters(subDungeonId);
-
-    Fimber.d('subdungeon lookup complete in: ${s.elapsed}');
-
-    return FullSubDungeon(subDungeonItem, fullEncountersList);
-  }
-
-  Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
-    var s = new Stopwatch()..start();
-    final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
-      leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
-    ]);
-
-    var results = await query.get().then((rows) {
-      return Future.wait(rows.map((row) async {
-        var encounter = row.readTable(encounters);
-        var monster = row.readTable(monsters);
-        var dropList = await findDrops(encounter.encounterId);
-        return FullEncounter(encounter, monster, dropList);
-      }).toList());
-    });
-
-    Fimber.d('encounter lookup complete in: ${s.elapsed}');
-
-    return results;
-  }
-
-  Future<List<Drop>> findDrops(int encounterId) async {
-    var query = select(drops)
-      ..where((d) => d.encounterId.equals(encounterId))
-      ..orderBy([(d) => OrderingTerm(expression: d.monsterId)]);
-    return (await query.get()).toList();
-  }
-
   Future<List<Awakening>> findAwakenings(int monsterId) async {
     final query = select(awakenings)
       ..where((a) => a.monsterId.equals(monsterId))
       ..orderBy([(a) => OrderingTerm(expression: a.orderIdx)]);
     return (await query.get()).toList();
-  }
-
-  Future<List<FullEvent>> fullEvents() {
-    var s = new Stopwatch()..start();
-    final query = (select(schedule).join([
-      leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
-    ]));
-
-    var results = query.get().then((rows) {
-      return rows.map((row) {
-        return FullEvent(row.readTable(schedule), row.readTable(dungeons));
-      }).toList();
-    });
-
-    Fimber.d('events lookup complete in: ${s.elapsed}');
-    return results;
-  }
-
-  Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
-
-  Future<int> maxTstamp(TableInfo info) async {
-    var result = await customSelect('SELECT MAX(tstamp) AS tstamp from ${info.actualTableName}');
-    return result.first.readInt('tstamp');
-  }
-
-  Future<void> upsertData<TD extends Table, D extends DataClass>(
-      TableInfo<TD, D> info, Insertable<D> entity) async {
-    await into(info).insert(entity, orReplace: true);
   }
 }

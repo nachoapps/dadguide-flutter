@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class _MonsterTabState extends State<MonsterTab> {
   @override
   void initState() {
     super.initState();
-    loadingFuture = DatabaseHelper.instance.database.then((db) => db.allMonstersWithAwakenings);
+    loadingFuture =
+        DatabaseHelper.instance.database.then((db) => db.monstersDao.allMonstersWithAwakenings());
   }
 
   @override

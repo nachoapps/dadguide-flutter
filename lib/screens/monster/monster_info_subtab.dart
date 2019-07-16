@@ -6,6 +6,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   FutureBuilder<FullMonster> _retrieveMonster() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.fullMonster(_args.monsterId);
+      return database.monstersDao.fullMonster(_args.monsterId);
     }).catchError((ex) {
       print(ex);
     });

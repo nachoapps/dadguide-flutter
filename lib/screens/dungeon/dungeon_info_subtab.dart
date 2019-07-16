@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   FutureBuilder<FullDungeon> _retrieveDungeon() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.lookupFullDungeon(_args.dungeonId);
+      return database.dungeonsDao.lookupFullDungeon(_args.dungeonId);
     }).catchError((ex) {
       print(ex);
     });

@@ -3,6 +3,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _DungeonTabState extends State<DungeonTab> {
   FutureBuilder<List<ListDungeon>> _searchResults() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.allListDungeons;
+      return database.dungeonsDao.allListDungeons;
     });
 
     return FutureBuilder<List<ListDungeon>>(
