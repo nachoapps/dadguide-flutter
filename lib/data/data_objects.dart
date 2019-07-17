@@ -90,9 +90,9 @@ class FullMonster {
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
 
-  MonsterType get type1 => monsterTypeFor(monster.type1Id);
-  MonsterType get type2 => monsterTypeFor(monster.type2Id);
-  MonsterType get type3 => monsterTypeFor(monster.type3Id);
+  MonsterType get type1 => MonsterType.byId(monster.type1Id);
+  MonsterType get type2 => MonsterType.byId(monster.type2Id);
+  MonsterType get type3 => MonsterType.byId(monster.type3Id);
 
   Set<KillerLatent> get killers {
     var killers = Set<KillerLatent>();
@@ -112,9 +112,9 @@ class ListMonster {
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
 
-  MonsterType get type1 => monsterTypeFor(monster.type1Id);
-  MonsterType get type2 => monsterTypeFor(monster.type2Id);
-  MonsterType get type3 => monsterTypeFor(monster.type3Id);
+  MonsterType get type1 => MonsterType.byId(monster.type1Id);
+  MonsterType get type2 => MonsterType.byId(monster.type2Id);
+  MonsterType get type3 => MonsterType.byId(monster.type3Id);
 }
 
 class FullEvolution {

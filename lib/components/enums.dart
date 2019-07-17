@@ -1,53 +1,98 @@
 class MonsterType {
+  const MonsterType._(this.id, this.name, this.killers);
+
   final int id;
   final String name;
   final List<KillerLatent> killers;
 
-  MonsterType(this.id, this.name, this.killers);
+  static const MonsterType evoMat = MonsterType._(0, 'Evo Material', []);
+  static const MonsterType balanced = MonsterType._(1, 'Balanced', [
+    KillerLatent.god,
+    KillerLatent.dragon,
+    KillerLatent.devil,
+    KillerLatent.machine,
+    KillerLatent.balanced,
+    KillerLatent.attacker,
+    KillerLatent.physical,
+    KillerLatent.healer,
+  ]);
+  static const MonsterType physical = MonsterType._(2, 'Physical', [
+    KillerLatent.machine,
+    KillerLatent.healer,
+  ]);
+  static const MonsterType healer = MonsterType._(3, 'Healer', [
+    KillerLatent.dragon,
+    KillerLatent.attacker,
+  ]);
+  static const MonsterType dragon = MonsterType._(4, 'Dragon', [
+    KillerLatent.machine,
+    KillerLatent.healer,
+  ]);
+  static const MonsterType god = MonsterType._(5, 'God', [KillerLatent.devil]);
+  static const MonsterType attacker = MonsterType._(6, 'Attacker', [
+    KillerLatent.devil,
+    KillerLatent.physical,
+  ]);
+  static const MonsterType devil = MonsterType._(7, 'Devil', [KillerLatent.god]);
+  static const MonsterType machine = MonsterType._(8, 'Machine', [
+    KillerLatent.god,
+    KillerLatent.balanced,
+  ]);
+  static const MonsterType enhance = MonsterType._(12, 'Enhance', []);
+  static const MonsterType awoken = MonsterType._(14, 'Awoken', []);
+  static const MonsterType vendor = MonsterType._(15, 'Vendor', []);
+
+  static const List<MonsterType> allTypes = [
+    evoMat,
+    balanced,
+    physical,
+    healer,
+    dragon,
+    god,
+    attacker,
+    devil,
+    machine,
+    enhance,
+    awoken,
+    vendor
+  ];
+
+  static final _lookup = Map.fromIterable(allTypes, key: (mt) => mt.id);
+
+  static MonsterType byId(int id) {
+    return _lookup[id];
+  }
 }
-
-MonsterType monsterTypeFor(int id) {
-  return _monsterLookup[id];
-}
-
-var _allMonsterTypes = [
-  MonsterType(0, 'Evo Material', []),
-  MonsterType(1, 'Balanced', [
-    _godKiller,
-    _dragonKiller,
-    _devilKiller,
-    _machineKiller,
-    _balancedKiller,
-    _attackerKiller,
-    _physicalKiller,
-    _healerKiller,
-  ]),
-  MonsterType(2, 'Physical', [_machineKiller, _healerKiller]),
-  MonsterType(3, 'Healer', [_dragonKiller, _attackerKiller]),
-  MonsterType(4, 'Dragon', [_machineKiller, _healerKiller]),
-  MonsterType(5, 'God', [_devilKiller]),
-  MonsterType(6, 'Attacker', [_devilKiller, _physicalKiller]),
-  MonsterType(7, 'Devil', [_godKiller]),
-  MonsterType(8, 'Machine', [_godKiller, _balancedKiller]),
-  MonsterType(12, 'Enhance', []),
-  MonsterType(14, 'Awoken', []),
-  MonsterType(15, 'Vendor', []),
-];
-
-var _monsterLookup = Map.fromIterable(_allMonsterTypes, key: (mt) => mt.id);
 
 class KillerLatent {
-  int id;
-  String name;
+  final int id;
+  final String name;
 
-  KillerLatent(this.id, this.name);
+  const KillerLatent._(this.id, this.name);
+
+  static const KillerLatent god = KillerLatent._(20, 'God');
+  static const KillerLatent dragon = KillerLatent._(21, 'Dragon');
+  static const KillerLatent devil = KillerLatent._(22, 'Devil');
+  static const KillerLatent machine = KillerLatent._(23, 'Machine');
+  static const KillerLatent balanced = KillerLatent._(24, 'Balanced');
+  static const KillerLatent attacker = KillerLatent._(25, 'Attacker');
+  static const KillerLatent physical = KillerLatent._(26, 'Physical');
+  static const KillerLatent healer = KillerLatent._(27, 'Healer');
+
+  static const List<KillerLatent> allTypes = [
+    god,
+    dragon,
+    devil,
+    machine,
+    balanced,
+    attacker,
+    physical,
+    healer,
+  ];
+
+  static final _lookup = Map.fromIterable(allTypes, key: (k) => k.id);
+
+  static MonsterType byId(int id) {
+    return _lookup[id];
+  }
 }
-
-var _godKiller = KillerLatent(20, 'God');
-var _dragonKiller = KillerLatent(21, 'Dragon');
-var _devilKiller = KillerLatent(22, 'Devil');
-var _machineKiller = KillerLatent(23, 'Machine');
-var _balancedKiller = KillerLatent(24, 'Balanced');
-var _attackerKiller = KillerLatent(25, 'Attacker');
-var _physicalKiller = KillerLatent(26, 'Physical');
-var _healerKiller = KillerLatent(27, 'Healer');
