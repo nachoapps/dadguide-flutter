@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:async/async.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
-import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +21,15 @@ class MonsterDetailScreen extends StatefulWidget {
 
 class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   final MonsterDetailArgs _args;
-  final _memoizer = AsyncMemoizer<FullMonster>();
+  Future<FullMonster> loadingFuture;
 
   _MonsterDetailScreenState(this._args);
+
+  @override
+  void initState() {
+    super.initState();
+    loadingFuture = getIt<MonstersDao>().fullMonster(_args.monsterId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +47,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   }
 
   FutureBuilder<FullMonster> _retrieveMonster() {
-    var dataFuture = _memoizer.runOnce(() async {
-      var database = await DatabaseHelper.instance.database;
-      return database.monstersDao.fullMonster(_args.monsterId);
-    }).catchError((ex) {
-      print(ex);
-    });
-
     return FutureBuilder<FullMonster>(
-        future: dataFuture,
+        future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -75,6 +72,9 @@ class MonsterDetailContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var activeSkill = _data.activeSkill;
+    bool hasSkillups = activeSkill != null && activeSkill.turnMin != activeSkill.turnMax;
+
     return Column(
       children: [
         MonsterDetailPortrait(_data),
@@ -84,6 +84,7 @@ class MonsterDetailContents extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Comment here to maintain spacing.
               MonsterDetailHeader(_data),
 
               SizedBox(height: 4),
@@ -93,23 +94,34 @@ class MonsterDetailContents extends StatelessWidget {
               Text('+297 & fully awoken'),
               MonsterWeightedStatTable(_data),
 
-              SizedBox(height: 4),
-              Text('Stat bonus when assisting'),
-              MonsterAssistStatTable(_data),
+              if (_data.monster.inheritable)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 4),
+                    Text('Stat bonus when assisting'),
+                    MonsterAssistStatTable(_data),
+                  ],
+                ),
 
-              SizedBox(height: 4),
-              Text('Available Killer Awoken'),
-              // TODO: make this a widget; merge type2/type3 killers
-              Row(children: [
-                for (var killer in _data.killers) latentContainer(killer.id, size: 36)
-              ]),
+              if (_data.killers.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 4),
+                    Text('Available Killer Awoken'),
+                    Row(children: [
+                      for (var killer in _data.killers) latentContainer(killer.id, size: 36)
+                    ]),
+                  ],
+                ),
 
-              if (_data.activeSkill != null)
+              if (activeSkill != null)
                 Divider(),
 
-              if (_data.activeSkill != null)
+              if (activeSkill != null)
                 Padding(
-                    child: MonsterActiveSkillSection(_data.activeSkill),
+                    child: MonsterActiveSkillSection(activeSkill),
                     padding: EdgeInsets.only(top: 4)),
 
               if (_data.leaderSkill != null)
@@ -123,13 +135,13 @@ class MonsterDetailContents extends StatelessWidget {
               if (_data.leaderSkill != null)
                 Padding(child: MonsterLeaderInfoTable(_data), padding: EdgeInsets.only(top: 4)),
 
-              if (_data.activeSkill != null)
+              if (hasSkillups)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: MonsterSkillups(_data.skillUpMonsters),
                 ),
 
-              if (_data.activeSkill != null)
+              if (hasSkillups)
                 Padding(child: MonsterSkillupDropLocations(), padding: EdgeInsets.only(top: 4)),
 
               SizedBox(height: 8),
@@ -338,16 +350,27 @@ class TypeIconText extends StatelessWidget {
 class MonsterDetailBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TopTextInputBar(
-      '',
-      'Search: Monster Name/No./Series',
-      InkWell(
-        child: Icon(Icons.chevron_left),
-        onTap: () => Navigator.of(context).pop(),
-      ),
-      Icon(Icons.star_border),
-      (t) => {},
-    );
+    return Container(
+        color: Colors.blue,
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: InkWell(
+                child: Icon(Icons.chevron_left),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ),
+            Spacer(),
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: Icon(Icons.star_border),
+            ),
+          ],
+        ));
   }
 }
 
@@ -410,14 +433,15 @@ class MonsterLevelStatTable extends StatelessWidget {
             numCell(m.rcvMin),
             numCell(0),
           ]),
-          TableRow(children: [
-            numCell(m.level),
-            numCell(m.hpMax),
-            numCell(m.atkMax),
-            numCell(m.rcvMax),
-            numCell(m.exp),
-          ]),
-          if (limitMult > 1)
+          if (m.level != 1)
+            TableRow(children: [
+              numCell(m.level),
+              numCell(m.hpMax),
+              numCell(m.atkMax),
+              numCell(m.rcvMax),
+              numCell(m.exp),
+            ]),
+          if (limitMult > 100)
             TableRow(children: [
               numCell(110),
               numCell(m.hpMax * limitMult ~/ 100),
