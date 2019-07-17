@@ -100,36 +100,48 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         resizeToAvoidBottomInset: false,
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              title: Text('Event'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.format_line_spacing),
-              title: Text('Monster'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Dungeon'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.move_to_inbox),
-              title: Text('Util'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Setting'),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          onTap: _onItemTapped,
-        ),
+        bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
       ),
+    );
+  }
+}
+
+class BottomNavOptions extends StatelessWidget {
+  final int selectedIdx;
+  final void Function(int) onTap;
+
+  BottomNavOptions(this.selectedIdx, this.onTap);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_today),
+          title: Text('Event'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.format_line_spacing),
+          title: Text('Monster'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          title: Text('Dungeon'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.move_to_inbox),
+          title: Text('Util'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          title: Text('Setting'),
+        ),
+      ],
+      currentIndex: selectedIdx,
+      selectedItemColor: Colors.amber[800],
+      unselectedItemColor: Colors.grey,
+      showUnselectedLabels: true,
+      onTap: onTap,
     );
   }
 }
