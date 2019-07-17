@@ -66,6 +66,7 @@ class DungeonSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<DungeonDisplayState>(context);
     return TopTextInputBar(
+      '',
       'Search: Dungeon name',
       InkWell(
         child: Icon(Icons.clear_all),

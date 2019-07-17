@@ -2,54 +2,34 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/screens/monster/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonsterTab extends StatefulWidget {
+class MonsterTab extends StatelessWidget {
   MonsterTab({Key key}) : super(key: key);
-
-  @override
-  _MonsterTabState createState() => _MonsterTabState();
-}
-
-class _MonsterTabState extends State<MonsterTab> {
-  var displayState = MonsterDisplayState();
-  Future<List<ListMonster>> loadingFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _doSearch();
-    displayState.addListener(() {
-      setState(() {
-        _doSearch();
-      });
-    });
-  }
-
-  void _doSearch() {
-    loadingFuture = DatabaseHelper.instance.database
-        .then((db) => db.monstersDao.findListMonsters(displayState.searchArgs));
-  }
 
   @override
   Widget build(BuildContext context) {
     print('adding a monstertab');
-    return ChangeNotifierProvider(
-      builder: (context) => displayState,
+    return ChangeNotifierProvider<MonsterDisplayState>(
+      builder: (_) => MonsterDisplayState(),
       child: Column(children: <Widget>[
         MonsterSearchBar(),
-        Expanded(child: _searchResults()),
+        Expanded(child: MonsterList()),
         MonsterDisplayOptionsBar(),
       ]),
     );
   }
+}
 
-  FutureBuilder<List<ListMonster>> _searchResults() {
-    return FutureBuilder<List<ListMonster>>(
-        future: loadingFuture,
+class MonsterList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<MonsterDisplayState>(context);
+    return StreamBuilder<List<ListMonster>>(
+        stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -61,6 +41,11 @@ class _MonsterTabState extends State<MonsterTab> {
           }
 
           var data = snapshot.data;
+          if (data == null) {
+            print('null data!');
+            return Center(child: CircularProgressIndicator());
+          }
+
           print('got data! ${data.length}');
 
           return ListView.builder(
@@ -75,16 +60,20 @@ class MonsterSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MonsterDisplayState>(context);
+    var searchText = controller.searchArgs.text;
     return TopTextInputBar(
+      searchText,
       'Search: Monster Name/No./Series',
       InkWell(
         child: Icon(Icons.clear_all),
         onTap: () => Navigator.of(context).pop(),
       ),
-      Icon(Icons.cancel),
-      (t) {
-        controller.searchText = t;
-      },
+      InkWell(
+        child: Icon(Icons.cancel),
+        onTap: () => controller.clearSearch(),
+      ),
+      (t) => controller.searchText = t,
+      key: ValueKey(searchText),
     );
   }
 }
@@ -136,7 +125,9 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
 class MonsterSort {}
 
 class MonsterDisplayState with ChangeNotifier {
-  MonsterSearchArgs _searchArgs = MonsterSearchArgs();
+  final searchBloc = MonsterSearchBloc();
+  final searchArgs = MonsterSearchArgs();
+
   bool _favoritesOnly = false;
   bool _sortNew = false;
   bool _pictureMode = false;
@@ -144,18 +135,22 @@ class MonsterDisplayState with ChangeNotifier {
   MonsterSort _customSort = MonsterSort();
   bool _showAwakenings = false;
 
-  MonsterSearchArgs get searchArgs => _searchArgs;
+  set searchText(String text) {
+    searchArgs.text = text;
+    searchBloc.search(searchArgs);
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    searchText = '';
+  }
+
   bool get favoritesOnly => _favoritesOnly;
   bool get sortNew => _sortNew;
   bool get pictureMode => _pictureMode;
   bool get useCustomSort => _useCustomSort;
   MonsterSort get customSort => _customSort;
   bool get showAwakenings => _showAwakenings;
-
-  set searchText(String text) {
-    _searchArgs = MonsterSearchArgs(text: text);
-    notifyListeners();
-  }
 
   set showAwakenings(bool value) {
     _showAwakenings = value;

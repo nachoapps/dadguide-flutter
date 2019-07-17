@@ -572,7 +572,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 }
 
 class MonsterSearchArgs {
-  final String text;
+  String text;
 
   MonsterSearchArgs({this.text = ''});
 }

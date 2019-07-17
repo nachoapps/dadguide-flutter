@@ -339,6 +339,7 @@ class MonsterDetailBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TopTextInputBar(
+      '',
       'Search: Monster Name/No./Series',
       InkWell(
         child: Icon(Icons.chevron_left),

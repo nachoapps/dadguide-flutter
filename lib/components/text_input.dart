@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class TopTextInputBar extends StatelessWidget {
+  final String _displayText;
   final String _hintText;
   final Widget _leftWidget;
   final Widget _rightWidget;
   final void Function(String) _onSubmitted;
 
-  const TopTextInputBar(this._hintText, this._leftWidget, this._rightWidget, this._onSubmitted,
-      {Key key})
-      : super(key: key);
+  const TopTextInputBar(
+    this._displayText,
+    this._hintText,
+    this._leftWidget,
+    this._rightWidget,
+    this._onSubmitted, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +25,9 @@ class TopTextInputBar extends StatelessWidget {
           children: <Widget>[
             SizedBox(width: 32, height: 32, child: _leftWidget),
             Expanded(
-              child: TextField(
-                onSubmitted: _onSubmitted,
+              child: TextFormField(
+                initialValue: _displayText,
+                onFieldSubmitted: _onSubmitted,
                 decoration: InputDecoration(
                   border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
                   focusedBorder:
