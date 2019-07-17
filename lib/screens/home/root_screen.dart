@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
@@ -6,7 +7,9 @@ import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/screens/utils/utils_tab.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
@@ -53,8 +56,6 @@ class StatefulHomeScreen extends StatefulWidget {
 }
 
 class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
-  int _selectedIndex = 0;
-
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
@@ -84,6 +85,28 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     ),
   ];
 
+  int _selectedIndex = 0;
+  BannerAd bannerAd;
+
+  @override
+  void initState() {
+    bannerAd = createBannerAd();
+    bannerAd.load().then((v) {
+      Fimber.i('Ad loaded: $v');
+      bannerAd.show().then((v) {
+        Fimber.i('Ad shown: $v');
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    if (bannerAd != null) {
+      bannerAd.dispose();
+      bannerAd = null;
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -95,12 +118,17 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     return WillPopScope(
       onWillPop: () async =>
           !await _widgetOptions[_selectedIndex].navigatorKey.currentState.maybePop(),
-      child: Scaffold(
-        body: SafeArea(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Scaffold(
+              body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
+              resizeToAvoidBottomInset: false,
+              bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
+            ),
+          ),
+          SizedBox(height: getSmartBannerHeight(context)),
+        ],
       ),
     );
   }
