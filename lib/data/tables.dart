@@ -469,6 +469,12 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
   Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
 }
 
+class DungeonSearchArgs {
+  String text;
+
+  DungeonSearchArgs({this.text = ''});
+}
+
 @UseDao(
   tables: [
     Awakenings,
@@ -487,11 +493,16 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
 class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoMixin {
   DungeonsDao(DadGuideDatabase db) : super(db);
 
-  Future<List<ListDungeon>> get allListDungeons async {
+  Future<List<ListDungeon>> findListDungeons(DungeonSearchArgs args) async {
     var s = new Stopwatch()..start();
     final query = select(dungeons).join([
       leftOuterJoin(monsters, dungeons.iconId.equalsExp(monsters.monsterId)),
-    ]);
+    ])
+      ..orderBy([OrderingTerm(mode: OrderingMode.desc, expression: dungeons.dungeonId)]);
+
+    if (args.text.isNotEmpty) {
+      query.where(dungeons.nameNa.like('%${args.text}%'));
+    }
 
     var mpAndSrankResults =
         Map.fromIterable(await mpAndSrankForDungeons(), key: (r) => r.dungeonId);
@@ -512,8 +523,6 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     Fimber.d('list dungeon lookup complete in: ${s.elapsed}');
     return results;
   }
-
-  Future<List<Dungeon>> get allDungeons => select(dungeons).get();
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
     var s = new Stopwatch()..start();

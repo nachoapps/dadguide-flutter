@@ -67,7 +67,7 @@ class MonsterSearchBar extends StatelessWidget {
       'Search: Monster Name/No./Series',
       InkWell(
         child: Icon(Icons.clear_all),
-        onTap: () => Navigator.of(context).pop(),
+        onTap: () => Navigator.of(context).maybePop(),
       ),
       InkWell(
         child: Icon(Icons.cancel),

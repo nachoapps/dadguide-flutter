@@ -9,15 +9,10 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DungeonTab extends StatefulWidget {
+import 'dungeon_search_bloc.dart';
+
+class DungeonTab extends StatelessWidget {
   DungeonTab({Key key}) : super(key: key);
-
-  @override
-  _DungeonTabState createState() => _DungeonTabState();
-}
-
-class _DungeonTabState extends State<DungeonTab> {
-  final _memoizer = AsyncMemoizer<List<ListDungeon>>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +21,19 @@ class _DungeonTabState extends State<DungeonTab> {
       builder: (context) => DungeonDisplayState(),
       child: Column(children: <Widget>[
         DungeonSearchBar(),
-        Expanded(child: _searchResults()),
+        Expanded(child: DungeonList()),
         DungeonDisplayOptionsBar(),
       ]),
     );
   }
+}
 
-  FutureBuilder<List<ListDungeon>> _searchResults() {
-    var dataFuture = _memoizer.runOnce(() async {
-      var database = await DatabaseHelper.instance.database;
-      return database.dungeonsDao.allListDungeons;
-    });
-
-    return FutureBuilder<List<ListDungeon>>(
-        future: dataFuture,
+class DungeonList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<DungeonDisplayState>(context);
+    return StreamBuilder<List<ListDungeon>>(
+        stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -51,6 +45,11 @@ class _DungeonTabState extends State<DungeonTab> {
           }
 
           var data = snapshot.data;
+          if (data == null) {
+            print('null data!');
+            return Center(child: CircularProgressIndicator());
+          }
+
           print('got data! ${data.length}');
 
           return ListView.builder(
@@ -65,15 +64,20 @@ class DungeonSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<DungeonDisplayState>(context);
+    var searchText = controller.searchArgs.text;
     return TopTextInputBar(
-      '',
+      searchText,
       'Search: Dungeon name',
       InkWell(
         child: Icon(Icons.clear_all),
-        onTap: () => Navigator.of(context).pop(),
+        onTap: () => Navigator.of(context).maybePop(),
       ),
-      Icon(Icons.cancel),
-      (t) => {},
+      InkWell(
+        child: Icon(Icons.cancel),
+        onTap: () => controller.clearSearch(),
+      ),
+      (t) => controller.searchText = t,
+      key: ValueKey(searchText),
     );
   }
 }
@@ -120,11 +124,24 @@ class DungeonSort {}
 enum DungeonType { special, normal, technical, multiplayer }
 
 class DungeonDisplayState with ChangeNotifier {
+  final searchBloc = DungeonSearchBloc();
+  final searchArgs = DungeonSearchArgs();
+
   DungeonType _selectedType = DungeonType.special;
   DungeonSort _customSort = DungeonSort();
 
   DungeonType get selectedType => _selectedType;
   DungeonSort get customSort => _customSort;
+
+  set searchText(String text) {
+    searchArgs.text = text;
+    searchBloc.search(searchArgs);
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    searchText = '';
+  }
 
   set selectedType(DungeonType value) {
     _selectedType = value;
