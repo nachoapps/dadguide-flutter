@@ -90,6 +90,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     bannerAd = createBannerAd();
     bannerAd.load().then((v) {
       Fimber.i('Ad loaded: $v');
@@ -101,6 +102,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     if (bannerAd != null) {
       bannerAd.dispose();
       bannerAd = null;
