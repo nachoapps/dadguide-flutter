@@ -1,52 +1,82 @@
+import 'dart:ui' as ui;
+
+import 'package:dadguide2/components/enums.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:preferences/preferences.dart';
+import 'package:tuple/tuple.dart';
 
-// TODO: probably can combine this into a more concrete class that wraps this stuff
-// TODO: should add something to enforce good values in prefInit
-// TODO: use constants for pref names
+class PrefKeys {
+  static const currentDbVersion = 'current_db_version';
+  static const iconsDownloaded = 'icons_downloaded';
 
-enum LangPref {
-  english,
-  japanese,
-  korean,
+  static const uiLanguage = 'ui_language';
+  static const infoLanguage = 'info_language';
+  static const gameCountry = 'game_country';
+  static const eventCountry = 'event_country';
+
+  static const eventsHideClosed = 'events_hide_closed';
+  static const eventsShowRed = 'events_show_red';
+  static const eventsShowBlue = 'events_show_blue';
+  static const eventsShowGreen = 'events_show_green';
 }
 
-final langPrefValues = [
-  LangPref.english.index,
-  LangPref.japanese.index,
-  LangPref.korean.index,
-];
-
-final langPrefDisplayValues = [
-  langToString(LangPref.english),
-  langToString(LangPref.japanese),
-  langToString(LangPref.korean),
-];
-
-String langToString(LangPref pref) {
-  switch (pref) {
-    case LangPref.english:
-      return 'English';
-    case LangPref.japanese:
-      return 'Japanese';
-    case LangPref.korean:
-      return 'Korean';
-    default:
-      throw 'Unexpected enum value: ${pref.index}';
+class Prefs {
+  static Future<void> init() async {
+    await PrefService.init();
+    PrefService.setDefaultValues({
+      PrefKeys.currentDbVersion: 0,
+      PrefKeys.iconsDownloaded: false,
+      PrefKeys.uiLanguage: defaultUiLanguageValue,
+      PrefKeys.infoLanguage: defaultInfoLanguageValue,
+      PrefKeys.gameCountry: defaultGameCountryValue,
+      PrefKeys.eventCountry: defaultEventCountryValue,
+      PrefKeys.eventsHideClosed: true,
+      PrefKeys.eventsShowRed: true,
+      PrefKeys.eventsShowBlue: true,
+      PrefKeys.eventsShowGreen: true,
+    });
   }
-}
 
-int langToValue(LangPref pref) {
-  return pref.index;
-}
+  static Tuple2<Language, Country> get _defaultLanguageCountry {
+    var locale = ui.window.locale;
+    if (locale == null) {
+      Fimber.e('Locale was null, defaulting to english/na');
+      return Tuple2(Language.EN, Country.NA);
+    } else if (['ja', 'jpx'].contains(locale.languageCode)) {
+      return Tuple2(Language.JA, Country.JP);
+    } else if (locale.languageCode.startsWith('zh')) {
+      return Tuple2(Language.JA, Country.JP);
+    } else if (['ko'].contains(locale.languageCode)) {
+      return Tuple2(Language.KO, Country.KR);
+    } else {
+      return Tuple2(Language.EN, Country.NA);
+    }
+  }
 
-Future<void> preferenceInit() async {
-  await PrefService.init(prefix: 'pref_');
-  PrefService.setDefaultValues({
-    'info_language': langToValue(LangPref.english),
-    'events_hide_closed': true,
-    'events_show_red': true,
-    'events_show_blue': true,
-    'events_show_green': true,
-    'icons_downloaded': false,
-  });
+  static int get defaultUiLanguageValue => _defaultLanguageCountry.item1.id;
+  static int get defaultInfoLanguageValue => _defaultLanguageCountry.item1.id;
+  static int get defaultGameCountryValue => _defaultLanguageCountry.item2.id;
+  static int get defaultEventCountryValue => _defaultLanguageCountry.item2.id;
+
+  static List<int> get languageValues => Language.all.map((l) => l.id);
+  static List<String> get languageDisplayValues => Language.all.map((l) => l.languageName);
+
+  static List<int> get countryValues => Country.all.map((l) => l.id);
+  static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName);
+
+  static void setCurrentDbVersion(int val) {
+    PrefService.setInt(PrefKeys.currentDbVersion, val);
+  }
+
+  static void setIconsDownloaded(bool val) {
+    PrefService.setBool(PrefKeys.iconsDownloaded, val);
+  }
+
+  static void setInfoLanguage(int val) {
+    PrefService.setInt(PrefKeys.infoLanguage, val);
+  }
+
+  static void setEventCountry(int val) {
+    PrefService.setInt(PrefKeys.eventCountry, val);
+  }
 }

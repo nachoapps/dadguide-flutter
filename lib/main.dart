@@ -34,7 +34,7 @@ void main() async {
   // Sample bottom banner
   // ca-app-pub-3940256099942544/6300978111
 
-  await preferenceInit();
+  await Prefs.init();
   initializeServiceLocator();
   runApp(DadGuideApp());
 }

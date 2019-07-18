@@ -42,7 +42,7 @@ class MonsterType {
   static const MonsterType awoken = MonsterType._(14, 'Awoken', []);
   static const MonsterType vendor = MonsterType._(15, 'Vendor', []);
 
-  static const List<MonsterType> allTypes = [
+  static const List<MonsterType> all = [
     evoMat,
     balanced,
     physical,
@@ -57,7 +57,7 @@ class MonsterType {
     vendor
   ];
 
-  static final _lookup = Map.fromIterable(allTypes, key: (mt) => mt.id);
+  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
 
   static MonsterType byId(int id) {
     return _lookup[id];
@@ -79,7 +79,7 @@ class KillerLatent {
   static const KillerLatent physical = KillerLatent._(26, 'Physical');
   static const KillerLatent healer = KillerLatent._(27, 'Healer');
 
-  static const List<KillerLatent> allTypes = [
+  static const List<KillerLatent> all = [
     god,
     dragon,
     devil,
@@ -90,9 +90,57 @@ class KillerLatent {
     healer,
   ];
 
-  static final _lookup = Map.fromIterable(allTypes, key: (k) => k.id);
+  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
 
   static MonsterType byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class Language {
+  final int id;
+  final String languageName;
+  final String languageCode;
+
+  const Language._(this.id, this.languageName, this.languageCode);
+
+  static const Language EN = Language._(1, 'English', 'EN');
+  static const Language JA = Language._(2, 'Japanese', 'JP');
+  static const Language KO = Language._(3, 'Korean', 'KR');
+
+  static const List<Language> all = [
+    EN,
+    JA,
+    KO,
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+
+  static Language byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class Country {
+  final int id;
+  final String countryName;
+  final String countryCode;
+
+  const Country._(this.id, this.countryName, this.countryCode);
+
+  static const Country NA = Country._(1, 'North America', 'NA');
+  static const Country JP = Country._(2, 'Japan', 'JP');
+  static const Country KR = Country._(3, 'Korea', 'KR');
+
+  static const List<Country> all = [
+    NA,
+    JP,
+    KR,
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+
+  static Country byId(int id) {
     return _lookup[id];
   }
 }
