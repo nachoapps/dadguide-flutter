@@ -58,11 +58,11 @@ class Prefs {
   static int get defaultGameCountryValue => _defaultLanguageCountry.item2.id;
   static int get defaultEventCountryValue => _defaultLanguageCountry.item2.id;
 
-  static List<int> get languageValues => Language.all.map((l) => l.id);
-  static List<String> get languageDisplayValues => Language.all.map((l) => l.languageName);
+  static List<int> get languageValues => Language.all.map((l) => l.id).toList();
+  static List<String> get languageDisplayValues => Language.all.map((l) => l.languageName).toList();
 
-  static List<int> get countryValues => Country.all.map((l) => l.id);
-  static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName);
+  static List<int> get countryValues => Country.all.map((l) => l.id).toList();
+  static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName).toList();
 
   static void setCurrentDbVersion(int val) {
     PrefService.setInt(PrefKeys.currentDbVersion, val);
