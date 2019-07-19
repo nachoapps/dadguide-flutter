@@ -270,7 +270,7 @@ class ScheduleDisplayState with ChangeNotifier {
   List<StarterDragon> starters = Prefs.eventStarters;
   bool hideClosed = Prefs.eventHideClosed;
 
-  void set currentEventDate(DateTime date) {
+  set currentEventDate(DateTime date) {
     _currentEventDate = _toStartOfDay(date);
     notifyListeners();
   }
