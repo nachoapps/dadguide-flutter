@@ -1,56 +1,56 @@
-import 'package:async/async.dart';
+import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
-class EventTab extends StatefulWidget {
+import 'event_search_bloc.dart';
+
+class EventTab extends StatelessWidget {
   EventTab({Key key}) : super(key: key);
-
-  @override
-  EventTabState createState() => EventTabState();
-}
-
-class EventTabState extends State<EventTab> {
-  final _memoizer = AsyncMemoizer<List<FullEvent>>();
 
   @override
   Widget build(BuildContext context) {
     print('adding an eventtab');
     return ChangeNotifierProvider(
-      builder: (context) => ScheduleEventDisplayState(),
+      builder: (context) => ScheduleDisplayState(),
       child: Column(children: <Widget>[
         EventSearchBar(),
-        Expanded(child: _searchResults()),
+        Expanded(child: EventList()),
         DateSelectBar(),
       ]),
     );
   }
+}
 
-  FutureBuilder<List<FullEvent>> _searchResults() {
-    var dataFuture = _memoizer.runOnce(() async {
-      var database = await DatabaseHelper.instance.database;
-      return await database.scheduleDao.fullEvents();
-    }).catchError((ex) {
-      print(ex);
-    });
-
-    return FutureBuilder<List<FullEvent>>(
-        future: dataFuture,
+class EventList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<ScheduleDisplayState>(context);
+    displayState.searchArgs.tab = ScheduleTabKey.all;
+    return StreamBuilder<List<ListEvent>>(
+        stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            Fimber.e('Error loading data', ex: snapshot.error);
+            return Center(child: Icon(Icons.error));
+          }
           if (!snapshot.hasData) {
-            print('no data!');
             return Center(child: CircularProgressIndicator());
           }
-          print('got data! ${snapshot.data.length}');
 
-          return ListView(
-              children: snapshot.data.map((event) {
-            return ScheduleEventRow(event);
-          }).toList());
+          var data = snapshot.data;
+          return data == null
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) => EventListRow(data[index]),
+                );
         });
   }
 }
@@ -125,9 +125,9 @@ class DateSelectBar extends StatelessWidget {
   }
 }
 
-class ScheduleEventRow extends StatelessWidget {
-  final FullEvent _model;
-  const ScheduleEventRow(this._model, {Key key}) : super(key: key);
+class EventListRow extends StatelessWidget {
+  final ListEvent _model;
+  const EventListRow(this._model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -161,4 +161,7 @@ class ScheduleEventRow extends StatelessWidget {
   }
 }
 
-class ScheduleEventDisplayState with ChangeNotifier {}
+class ScheduleDisplayState with ChangeNotifier {
+  final searchBloc = EventSearchBloc();
+  final searchArgs = EventSearchArgs();
+}

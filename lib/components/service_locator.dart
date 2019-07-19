@@ -22,4 +22,5 @@ void initializeServiceLocator({bool dev: true}) async {
   getIt.registerSingleton<DadGuideDatabase>(db);
   getIt.registerSingleton<MonstersDao>(db.monstersDao);
   getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
+  getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
 }

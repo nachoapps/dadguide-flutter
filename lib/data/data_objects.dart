@@ -135,7 +135,7 @@ class FullEvolution {
   }
 }
 
-class FullEvent {
+class ListEvent {
   static final DateFormat longFormat = DateFormat.MMMd().add_jm();
   static final DateFormat shortFormat = DateFormat.jm();
 
@@ -145,7 +145,7 @@ class FullEvent {
   final DateTime _startTime;
   final DateTime _endTime;
 
-  FullEvent(this._event, this._dungeon)
+  ListEvent(this._event, this._dungeon)
       : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp * 1000, isUtc: true),
         _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp * 1000, isUtc: true);
 

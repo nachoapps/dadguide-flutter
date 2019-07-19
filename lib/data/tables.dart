@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/enums.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
@@ -441,6 +442,15 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 }
 
+class EventSearchArgs {
+  List<Country> servers = Country.all;
+  List<StarterDragon> starters = StarterDragon.all;
+  ScheduleTabKey tab = ScheduleTabKey.all;
+
+  List<int> get serverIds => servers.map((c) => c.id).toList();
+  List<String> get starterNames => starters.map((s) => s.nameCode).toList();
+}
+
 @UseDao(
   tables: [
     Dungeons,
@@ -450,19 +460,19 @@ class DadGuideDatabase extends _$DadGuideDatabase {
 class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoMixin {
   ScheduleDao(DadGuideDatabase db) : super(db);
 
-  Future<List<FullEvent>> fullEvents() {
+  Future<List<ListEvent>> findListEvents(EventSearchArgs args) async {
     var s = new Stopwatch()..start();
     final query = (select(schedule).join([
       leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
     ]));
 
-    var results = query.get().then((rows) {
+    var results = await query.get().then((rows) {
       return rows.map((row) {
-        return FullEvent(row.readTable(schedule), row.readTable(dungeons));
+        return ListEvent(row.readTable(schedule), row.readTable(dungeons));
       }).toList();
     });
 
-    Fimber.d('events lookup complete in: ${s.elapsed}');
+    Fimber.d('events lookup complete in: ${s.elapsed} with ${results.length} values');
     return results;
   }
 

@@ -41,15 +41,15 @@ class Prefs {
     var locale = ui.window.locale;
     if (locale == null) {
       Fimber.e('Locale was null, defaulting to english/na');
-      return Tuple2(Language.EN, Country.NA);
+      return Tuple2(Language.en, Country.na);
     } else if (['ja', 'jpx'].contains(locale.languageCode)) {
-      return Tuple2(Language.JA, Country.JP);
+      return Tuple2(Language.ja, Country.jp);
     } else if (locale.languageCode.startsWith('zh')) {
-      return Tuple2(Language.JA, Country.JP);
+      return Tuple2(Language.ja, Country.jp);
     } else if (['ko'].contains(locale.languageCode)) {
-      return Tuple2(Language.KO, Country.KR);
+      return Tuple2(Language.ko, Country.kr);
     } else {
-      return Tuple2(Language.EN, Country.NA);
+      return Tuple2(Language.en, Country.na);
     }
   }
 
