@@ -93,6 +93,7 @@ class EventList extends StatelessWidget {
     var displayState = Provider.of<ScheduleDisplayState>(context);
 
     return ChangeNotifierProvider(
+        key: UniqueKey(),
         builder: (context) => ScheduleTabState(displayState.servers, displayState.starters, _tabKey,
             _currentEventDate, displayState.hideClosed),
         child: EventListContents());
@@ -192,7 +193,8 @@ class DateSelectBar extends StatelessWidget {
               child: FlatButton(
                 onPressed: () => DatePicker.showDatePicker(
                   context,
-                  minTime: _currentEventDate,
+                  currentTime: _currentEventDate,
+                  minTime: DateTime.now().subtract(Duration(days: 1)),
                   maxTime: _currentEventDate.add(Duration(days: 30)),
                   onConfirm: (d) => displayState.currentEventDate = d,
                 ),
