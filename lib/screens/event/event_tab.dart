@@ -17,22 +17,81 @@ class EventTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('adding an eventtab');
-    return ChangeNotifierProvider(
-      builder: (context) => ScheduleDisplayState(),
-      child: Column(children: <Widget>[
-        EventSearchBar(),
-        Expanded(child: EventList()),
-        DateSelectBar(),
-      ]),
+    return DefaultTabController(
+      length: 4,
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(40),
+          child: EventListHeader(),
+        ),
+        body: ChangeNotifierProvider(
+          builder: (context) => ScheduleDisplayState(),
+          child: Column(children: <Widget>[
+            Expanded(child: EventListTabs()),
+            DateSelectBar(),
+          ]),
+        ),
+      ),
     );
   }
 }
 
+class EventListHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      flexibleSpace: Row(
+        children: <Widget>[
+          InkWell(
+              onTap: () => print('hi'),
+              child: SizedBox(width: 60, height: 40, child: Icon(Icons.event))),
+          Flexible(
+            child: TabBar(tabs: [
+              Tab(text: 'All'),
+              Tab(text: 'Guerrilla'),
+              Tab(text: 'Special'),
+              Tab(text: 'News'),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EventListTabs extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TabBarView(children: <Widget>[
+      EventList(ScheduleTabKey.all),
+      EventList(ScheduleTabKey.guerrilla),
+      EventList(ScheduleTabKey.special),
+      EventList(ScheduleTabKey.news),
+    ]);
+  }
+}
+
 class EventList extends StatelessWidget {
+  final ScheduleTabKey _tabKey;
+
+  EventList(this._tabKey);
+
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<ScheduleDisplayState>(context);
-    displayState.searchArgs.tab = ScheduleTabKey.all;
+
+    return ChangeNotifierProvider(
+        builder: (context) =>
+            ScheduleTabState(displayState.servers, displayState.starters, _tabKey),
+        child: EventListContents());
+  }
+}
+
+class EventListContents extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<ScheduleTabState>(context);
     return StreamBuilder<List<ListEvent>>(
         stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
@@ -162,6 +221,22 @@ class EventListRow extends StatelessWidget {
 }
 
 class ScheduleDisplayState with ChangeNotifier {
+  List<Country> servers = Country.all;
+  List<StarterDragon> starters = StarterDragon.all;
+}
+
+class ScheduleTabState with ChangeNotifier {
   final searchBloc = EventSearchBloc();
-  final searchArgs = EventSearchArgs();
+
+  final List<Country> servers;
+  final List<StarterDragon> starters;
+  final ScheduleTabKey tab;
+
+  ScheduleTabState(this.servers, this.starters, this.tab) {
+    search();
+  }
+
+  void search() {
+    searchBloc.search(EventSearchArgs.from(servers, starters, tab));
+  }
 }

@@ -447,6 +447,9 @@ class EventSearchArgs {
   List<StarterDragon> starters = StarterDragon.all;
   ScheduleTabKey tab = ScheduleTabKey.all;
 
+  EventSearchArgs();
+  EventSearchArgs.from(this.servers, this.starters, this.tab);
+
   List<int> get serverIds => servers.map((c) => c.id).toList();
   List<String> get starterNames => starters.map((s) => s.nameCode).toList();
 }

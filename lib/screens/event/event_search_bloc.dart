@@ -10,9 +10,7 @@ class EventSearchBloc {
 
   final _counterController = StreamController<List<ListEvent>>();
 
-  EventSearchBloc() : _dao = getIt<ScheduleDao>() {
-    _counterController.onListen = () => search(EventSearchArgs());
-  }
+  EventSearchBloc() : _dao = getIt<ScheduleDao>();
 
   StreamSink<List<ListEvent>> get _resultSink => _counterController.sink;
   Stream<List<ListEvent>> get searchResults => _counterController.stream;
