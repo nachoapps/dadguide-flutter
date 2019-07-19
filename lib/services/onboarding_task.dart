@@ -68,9 +68,10 @@ class OnboardingTask with TaskPublisher {
       }
     }
 
-    finishStream();
-
     await DatabaseHelper.instance.reloadDb();
+    await tryInitializeServiceLocatorDb(true);
+
+    finishStream();
   }
 
   Future<void> _downloadDb() async {

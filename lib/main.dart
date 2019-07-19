@@ -36,6 +36,7 @@ void main() async {
 
   await Prefs.init();
   initializeServiceLocator();
+  await tryInitializeServiceLocatorDb(false);
   runApp(DadGuideApp());
 }
 
@@ -99,7 +100,7 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
     if (await onboardingManager.mustRun()) {
       Fimber.i('Navigating to onboarding');
       Navigator.pushReplacementNamed(context, '/onboarding');
-      onboardingManager.start().then((_) => _goHome(context));
+      onboardingManager.start();
     } else {
       _goHome(context);
     }

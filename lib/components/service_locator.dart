@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt();
 
-void initializeServiceLocator({bool dev: true}) async {
+void initializeServiceLocator({bool dev: true}) {
   getIt.registerSingleton<PermanentCacheManager>(PermanentCacheManager());
   var dio = Dio();
   if (dev) {
@@ -17,10 +17,18 @@ void initializeServiceLocator({bool dev: true}) async {
 
   var endpoints = dev ? DevEndpoints() : ProdEndpoints();
   getIt.registerSingleton<Endpoints>(endpoints);
+}
 
-  var db = await DatabaseHelper.instance.database;
-  getIt.registerSingleton<DadGuideDatabase>(db);
-  getIt.registerSingleton<MonstersDao>(db.monstersDao);
-  getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
-  getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
+Future<void> tryInitializeServiceLocatorDb(bool throwOnFailure) async {
+  try {
+    var db = await DatabaseHelper.instance.database;
+    getIt.registerSingleton<DadGuideDatabase>(db);
+    getIt.registerSingleton<MonstersDao>(db.monstersDao);
+    getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
+    getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
+  } catch (e) {
+    if (throwOnFailure) {
+      throw e;
+    }
+  }
 }
