@@ -31,6 +31,8 @@ class Prefs {
     ];
   }
 
+  static bool get eventHideClosed => PrefService.getBool(PrefKeys.eventsHideClosed);
+
   static Future<void> init() async {
     await PrefService.init();
     PrefService.setDefaultValues({
@@ -82,11 +84,13 @@ class Prefs {
     PrefService.setBool(PrefKeys.iconsDownloaded, val);
   }
 
-  static void setInfoLanguage(int val) {
+  static void setAllLanguage(int val) {
     PrefService.setInt(PrefKeys.infoLanguage, val);
+    PrefService.setInt(PrefKeys.uiLanguage, val);
   }
 
-  static void setEventCountry(int val) {
+  static void setAllCountry(int val) {
     PrefService.setInt(PrefKeys.eventCountry, val);
+    PrefService.setInt(PrefKeys.gameCountry, val);
   }
 }

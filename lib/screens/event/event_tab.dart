@@ -7,10 +7,20 @@ import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'event_search_bloc.dart';
+
+DateTime _toStartOfDay(DateTime time) {
+  return DateTime(time.year, time.month, time.day);
+}
+
+var _currentEventDate = _toStartOfDay(DateTime.now());
+final _dateFormatter = DateFormat.MMMMd();
 
 class EventTab extends StatelessWidget {
   EventTab({Key key}) : super(key: key);
@@ -83,8 +93,8 @@ class EventList extends StatelessWidget {
     var displayState = Provider.of<ScheduleDisplayState>(context);
 
     return ChangeNotifierProvider(
-        builder: (context) =>
-            ScheduleTabState(displayState.servers, displayState.starters, _tabKey),
+        builder: (context) => ScheduleTabState(displayState.servers, displayState.starters, _tabKey,
+            _currentEventDate, displayState.hideClosed),
         child: EventListContents());
   }
 }
@@ -168,19 +178,51 @@ class EventSearchBar extends StatelessWidget {
 class DateSelectBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var displayState = Provider.of<ScheduleDisplayState>(context);
+
     return Container(
-      color: Colors.grey,
-      child: Row(children: <Widget>[
-        Expanded(child: Center(child: Text('Dates'))),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 2),
-          child: Center(child: Text('Schedule')),
+      color: Colors.grey[400],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+              child: FlatButton(
+                onPressed: () => DatePicker.showDatePicker(
+                  context,
+                  minTime: _currentEventDate,
+                  maxTime: _currentEventDate.add(Duration(days: 30)),
+                  onConfirm: (d) => displayState.currentEventDate = d,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.event),
+                    SizedBox(width: 4),
+                    Text(_dateFormatter.format(_currentEventDate)),
+                  ],
+                ),
+              ),
+            ),
+            Spacer(),
+            SizedBox(
+              height: 20,
+              child: FlatButton(
+                onPressed: null,
+                child: Icon(MaterialCommunityIcons.getIconData('file-document-box-outline')),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+              child: FlatButton(
+                onPressed: null,
+                child: Icon(MaterialCommunityIcons.getIconData('egg')),
+              ),
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 2),
-          child: Center(child: Text('Eggs')),
-        ),
-      ]),
+      ),
     );
   }
 }
@@ -224,6 +266,12 @@ class EventListRow extends StatelessWidget {
 class ScheduleDisplayState with ChangeNotifier {
   List<Country> servers = [Prefs.eventCountry];
   List<StarterDragon> starters = Prefs.eventStarters;
+  bool hideClosed = Prefs.eventHideClosed;
+
+  void set currentEventDate(DateTime date) {
+    _currentEventDate = _toStartOfDay(date);
+    notifyListeners();
+  }
 }
 
 class ScheduleTabState with ChangeNotifier {
@@ -232,12 +280,15 @@ class ScheduleTabState with ChangeNotifier {
   final List<Country> servers;
   final List<StarterDragon> starters;
   final ScheduleTabKey tab;
+  final DateTime dateStart;
+  final bool hideClosed;
 
-  ScheduleTabState(this.servers, this.starters, this.tab) {
+  ScheduleTabState(this.servers, this.starters, this.tab, this.dateStart, this.hideClosed) {
     search();
   }
 
   void search() {
-    searchBloc.search(EventSearchArgs.from(servers, starters, tab));
+    searchBloc.search(EventSearchArgs.from(
+        servers, starters, tab, dateStart, dateStart.add(Duration(days: 1)), hideClosed));
   }
 }

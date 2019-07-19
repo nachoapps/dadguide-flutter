@@ -446,9 +446,13 @@ class EventSearchArgs {
   List<Country> servers = Country.all;
   List<StarterDragon> starters = StarterDragon.all;
   ScheduleTabKey tab = ScheduleTabKey.all;
+  DateTime dateStart = DateTime.now();
+  DateTime dateEnd = DateTime.now().add(Duration(days: 1));
+  bool hideClosed = false;
 
   EventSearchArgs();
-  EventSearchArgs.from(this.servers, this.starters, this.tab);
+  EventSearchArgs.from(
+      this.servers, this.starters, this.tab, this.dateStart, this.dateEnd, this.hideClosed);
 
   List<int> get serverIds => servers.map((c) => c.id).toList();
   List<String> get starterNames => starters.map((s) => s.nameCode).toList();
@@ -468,6 +472,18 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
     final query = (select(schedule).join([
       leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
     ]));
+
+    int dateStartTimestamp = args.dateStart.millisecondsSinceEpoch ~/ 1000;
+    int dateEndTimestamp = args.dateEnd.millisecondsSinceEpoch ~/ 1000;
+    var inDateRangePredicate = and(schedule.startTimestamp.isSmallerThanValue(dateEndTimestamp),
+        schedule.endTimestamp.isBiggerThanValue(dateStartTimestamp));
+
+    var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    var finalPredicate = args.hideClosed
+        ? and(inDateRangePredicate, schedule.endTimestamp.isBiggerThanValue(nowTimestamp))
+        : inDateRangePredicate;
+
+    query.where(finalPredicate);
 
     var results = await query.get().then((rows) {
       return rows.map((row) {

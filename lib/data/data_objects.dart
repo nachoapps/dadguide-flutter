@@ -162,6 +162,10 @@ class ListEvent {
   }
 
   String underlineText(DateTime displayedDate) {
+    if (isClosed()) {
+      return 'Closed';
+    }
+
     String text = '';
     if (!isOpen()) {
       text = _adjDate(displayedDate, _startTime);
@@ -185,6 +189,11 @@ class ListEvent {
   bool isOpen() {
     var now = DateTime.now();
     return startTime.isBefore(now) && endTime.isAfter(now);
+  }
+
+  bool isClosed() {
+    var now = DateTime.now();
+    return endTime.isBefore(now);
   }
 
   String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
