@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -221,8 +222,8 @@ class EventListRow extends StatelessWidget {
 }
 
 class ScheduleDisplayState with ChangeNotifier {
-  List<Country> servers = Country.all;
-  List<StarterDragon> starters = StarterDragon.all;
+  List<Country> servers = [Prefs.eventCountry];
+  List<StarterDragon> starters = Prefs.eventStarters;
 }
 
 class ScheduleTabState with ChangeNotifier {

@@ -21,6 +21,16 @@ class PrefKeys {
 }
 
 class Prefs {
+  static Country get eventCountry => Country.byId(PrefService.getInt(PrefKeys.eventCountry));
+
+  static List<StarterDragon> get eventStarters {
+    return [
+      if (PrefService.getBool(PrefKeys.eventsShowRed)) StarterDragon.red,
+      if (PrefService.getBool(PrefKeys.eventsShowBlue)) StarterDragon.blue,
+      if (PrefService.getBool(PrefKeys.eventsShowGreen)) StarterDragon.green,
+    ];
+  }
+
   static Future<void> init() async {
     await PrefService.init();
     PrefService.setDefaultValues({

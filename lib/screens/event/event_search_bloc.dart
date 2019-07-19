@@ -21,12 +21,15 @@ class EventSearchBloc {
 
     events = events.where((e) => args.serverIds.contains(e.event.serverId)).toList();
     events = events.where((e) {
+      var groupName = e.event.groupName;
+      var isSpecial = groupName == null;
+      var passesGroupFilter = isSpecial || args.starterNames.contains(groupName);
       if (args.tab == ScheduleTabKey.all) {
-        return true;
-      } else if (args.tab == ScheduleTabKey.guerrilla) {
-        return args.starterNames.contains(e.event.groupName);
+        return passesGroupFilter;
       } else if (args.tab == ScheduleTabKey.special) {
-        return e.event.groupName == null;
+        return isSpecial;
+      } else if (args.tab == ScheduleTabKey.guerrilla) {
+        return !isSpecial && passesGroupFilter;
       } else {
         return false;
       }
