@@ -59,7 +59,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
-  static final utilsNavKey = GlobalKey<NavigatorState>();
+//  static final utilsNavKey = GlobalKey<NavigatorState>();
   static final settingsNavKey = GlobalKey<NavigatorState>();
 
   static List<TabNavigator> _widgetOptions = [
@@ -75,10 +75,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
       navigatorKey: dungeonNavKey,
       rootItem: DungeonTab(key: PageStorageKey('DungeonTab')),
     ),
-    TabNavigator(
-      navigatorKey: utilsNavKey,
-      rootItem: UtilsScreen(key: PageStorageKey('UtilsTab')),
-    ),
+//    TabNavigator(
+//      navigatorKey: utilsNavKey,
+//      rootItem: UtilsScreen(key: PageStorageKey('UtilsTab')),
+//    ),
     TabNavigator(
       navigatorKey: settingsNavKey,
       rootItem: SettingsScreen(key: PageStorageKey('SettingsTab')),
@@ -158,10 +158,10 @@ class BottomNavOptions extends StatelessWidget {
           icon: Icon(Icons.home),
           title: Text('Dungeon'),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.move_to_inbox),
-          title: Text('Util'),
-        ),
+//        BottomNavigationBarItem(
+//          icon: Icon(Icons.move_to_inbox),
+//          title: Text('Util'),
+//        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           title: Text('Setting'),
