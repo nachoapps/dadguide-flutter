@@ -851,10 +851,13 @@ class MonsterSeries extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Series - ${_fullMonster.fullSeries.series.nameNa}'),
-        Wrap(children: [
-          for (var id in _fullMonster.fullSeries.members)
-            Padding(padding: EdgeInsets.all(2), child: PadIcon(id, monsterLink: true))
-        ]),
+        Wrap(
+          runSpacing: 4,
+          spacing: 4,
+          children: [
+            for (var id in _fullMonster.fullSeries.members) PadIcon(id, monsterLink: true),
+          ],
+        ),
       ],
     );
   }
