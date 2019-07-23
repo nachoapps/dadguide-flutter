@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
@@ -660,7 +661,6 @@ class MonsterHistory extends StatelessWidget {
   }
 }
 
-// TODO: add onclick with implementation
 class MailIssues extends StatelessWidget {
   final FullMonster _data;
 
@@ -668,15 +668,18 @@ class MailIssues extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: Colors.grey[300],
-        child: Row(
-          children: [
-            Icon(Icons.mail_outline),
-            Text('Report incorrect information',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-          ],
-        ));
+    return GestureDetector(
+      onTap: () => sendMonsterErrorEmail(_data.monster),
+      child: Card(
+          color: Colors.grey[300],
+          child: Row(
+            children: [
+              Icon(Icons.mail_outline),
+              Text('Report incorrect information',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+            ],
+          )),
+    );
   }
 }
 

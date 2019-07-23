@@ -73,6 +73,10 @@ dependencies:
   # Date picker
   flutter_datetime_picker: ^1.2.5
 
+  # Send bad data email
+  flutter_email_sender: ^2.0.3
+  get_version: ^0.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
