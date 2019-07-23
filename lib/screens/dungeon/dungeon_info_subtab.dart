@@ -238,12 +238,18 @@ class DungeonBattle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var text = 'Battle ${_model.stage}';
+    if (_model.stage == -1) {
+      text = 'Invades';
+    } else if (_model.stage == 0) {
+      text = 'Common Monsters';
+    }
     return Column(children: [
       Container(
         color: Colors.grey[400],
         padding: const EdgeInsets.all(4.0),
         child: Row(children: [
-          Text(_model.stage == 0 ? 'Invades' : 'Battle ${_model.stage}'),
+          Text(text),
           Spacer(),
           Text('Drop'),
         ]),
