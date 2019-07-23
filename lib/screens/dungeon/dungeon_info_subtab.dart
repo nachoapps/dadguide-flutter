@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
@@ -77,7 +78,8 @@ class DungeonDetailContents extends StatelessWidget {
       children: [
         DungeonHeader(_data),
         DungeonSubHeader(_data.selectedSubDungeon),
-        for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle)
+        for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
+        MailIssues(_data),
       ],
     );
   }
@@ -405,3 +407,25 @@ class DungeonDetailOptionsBar extends StatelessWidget {
 }
 
 class DungeonDetailSearchState with ChangeNotifier {}
+
+class MailIssues extends StatelessWidget {
+  final FullDungeon _data;
+
+  const MailIssues(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => sendDungeonErrorEmail(_data.dungeon, _data.selectedSubDungeon.subDungeon),
+      child: Card(
+          color: Colors.grey[300],
+          child: Row(
+            children: [
+              Icon(Icons.mail_outline),
+              Text('Report incorrect information',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+            ],
+          )),
+    );
+  }
+}

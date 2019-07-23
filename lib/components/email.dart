@@ -12,7 +12,7 @@ Future<void> sendDungeonErrorEmail(Dungeon dungeon, SubDungeon subDungeon) async
 
 Future<void> sendErrorEmail(String subject) async {
   var info = await getVersionInfo();
-  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})';
+  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})]';
   body += '\n\nPlease describe the issue below:\n';
 
   var email = Email(
