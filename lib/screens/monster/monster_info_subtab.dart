@@ -146,7 +146,7 @@ class MonsterDetailContents extends StatelessWidget {
                 Padding(child: MonsterSkillupDropLocations(), padding: EdgeInsets.only(top: 4)),
 
               SizedBox(height: 8),
-              MonsterDropLocations(),
+              MonsterDropLocations(_data),
 
               if (_data.awakenings.isNotEmpty)
                 Padding(
@@ -771,15 +771,40 @@ class MonsterSkillups extends StatelessWidget {
 }
 
 class MonsterDropLocations extends StatelessWidget {
-  const MonsterDropLocations({Key key}) : super(key: key);
+  final FullMonster _data;
+  const MonsterDropLocations(this._data, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (_data.dropLocations.isEmpty) {
+      return Text('Drop Dungeons: None');
+    }
+
+    var keys = _data.dropLocations.keys.toList()..sort();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Drop Dungeons'),
-        Text('Not implemented yet =(', style: Theme.of(context).textTheme.body2),
+        for (var k in keys)
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: <Widget>[
+                  PadIcon(k),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      for (var dungeon in _data.dropLocations[k])
+                        FlatButton(
+                          onPressed: () => print('pressed'),
+                          color: Colors.orange,
+                          child: Text(dungeon.nameNa),
+                        )
+                    ],
+                  )
+                ],
+              ))
       ],
     );
   }

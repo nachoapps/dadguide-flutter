@@ -620,14 +620,16 @@ class MonsterSearchArgs {
     ActiveSkills,
     Awakenings,
     AwokenSkills,
+    Drops,
+    Dungeons,
+    Encounters,
     Evolutions,
     LeaderSkills,
     Monsters,
     Series,
+    SubDungeons,
   ],
   queries: {
-    'mpAndSrankForDungeons':
-        'SELECT dungeon_id AS "dungeonId", MAX(mp_avg) AS "mpAvg", MAX(s_rank) AS "sRank" FROM sub_dungeons GROUP BY dungeon_id',
     'prevMonsterId':
         'SELECT MAX(monster_no_jp) AS "monsterId" FROM monsters WHERE monster_no_jp < :monsterId',
     'nextMonsterId':
@@ -637,7 +639,14 @@ class MonsterSearchArgs {
     'seriesMonsterIds':
         'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
     'ancestorMonsterId':
-        'SELECT from_id as "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
+        'SELECT from_id AS "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
+    'dropDungeons':
+        ('SELECT dungeons.dungeon_id AS "dungeonId", name_jp AS "nameJp", name_na AS "nameNa", name_kr AS "nameKr"' +
+            ' FROM dungeons' +
+            ' INNER JOIN encounters USING (dungeon_id)' +
+            ' INNER JOIN drops USING (encounter_id)' +
+            ' WHERE drops.monster_id = :monsterId' +
+            ' GROUP BY 1, 2, 3, 4'),
   },
 )
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
@@ -693,6 +702,18 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     final evolutionList = await allEvolutionsForTree(resultMonster.monsterId);
 
+    var evoTreeIds = Set<int>();
+    for (var e in evolutionList) {
+      evoTreeIds.add(e.fromMonster.monsterId);
+      evoTreeIds.add(e.toMonster.monsterId);
+    }
+
+    var dropLocations = Map<int, List<BasicDungeon>>();
+    for (var evoTreeId in evoTreeIds) {
+      dropLocations[evoTreeId] = await findDropDungeons(evoTreeId);
+    }
+    dropLocations.removeWhere((k, v) => v.isEmpty);
+
     var fullMonster = FullMonster(
       resultMonster,
       row.readTable(activeSkills),
@@ -703,6 +724,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
       skillUpMonsterIdsResult,
       evolutionList,
+      dropLocations,
     );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
@@ -773,5 +795,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     });
 
     return results;
+  }
+
+  Future<List<BasicDungeon>> findDropDungeons(int monsterId) async {
+    var x = await dropDungeons(monsterId);
+    return x.map((ddr) => BasicDungeon(ddr.dungeonId, ddr.nameJp, ddr.nameNa, ddr.nameKr)).toList();
   }
 }

@@ -12,6 +12,15 @@ class ListDungeon {
   ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp);
 }
 
+class BasicDungeon {
+  final int dungeonId;
+  final String nameJp;
+  final String nameNa;
+  final String nameKr;
+
+  BasicDungeon(this.dungeonId, this.nameJp, this.nameNa, this.nameKr);
+}
+
 class FullDungeon {
   final Dungeon dungeon;
   final List<SubDungeon> subDungeons;
@@ -83,9 +92,10 @@ class FullMonster {
   final int nextMonsterId;
   final List<int> skillUpMonsters;
   final List<FullEvolution> evolutions;
+  final Map<int, List<BasicDungeon>> dropLocations;
 
   FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
-      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions);
+      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions, this.dropLocations);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
   List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
