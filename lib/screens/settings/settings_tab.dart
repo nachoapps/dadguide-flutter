@@ -8,6 +8,11 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PreferencePage([
+      Container(
+        color: Colors.blue,
+        height: 36,
+        child: Center(child: Text('Settings')),
+      ),
       PreferenceTitle('General'),
       DropdownPreference(
         'UI language',
