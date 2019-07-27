@@ -50,10 +50,24 @@ class MonsterList extends StatelessWidget {
 
           print('got data! ${data.length}');
 
-          return ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) => MonsterListRow(data[index]),
-          );
+          if (displayState.pictureMode) {
+            return GridView.builder(
+              itemCount: data.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: PadIcon(
+                  data[index].monster.monsterId,
+                  monsterLink: true,
+                ),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) => MonsterListRow(data[index]),
+            );
+          }
         });
   }
 }
