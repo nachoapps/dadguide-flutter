@@ -193,3 +193,24 @@ class ScheduleTabKey {
     return _lookup[id];
   }
 }
+
+class ScheduleSubSection {
+  final int id;
+  final String name;
+
+  const ScheduleSubSection._(this.id, this.name);
+
+  static const ScheduleSubSection starter_dragons = ScheduleSubSection._(1, 'Starter Dragon');
+  static const ScheduleSubSection special = ScheduleSubSection._(2, 'Special');
+
+  static const List<ScheduleSubSection> allValues = [
+    starter_dragons,
+    special,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static ScheduleSubSection byId(int id) {
+    return _lookup[id];
+  }
+}

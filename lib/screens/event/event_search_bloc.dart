@@ -4,6 +4,26 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:flutter/material.dart';
+
+class ScheduleTabState with ChangeNotifier {
+  final searchBloc = EventSearchBloc();
+
+  final List<Country> servers;
+  final List<StarterDragon> starters;
+  final ScheduleTabKey tab;
+  final DateTime dateStart;
+  final bool hideClosed;
+
+  ScheduleTabState(this.servers, this.starters, this.tab, this.dateStart, this.hideClosed) {
+    search();
+  }
+
+  void search() {
+    searchBloc.search(EventSearchArgs.from(
+        servers, starters, tab, dateStart, dateStart.add(Duration(days: 1)), hideClosed));
+  }
+}
 
 class EventSearchBloc {
   final ScheduleDao _dao;
