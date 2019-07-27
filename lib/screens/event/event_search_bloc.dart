@@ -39,6 +39,7 @@ class EventSearchBloc {
     _resultSink.add(null);
     var events = await _dao.findListEvents(args);
 
+    // This probably needs to move into the DAO.
     events = events.where((e) => args.serverIds.contains(e.event.serverId)).toList();
     events = events.where((e) {
       var groupName = e.event.groupName;

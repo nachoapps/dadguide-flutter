@@ -1,12 +1,9 @@
-import 'package:dadguide2/components/icons.dart';
-import 'package:dadguide2/components/images.dart';
-import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/text_input.dart';
-import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'dungeon_list.dart';
 import 'dungeon_search_bloc.dart';
 
 class DungeonTab extends StatelessWidget {
@@ -16,45 +13,14 @@ class DungeonTab extends StatelessWidget {
   Widget build(BuildContext context) {
     print('adding a DungeonTab');
     return ChangeNotifierProvider(
-      builder: (context) => DungeonDisplayState(),
+      key: UniqueKey(),
+      builder: (context) => DungeonDisplayState(DungeonTabKey.special),
       child: Column(children: <Widget>[
         DungeonSearchBar(),
-        Expanded(child: DungeonList()),
+        Expanded(child: DungeonList(key: UniqueKey())),
         DungeonDisplayOptionsBar(),
       ]),
     );
-  }
-}
-
-class DungeonList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var displayState = Provider.of<DungeonDisplayState>(context);
-    return StreamBuilder<List<ListDungeon>>(
-        stream: displayState.searchBloc.searchResults,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(child: Icon(Icons.error));
-          }
-          if (!snapshot.hasData) {
-            print('no data!');
-            return Center(child: CircularProgressIndicator());
-          }
-
-          var data = snapshot.data;
-          if (data == null) {
-            print('null data!');
-            return Center(child: CircularProgressIndicator());
-          }
-
-          print('got data! ${data.length}');
-
-          return ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) => DungeonListRow(data[index]),
-          );
-        });
   }
 }
 
@@ -62,7 +28,7 @@ class DungeonSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<DungeonDisplayState>(context);
-    var searchText = controller.searchArgs.text;
+    var searchText = controller.searchText;
     return TopTextInputBar(
       searchText,
       'Search: Dungeon name',
@@ -89,129 +55,20 @@ class DungeonDisplayOptionsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          FlatButton(
-            onPressed: () => controller.selectedType = DungeonType.special,
-            child: Text('Special'),
-            textColor: controller.selectedType == DungeonType.special ? Colors.amber : Colors.black,
-          ),
-          FlatButton(
-            onPressed: () => controller.selectedType = DungeonType.normal,
-            child: Text('Normal'),
-            textColor: controller.selectedType == DungeonType.normal ? Colors.amber : Colors.black,
-          ),
-          FlatButton(
-            onPressed: () => controller.selectedType = DungeonType.technical,
-            child: Text('Technical'),
-            textColor:
-                controller.selectedType == DungeonType.technical ? Colors.amber : Colors.black,
-          ),
-          FlatButton(
-            onPressed: () => controller.selectedType = DungeonType.multiplayer,
-            child: Text('Multi'),
-            textColor:
-                controller.selectedType == DungeonType.multiplayer ? Colors.amber : Colors.black,
-          ),
+          _createBottomButton(controller, DungeonTabKey.special, 'Special'),
+          _createBottomButton(controller, DungeonTabKey.normal, 'Normal'),
+          _createBottomButton(controller, DungeonTabKey.technical, 'Technical'),
+          _createBottomButton(controller, DungeonTabKey.multiranking, 'Multi/Rank'),
         ],
       ),
     );
   }
-}
 
-class DungeonSort {}
-
-enum DungeonType { special, normal, technical, multiplayer }
-
-class DungeonDisplayState with ChangeNotifier {
-  final searchBloc = DungeonSearchBloc();
-  final searchArgs = DungeonSearchArgs();
-
-  DungeonType _selectedType = DungeonType.special;
-  DungeonSort _customSort = DungeonSort();
-
-  DungeonType get selectedType => _selectedType;
-  DungeonSort get customSort => _customSort;
-
-  set searchText(String text) {
-    searchArgs.text = text;
-    searchBloc.search(searchArgs);
-    notifyListeners();
-  }
-
-  void clearSearch() {
-    searchText = '';
-  }
-
-  set selectedType(DungeonType value) {
-    _selectedType = value;
-    notifyListeners();
-  }
-}
-
-class DungeonListRow extends StatelessWidget {
-  final ListDungeon _model;
-  const DungeonListRow(this._model, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var d = _model.dungeon;
-    var m = _model.iconMonster;
-    return InkWell(
-      onTap: goToDungeonFn(context, d.dungeonId, 0),
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-          child: Row(
-            children: <Widget>[
-              PadIcon(d.iconId),
-              SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption,
-                        child: Row(children: [
-                          FittedBox(alignment: Alignment.centerLeft, child: Text(d.nameJp)),
-                          Spacer(),
-                          typeContainer(m?.type1Id, size: 18, leftPadding: 4),
-                          typeContainer(m?.type2Id, size: 18, leftPadding: 4),
-                          typeContainer(m?.type3Id, size: 18, leftPadding: 4),
-                        ])),
-                    FittedBox(alignment: Alignment.centerLeft, child: Text(d.nameNa)),
-                    DefaultTextStyle(
-                      style: Theme.of(context).textTheme.caption,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconAndText(DadGuideIcons.mp, _model.maxAvgMp?.toString()),
-                          SizedBox(width: 8),
-                          IconAndText(DadGuideIcons.srank, _model.maxScore?.toString()),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
+  Widget _createBottomButton(DungeonDisplayState controller, DungeonTabKey tab, String name) {
+    return FlatButton(
+      onPressed: () => controller.tab = tab,
+      child: Text(name),
+      textColor: controller.tab == tab ? Colors.amber : Colors.black,
     );
-  }
-}
-
-class IconAndText extends StatelessWidget {
-  final Widget _icon;
-  final String _text;
-
-  IconAndText(this._icon, this._text);
-
-  @override
-  Widget build(BuildContext context) {
-    if (_text == null) return Container(width: 0.0, height: 0.0);
-
-    return Row(children: [
-      _icon,
-      Text(_text, style: Theme.of(context).textTheme.caption),
-    ]);
   }
 }

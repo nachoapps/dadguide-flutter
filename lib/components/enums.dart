@@ -214,3 +214,87 @@ class ScheduleSubSection {
     return _lookup[id];
   }
 }
+
+class DungeonTabKey {
+  final int id;
+  final String nameCode;
+
+  const DungeonTabKey._(this.id, this.nameCode);
+
+  static const DungeonTabKey special = DungeonTabKey._(1, 'dungeon_tab_special');
+  static const DungeonTabKey normal = DungeonTabKey._(2, 'dungeon_tab_normal');
+  static const DungeonTabKey technical = DungeonTabKey._(3, 'dungeon_tab_technical');
+  static const DungeonTabKey multiranking = DungeonTabKey._(3, 'dungeon_tab_multiranking');
+
+  static const List<DungeonTabKey> allValues = [
+    special,
+    normal,
+    technical,
+    multiranking,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static DungeonTabKey byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class DungeonSubSection {
+  final int id;
+  final String name;
+
+  const DungeonSubSection._(this.id, this.name);
+
+  static const DungeonSubSection underway_events = DungeonSubSection._(1, 'Underway Events');
+  static const DungeonSubSection upcoming_events = DungeonSubSection._(2, 'Upcoming Events');
+  static const DungeonSubSection full_list = DungeonSubSection._(3, 'Full List');
+  static const DungeonSubSection series = DungeonSubSection._(4, 'Series');
+
+  static const List<DungeonSubSection> allValues = [
+    underway_events,
+    upcoming_events,
+    full_list,
+    series,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static DungeonSubSection byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class DungeonType {
+  final int id;
+
+  const DungeonType._(this.id);
+
+  static const DungeonType unknown_value = DungeonType._(-1);
+  static const DungeonType normal = DungeonType._(0);
+  static const DungeonType special = DungeonType._(1);
+  static const DungeonType technical = DungeonType._(2);
+  static const DungeonType gift = DungeonType._(3);
+  static const DungeonType ranking = DungeonType._(4);
+  static const DungeonType deprecated = DungeonType._(5);
+  static const DungeonType unused_6 = DungeonType._(6);
+  static const DungeonType multiplayer = DungeonType._(7);
+
+  static const List<DungeonType> allValues = [
+    unknown_value,
+    normal,
+    technical,
+    technical,
+    gift,
+    ranking,
+    deprecated,
+    unused_6,
+    multiplayer,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static DungeonType byId(int id) {
+    return _lookup[id] ?? DungeonType.unknown_value;
+  }
+}

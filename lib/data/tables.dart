@@ -500,8 +500,11 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
 
 class DungeonSearchArgs {
   String text;
+  List<DungeonType> dungeonTypes;
 
-  DungeonSearchArgs({this.text = ''});
+  DungeonSearchArgs({this.text = '', this.dungeonTypes = const []});
+
+  List<int> get dungeonTypeIds => dungeonTypes.map((dt) => dt.id).toList();
 }
 
 @UseDao(

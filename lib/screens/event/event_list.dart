@@ -45,6 +45,7 @@ List<ListItem> rowsToListItems(List<ListEvent> events, ScheduleTabKey tabKey) {
     return group != 0 ? group : l.event.startTimestamp.compareTo(r.event.startTimestamp);
   });
 
+  // Filtering on tab key might be unnecessary here.
   if (tabKey == ScheduleTabKey.all || tabKey == ScheduleTabKey.guerrilla) {
     if (starter.isNotEmpty) {
       results.add(HeadingItem(ScheduleSubSection.starter_dragons));
@@ -83,6 +84,10 @@ class EventListContents extends StatelessWidget {
           }
 
           var listItems = rowsToListItems(data, displayState.tab);
+          if (listItems.isEmpty) {
+            return Center(child: Text('No Data'));
+          }
+
           return ListView.builder(
             itemCount: listItems.length,
             itemBuilder: (context, index) {
