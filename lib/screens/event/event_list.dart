@@ -32,18 +32,8 @@ List<ListItem> rowsToListItems(List<ListEvent> events, ScheduleTabKey tabKey) {
   var special = events.where((e) => e.event.groupName == null && e.dungeon != null).toList();
   var starter = events.where((e) => e.event.groupName != null && e.dungeon != null).toList();
 
-  special.sort((l, r) {
-    var start = l.event.startTimestamp.compareTo(r.event.startTimestamp);
-    var startAndDungeon = start != 0 ? start : l.dungeon.dungeonId.compareTo(r.dungeon.dungeonId);
-    return startAndDungeon != 0
-        ? startAndDungeon
-        : (l.event.infoNa ?? '').compareTo(r.event.infoNa ?? '');
-  });
-
-  starter.sort((l, r) {
-    var group = l.event.groupName.compareTo(r.event.groupName);
-    return group != 0 ? group : l.event.startTimestamp.compareTo(r.event.startTimestamp);
-  });
+  special.sort(_compareEvents);
+  starter.sort(_compareEvents);
 
   // Filtering on tab key might be unnecessary here.
   if (tabKey == ScheduleTabKey.all || tabKey == ScheduleTabKey.guerrilla) {
@@ -61,6 +51,15 @@ List<ListItem> rowsToListItems(List<ListEvent> events, ScheduleTabKey tabKey) {
   }
 
   return results;
+}
+
+int _compareEvents(ListEvent l, ListEvent r) {
+  var group = (r.event.groupName ?? '').compareTo(l.event.groupName ?? '');
+  var open = group != 0 ? group : l.event.startTimestamp.compareTo(r.event.startTimestamp);
+  var close = open != 0 ? open : l.event.endTimestamp.compareTo(r.event.endTimestamp);
+  var dungeon = close != 0 ? close : l.dungeon.dungeonId.compareTo(r.dungeon.dungeonId);
+  var info = dungeon != 0 ? dungeon : (l.event.infoNa ?? '').compareTo(r.event.infoNa ?? '');
+  return info;
 }
 
 class EventListContents extends StatelessWidget {
@@ -146,7 +145,9 @@ class EventListRow extends StatelessWidget {
                               color: Colors.orange,
                               size: 12,
                             ),
+                          SizedBox(width: 4),
                           Text(underlineText(DateTime.now())),
+                          SizedBox(width: 4),
                           if (!_model.isClosed()) Text(stamRcvText()),
                         ],
                       ),
@@ -189,7 +190,7 @@ class EventListRow extends StatelessWidget {
     if (deltaDays > 0) {
       text += ' [$deltaDays Days]';
     }
-    return text;
+    return text.trim();
   }
 
   String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
