@@ -210,12 +210,14 @@ class MonsterListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var displayState = Provider.of<MonsterDisplayState>(context);
     var m = _model.monster;
     return InkWell(
       onTap: goToMonsterFn(context, m.monsterId),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               PadIcon(m.monsterId),
               SizedBox(width: 8),
@@ -239,9 +241,32 @@ class MonsterListRow extends StatelessWidget {
                         Text('HP ${m.hpMax}'),
                         Text('ATK ${m.atkMax}'),
                         Text('RCV ${m.rcvMax}'),
-                        Text('WT ??'),
+                        Text('WT ${_weighted(m.hpMax, m.atkMax, m.rcvMax)}'),
                       ]),
                     ),
+                    if (m.limitMult != null && m.limitMult > 0)
+                      DefaultTextStyle(
+                        style: Theme.of(context).textTheme.caption,
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          Text('Limit Break: ${100 + m.limitMult}%'),
+                          Text(
+                              'WT ${_weighted(m.hpMax, m.atkMax, m.rcvMax, limitMult: 100 + m.limitMult)}'),
+                        ]),
+                      ),
+                    if (displayState.showAwakenings && _model.awakenings.isNotEmpty)
+                      Row(children: [
+                        for (var awakening in _model.awakenings)
+                          Padding(
+                              padding: EdgeInsets.only(right: 2),
+                              child: awakeningContainer(awakening.awokenSkillId, size: 16))
+                      ]),
+                    if (displayState.showAwakenings && _model.superAwakenings.isNotEmpty)
+                      Row(children: [
+                        for (var awakening in _model.superAwakenings)
+                          Padding(
+                              padding: EdgeInsets.only(right: 2),
+                              child: awakeningContainer(awakening.awokenSkillId, size: 16)),
+                      ]),
                   ],
                 ),
               ),
@@ -250,3 +275,6 @@ class MonsterListRow extends StatelessWidget {
     );
   }
 }
+
+int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
+    (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;
