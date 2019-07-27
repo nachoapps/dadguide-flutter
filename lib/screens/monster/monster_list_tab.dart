@@ -211,7 +211,7 @@ class MonsterListRow extends StatelessWidget {
                           Spacer(),
                           Text('MP ? / * ${m.cost} / S? -> ?'),
                         ])),
-                    Text(m.nameNa),
+                    FittedBox(alignment: Alignment.centerLeft, child: Text(m.nameNa)),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

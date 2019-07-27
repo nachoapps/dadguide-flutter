@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/data/tables.dart';
-import 'package:intl/intl.dart';
 
 class ListDungeon {
   final Dungeon dungeon;
@@ -94,8 +93,17 @@ class FullMonster {
   final List<FullEvolution> evolutions;
   final Map<int, List<BasicDungeon>> dropLocations;
 
-  FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
-      this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions, this.dropLocations);
+  FullMonster(
+      this.monster,
+      this.activeSkill,
+      this.leaderSkill,
+      this.fullSeries,
+      this._awakenings,
+      this.prevMonsterId,
+      this.nextMonsterId,
+      this.skillUpMonsters,
+      this.evolutions,
+      this.dropLocations);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
   List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
@@ -155,55 +163,17 @@ class FullAwakening {
 }
 
 class ListEvent {
-  static final DateFormat longFormat = DateFormat.MMMd().add_jm();
-  static final DateFormat shortFormat = DateFormat.jm();
+  final ScheduleEvent event;
+  final Dungeon dungeon;
 
-  final ScheduleEvent _event;
-  final Dungeon _dungeon;
+  final DateTime startTime;
+  final DateTime endTime;
 
-  final DateTime _startTime;
-  final DateTime _endTime;
+  ListEvent(this.event, this.dungeon)
+      : startTime = DateTime.fromMillisecondsSinceEpoch(event.startTimestamp * 1000, isUtc: true),
+        endTime = DateTime.fromMillisecondsSinceEpoch(event.endTimestamp * 1000, isUtc: true);
 
-  ListEvent(this._event, this._dungeon)
-      : _startTime = DateTime.fromMillisecondsSinceEpoch(_event.startTimestamp * 1000, isUtc: true),
-        _endTime = DateTime.fromMillisecondsSinceEpoch(_event.endTimestamp * 1000, isUtc: true);
-
-  ScheduleEvent get event => _event;
-
-  Dungeon get dungeon => _dungeon;
-
-  String headerText() {
-    String text = _dungeon?.nameNa ?? _event.infoNa;
-    if (_event.groupName != null) {
-      text = '[${event.groupName}] $text';
-    }
-    return text ?? 'error';
-  }
-
-  String underlineText(DateTime displayedDate) {
-    if (isClosed()) {
-      return 'Closed';
-    }
-
-    String text = '';
-    if (!isOpen()) {
-      text = _adjDate(displayedDate, _startTime);
-    }
-    text += ' ~ ';
-    text += _adjDate(displayedDate, _endTime);
-
-    int deltaDays = _daysUntilClose();
-    if (deltaDays > 0) {
-      text += ' [$deltaDays Days]';
-    }
-    return text;
-  }
-
-  int get iconId => _dungeon?.iconId ?? _event.iconId ?? 0;
-
-  DateTime get startTime => _startTime;
-
-  DateTime get endTime => _endTime;
+  int get iconId => dungeon?.iconId ?? event.iconId ?? 0;
 
   bool isOpen() {
     var now = DateTime.now();
@@ -215,18 +185,12 @@ class ListEvent {
     return endTime.isBefore(now);
   }
 
-  String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
-    displayedDate = displayedDate.toLocal();
-    timeToDisplay = timeToDisplay.toLocal();
-    if (displayedDate.day != timeToDisplay.day) {
-      return longFormat.format(timeToDisplay);
-    } else {
-      return shortFormat.format(timeToDisplay);
-    }
+  bool isPending() {
+    return !isOpen() && !isClosed();
   }
 
-  int _daysUntilClose() {
+  int daysUntilClose() {
     var now = DateTime.now();
-    return now.difference(_endTime).inDays;
+    return now.difference(endTime).inDays;
   }
 }

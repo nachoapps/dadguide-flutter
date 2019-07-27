@@ -230,6 +230,9 @@ class DateSelectBar extends StatelessWidget {
 }
 
 class EventListRow extends StatelessWidget {
+  static final DateFormat longFormat = DateFormat.MMMd().add_jm();
+  static final DateFormat shortFormat = DateFormat.jm();
+
   final ListEvent _model;
   const EventListRow(this._model, {Key key}) : super(key: key);
 
@@ -249,12 +252,24 @@ class EventListRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(se.headerText()),
+                    FittedBox(alignment: Alignment.centerLeft, child: Text(headerText())),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text(se.underlineText(DateTime.now()))]),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (_model.isClosed()) Icon(Icons.close, color: Colors.red, size: 12),
+                          if (_model.isOpen()) Icon(Icons.check, color: Colors.green, size: 12),
+                          if (_model.isPending())
+                            Icon(
+                              FontAwesome.getIconData('calendar-check-o'),
+                              color: Colors.orange,
+                              size: 12,
+                            ),
+                          Text(underlineText(DateTime.now())),
+                          if (!_model.isClosed()) Text(stamRcvText()),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -262,6 +277,49 @@ class EventListRow extends StatelessWidget {
             ],
           )),
     );
+  }
+
+  String headerText() {
+    String text = _model.dungeon?.nameNa ?? _model.event.infoNa;
+    if (_model.event.groupName != null) {
+      text = '[${_model.event.groupName}] $text';
+    }
+    return text ?? 'error';
+  }
+
+  String stamRcvText() {
+    var timeTo = _model.isOpen() ? _model.endTime : _model.startTime;
+    var stamRcv = timeTo.difference(DateTime.now()).inMinutes ~/ 3;
+    return '[Stam.Rcv.$stamRcv]';
+  }
+
+  String underlineText(DateTime displayedDate) {
+    if (_model.isClosed()) {
+      return 'Closed';
+    }
+
+    String text = '';
+    if (!_model.isOpen()) {
+      text = _adjDate(displayedDate, _model.startTime);
+    }
+    text += ' ~ ';
+    text += _adjDate(displayedDate, _model.endTime);
+
+    int deltaDays = _model.daysUntilClose();
+    if (deltaDays > 0) {
+      text += ' [$deltaDays Days]';
+    }
+    return text;
+  }
+
+  String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
+    displayedDate = displayedDate.toLocal();
+    timeToDisplay = timeToDisplay.toLocal();
+    if (displayedDate.day != timeToDisplay.day) {
+      return longFormat.format(timeToDisplay);
+    } else {
+      return shortFormat.format(timeToDisplay);
+    }
   }
 }
 
