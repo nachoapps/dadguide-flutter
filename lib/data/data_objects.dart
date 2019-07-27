@@ -78,7 +78,7 @@ class FullMonster {
   final ActiveSkill activeSkill;
   final LeaderSkill leaderSkill;
   final FullSeries fullSeries;
-  final List<Awakening> _awakenings;
+  final List<FullAwakening> _awakenings;
   final int prevMonsterId;
   final int nextMonsterId;
   final List<int> skillUpMonsters;
@@ -87,8 +87,8 @@ class FullMonster {
   FullMonster(this.monster, this.activeSkill, this.leaderSkill, this.fullSeries, this._awakenings,
       this.prevMonsterId, this.nextMonsterId, this.skillUpMonsters, this.evolutions);
 
-  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
-  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
+  List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
+  List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
 
   MonsterType get type1 => MonsterType.byId(monster.type1Id);
   MonsterType get type2 => MonsterType.byId(monster.type2Id);
@@ -133,6 +133,15 @@ class FullEvolution {
     if (evolution.mat5Id != null) result.add(evolution.mat5Id);
     return result;
   }
+}
+
+class FullAwakening {
+  final Awakening awakening;
+  final AwokenSkill awokenSkill;
+
+  FullAwakening(this.awakening, this.awokenSkill);
+
+  int get awokenSkillId => awakening.awokenSkillId;
 }
 
 class ListEvent {

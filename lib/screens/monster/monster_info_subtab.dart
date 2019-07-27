@@ -148,6 +148,17 @@ class MonsterDetailContents extends StatelessWidget {
               SizedBox(height: 8),
               MonsterDropLocations(),
 
+              if (_data.awakenings.isNotEmpty)
+                Padding(
+                  child: AwokenSkillSection(_data.awakenings),
+                  padding: EdgeInsets.only(top: 8),
+                ),
+
+              if (_data.superAwakenings.isNotEmpty)
+                Padding(
+                    child: AwokenSkillSection(_data.superAwakenings),
+                    padding: EdgeInsets.only(top: 8)),
+
               SizedBox(height: 8),
               MonsterBuySellFeedSection(_data.monster),
 
@@ -962,6 +973,44 @@ class MonsterEvoRow extends StatelessWidget {
             ),
           ],
         )
+      ],
+    );
+  }
+}
+
+class AwokenSkillSection extends StatelessWidget {
+  final List<FullAwakening> _awakenings;
+
+  const AwokenSkillSection(this._awakenings, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(title),
+            Spacer(),
+            for (var a in _awakenings) awakeningContainer(a.awokenSkillId, size: 16),
+          ],
+        ),
+        for (var a in _awakenings)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              awakeningContainer(a.awokenSkillId, size: 16),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(a.awokenSkill.nameNa),
+                    Text(a.awokenSkill.descNa),
+                  ],
+                ),
+              )
+            ],
+          ),
       ],
     );
   }

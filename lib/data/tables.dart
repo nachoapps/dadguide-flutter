@@ -619,6 +619,7 @@ class MonsterSearchArgs {
   tables: [
     ActiveSkills,
     Awakenings,
+    AwokenSkills,
     Evolutions,
     LeaderSkills,
     Monsters,
@@ -757,10 +758,20 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     return results;
   }
 
-  Future<List<Awakening>> findAwakenings(int monsterId) async {
-    final query = select(awakenings)
-      ..where((a) => a.monsterId.equals(monsterId))
-      ..orderBy([(a) => OrderingTerm(expression: a.orderIdx)]);
-    return (await query.get()).toList();
+  Future<List<FullAwakening>> findAwakenings(int monsterId) async {
+    final query = (select(awakenings)..where((a) => a.monsterId.equals(monsterId))).join([
+      leftOuterJoin(awokenSkills, awokenSkills.awokenSkillId.equalsExp(awakenings.awokenSkillId)),
+    ])
+      ..orderBy([OrderingTerm(mode: OrderingMode.desc, expression: awakenings.orderIdx)]);
+
+    var results = await query.get().then((rows) {
+      return Future.wait(rows.map((row) async {
+        var awakening = row.readTable(awakenings);
+        var awokenSkill = row.readTable(awokenSkills);
+        return FullAwakening(awakening, awokenSkill);
+      }));
+    });
+
+    return results;
   }
 }
