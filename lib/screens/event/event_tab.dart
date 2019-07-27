@@ -4,7 +4,6 @@ import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +24,7 @@ class EventTab extends StatelessWidget {
   Widget build(BuildContext context) {
     print('adding an eventtab');
     return DefaultTabController(
-      length: 4,
+      length: 3,
       initialIndex: 0,
       child: Scaffold(
         appBar: PreferredSize(
@@ -58,7 +57,8 @@ class EventListHeader extends StatelessWidget {
               Tab(text: 'All'),
               Tab(text: 'Guerrilla'),
               Tab(text: 'Special'),
-              Tab(text: 'News'),
+//              News disabled for now
+//              Tab(text: 'News'),
             ]),
           ),
         ],
@@ -74,7 +74,8 @@ class EventListTabs extends StatelessWidget {
       EventList(ScheduleTabKey.all),
       EventList(ScheduleTabKey.guerrilla),
       EventList(ScheduleTabKey.special),
-      EventList(ScheduleTabKey.news),
+//              News disabled for now
+//      EventList(ScheduleTabKey.news),
     ]);
   }
 }
@@ -178,20 +179,21 @@ class DateSelectBar extends StatelessWidget {
               ),
             ),
             Spacer(),
-            SizedBox(
-              height: 20,
-              child: FlatButton(
-                onPressed: null,
-                child: Icon(MaterialCommunityIcons.getIconData('file-document-box-outline')),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-              child: FlatButton(
-                onPressed: null,
-                child: Icon(MaterialCommunityIcons.getIconData('egg')),
-              ),
-            ),
+//            Disabling schedule view and egg machine view
+//            SizedBox(
+//              height: 20,
+//              child: FlatButton(
+//                onPressed: null,
+//                child: Icon(MaterialCommunityIcons.getIconData('file-document-box-outline')),
+//              ),
+//            ),
+//            SizedBox(
+//              height: 20,
+//              child: FlatButton(
+//                onPressed: null,
+//                child: Icon(MaterialCommunityIcons.getIconData('egg')),
+//              ),
+//            ),
           ],
         ),
       ),
