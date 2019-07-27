@@ -32,10 +32,12 @@ class DungeonSearchBar extends StatelessWidget {
     return TopTextInputBar(
       searchText,
       'Search: Dungeon name',
-      InkWell(
-        child: Icon(Icons.clear_all),
-        onTap: () => Navigator.of(context).maybePop(),
-      ),
+//    Not supporting filter yet yet
+//      InkWell(
+//        child: Icon(Icons.clear_all),
+//        onTap: () => Navigator.of(context).maybePop(),
+//      ),
+      Container(),
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () => controller.clearSearch(),

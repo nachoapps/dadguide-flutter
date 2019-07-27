@@ -4,6 +4,7 @@ import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 import 'monster_search_bloc.dart';
@@ -65,10 +66,12 @@ class MonsterSearchBar extends StatelessWidget {
     return TopTextInputBar(
       searchText,
       'Search: Monster Name/No./Series',
-      InkWell(
-        child: Icon(Icons.clear_all),
-        onTap: () => Navigator.of(context).maybePop(),
-      ),
+//      Not supporting filter yet
+//      InkWell(
+//        child: Icon(Icons.clear_all),
+//        onTap: () => Navigator.of(context).maybePop(),
+//      ),
+      Container(),
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () => controller.clearSearch(),
@@ -88,35 +91,38 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+//          Not supporting favorites yet
+//          IconButton(
+//            icon: Icon(Icons.star_border),
+//            color: controller.favoritesOnly ? Colors.amber : Colors.black,
+//            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
+//          ),
           IconButton(
-            icon: Icon(Icons.star_border),
-            color: controller.favoritesOnly ? Colors.amber : Colors.black,
-            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
-          ),
-          IconButton(
-            icon: Icon(Icons.new_releases),
+            icon: Icon(Foundation.getIconData('burst-new')),
             color: controller.sortNew ? Colors.amber : Colors.black,
             onPressed: () => controller.sortNew = !controller.sortNew,
           ),
           IconButton(
-            icon: Icon(Icons.portrait),
+            icon: Icon(SimpleLineIcons.getIconData('picture')),
             color: controller.pictureMode ? Colors.amber : Colors.black,
             onPressed: () => controller.pictureMode = !controller.pictureMode,
           ),
+//          Not supporting sort yet
+//          IconButton(
+//            icon: Icon(Icons.sort),
+//            color: controller.useCustomSort ? Colors.amber : Colors.black,
+//            onPressed: () => controller.useCustomSort = !controller.useCustomSort,
+//          ),
           IconButton(
-            icon: Icon(Icons.sort),
-            color: controller.useCustomSort ? Colors.amber : Colors.black,
-            onPressed: () => controller.useCustomSort = !controller.useCustomSort,
-          ),
-          IconButton(
-            icon: Icon(Icons.stars),
+            icon: Icon(MaterialCommunityIcons.getIconData('star-box-outline')),
             color: controller.showAwakenings ? Colors.amber : Colors.black,
             onPressed: () => controller.showAwakenings = !controller.showAwakenings,
           ),
-          IconButton(
-            icon: Icon(Icons.change_history),
-            onPressed: () => {},
-          ),
+//          Not supporting skill rotation yet
+//          IconButton(
+//            icon: Icon(Icons.change_history),
+//            onPressed: () => {},
+//          ),
         ],
       ),
     );
