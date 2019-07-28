@@ -41,7 +41,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
         children: <Widget>[
           MonsterDetailBar(),
           Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
-          MonsterDetailOptionsBar(),
+//          Disabled for now; nothing here is implemented
+//          MonsterDetailOptionsBar(),
         ],
       ),
     );
@@ -56,10 +57,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData) {
-            print('no data!');
             return Center(child: CircularProgressIndicator());
           }
-          print('got monster data!');
 
           return MonsterDetailContents(snapshot.data);
         });
@@ -376,11 +375,13 @@ class MonsterDetailBar extends StatelessWidget {
               ),
             ),
             Spacer(),
-            SizedBox(
-              width: 32,
-              height: 32,
-              child: Icon(Icons.star_border),
-            ),
+            Container(),
+//            Favorites are disabled for now
+//            SizedBox(
+//              width: 32,
+//              height: 32,
+//              child: Icon(Icons.star_border),
+//            ),
           ],
         ));
   }
