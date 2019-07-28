@@ -151,6 +151,8 @@ class FullEvolution {
     if (evolution.mat5Id != null) result.add(evolution.mat5Id);
     return result;
   }
+
+  EvolutionType get type => EvolutionType.byId(evolution.evolutionType);
 }
 
 class FullAwakening {

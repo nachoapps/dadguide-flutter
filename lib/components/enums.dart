@@ -283,7 +283,6 @@ class DungeonType {
   static const DungeonType multiplayer = DungeonType._(7);
 
   static const List<DungeonType> allValues = [
-    unknown_value,
     normal,
     technical,
     technical,
@@ -298,5 +297,28 @@ class DungeonType {
 
   static DungeonType byId(int id) {
     return _lookup[id] ?? DungeonType.unknown_value;
+  }
+}
+
+class EvolutionType {
+  final int id;
+
+  const EvolutionType._(this.id);
+
+  static const EvolutionType unknown_value = EvolutionType._(0);
+  static const EvolutionType evo = EvolutionType._(1);
+  static const EvolutionType reversible = EvolutionType._(2);
+  static const EvolutionType non_reversible = EvolutionType._(3);
+
+  static const List<EvolutionType> allValues = [
+    evo,
+    reversible,
+    non_reversible,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static EvolutionType byId(int id) {
+    return _lookup[id] ?? EvolutionType.unknown_value;
   }
 }

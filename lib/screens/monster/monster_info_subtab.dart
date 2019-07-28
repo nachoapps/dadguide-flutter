@@ -907,11 +907,49 @@ class MonsterEvolutions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var evos = _fullMonster.evolutions;
+    List<FullEvolution> baseEvos = evos.where((e) => e.type == EvolutionType.evo).toList();
+    List<FullEvolution> reversableEvos =
+        evos.where((e) => e.type == EvolutionType.reversible).toList();
+    List<FullEvolution> nonReversableEvos =
+        evos.where((e) => e.type == EvolutionType.non_reversible).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Evolution'),
-        for (var evo in _fullMonster.evolutions)
+        if (baseEvos.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: MonsterEvoSection('Evolution', baseEvos),
+          ),
+        if (reversableEvos.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: MonsterEvoSection('Reversable Evolutions', reversableEvos),
+          ),
+        if (nonReversableEvos.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: MonsterEvoSection('Non-Reversable Evolutions', nonReversableEvos),
+          ),
+      ],
+    );
+  }
+}
+
+class MonsterEvoSection extends StatelessWidget {
+  final String name;
+  final List<FullEvolution> evos;
+
+  MonsterEvoSection(this.name, this.evos);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(name),
+        for (var evo in evos)
           Padding(
             child: MonsterEvoRow(evo),
             padding: EdgeInsets.symmetric(vertical: 4),
