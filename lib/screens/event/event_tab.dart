@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -44,7 +45,7 @@ class EventListHeader extends StatelessWidget {
         children: <Widget>[
           InkWell(
               onTap: () => showServerSelectDialog(context),
-              child: SizedBox(width: 60, height: 40, child: Icon(Icons.event))),
+              child: SizedBox(width: 60, height: 40, child: DadGuideIcons.currentCountryOn)),
           Flexible(
             child: TabBar(tabs: [
               Tab(text: 'All'),

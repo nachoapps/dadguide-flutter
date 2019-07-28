@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/widgets.dart';
 
 class DadGuideIcons {
@@ -17,4 +18,6 @@ class DadGuideIcons {
   static Widget get inheritableBadge => SizedBox(
       child: Image.asset('assets/images/inheritable_badge.png',
           width: 16, height: 16, fit: BoxFit.fill));
+  static Widget get currentCountryOn =>
+      Image.asset('assets/images/${Prefs.eventCountry.iconOnName}');
 }
