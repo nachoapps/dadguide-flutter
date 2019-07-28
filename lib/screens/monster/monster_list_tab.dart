@@ -219,7 +219,7 @@ class MonsterListRow extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PadIcon(m.monsterId),
+              PadIcon(m.monsterId, inheritable: m.inheritable),
               SizedBox(width: 8),
               Expanded(
                 child: Column(

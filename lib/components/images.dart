@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +24,15 @@ class PadIcon extends StatelessWidget {
   final bool dungeonLink;
   final int subDungeonId;
   final bool ink;
+  final bool inheritable;
 
   PadIcon(this.iconId,
       {this.size = 48,
       this.monsterLink = false,
       this.dungeonLink = false,
       this.subDungeonId,
-      this.ink = false});
+      this.ink = false,
+      this.inheritable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +40,14 @@ class PadIcon extends StatelessWidget {
     var url = _imageUrl('icons', finalIconId, 5);
     var container = _sizedContainer(_loadingImage(url), size);
     if (monsterLink && isMonsterId(finalIconId)) {
-      return wrapMonsterLink(context, container, finalIconId, ink: ink);
+      container = wrapMonsterLink(context, container, finalIconId, ink: ink);
     } else if (dungeonLink) {
-      return wrapDungeonLink(context, container, finalIconId, ink: ink, subDungeonId: subDungeonId);
+      container =
+          wrapDungeonLink(context, container, finalIconId, ink: ink, subDungeonId: subDungeonId);
+    }
+
+    if (inheritable) {
+      container = wrapInheritable(context, container, size);
     }
     return container;
   }
@@ -93,5 +101,22 @@ Widget _loadingImage(String url) {
     imageUrl: url,
     cacheManager: cacheManager,
     errorWidget: (BuildContext context, String url, Object error) => Icon(Icons.error_outline),
+  );
+}
+
+Widget wrapInheritable(BuildContext context, Widget child, double size) {
+  return SizedBox(
+    width: size + 2,
+    height: size + 2,
+    child: Stack(
+      children: [
+        Positioned(bottom: 0, left: 0, child: child),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: DadGuideIcons.inheritableBadge,
+        ),
+      ],
+    ),
   );
 }

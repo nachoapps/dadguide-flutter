@@ -14,4 +14,7 @@ class DadGuideIcons {
       SizedBox(width: 24, height: 24, child: Image.asset('assets/images/jp_on.png'));
   static Widget get krOn =>
       SizedBox(width: 24, height: 24, child: Image.asset('assets/images/kr_on.png'));
+  static Widget get inheritableBadge => SizedBox(
+      child: Image.asset('assets/images/inheritable_badge.png',
+          width: 16, height: 16, fit: BoxFit.fill));
 }
