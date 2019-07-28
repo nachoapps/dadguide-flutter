@@ -2,9 +2,30 @@ import 'dart:async';
 
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
+
+class ScheduleDisplayState with ChangeNotifier {
+  List<Country> servers = [Prefs.eventCountry];
+  List<StarterDragon> starters = Prefs.eventStarters;
+  bool hideClosed = Prefs.eventHideClosed;
+  DateTime _currentEventDate = _toStartOfDay(DateTime.now());
+
+  set currentEventDate(DateTime date) {
+    _currentEventDate = _toStartOfDay(date);
+    notifyListeners();
+  }
+
+  DateTime get currentEventDate => _currentEventDate;
+
+  set server(Country country) {
+    Prefs.eventCountry = country;
+    servers = [Prefs.eventCountry];
+    notifyListeners();
+  }
+}
 
 class ScheduleTabState with ChangeNotifier {
   final searchBloc = EventSearchBloc();
@@ -62,4 +83,8 @@ class EventSearchBloc {
   void dispose() {
     _counterController.close();
   }
+}
+
+DateTime _toStartOfDay(DateTime time) {
+  return DateTime(time.year, time.month, time.day);
 }

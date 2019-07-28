@@ -22,6 +22,7 @@ class PrefKeys {
 
 class Prefs {
   static Country get eventCountry => Country.byId(PrefService.getInt(PrefKeys.eventCountry));
+  static set eventCountry(Country country) => PrefService.setInt(PrefKeys.eventCountry, country.id);
 
   static List<StarterDragon> get eventStarters {
     return [

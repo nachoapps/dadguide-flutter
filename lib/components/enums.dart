@@ -125,13 +125,15 @@ class Country {
   final int id;
   final String countryName;
   final String countryCode;
+  final String iconOnName;
+  final String iconOffName;
 
-  const Country._(this.id, this.countryName, this.countryCode);
+  const Country._(this.id, this.countryName, this.countryCode, this.iconOnName, this.iconOffName);
 
   // TODO: redo id values to start from 1
-  static const Country na = Country._(1, 'North America', 'NA');
-  static const Country jp = Country._(0, 'Japan', 'JP');
-  static const Country kr = Country._(2, 'Korea', 'KR');
+  static const Country na = Country._(1, 'North America', 'NA', 'na_on.png', 'na_off.png');
+  static const Country jp = Country._(0, 'Japan', 'JP', 'jp_on.png', 'jp_off.png');
+  static const Country kr = Country._(2, 'Korea', 'KR', 'kr_on.png', 'kr_off.png');
 
   static const List<Country> all = [
     na,

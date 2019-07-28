@@ -5,7 +5,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 
 Future<void> showUpdateDialog(BuildContext context) async {
   Fimber.i('Displaying update dialog');
-  showDialog(
+  return showDialog(
       context: context,
       builder: (innerContext) {
         updateManager.start().then((isFirst) {
