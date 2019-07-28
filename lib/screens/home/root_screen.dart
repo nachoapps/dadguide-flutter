@@ -128,7 +128,8 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
               bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
             ),
           ),
-          SizedBox(height: getSmartBannerHeight(context)),
+          SizedBox(height: getBannerHeight(context)),
+//          SizedBox(height: getSmartBannerHeight(context)),
         ],
       ),
     );

@@ -15,12 +15,16 @@ BannerAd createBannerAd() {
     // https://developers.google.com/admob/android/test-ads
     // https://developers.google.com/admob/ios/test-ads
     adUnitId: BannerAd.testAdUnitId,
-    size: AdSize.smartBanner,
+    size: AdSize.banner,
     targetingInfo: targetingInfo,
     listener: (MobileAdEvent event) {
       print("BannerAd event is $event");
     },
   );
+}
+
+double getBannerHeight(BuildContext context) {
+  return 50;
 }
 
 /// The initial size of the banner is calculated on the height of the
