@@ -501,6 +501,7 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
 class DungeonSearchArgs {
   String text;
   List<DungeonType> dungeonTypes;
+  var visibleOnly = true;
 
   DungeonSearchArgs({this.text = '', this.dungeonTypes = const []});
 
@@ -531,6 +532,10 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
       leftOuterJoin(monsters, dungeons.iconId.equalsExp(monsters.monsterId)),
     ])
       ..orderBy([OrderingTerm(mode: OrderingMode.desc, expression: dungeons.dungeonId)]);
+
+    if (args.visibleOnly) {
+      query.where(dungeons.visible.equals(true));
+    }
 
     if (args.text.isNotEmpty) {
       query.where(dungeons.nameNa.like('%${args.text}%'));
