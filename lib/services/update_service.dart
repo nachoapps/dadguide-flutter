@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -28,6 +29,9 @@ class UpdateManager with TaskPublisher {
       runningTask = instance.start();
       await runningTask;
       return true;
+    } catch (ex, st) {
+      Fimber.e('Update failed', ex: ex, stacktrace: st);
+      throw ex;
     } finally {
       runningTask = null;
     }
@@ -47,6 +51,8 @@ class UpdateTask with TaskPublisher {
 
   Future<void> start() async {
     Fimber.i('Checking for table updates');
+    Prefs.updateRan();
+
     _pub(0, 0);
     var timestamps = await _retrieveTimestamps();
 
@@ -56,7 +62,7 @@ class UpdateTask with TaskPublisher {
       var remoteTstamp = timestamps[table.actualTableName] ?? 0;
 
       if (remoteTstamp > tableTstamp) {
-        Fimber.v('Table $table needs update, $remoteTstamp > $tableTstamp');
+        Fimber.i('Table $table needs update, $remoteTstamp > $tableTstamp');
         tablesToUpdate.add(Tuple2(table, tableTstamp));
       }
     }

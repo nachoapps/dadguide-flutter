@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:dadguide2/components/cache.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dio/dio.dart';
@@ -52,6 +53,7 @@ class OnboardingTask with TaskPublisher {
     while (!await ResourceHelper.checkDbExists()) {
       try {
         await _downloadDb();
+        Prefs.updateRan();
       } catch (e) {
         Fimber.w('Downloading DB failed', ex: e);
         await Future.delayed(Duration(seconds: 5));

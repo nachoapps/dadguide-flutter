@@ -23,6 +23,10 @@ class ProdEndpoints extends Endpoints {
   }
 
   String api(String tableName, {int tstamp}) {
-    return 'http://miru.info/dadguide/api/serve.php';
+    var url = 'http://miru.info/dadguide/api/serve.php?table=$tableName';
+    if (tstamp != null) {
+      url += '&tstamp=$tstamp';
+    }
+    return url;
   }
 }

@@ -8,6 +8,7 @@ import 'package:tuple/tuple.dart';
 class PrefKeys {
   static const currentDbVersion = 'current_db_version';
   static const iconsDownloaded = 'icons_downloaded';
+  static const lastUpdateExecution = 'last_update_execution';
 
   static const uiLanguage = 'ui_language';
   static const infoLanguage = 'info_language';
@@ -39,6 +40,7 @@ class Prefs {
     PrefService.setDefaultValues({
       PrefKeys.currentDbVersion: 0,
       PrefKeys.iconsDownloaded: false,
+      PrefKeys.lastUpdateExecution: 0,
       PrefKeys.uiLanguage: defaultUiLanguageValue,
       PrefKeys.infoLanguage: defaultInfoLanguageValue,
       PrefKeys.gameCountry: defaultGameCountryValue,
@@ -93,5 +95,15 @@ class Prefs {
   static void setAllCountry(int val) {
     PrefService.setInt(PrefKeys.eventCountry, val);
     PrefService.setInt(PrefKeys.gameCountry, val);
+  }
+
+  static void updateRan() {
+    PrefService.setInt(PrefKeys.lastUpdateExecution, DateTime.now().millisecondsSinceEpoch);
+  }
+
+  static bool updateRequired() {
+    DateTime lastUpdate =
+        DateTime.fromMillisecondsSinceEpoch(PrefService.getInt(PrefKeys.lastUpdateExecution));
+    return DateTime.now().difference(lastUpdate).inMinutes > 10;
   }
 }
