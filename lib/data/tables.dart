@@ -569,6 +569,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 
     final subDungeonsQuery = select(subDungeons)..where((sd) => sd.dungeonId.equals(dungeonId));
     var subDungeonList = await subDungeonsQuery.get();
+    subDungeonList.sort((l, r) => r.subDungeonId - l.subDungeonId);
 
     subDungeonId = subDungeonId ?? subDungeonList.first.subDungeonId;
     var fullSubDungeon = await lookupFullSubDungeon(subDungeonId);

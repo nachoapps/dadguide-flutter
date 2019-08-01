@@ -3,6 +3,7 @@ import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
+import 'package:dadguide2/screens/dungeon/sub_dungeon_sheet.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
@@ -16,6 +17,7 @@ class TabNavigatorRoutes {
   static const String root = '/';
   static const String monsterDetail = MonsterDetailArgs.routeName;
   static const String dungeonDetail = DungeonDetailArgs.routeName;
+  static const String subDungeonSelection = SubDungeonSelectionArgs.routeName;
 }
 
 class TabNavigator extends StatelessWidget {
@@ -32,16 +34,16 @@ class TabNavigator extends StatelessWidget {
         onGenerateRoute: (routeSettings) {
           switch (routeSettings.name) {
             case TabNavigatorRoutes.root:
-              print('generating root');
               return MaterialPageRoute(builder: (context) => rootItem);
             case TabNavigatorRoutes.monsterDetail:
               MonsterDetailArgs args = routeSettings.arguments;
-              print('generating MD $args');
               return MaterialPageRoute(builder: (context) => MonsterDetailScreen(args));
             case TabNavigatorRoutes.dungeonDetail:
               var args = routeSettings.arguments as DungeonDetailArgs;
-              print('generating DD $args');
               return MaterialPageRoute(builder: (context) => DungeonDetailScreen(args));
+            case TabNavigatorRoutes.subDungeonSelection:
+              var args = routeSettings.arguments as SubDungeonSelectionArgs;
+              return MaterialPageRoute(builder: (context) => SelectSubDungeonScreen(args));
             default:
               throw 'Unexpected route';
           }

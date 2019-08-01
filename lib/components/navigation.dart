@@ -1,3 +1,4 @@
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -46,13 +47,27 @@ Widget wrapDungeonLink(BuildContext context, Widget child, int dungeonId,
   return ink ? InkWell(child: child, onTap: onTap) : GestureDetector(child: child, onTap: onTap);
 }
 
-Function goToDungeonFn(BuildContext context, int dungeonId, int subDungeonId) {
+Function goToDungeonFn(BuildContext context, int dungeonId, [int subDungeonId]) {
   return () async {
     if ((dungeonId ?? 0) == 0) {
       return null;
     }
     Fimber.i('Navigating to dungeon $dungeonId / $subDungeonId');
     return Navigator.pushNamed(context, DungeonDetailArgs.routeName,
-        arguments: DungeonDetailArgs(dungeonId, subDungeonId ?? 0));
+        arguments: DungeonDetailArgs(dungeonId, subDungeonId));
+  };
+}
+
+class SubDungeonSelectionArgs {
+  static const routeName = '/subDungeonSelection';
+  final FullDungeon fullDungeon;
+
+  SubDungeonSelectionArgs(this.fullDungeon);
+}
+
+Function goToSubDungeonSelectionFn(BuildContext context, FullDungeon dungeon) {
+  return () async {
+    return Navigator.pushNamed(context, SubDungeonSelectionArgs.routeName,
+        arguments: SubDungeonSelectionArgs(dungeon));
   };
 }

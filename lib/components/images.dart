@@ -23,6 +23,7 @@ class PadIcon extends StatelessWidget {
   final bool monsterLink;
   final bool dungeonLink;
   final int subDungeonId;
+  final int dungeonId;
   final bool ink;
   final bool inheritable;
 
@@ -30,6 +31,7 @@ class PadIcon extends StatelessWidget {
       {this.size = 48,
       this.monsterLink = false,
       this.dungeonLink = false,
+      this.dungeonId,
       this.subDungeonId,
       this.ink = false,
       this.inheritable = false});
@@ -43,7 +45,7 @@ class PadIcon extends StatelessWidget {
       container = wrapMonsterLink(context, container, finalIconId, ink: ink);
     } else if (dungeonLink) {
       container =
-          wrapDungeonLink(context, container, finalIconId, ink: ink, subDungeonId: subDungeonId);
+          wrapDungeonLink(context, container, dungeonId, subDungeonId: subDungeonId, ink: ink);
     }
 
     if (inheritable) {

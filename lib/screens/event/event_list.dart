@@ -119,7 +119,7 @@ class EventListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var se = _model;
     return InkWell(
-      onTap: goToDungeonFn(context, _model.dungeon?.dungeonId, 0),
+      onTap: goToDungeonFn(context, _model.dungeon?.dungeonId),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(

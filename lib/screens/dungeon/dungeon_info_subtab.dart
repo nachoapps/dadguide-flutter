@@ -31,10 +31,9 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
     return ChangeNotifierProvider(
       builder: (context) => DungeonDetailSearchState(),
       child: Column(
-        children: <Widget>[
+        children: [
           DungeonDetailActionsBar(),
-          Expanded(child: SingleChildScrollView(child: _retrieveDungeon())),
-          DungeonDetailOptionsBar(),
+          Expanded(child: _retrieveDungeon()),
         ],
       ),
     );
@@ -43,7 +42,7 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   FutureBuilder<FullDungeon> _retrieveDungeon() {
     var dataFuture = _memoizer.runOnce(() async {
       var database = await DatabaseHelper.instance.database;
-      return database.dungeonsDao.lookupFullDungeon(_args.dungeonId);
+      return database.dungeonsDao.lookupFullDungeon(_args.dungeonId, _args.subDungeonId);
     }).catchError((ex) {
       print(ex);
     });
@@ -74,12 +73,21 @@ class DungeonDetailContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DungeonHeader(_data),
-        DungeonSubHeader(_data.selectedSubDungeon),
-        for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
-        MailIssues(_data),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DungeonHeader(_data),
+                DungeonSubHeader(_data.selectedSubDungeon),
+                for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
+                MailIssues(_data),
+              ],
+            ),
+          ),
+        ),
+        DungeonDetailOptionsBar(_data),
       ],
     );
   }
@@ -397,6 +405,10 @@ IconButton dummyIconButton(BuildContext context, IconData icon, String title) {
 }
 
 class DungeonDetailOptionsBar extends StatelessWidget {
+  final FullDungeon _data;
+
+  DungeonDetailOptionsBar(this._data);
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -404,8 +416,14 @@ class DungeonDetailOptionsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          dummyIconButton(context, Icons.format_list_bulleted, 'Difficulty'),
-          dummyIconButton(context, Icons.live_tv, 'YT Link'),
+          IconButton(
+            icon: Icon(Icons.format_list_bulleted),
+            onPressed: goToSubDungeonSelectionFn(context, _data),
+          ),
+          IconButton(
+            icon: Icon(Icons.live_tv),
+            onPressed: () => print('not implemented'),
+          )
         ],
       ),
     );
