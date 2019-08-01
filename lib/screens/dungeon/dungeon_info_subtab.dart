@@ -3,10 +3,12 @@ import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -393,17 +395,6 @@ class DungeonDetailActionsBar extends StatelessWidget {
   }
 }
 
-IconButton dummyIconButton(BuildContext context, IconData icon, String title) {
-  return IconButton(
-      icon: Icon(icon),
-      onPressed: () {
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('$title not implemented yet'),
-        ));
-      });
-}
-
 class DungeonDetailOptionsBar extends StatelessWidget {
   final FullDungeon _data;
 
@@ -422,7 +413,15 @@ class DungeonDetailOptionsBar extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.live_tv),
-            onPressed: () => print('not implemented'),
+            onPressed: () async {
+              try {
+                await launchYouTubeSearch(_data.dungeon.nameJp);
+              } catch (ex, st) {
+                Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text('Failed to launch YouTube')));
+              }
+            },
           )
         ],
       ),
