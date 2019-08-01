@@ -78,7 +78,7 @@ class Dungeons extends Table {
 
   IntColumn get dungeonType => integer()();
 
-  IntColumn get seriesId => integer()();
+  IntColumn get seriesId => integer().nullable()();
 
   IntColumn get iconId => integer()();
 
@@ -270,7 +270,7 @@ class Monsters extends Table {
 
   BoolColumn get remEgg => boolean()();
 
-  IntColumn get seriesId => integer().nullable()();
+  IntColumn get seriesId => integer()();
 
   TextColumn get nameNaOverride => text().nullable()();
 
