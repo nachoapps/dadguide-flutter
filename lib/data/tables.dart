@@ -80,7 +80,7 @@ class Dungeons extends Table {
 
   IntColumn get seriesId => integer().nullable()();
 
-  IntColumn get iconId => integer()();
+  IntColumn get iconId => integer().nullable()();
 
   TextColumn get rewardJp => text().nullable()();
 
