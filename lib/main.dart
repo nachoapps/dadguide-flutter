@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
-bool inDevMode = true;
+bool inDevMode = false;
 
 void main() async {
   // Dont report errors from dev mode to crashlytics.
