@@ -35,7 +35,7 @@ void main() async {
   // ca-app-pub-3940256099942544/6300978111
 
   await Prefs.init();
-  initializeServiceLocator();
+  initializeServiceLocator(dev: inDevMode);
   await tryInitializeServiceLocatorDb(false);
   runApp(DadGuideApp());
 }
