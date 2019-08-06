@@ -26,7 +26,7 @@ dependencies:
 
   # Firebase plugins
   firebase_core: ^0.4.0+1
-  firebase_admob: ^0.9.0+3
+  firebase_admob: ^0.8.0+4
   firebase_analytics: ^4.0.2
   firebase_crashlytics: ^0.1.0+2
   firebase_performance: ^0.3.0+4
