@@ -21,9 +21,7 @@ void main() async {
 
   // Pass all uncaught errors to Crashlytics.
   if (!inDevMode) {
-    FlutterError.onError = (FlutterErrorDetails details) {
-      Crashlytics.instance.onError(details);
-    };
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
   }
 
   // Set up logging.
