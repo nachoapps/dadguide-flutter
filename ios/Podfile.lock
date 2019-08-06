@@ -270,9 +270,9 @@ SPEC CHECKSUMS:
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: dedc9e48ea3f3649ad5f6b982f8a0c73508a14b5
   firebase_admob: ba3d9c8874c03ccc2b87ae30c50d1630b522a693
-  firebase_analytics: b0d7c086f5a50042153fd0441dafef51bde36cd0
+  firebase_analytics: 5afaaf8f43ae6a640f200d98f3ecff32e9873538
   firebase_core: b3b02d0b5e9d01aab5e50ba7cbcf84c73cb6883c
-  firebase_crashlytics: 90224b1e8534bb61de9db7d786892ba582e49a9a
+  firebase_crashlytics: 8493272a94ea1144fc0b4a25b98e0fc3ea2dab1f
   firebase_performance: b1d13887f1ffcc4c1f2b02b041317a727fbb03d2
   firebase_remote_config: db83aa96557ac2400884c44378c008539c00c1ec
   FirebaseABTesting: a32c488eb75089a61eb3d86db061dfb909d765db
