@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
-bool inDevMode = true;
+bool inDevMode = false;
 
 void main() async {
   // Dont report errors from dev mode to crashlytics.
@@ -21,9 +21,7 @@ void main() async {
 
   // Pass all uncaught errors to Crashlytics.
   if (!inDevMode) {
-    FlutterError.onError = (FlutterErrorDetails details) {
-      Crashlytics.instance.onError(details);
-    };
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
   }
 
   // Set up logging.
@@ -35,7 +33,7 @@ void main() async {
   // ca-app-pub-3940256099942544/6300978111
 
   await Prefs.init();
-  initializeServiceLocator();
+  initializeServiceLocator(dev: inDevMode);
   await tryInitializeServiceLocatorDb(false);
   runApp(DadGuideApp());
 }
