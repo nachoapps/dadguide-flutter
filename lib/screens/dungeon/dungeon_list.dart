@@ -93,7 +93,7 @@ class DungeonListRow extends StatelessWidget {
     var d = _model.dungeon;
     var m = _model.iconMonster;
     return InkWell(
-      onTap: goToDungeonFn(context, d.dungeonId, 0),
+      onTap: goToDungeonFn(context, d.dungeonId, null),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(

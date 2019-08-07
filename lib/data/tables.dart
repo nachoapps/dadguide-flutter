@@ -563,7 +563,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
     var s = new Stopwatch()..start();
-    Fimber.d('doing full dungeon lookup');
+    Fimber.d('doing full dungeon lookup for $dungeonId / $subDungeonId');
     final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
     final dungeonItem = (await dungeonQuery.get()).first;
 

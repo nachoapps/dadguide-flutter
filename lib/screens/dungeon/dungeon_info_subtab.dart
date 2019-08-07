@@ -1,11 +1,10 @@
-import 'package:async/async.dart';
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -23,9 +22,16 @@ class DungeonDetailScreen extends StatefulWidget {
 
 class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   final DungeonDetailArgs _args;
-  final _memoizer = AsyncMemoizer<FullDungeon>();
+
+  Future<FullDungeon> loadingFuture;
 
   _DungeonDetailScreenState(this._args);
+
+  @override
+  void initState() {
+    super.initState();
+    loadingFuture = getIt<DungeonsDao>().lookupFullDungeon(_args.dungeonId, _args.subDungeonId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +48,11 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   }
 
   FutureBuilder<FullDungeon> _retrieveDungeon() {
-    var dataFuture = _memoizer.runOnce(() async {
-      var database = await DatabaseHelper.instance.database;
-      return database.dungeonsDao.lookupFullDungeon(_args.dungeonId, _args.subDungeonId);
-    }).catchError((ex) {
-      print(ex);
-    });
-
     return FutureBuilder<FullDungeon>(
-        future: dataFuture,
+        future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            print(snapshot.error);
+            Fimber.e('Error retrieving dungeon', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData) {
