@@ -1,16 +1,21 @@
 # dadguide2
 
-DadGuide v2
+DadGuide v2 mobile app, written in Flutter.
+
+## Work in progress
+
+Everything is kind of a mess right now. I wrote this app to learn Flutter, and I haven't gone back
+and cleaned everything up yet.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+For help getting started with Flutter, view the [online documentation](https://flutter.dev/docs).
 
-A few resources to get you started if this is your first Flutter project:
+I've used Android Studio on Linux, Windows, and OSX to build this project. Once you get Dart,
+Flutter, Git, and Android Studio installed it should be pretty straightforward.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+OSX also requires Xcode and is a pain in the ass. If you're an iOS dev and you'd like to help me
+fix some stuff please let me know.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Take a look at lib/data/README.md; this project uses codegen for some files and you need to start
+that while developing.
