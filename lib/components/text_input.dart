@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO: convert this to use TextEditingController; it's currently impossible
+// to clear the text contents via the X button.
 class TopTextInputBar extends StatelessWidget {
   final String _displayText;
   final String _hintText;

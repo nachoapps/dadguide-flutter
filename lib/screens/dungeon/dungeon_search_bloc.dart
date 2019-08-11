@@ -22,6 +22,7 @@ class DungeonDisplayState with ChangeNotifier {
   set searchText(String searchText) {
     this._searchText = searchText.trim();
     search();
+    notifyListeners();
   }
 
   String get searchText => _searchText;
@@ -42,9 +43,7 @@ class DungeonDisplayState with ChangeNotifier {
   }
 
   void clearSearch() {
-    if (_searchText == '') return;
     searchText = '';
-    notifyListeners();
   }
 
   DungeonTabKey get tab => _tab;

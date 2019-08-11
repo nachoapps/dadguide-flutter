@@ -40,7 +40,10 @@ class DungeonSearchBar extends StatelessWidget {
       Container(),
       InkWell(
         child: Icon(Icons.cancel),
-        onTap: () => controller.clearSearch(),
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+          controller.clearSearch();
+        },
       ),
       (t) => controller.searchText = t,
       key: ValueKey(searchText),
