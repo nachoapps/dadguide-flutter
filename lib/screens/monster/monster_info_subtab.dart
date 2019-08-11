@@ -476,7 +476,7 @@ class MonsterWeightedStatTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var m = _data.monster;
-    var limitMult = m.limitMult ?? 0;
+    var limitMult = (m.limitMult ?? 0) + 100;
     var maxHp = m.hpMax + 99 * 10;
     var atkMax = m.atkMax + 99 * 5;
     var rcvMax = m.rcvMax + 99 * 3;
