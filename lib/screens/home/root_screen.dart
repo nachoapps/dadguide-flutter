@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/ads.dart';
+import 'package:dadguide2/components/data_update.dart';
 import 'package:dadguide2/components/navigation.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/dungeon/sub_dungeon_sheet.dart';
@@ -8,7 +8,6 @@ import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
-import 'package:dadguide2/services/update_service.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -34,7 +33,7 @@ class TabNavigator extends StatelessWidget {
         onGenerateRoute: (routeSettings) {
           switch (routeSettings.name) {
             case TabNavigatorRoutes.root:
-              return MaterialPageRoute(builder: (context) => rootItem);
+              return MaterialPageRoute(builder: (context) => DataUpdaterWidget(rootItem));
             case TabNavigatorRoutes.monsterDetail:
               MonsterDetailArgs args = routeSettings.arguments;
               return MaterialPageRoute(builder: (context) => MonsterDetailScreen(args));
@@ -58,7 +57,7 @@ class StatefulHomeScreen extends StatefulWidget {
   _StatefulHomeScreenState createState() => _StatefulHomeScreenState();
 }
 
-class _StatefulHomeScreenState extends State<StatefulHomeScreen> with WidgetsBindingObserver {
+class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
@@ -94,7 +93,6 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> with WidgetsBin
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     bannerAd = createBannerAd();
     bannerAd.load().then((v) {
       Fimber.i('Ad loaded: $v');
@@ -105,16 +103,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> with WidgetsBin
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && Prefs.updateRequired()) {
-      Fimber.w('Update is required, triggering');
-      updateManager.start();
-    }
-  }
-
-  @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     if (bannerAd != null) {
       bannerAd.dispose();
       bannerAd = null;

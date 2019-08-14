@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
@@ -12,6 +14,11 @@ import 'package:tuple/tuple.dart';
 final updateManager = UpdateManager._();
 
 class UpdateManager with TaskPublisher {
+  // ignore: close_sinks
+  final _controller = StreamController.broadcast();
+  StreamSink<void> get _updateSink => _controller.sink;
+  Stream<void> get updateStream => _controller.stream;
+
   Future<void> runningTask;
 
   UpdateManager._();
@@ -28,9 +35,11 @@ class UpdateManager with TaskPublisher {
     try {
       runningTask = instance.start();
       await runningTask;
+      _updateSink.add(null);
       return true;
     } catch (ex, st) {
       Fimber.e('Update failed', ex: ex, stacktrace: st);
+      _updateSink.addError(ex, st);
       throw ex;
     } finally {
       runningTask = null;

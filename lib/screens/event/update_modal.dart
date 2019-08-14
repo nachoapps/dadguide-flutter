@@ -12,16 +12,10 @@ Future<void> showUpdateDialog(BuildContext context) async {
           try {
             Navigator.pop(innerContext);
           } catch (e) {} // Suppress this failure
-          if (isFirst) {
-            Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('Update complete'), duration: Duration(seconds: 1)));
-          }
         }).catchError((e, st) {
           try {
             Navigator.pop(innerContext);
           } catch (e) {} // Suppress this failure
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('Update failed'), duration: Duration(seconds: 2)));
         });
         return SimpleDialog(
           title: const Text('Updating DadGuide data'),
