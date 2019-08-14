@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.37.0"
+    version: "0.37.1"
   archive:
     dependency: transitive
     description:
@@ -49,7 +49,7 @@ packages:
       name: build_config
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1"
+    version: "0.4.1+1"
   build_daemon:
     dependency: transitive
     description:
@@ -77,7 +77,7 @@ packages:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.7"
+    version: "3.0.9"
   built_collection:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   code_builder:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.1+1"
   csslib:
     dependency: transitive
     description:
@@ -189,14 +189,14 @@ packages:
       name: firebase_admob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0+4"
+    version: "0.9.0+3"
   firebase_analytics:
     dependency: "direct main"
     description:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.3"
+    version: "5.0.0"
   firebase_core:
     dependency: "direct main"
     description:
@@ -243,7 +243,7 @@ packages:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   flutter_email_sender:
     dependency: "direct main"
     description:
@@ -283,7 +283,7 @@ packages:
       name: front_end
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.20"
+    version: "0.1.21"
   get_it:
     dependency: "direct main"
     description:
@@ -374,14 +374,14 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "3.0.0"
   kernel:
     dependency: transitive
     description:
       name: kernel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.20"
+    version: "0.3.21"
   logging:
     dependency: transitive
     description:
@@ -528,7 +528,7 @@ packages:
       name: pubspec_parse
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   quiver:
     dependency: "direct main"
     description:
@@ -652,7 +652,7 @@ packages:
       name: timing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+1"
+    version: "0.1.1+2"
   tuple:
     dependency: "direct main"
     description:
@@ -701,7 +701,7 @@ packages:
       name: web_socket_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.14"
+    version: "1.0.15"
   xml:
     dependency: transitive
     description:
