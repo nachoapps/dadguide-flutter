@@ -10,6 +10,7 @@ import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class MonsterDetailScreen extends StatefulWidget {
   final MonsterDetailArgs _args;
@@ -572,7 +573,7 @@ TableCell emptyCell() {
 }
 
 TableCell numCell(num value) {
-  return cell(value.toInt().toString());
+  return cell(NumberFormat.decimalPattern().format(value.toInt()));
 }
 
 TableCell widgetCell(Widget widget) {

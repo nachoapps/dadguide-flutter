@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class DungeonDetailScreen extends StatefulWidget {
   final DungeonDetailArgs args;
@@ -204,6 +205,8 @@ class ExpCoinTable extends StatelessWidget {
   final SubDungeon sd;
   const ExpCoinTable(this.sd, {Key key}) : super(key: key);
 
+  final _format = NumberFormat.decimalPattern();
+
   @override
   Widget build(BuildContext context) {
     if (sd.expMin == null) return Container(width: 0.0, height: 0.0);
@@ -237,7 +240,7 @@ class ExpCoinTable extends StatelessWidget {
 
   Widget cell(String text) => TableCell(child: Text(text, textAlign: TextAlign.end));
   Widget intCell(int value) =>
-      TableCell(child: Text(value?.toString() ?? '', textAlign: TextAlign.end));
+      TableCell(child: Text(value != null ? _format.format(value) : '', textAlign: TextAlign.end));
 }
 
 class DungeonBattle extends StatelessWidget {
@@ -270,6 +273,8 @@ class DungeonBattle extends StatelessWidget {
 
 class DungeonEncounter extends StatelessWidget {
   final FullEncounter _model;
+
+  final _format = NumberFormat.decimalPattern();
 
   const DungeonEncounter(this._model, {Key key}) : super(key: key);
 
@@ -325,7 +330,7 @@ class DungeonEncounter extends StatelessWidget {
 
   Widget item(int flex, IconData iconData, int value) {
 //    return Flexible(flex: flex, child: Row(children: [Icon(iconData), Text(value.toString())]));
-    return Expanded(flex: flex, child: Row(children: [Icon(iconData), Text(value.toString())]));
+    return Expanded(flex: flex, child: Row(children: [Icon(iconData), Text(_format.format(value))]));
 //    return Row(children: [Icon(iconData), Text(value.toString())]);
   }
 }
