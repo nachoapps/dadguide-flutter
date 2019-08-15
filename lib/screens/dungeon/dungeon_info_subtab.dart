@@ -205,7 +205,7 @@ class ExpCoinTable extends StatelessWidget {
   final SubDungeon sd;
   const ExpCoinTable(this.sd, {Key key}) : super(key: key);
 
-  final _format = NumberFormat("###,###,###,###");
+  final _format = NumberFormat.decimalPattern();
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +274,7 @@ class DungeonBattle extends StatelessWidget {
 class DungeonEncounter extends StatelessWidget {
   final FullEncounter _model;
 
-  final _format = NumberFormat("###,###,###,###");
+  final _format = NumberFormat.decimalPattern();
 
   const DungeonEncounter(this._model, {Key key}) : super(key: key);
 
