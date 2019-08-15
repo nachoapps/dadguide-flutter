@@ -299,7 +299,7 @@ class MonsterDetailHeader extends StatelessWidget {
             Row(
               children: [
                 DadGuideIcons.largeMp,
-                Text(_data.monster.sellMp.toString(), style: Theme.of(context).textTheme.caption),
+                Text(NumberFormat.decimalPattern().format(_data.monster.sellMp), style: Theme.of(context).textTheme.caption),
               ],
             )
           ],
