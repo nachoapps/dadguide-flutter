@@ -171,7 +171,8 @@ class EventListRow extends StatelessWidget {
   String stamRcvText() {
     var timeTo = _model.isOpen() ? _model.endTime : _model.startTime;
     var stamRcv = timeTo.difference(DateTime.now()).inMinutes ~/ 3;
-    return '[Stam.Rcv.$stamRcv]';
+    var stamRcvStr = NumberFormat.decimalPattern().format(stamRcv);
+    return '[Stam.Rcv.$stamRcvStr]';
   }
 
   String underlineText(DateTime displayedDate) {

@@ -6,6 +6,7 @@ import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 abstract class ListItem {}
 
@@ -86,6 +87,9 @@ class DungeonList extends StatelessWidget {
 
 class DungeonListRow extends StatelessWidget {
   final ListDungeon _model;
+
+  final _format = NumberFormat.decimalPattern();
+  
   const DungeonListRow(this._model, {Key key}) : super(key: key);
 
   @override
@@ -120,9 +124,9 @@ class DungeonListRow extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconAndText(DadGuideIcons.mp, _model.maxAvgMp?.toString()),
+                          IconAndText(DadGuideIcons.mp, _model.maxAvgMp != null ? _format.format(_model.maxAvgMp) : null),
                           SizedBox(width: 8),
-                          IconAndText(DadGuideIcons.srank, _model.maxScore?.toString()),
+                          IconAndText(DadGuideIcons.srank, _model.maxScore != null ? _format.format(_model.maxScore) : null),
                           Spacer(),
                         ],
                       ),
