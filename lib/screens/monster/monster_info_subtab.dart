@@ -11,6 +11,7 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MonsterDetailScreen extends StatefulWidget {
   final MonsterDetailArgs _args;
@@ -170,6 +171,9 @@ class MonsterDetailContents extends StatelessWidget {
 
               SizedBox(height: 8),
               MonsterHistory(_data),
+
+              SizedBox(height: 8),
+              MonsterVideos(_data),
 
               SizedBox(height: 8),
               MailIssues(_data),
@@ -690,6 +694,29 @@ class MailIssues extends StatelessWidget {
               Icon(Icons.mail_outline),
               Text('Report incorrect information',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+            ],
+          )),
+    );
+  }
+}
+
+class MonsterVideos extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterVideos(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // Japanese name usually provides more results than the english
+      onTap: () => { launch('https://www.youtube.com/results?search_query=' + _data.monster.nameJp)},
+      child: Card(
+          color: Colors.grey[300],
+          child: Row(
+            children: [
+              Icon(Icons.play_arrow),
+              Expanded(child: Text("Example team compositions and dungeon clears",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
             ],
           )),
     );
