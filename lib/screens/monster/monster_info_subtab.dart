@@ -12,7 +12,6 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MonsterDetailScreen extends StatefulWidget {
   final MonsterDetailArgs _args;
