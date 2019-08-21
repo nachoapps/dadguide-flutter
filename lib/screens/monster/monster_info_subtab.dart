@@ -6,6 +6,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +171,9 @@ class MonsterDetailContents extends StatelessWidget {
 
               SizedBox(height: 8),
               MonsterHistory(_data),
+
+              SizedBox(height: 8),
+              MonsterVideos(_data),
 
               SizedBox(height: 8),
               MailIssues(_data),
@@ -696,6 +700,29 @@ class MailIssues extends StatelessWidget {
   }
 }
 
+class MonsterVideos extends StatelessWidget {
+  final FullMonster _data;
+
+  const MonsterVideos(this._data, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // Japanese name usually provides more results than the english
+      onTap: () => { launchYouTubeSearch(_data.monster.nameJp)},
+      child: Card(
+          color: Colors.grey[300],
+          child: Row(
+            children: [
+              Icon(Icons.play_arrow),
+              Expanded(child: Text("Example team compositions and dungeon clears",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
+            ],
+          )),
+    );
+  }
+}
+
 class MonsterLeaderInfoTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -743,8 +770,8 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           ]),
           TableRow(children: [
             cell('Reduce Dmg.'),
-            cell(ls.maxShield == 0 ? '-' : '${ls.maxShield} %'),
-            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(1 - ls.maxRcv, 2))} %'),
+            cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
+            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(ls.maxShield, 2))} %'),
           ]),
         ],
       ),
