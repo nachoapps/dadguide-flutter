@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
@@ -28,7 +29,7 @@ void main() async {
   Fimber.plantTree(FimberTree());
 
   // Initialize ads.
-  FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-6128472825595951~4484271468');
+  FirebaseAdMob.instance.initialize(appId: appId());
   // Sample bottom banner
   // ca-app-pub-3940256099942544/6300978111
 
