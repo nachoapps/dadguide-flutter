@@ -6,6 +6,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -709,7 +710,7 @@ class MonsterVideos extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // Japanese name usually provides more results than the english
-      onTap: () => { launch('https://www.youtube.com/results?search_query=' + _data.monster.nameJp)},
+      onTap: () => { launchYouTubeSearch(_data.monster.nameJp)},
       child: Card(
           color: Colors.grey[300],
           child: Row(
@@ -770,8 +771,8 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           ]),
           TableRow(children: [
             cell('Reduce Dmg.'),
-            cell(ls.maxShield == 0 ? '-' : '${ls.maxShield} %'),
-            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(1 - ls.maxRcv, 2))} %'),
+            cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
+            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(ls.maxShield, 2))} %'),
           ]),
         ],
       ),
