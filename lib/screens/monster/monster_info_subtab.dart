@@ -773,7 +773,7 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           TableRow(children: [
             cell('Reduce Dmg.'),
             cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
-            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(ls.maxShield, 2))} %'),
+            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(1 - ls.maxShield, 2))} %'),
           ]),
         ],
       ),
