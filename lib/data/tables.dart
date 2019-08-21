@@ -676,7 +676,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]);
 
     if (args.text.isNotEmpty) {
-      query.where((m) => m.nameNa.like('%${args.text}%'));
+      var intValue = int.tryParse(args.text);
+      if (intValue != null) {
+        query.where((m) => or(m.monsterNoJp.equals(intValue), m.monsterNoNa.equals(intValue)));
+      } else {
+        query.where((m) => m.nameNa.like('%${args.text}%'));
+      }
     }
 
     var results = await query.get().then((rows) => rows.map((m) {

@@ -79,7 +79,7 @@ class MonsterSearchBar extends StatelessWidget {
     var searchText = controller.searchArgs.text;
     return TopTextInputBar(
       searchText,
-      'Search: Monster Name/No./Series',
+      'Search: Monster Name/No.',
 //      Not supporting filter yet
 //      InkWell(
 //        child: Icon(Icons.clear_all),
@@ -157,7 +157,7 @@ class MonsterDisplayState with ChangeNotifier {
   bool _showAwakenings = false;
 
   set searchText(String text) {
-    searchArgs.text = text;
+    searchArgs.text = text?.trim();
     searchBloc.search(searchArgs);
     notifyListeners();
   }
