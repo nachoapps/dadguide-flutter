@@ -30,8 +30,6 @@ void main() async {
 
   // Initialize ads.
   FirebaseAdMob.instance.initialize(appId: appId());
-  // Sample bottom banner
-  // ca-app-pub-3940256099942544/6300978111
 
   await Prefs.init();
   initializeServiceLocator(dev: inDevMode);
