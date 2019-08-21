@@ -1,20 +1,30 @@
+import 'dart:io';
+
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
+String appId() {
+  return Platform.isIOS
+      ? 'ca-app-pub-8889612487979093~4523633017'
+      : 'ca-app-pub-8889612487979093~4833133513';
+}
+
+String bannerId() {
+  return Platform.isIOS
+      ? 'ca-app-pub-8889612487979093/4405526594'
+      : 'ca-app-pub-8889612487979093/5487739634';
+}
+
 BannerAd createBannerAd() {
   MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     keywords: <String>['game', 'mobile game', 'puzzles', 'matching', '3-match'],
-//    contentUrl: 'https://flutter.io',
     childDirected: false,
     testDevices: <String>[], // Android emulators are considered test devices
   );
 
   return BannerAd(
-    // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-    // https://developers.google.com/admob/android/test-ads
-    // https://developers.google.com/admob/ios/test-ads
-    adUnitId: BannerAd.testAdUnitId,
+    adUnitId: bannerId(),
     size: AdSize.banner,
     targetingInfo: targetingInfo,
     listener: (MobileAdEvent event) {
