@@ -10,8 +10,8 @@ import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MonsterDetailScreen extends StatefulWidget {
   final MonsterDetailArgs _args;
@@ -303,7 +303,8 @@ class MonsterDetailHeader extends StatelessWidget {
             Row(
               children: [
                 DadGuideIcons.largeMp,
-                Text(NumberFormat.decimalPattern().format(_data.monster.sellMp), style: Theme.of(context).textTheme.caption),
+                Text(NumberFormat.decimalPattern().format(_data.monster.sellMp),
+                    style: Theme.of(context).textTheme.caption),
               ],
             )
           ],
@@ -709,14 +710,15 @@ class MonsterVideos extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // Japanese name usually provides more results than the english
-      onTap: () => { launchYouTubeSearch(_data.monster.nameJp)},
+      onTap: () => {launchYouTubeSearch(_data.monster.nameJp)},
       child: Card(
           color: Colors.grey[300],
           child: Row(
             children: [
               Icon(Icons.play_arrow),
-              Expanded(child: Text("Example team compositions and dungeon clears",
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
+              Expanded(
+                  child: Text("Example team compositions and dungeon clears",
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
             ],
           )),
     );
