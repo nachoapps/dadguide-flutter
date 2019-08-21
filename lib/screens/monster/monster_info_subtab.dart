@@ -734,6 +734,9 @@ class MonsterLeaderInfoTable extends StatelessWidget {
   Widget build(BuildContext context) {
     var m = _data.monster;
     var ls = _data.leaderSkill;
+    // truncates to 1 or 2 decimal places depending on significant decimals
+    var _truncateNumber = (double n) =>
+        n.toStringAsFixed((n * 10).truncateToDouble() == n * 10 ? 1 : 2);
 
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
@@ -758,22 +761,22 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           TableRow(children: [
             cell('HP'),
             cell(ls.maxHp == 1 ? '-' : 'x ${ls.maxHp}'),
-            cell(ls.maxHp == 1 ? '-' : 'x ${ls.maxHp * ls.maxHp}'),
+            cell(ls.maxHp == 1 ? '-' : 'x ${_truncateNumber(ls.maxHp * ls.maxHp)}'),
           ]),
           TableRow(children: [
             cell('ATK'),
             cell(ls.maxAtk == 1 ? '-' : 'x ${ls.maxAtk}'),
-            cell(ls.maxAtk == 1 ? '-' : 'x ${ls.maxAtk * ls.maxAtk}'),
+            cell(ls.maxAtk == 1 ? '-' : 'x ${_truncateNumber(ls.maxAtk * ls.maxAtk)}'),
           ]),
           TableRow(children: [
             cell('RCV'),
             cell(ls.maxRcv == 1 ? '-' : 'x ${ls.maxRcv}'),
-            cell(ls.maxRcv == 1 ? '-' : 'x ${ls.maxRcv * ls.maxRcv}'),
+            cell(ls.maxRcv == 1 ? '-' : 'x ${_truncateNumber(ls.maxRcv * ls.maxRcv)}'),
           ]),
           TableRow(children: [
             cell('Reduce Dmg.'),
             cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
-            cell(ls.maxShield == 0 ? '-' : '${100 * (1 - pow(1 - ls.maxShield, 2))} %'),
+            cell(ls.maxShield == 0 ? '-' : '${_truncateNumber(100 * (1 - pow(1 - ls.maxShield, 2)))} %'),
           ]),
         ],
       ),
