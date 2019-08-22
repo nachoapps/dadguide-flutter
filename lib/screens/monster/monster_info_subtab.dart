@@ -548,7 +548,7 @@ class MonsterAssistStatTable extends StatelessWidget {
     var isEquip = false;
     
     // Only add stat changes if assist type
-    if (a[a.length - 1].awokenSkill.nameNa == "Awoken Assist") {
+    if (a.any((awakening) => awakening.awokenSkill.awokenSkillId == 49)) {
       isEquip = true;
     }
 
