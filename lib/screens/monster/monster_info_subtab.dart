@@ -482,11 +482,20 @@ class MonsterWeightedStatTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var m = _data.monster;
+    var a = _data.awakenings;
     var limitMult = (m.limitMult ?? 0) + 100;
     var maxHp = m.hpMax + 99 * 10;
     var atkMax = m.atkMax + 99 * 5;
     var rcvMax = m.rcvMax + 99 * 3;
-    // TODO: account for stat boosts
+    
+    // Account for stat boosts
+    a.forEach((awakening) {
+      var aS = awakening.awokenSkill;
+      maxHp += aS.adjHp;
+      atkMax += aS.adjAtk;
+      rcvMax += aS.adjRcv;
+    });
+
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: Table(
@@ -529,13 +538,32 @@ class MonsterAssistStatTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var m = _data.monster;
-    // TODO: account for stat boosts
+    var a = _data.awakenings;
     var hpMax = m.hpMax * .1;
     var atkMax = m.atkMax * .05;
     var rcvMax = m.rcvMax * .15;
     var hp297Max = hpMax + 99 * 10 * .1;
     var atk297Max = atkMax + 99 * 5 * .05;
     var rcv297Max = rcvMax + 99 * 3 * .15;
+    var isEquip = false;
+    
+    // Only add stat changes if assist type
+    if (a.any((awakening) => awakening.awokenSkill.awokenSkillId == 49)) {
+      isEquip = true;
+    }
+
+    if (isEquip) {
+      a.forEach((awakening) {
+        var aS = awakening.awokenSkill;
+        hpMax += aS.adjHp;
+        hp297Max += aS.adjHp;
+        atkMax += aS.adjAtk;
+        atk297Max += aS.adjAtk;
+        rcvMax += aS.adjRcv;
+        rcv297Max += aS.adjRcv;
+      });
+    }
+    
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: Table(
