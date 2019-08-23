@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:dadguide2/components/email.dart';
@@ -1111,14 +1112,8 @@ class AwokenSkillSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Create map to merge multiple instances of same awakening
-    var map = Map();
-    _awakenings.forEach((awakening) {
-      if(!map.containsKey(awakening.awokenSkill)){
-        map[awakening.awokenSkill] = 1;
-      } else {
-        map[awakening.awokenSkill] += 1;
-      }
-    });
+    var map = LinkedHashMap();
+    _awakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
 	
     var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
     return Column(
