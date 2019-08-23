@@ -7,15 +7,15 @@ import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt();
 
-void initializeServiceLocator({bool dev: true}) {
+void initializeServiceLocator({bool useDevEndpoints: false, bool logHttpRequests: false}) {
   getIt.registerSingleton<PermanentCacheManager>(PermanentCacheManager());
   var dio = Dio();
-  if (dev) {
+  if (logHttpRequests) {
     dio.interceptors.add(LogInterceptor());
   }
   getIt.registerSingleton(dio);
 
-  var endpoints = dev ? DevEndpoints() : ProdEndpoints();
+  var endpoints = useDevEndpoints ? DevEndpoints() : ProdEndpoints();
   getIt.registerSingleton<Endpoints>(endpoints);
 }
 

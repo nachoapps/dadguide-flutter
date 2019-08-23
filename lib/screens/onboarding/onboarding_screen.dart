@@ -4,6 +4,9 @@ import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 
+/// Displays the first-launch UI where the database and icon pack are downloaded and extracted.
+///
+/// The user can also select a few settings while they wait.
 class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

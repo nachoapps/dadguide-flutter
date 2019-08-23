@@ -4,17 +4,18 @@ import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 import 'monster_search_bloc.dart';
 
+/// Displays the search bar, list of monsters, and display options toggles.
 class MonsterTab extends StatelessWidget {
   MonsterTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('adding a monstertab');
     return ChangeNotifierProvider<MonsterDisplayState>(
       builder: (_) => MonsterDisplayState(),
       child: Column(children: <Widget>[
@@ -26,6 +27,7 @@ class MonsterTab extends StatelessWidget {
   }
 }
 
+/// Displays the list of monsters retrieved from the database based on the search/sort options.
 class MonsterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,22 +36,14 @@ class MonsterList extends StatelessWidget {
         stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            print(snapshot.error);
+            Fimber.e('Failed to display monster list', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
-          if (!snapshot.hasData) {
-            print('no data!');
+          if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: CircularProgressIndicator());
           }
 
           var data = snapshot.data;
-          if (data == null) {
-            print('null data!');
-            return Center(child: CircularProgressIndicator());
-          }
-
-          print('got data! ${data.length}');
-
           if (displayState.pictureMode) {
             return GridView.builder(
               itemCount: data.length,
@@ -72,6 +66,7 @@ class MonsterList extends StatelessWidget {
   }
 }
 
+/// Top bar in the monster list view; allows the user to search by name/id.
 class MonsterSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -96,6 +91,7 @@ class MonsterSearchBar extends StatelessWidget {
   }
 }
 
+/// Bottom bar in the monster list view; allows the user to select display options.
 class MonsterDisplayOptionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -132,19 +128,16 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
             color: controller.showAwakenings ? Colors.amber : Colors.black,
             onPressed: () => controller.showAwakenings = !controller.showAwakenings,
           ),
-//          Not supporting skill rotation yet
-//          IconButton(
-//            icon: Icon(Icons.change_history),
-//            onPressed: () => {},
-//          ),
         ],
       ),
     );
   }
 }
 
+/// Placeholder for monster sort order.
 class MonsterSort {}
 
+/// Intermediary between monster list model and the UI.
 class MonsterDisplayState with ChangeNotifier {
   final searchBloc = MonsterSearchBloc();
   final searchArgs = MonsterSearchArgs();
@@ -204,6 +197,7 @@ class MonsterDisplayState with ChangeNotifier {
   }
 }
 
+/// Item representing a monster in the monster list.
 class MonsterListRow extends StatelessWidget {
   final ListMonster _model;
   const MonsterListRow(this._model, {Key key}) : super(key: key);
@@ -231,6 +225,7 @@ class MonsterListRow extends StatelessWidget {
                         child: Row(children: [
                           Text('No. ${m.monsterNoJp}'),
                           Spacer(),
+                          // TODO: this text has placeholders
                           Text('MP ? / * ${m.cost} / S? -> ?'),
                         ])),
                     FittedBox(alignment: Alignment.centerLeft, child: Text(m.nameNa)),

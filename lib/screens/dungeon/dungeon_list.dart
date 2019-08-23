@@ -41,7 +41,6 @@ class DungeonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build for DL');
     var displayState = Provider.of<DungeonDisplayState>(context);
     return StreamBuilder<List<ListDungeon>>(
         stream: displayState.searchBloc.searchResults,

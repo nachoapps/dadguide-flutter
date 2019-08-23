@@ -14,8 +14,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+// TODO: convert to being supplied by getIt
 var onboardingManager = OnboardingTaskManager._();
 
+/// The different stages that the onboarding runs through.
 enum _SubTasks {
   downloadDb,
   unpackDb,
@@ -23,6 +25,7 @@ enum _SubTasks {
   unpackImages,
 }
 
+// TODO: convert this to a better enum implementation.
 var _taskNames = {
   _SubTasks.downloadDb: 'Downloading initial data',
   _SubTasks.unpackDb: 'Unpacking initial data',
@@ -30,6 +33,7 @@ var _taskNames = {
   _SubTasks.unpackImages: 'Unpacking icon set',
 };
 
+/// Singleton that manages the onboarding workflow.
 class OnboardingTaskManager {
   OnboardingTask instance;
 
@@ -39,6 +43,7 @@ class OnboardingTaskManager {
     return !await ResourceHelper.checkDbExists() || !PrefService.getBool('icons_downloaded');
   }
 
+  /// Start the onboarding flow. Attempting to start this more than once is unexpected.
   Future<void> start() {
     if (instance != null) {
       throw 'Already started';
@@ -48,8 +53,10 @@ class OnboardingTaskManager {
   }
 }
 
+/// Executes the onboarding workflow, publishing updates as it goes.
 class OnboardingTask with TaskPublisher {
   Future<void> start() async {
+    // Keep trying to download and update the database until it exists (accounts for failures).
     while (!await ResourceHelper.checkDbExists()) {
       try {
         await _downloadDb();
@@ -60,6 +67,7 @@ class OnboardingTask with TaskPublisher {
       }
     }
 
+    // Keep trying to download and unpack the icons until it succeeds (accounts for failures).
     while (!PrefService.getBool('icons_downloaded')) {
       try {
         await _downloadIcons();
@@ -70,6 +78,7 @@ class OnboardingTask with TaskPublisher {
       }
     }
 
+    // Now that the database has downloaded successfully, redo initialization.
     await DatabaseHelper.instance.reloadDb();
     await tryInitializeServiceLocatorDb(true);
 

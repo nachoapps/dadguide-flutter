@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Displays various hypothetical sub-utilities (none implemented yet).
+/// This tab is currently hidden.
 class UtilsScreen extends StatelessWidget {
   UtilsScreen({Key key}) : super(key: key);
 

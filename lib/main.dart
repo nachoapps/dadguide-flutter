@@ -14,7 +14,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
+/// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
+/// handler which seems to swallow some helpful Flutter error reporting. This should never be
+/// checked in with true.
 bool inDevMode = false;
+
+/// If true, uses dev (local) endpoints. Unless you're running the Sanic webserver from the
+/// dadguide-data project, you probably don't want this.
+bool useDevEndpoints = false;
 
 void main() async {
   // Dont report errors from dev mode to crashlytics.
@@ -31,17 +38,27 @@ void main() async {
   // Initialize ads.
   FirebaseAdMob.instance.initialize(appId: appId());
 
+  // Ensure the preference defaults are set.
   await Prefs.init();
-  initializeServiceLocator(dev: inDevMode);
+
+  // Set up services that are guaranteed to start with getIt.
+  initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
+
+  // Try to initialize the DB and register it with getIt; this will fail on first-launch.
   await tryInitializeServiceLocatorDb(false);
+
+  // Start the app.
   runApp(DadGuideApp());
 }
 
+/// This is the root widget for the entire application.
+///
+/// It sets up the MaterialApp and Theme for the whole thing. Based on the status of the database
+///
 class DadGuideApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // Prevent landscape mode.
@@ -52,7 +69,6 @@ class DadGuideApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        // TODO: Convert this to get_it ?
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
       ],
@@ -75,6 +91,8 @@ class DadGuideApp extends StatelessWidget {
   }
 }
 
+/// Placeholder widget that kicks off the async check that determines if we need to do onboarding
+/// (initial database and image pack downloading) or if we're ready to start the app.
 class SetupRequiredChecker extends StatefulWidget {
   @override
   SetupRequiredCheckerState createState() => new SetupRequiredCheckerState();
@@ -89,7 +107,11 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    // This check doesn't take much time, so don't bother displaying a loading UI.
+    // TODO: Save the future from _checkSetupRequired, and use FutureBuilder here so that we can
+    //       update the UI if the check fails. That really shouldn't happen, but an error would be
+    //       better than a blank screen if it does.
+    return Container();
   }
 
   Future<void> _checkSetupRequired() async {
@@ -99,12 +121,8 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
       Navigator.pushReplacementNamed(context, '/onboarding');
       onboardingManager.start();
     } else {
-      _goHome(context);
+      Fimber.i('Navigating to home');
+      Navigator.pushReplacementNamed(context, '/home');
     }
-  }
-
-  void _goHome(BuildContext ctx) {
-    Fimber.i('Navigating to home');
-    Navigator.pushReplacementNamed(ctx, '/home');
   }
 }

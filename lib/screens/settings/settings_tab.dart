@@ -2,6 +2,7 @@ import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 
+/// Displays user-configurable settings, and some misc items like copyright/contact etc.
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({Key key}) : super(key: key);
 

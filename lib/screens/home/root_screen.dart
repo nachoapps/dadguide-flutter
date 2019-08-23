@@ -12,6 +12,13 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
+/// Paths to the various screens that the user can navigate to.
+///
+/// The root screen is actually a single route; hitting the back button does not move the user
+/// between views.
+///
+/// All other screens are nested under the root, and respect the back button all the way up to the
+/// root screen.
 class TabNavigatorRoutes {
   static const String root = '/';
   static const String monsterDetail = MonsterDetailArgs.routeName;
@@ -19,6 +26,11 @@ class TabNavigatorRoutes {
   static const String subDungeonSelection = SubDungeonSelectionArgs.routeName;
 }
 
+/// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
+/// ability to go to the various sub screens, although some will never use it (e.g. settings).
+///
+/// Each TabNavigator wraps its own Navigator, allowing for independent back-stacks. Clicking
+/// between tabs will wipe out the back-stack.
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final Widget rootItem;
@@ -33,6 +45,8 @@ class TabNavigator extends StatelessWidget {
         onGenerateRoute: (routeSettings) {
           switch (routeSettings.name) {
             case TabNavigatorRoutes.root:
+              // The root tab is wrapped by a DataUpdaterWidget which will force a refresh if an
+              // update ever occurs while the tab is loaded.
               return MaterialPageRoute(builder: (context) => DataUpdaterWidget(rootItem));
             case TabNavigatorRoutes.monsterDetail:
               MonsterDetailArgs args = routeSettings.arguments;
@@ -50,6 +64,7 @@ class TabNavigator extends StatelessWidget {
   }
 }
 
+/// Controls the display of the tabs, including tracking which tab is currently visible.
 class StatefulHomeScreen extends StatefulWidget {
   StatefulHomeScreen({Key key}) : super(key: key);
 
@@ -61,7 +76,8 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
-//  static final utilsNavKey = GlobalKey<NavigatorState>();
+  // The utils tab is currently disabled due to lack of content.
+  // static final utilsNavKey = GlobalKey<NavigatorState>();
   static final settingsNavKey = GlobalKey<NavigatorState>();
 
   static List<TabNavigator> _widgetOptions = [
@@ -87,7 +103,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     ),
   ];
 
+  /// The currently selected tab.
   int _selectedIndex = 0;
+
+  /// Bottom ad to display.
   BannerAd bannerAd;
 
   @override
@@ -111,6 +130,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     super.dispose();
   }
 
+  /// Triggered whenever a user clicks on a new tab. Swaps the currently displayed tab UI.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -120,25 +140,28 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // Only respect the back button if the currently visible tab's navigator says its ok.
       onWillPop: () async =>
           !await _widgetOptions[_selectedIndex].navigatorKey.currentState.maybePop(),
       child: Column(
-        children: <Widget>[
+        children: [
           Expanded(
             child: Scaffold(
               body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
+              // Prevent the tabs at the bottom from floating above the keyboard.
               resizeToAvoidBottomInset: false,
               bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
             ),
           ),
+          // Reserve room for the banner ad.
           SizedBox(height: getBannerHeight(context)),
-//          SizedBox(height: getSmartBannerHeight(context)),
         ],
       ),
     );
   }
 }
 
+/// Tabs at the bottom that switch views.
 class BottomNavOptions extends StatelessWidget {
   final int selectedIdx;
   final void Function(int) onTap;
@@ -148,7 +171,7 @@ class BottomNavOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
           title: Text('Event'),

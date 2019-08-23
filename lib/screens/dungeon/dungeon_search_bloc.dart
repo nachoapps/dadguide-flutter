@@ -57,9 +57,12 @@ class DungeonDisplayState with ChangeNotifier {
   }
 }
 
+/// Interface between the dungeon list data model and the UI.
 class DungeonSearchBloc {
-  final DungeonsDao _dao;
+  // TODO: This is based on a half-ass understanding of how this is supposed to work, should clean
+  //       it up.
 
+  final DungeonsDao _dao;
   final _counterController = StreamController<List<ListDungeon>>();
 
   DungeonSearchBloc() : _dao = getIt<DungeonsDao>();

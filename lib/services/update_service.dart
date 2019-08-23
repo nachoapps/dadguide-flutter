@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
-import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
@@ -11,27 +10,43 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor/moor.dart';
 import 'package:tuple/tuple.dart';
 
+// TODO: convert this to being supplied by getIt.
 final updateManager = UpdateManager._();
 
+/// Singleton that controls updates to the database.
+///
+/// Publishes two streams, one for 'task updates' which can be used to update the user-friendly UI,
+/// and one which declares that an update has completed.
 class UpdateManager with TaskPublisher {
+  // Ignoring this warning because this stays open as long as the app does.
   // ignore: close_sinks
   final _controller = StreamController.broadcast();
   StreamSink<void> get _updateSink => _controller.sink;
+
+  /// This stream will emit a value every time the update completes (as well as any errors).
   Stream<void> get updateStream => _controller.stream;
 
+  /// If an update is currently running, it's in here.
   Future<void> runningTask;
 
   UpdateManager._();
 
+  /// Kicks off an update. If an update is already running, waits on that update to complete instead
+  /// of spawning a new task.
+  ///
+  /// Returns true if the invocation actually started an update as opposed to waiting on an existing
+  /// one.
   Future<bool> start() async {
     if (runningTask != null) {
+      // Already running, so wait for that to finish.
       await runningTask;
       return false;
     }
 
-    var db = await DatabaseHelper.instance.database;
-    var instance = UpdateTask(db, getIt<Dio>(), getIt<Endpoints>());
+    var instance = UpdateTask(getIt<DadGuideDatabase>(), getIt<Dio>(), getIt<Endpoints>());
+    // Proxy task updates to listeners.
     instance.pipeTo(this);
+
     try {
       runningTask = instance.start();
       await runningTask;
@@ -47,6 +62,8 @@ class UpdateManager with TaskPublisher {
   }
 }
 
+/// Contacts the server to get the newest timestamp for each table; if a table has an older max
+/// timestamp locally, pulls all the data since that timestamp and upserts it.
 class UpdateTask with TaskPublisher {
   final DadGuideDatabase _database;
   final Dio _dio;
@@ -62,9 +79,11 @@ class UpdateTask with TaskPublisher {
     Fimber.i('Checking for table updates');
     Prefs.updateRan();
 
+    // Pull the remote table timestamp info.
     _pub(0, 0);
     var timestamps = await _retrieveTimestamps();
 
+    // Compare the remote table timestamps against the local one to determine what work to do.
     List<Tuple2<TableInfo, int>> tablesToUpdate = [];
     for (var table in _updateOrder()) {
       var tableTstamp = await _database.maxTstamp(table) ?? 0;
@@ -76,6 +95,7 @@ class UpdateTask with TaskPublisher {
       }
     }
 
+    // For each table that needs updating, run the update and publish updates as we go.
     for (var tableAndTstamp in tablesToUpdate) {
       await _updateTable(
           tableAndTstamp.item1,
@@ -87,6 +107,7 @@ class UpdateTask with TaskPublisher {
     Fimber.i('Table update complete');
   }
 
+  // Executes the update for each table.
   Future<void> _updateTable(TableInfo table, int localTstamp, void Function(int) progressFn) async {
     // TODO: this definitely needs batching, it's slow as fuck
 
@@ -131,11 +152,13 @@ class UpdateTask with TaskPublisher {
     }
   }
 
+  /// Gets the server-side max timestamp for each table.
   Future<Map<String, int>> _retrieveTimestamps() async {
     var items = await _retrieveTableData('timestamps');
     return Map.fromIterable(items, key: (i) => i['name'], value: (i) => i['tstamp']);
   }
 
+  /// Gets the actual data for a table that needs upserting.
   Future<List<Map<String, dynamic>>> _retrieveTableData(String tableName, {int tstamp}) async {
     var url = _endpoints.api(tableName, tstamp: tstamp);
     var resp = await _dio.get(url);
@@ -144,6 +167,9 @@ class UpdateTask with TaskPublisher {
     return items.cast<Map<String, dynamic>>();
   }
 
+  /// Controls the actual order that we update tables. This probably doesn't matter, since Sqlite
+  /// doesn't actually enforce foreign key references at the moment. Tables need to be added here
+  /// or they wont be updated.
   List<TableInfo> _updateOrder() {
     return [
       _database.activeSkills,
