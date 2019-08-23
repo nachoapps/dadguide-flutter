@@ -1110,6 +1110,16 @@ class AwokenSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Create map to merge multiple instances of same awakening
+    var map = Map();
+    _awakenings.forEach((awakening) {
+      if(!map.containsKey(awakening.awokenSkill)){
+        map[awakening.awokenSkill] = 1;
+      } else {
+        map[awakening.awokenSkill] += 1;
+      }
+    });
+	
     var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
     return Column(
       children: [
@@ -1120,7 +1130,7 @@ class AwokenSkillSection extends StatelessWidget {
             for (var a in _awakenings) awakeningContainer(a.awokenSkillId, size: 16),
           ],
         ),
-        for (var a in _awakenings)
+        for (var a in map.keys)
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1129,8 +1139,12 @@ class AwokenSkillSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(a.awokenSkill.nameNa),
-                    Text(a.awokenSkill.descNa),
+                    // Show number of same awakenings if applicable
+                    if (map[a] > 1)
+                      Text(a.nameNa + " x" + map[a].toString())
+                    else
+                      Text(a.nameNa),
+                    Text(a.descNa),
                   ],
                 ),
               )
