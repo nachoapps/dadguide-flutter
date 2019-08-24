@@ -7,6 +7,20 @@ import 'data_objects.dart';
 
 part 'tables.g.dart';
 
+// The first part of this file contains the classes used for database code generation.
+//
+// Later on is the database definition, and the Event, Monster, and Dungeon DAOs.
+// Each DAO also has at least one SearchArg class associated for data lookups.
+//
+// There's not really any documentation on what is in these fields. For that you should
+// either set up your own personal MySQL instance using the export, or you can refer
+// to the python data loader.
+//
+// You need to run `flutter packages pub run build_runner watch` as described in the README.md
+// in order to ensure code gen is executed on update.
+//
+// TODO: would be nice to split this file up a bit, but I couldn't figure out how to do that.
+
 class ActiveSkills extends Table {
   IntColumn get activeSkillId => integer().autoIncrement()();
 

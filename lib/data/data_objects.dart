@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/data/tables.dart';
 
+/// Partial data displayed in the dungeon list view.
 class ListDungeon {
   final Dungeon dungeon;
   final Monster iconMonster;
@@ -11,6 +12,7 @@ class ListDungeon {
   ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp);
 }
 
+/// Data displayed in the monster view that links to a dungeon.
 class BasicDungeon {
   final int dungeonId;
   final String nameJp;
@@ -20,6 +22,7 @@ class BasicDungeon {
   BasicDungeon(this.dungeonId, this.nameJp, this.nameNa, this.nameKr);
 }
 
+/// Data displayed in the dungeon view.
 class FullDungeon {
   final Dungeon dungeon;
   final List<SubDungeon> subDungeons;
@@ -28,6 +31,7 @@ class FullDungeon {
   FullDungeon(this.dungeon, this.subDungeons, this.selectedSubDungeon);
 }
 
+/// Data displayed in the dungeon view for the selected subdungeon.
 class FullSubDungeon {
   final SubDungeon subDungeon;
   final List<FullEncounter> encounters;
@@ -59,6 +63,7 @@ class FullSubDungeon {
   }
 }
 
+/// Series info displayed in the monster view.
 class FullSeries {
   final SeriesData series;
   final List<int> members;
@@ -66,6 +71,7 @@ class FullSeries {
   FullSeries(this.series, this.members);
 }
 
+/// An encounter row for a battle in a subdungeon stage.
 class FullEncounter {
   final Encounter encounter;
   final Monster monster;
@@ -74,6 +80,7 @@ class FullEncounter {
   FullEncounter(this.encounter, this.monster, this.drops);
 }
 
+/// A list of encounters for a specific stage in a subdungeon.
 class Battle {
   final int stage;
   final List<FullEncounter> encounters;
@@ -81,6 +88,7 @@ class Battle {
   Battle(this.stage, this.encounters);
 }
 
+/// Full monster info displayed in the monster view
 class FullMonster {
   final Monster monster;
   final ActiveSkill activeSkill;
@@ -121,6 +129,7 @@ class FullMonster {
   }
 }
 
+/// Partial monster info displayed in monster list view.
 class ListMonster {
   final Monster monster;
   final List<Awakening> _awakenings;
@@ -135,6 +144,7 @@ class ListMonster {
   MonsterType get type3 => MonsterType.byId(monster.type3Id);
 }
 
+/// Evolution data for the monster detail view.
 class FullEvolution {
   final Evolution evolution;
   final Monster fromMonster;
@@ -155,6 +165,7 @@ class FullEvolution {
   EvolutionType get type => EvolutionType.byId(evolution.evolutionType);
 }
 
+/// Awakening plus skill info, for the monster detail view.
 class FullAwakening {
   final Awakening awakening;
   final AwokenSkill awokenSkill;
@@ -164,6 +175,7 @@ class FullAwakening {
   int get awokenSkillId => awakening.awokenSkillId;
 }
 
+/// Event details, for the event list view.
 class ListEvent {
   final ScheduleEvent event;
   final Dungeon dungeon;

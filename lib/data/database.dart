@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import 'package:dadguide2/data/tables.dart';
-
+/// Wrapper for database loading and reloading.
 class DatabaseHelper {
   // TODO: make this injected
   static final _dbName = 'dadguide.sqlite';
