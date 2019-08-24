@@ -488,7 +488,7 @@ class MonsterWeightedStatTable extends StatelessWidget {
     var maxHp = m.hpMax + 99 * 10;
     var atkMax = m.atkMax + 99 * 5;
     var rcvMax = m.rcvMax + 99 * 3;
-    
+
     // Account for stat boosts
     a.forEach((awakening) {
       var aS = awakening.awokenSkill;
@@ -547,7 +547,7 @@ class MonsterAssistStatTable extends StatelessWidget {
     var atk297Max = atkMax + 99 * 5 * .05;
     var rcv297Max = rcvMax + 99 * 3 * .15;
     var isEquip = false;
-    
+
     // Only add stat changes if assist type
     if (a.any((awakening) => awakening.awokenSkill.awokenSkillId == 49)) {
       isEquip = true;
@@ -564,7 +564,7 @@ class MonsterAssistStatTable extends StatelessWidget {
         rcv297Max += aS.adjRcv;
       });
     }
-    
+
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: Table(
@@ -764,8 +764,8 @@ class MonsterLeaderInfoTable extends StatelessWidget {
     var m = _data.monster;
     var ls = _data.leaderSkill;
     // truncates to 1 or 2 decimal places depending on significant decimals
-    var _truncateNumber = (double n) =>
-        n.toStringAsFixed((n * 10).truncateToDouble() == n * 10 ? 1 : 2);
+    var _truncateNumber =
+        (double n) => n.toStringAsFixed((n * 10).truncateToDouble() == n * 10 ? 1 : 2);
 
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
@@ -805,7 +805,9 @@ class MonsterLeaderInfoTable extends StatelessWidget {
           TableRow(children: [
             cell('Reduce Dmg.'),
             cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
-            cell(ls.maxShield == 0 ? '-' : '${_truncateNumber(100 * (1 - pow(1 - ls.maxShield, 2)))} %'),
+            cell(ls.maxShield == 0
+                ? '-'
+                : '${_truncateNumber(100 * (1 - pow(1 - ls.maxShield, 2)))} %'),
           ]),
         ],
       ),
@@ -1114,7 +1116,7 @@ class AwokenSkillSection extends StatelessWidget {
     // Create map to merge multiple instances of same awakening
     var map = LinkedHashMap();
     _awakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
-	
+
     var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
     return Column(
       children: [
