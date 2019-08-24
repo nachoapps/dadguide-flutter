@@ -11,43 +11,39 @@ import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
+/// Loads the monster data given by args, and displays it in a MonsterDetailContents.
 class MonsterDetailScreen extends StatefulWidget {
-  final MonsterDetailArgs _args;
+  final MonsterDetailArgs args;
 
-  MonsterDetailScreen(this._args);
+  MonsterDetailScreen(this.args);
 
   @override
-  _MonsterDetailScreenState createState() => _MonsterDetailScreenState(_args);
+  _MonsterDetailScreenState createState() => _MonsterDetailScreenState();
 }
 
 class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
-  final MonsterDetailArgs _args;
   Future<FullMonster> loadingFuture;
 
-  _MonsterDetailScreenState(this._args);
+  _MonsterDetailScreenState();
 
   @override
   void initState() {
     super.initState();
-    loadingFuture = getIt<MonstersDao>().fullMonster(_args.monsterId);
+    loadingFuture = getIt<MonstersDao>().fullMonster(widget.args.monsterId);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('adding a monsterdetail');
-    return ChangeNotifierProvider(
-      builder: (context) => MonsterDetailSearchState(),
-      child: Column(
-        children: <Widget>[
-          MonsterDetailBar(),
-          Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
+    return Column(
+      children: <Widget>[
+        MonsterDetailBar(),
+        Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
 //          Disabled for now; nothing here is implemented
 //          MonsterDetailOptionsBar(),
-        ],
-      ),
+      ],
     );
   }
 
@@ -56,7 +52,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
         future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            print(snapshot.error);
+            Fimber.w('Failed to load monster data', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData) {
@@ -68,6 +64,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   }
 }
 
+/// Displays info for a single monster, including the image, awakenings, active, leader, stats, etc.
 class MonsterDetailContents extends StatelessWidget {
   final FullMonster _data;
 
@@ -82,6 +79,7 @@ class MonsterDetailContents extends StatelessWidget {
       children: [
         MonsterDetailPortrait(_data),
         Divider(),
+        // TODO: Probably split this up a bit more, it's a bit massive.
         Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(
@@ -186,10 +184,11 @@ class MonsterDetailContents extends StatelessWidget {
   }
 }
 
+// Displays the monster image, refresh icon, awakenings, and left/right buttons.
 class MonsterDetailPortrait extends StatefulWidget {
-  final FullMonster _data;
+  final FullMonster data;
 
-  const MonsterDetailPortrait(this._data, {Key key}) : super(key: key);
+  const MonsterDetailPortrait(this.data, {Key key}) : super(key: key);
 
   @override
   _MonsterDetailPortraitState createState() => _MonsterDetailPortraitState();
@@ -201,7 +200,7 @@ class _MonsterDetailPortraitState extends State<MonsterDetailPortrait> {
     return AspectRatio(
         aspectRatio: 5 / 3,
         child: Stack(children: [
-          Center(child: portraitImage(widget._data.monster.monsterId)),
+          Center(child: portraitImage(widget.data.monster.monsterId)),
           Positioned(
             left: 10,
             top: 10,
@@ -211,35 +210,36 @@ class _MonsterDetailPortraitState extends State<MonsterDetailPortrait> {
             ),
           ),
           Positioned.fill(
-            child: MonsterDetailPortraitAwakenings(widget._data),
+            child: MonsterDetailPortraitAwakenings(widget.data),
           ),
-          if (widget._data.prevMonsterId != null)
+          if (widget.data.prevMonsterId != null)
             Positioned(
               left: 10,
               bottom: 4,
               child: InkWell(
                 child: Icon(Icons.chevron_left),
-                onTap: goToMonsterFn(context, widget._data.prevMonsterId),
+                onTap: goToMonsterFn(context, widget.data.prevMonsterId),
               ),
             ),
-          if (widget._data.nextMonsterId != null)
+          if (widget.data.nextMonsterId != null)
             Positioned(
               right: 10,
               bottom: 4,
               child: InkWell(
                 child: Icon(Icons.chevron_right),
-                onTap: goToMonsterFn(context, widget._data.nextMonsterId),
+                onTap: goToMonsterFn(context, widget.data.nextMonsterId),
               ),
             ),
         ]));
   }
 
-  _refreshIcon() async {
-    await clearImageCache(widget._data.monster.monsterId);
+  Future<void> _refreshIcon() async {
+    await clearImageCache(widget.data.monster.monsterId);
     setState(() {});
   }
 }
 
+/// The awakenings and super awakenings to display over the portrait.
 class MonsterDetailPortraitAwakenings extends StatelessWidget {
   final FullMonster _data;
 
@@ -256,7 +256,7 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
             var maxHeight = constraints.biggest.height / 10;
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
+              children: [
                 if (_data.superAwakenings.isNotEmpty)
                   Column(
                     children: [
@@ -284,6 +284,7 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
   }
 }
 
+/// Chunk of info below the portrait, including the icon, name, typing, rarity, etc.
 class MonsterDetailHeader extends StatelessWidget {
   final FullMonster _data;
 
@@ -346,6 +347,7 @@ class MonsterDetailHeader extends StatelessWidget {
   }
 }
 
+/// Combination of the type icon and type name with padding (null safe for type).
 class TypeIconText extends StatelessWidget {
   final MonsterType _monsterType;
 
@@ -353,7 +355,7 @@ class TypeIconText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_monsterType == null) return Container(width: 0.0, height: 0.0);
+    if (_monsterType == null) return Container();
 
     return Row(children: [
       typeContainer(_monsterType.id, leftPadding: 4),
@@ -365,6 +367,7 @@ class TypeIconText extends StatelessWidget {
   }
 }
 
+/// Bar across the top of the monster view; currently only the back button.
 class MonsterDetailBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -422,8 +425,7 @@ class MonsterDetailOptionsBar extends StatelessWidget {
   }
 }
 
-class MonsterDetailSearchState with ChangeNotifier {}
-
+/// Level 1/99/110 stat table, plus XP required.
 class MonsterLevelStatTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -475,6 +477,7 @@ class MonsterLevelStatTable extends StatelessWidget {
   }
 }
 
+/// Level 99/110 stat table, includes awakenings and 297.
 class MonsterWeightedStatTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -531,6 +534,7 @@ class MonsterWeightedStatTable extends StatelessWidget {
   }
 }
 
+// Level 99/99+297 stat table for assists.
 class MonsterAssistStatTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -620,14 +624,10 @@ TableCell widgetCell(Widget widget) {
   );
 }
 
-//Widget cell(String text) =>
-//    TableCell(child: Text(text), verticalAlignment: TableCellVerticalAlignment.fill);
-////  Widget cell(String text) => TableCell(child: Text(text, textAlign: TextAlign.end));
-//Widget intCell(int value) => cell(value?.toString() ?? '');
-
 int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
     (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;
 
+/// Active skill info.
 class MonsterActiveSkillSection extends StatelessWidget {
   final ActiveSkill _skill;
 
@@ -665,6 +665,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
   }
 }
 
+/// Leader skill info.
 class MonsterLeaderSkillSection extends StatelessWidget {
   final LeaderSkill _skill;
 
@@ -691,6 +692,7 @@ class MonsterLeaderSkillSection extends StatelessWidget {
   }
 }
 
+/// Displays date monster was registered in DadGuide.
 class MonsterHistory extends StatelessWidget {
   final FullMonster _data;
 
@@ -708,6 +710,7 @@ class MonsterHistory extends StatelessWidget {
   }
 }
 
+/// Widget which, when clicked, launches an error reporting email.
 class MailIssues extends StatelessWidget {
   final FullMonster _data;
 
@@ -730,6 +733,7 @@ class MailIssues extends StatelessWidget {
   }
 }
 
+/// Widget which, when clicked, launches youtube with the JP name prepopulated.
 class MonsterVideos extends StatelessWidget {
   final FullMonster _data;
 
@@ -754,6 +758,7 @@ class MonsterVideos extends StatelessWidget {
   }
 }
 
+/// Leader skill multiplier table.
 class MonsterLeaderInfoTable extends StatelessWidget {
   final FullMonster _data;
 
@@ -815,6 +820,7 @@ class MonsterLeaderInfoTable extends StatelessWidget {
   }
 }
 
+/// Displays icons of monsters with the same active skill.
 class MonsterSkillups extends StatelessWidget {
   final List<int> _monsterIds;
 
@@ -835,6 +841,7 @@ class MonsterSkillups extends StatelessWidget {
   }
 }
 
+/// Displays dungeons that the monster drops in.
 class MonsterDropLocations extends StatelessWidget {
   final FullMonster _data;
   const MonsterDropLocations(this._data, {Key key}) : super(key: key);
@@ -875,6 +882,7 @@ class MonsterDropLocations extends StatelessWidget {
   }
 }
 
+/// Locations where the skillup monsters drop.
 class MonsterSkillupDropLocations extends StatelessWidget {
   const MonsterSkillupDropLocations({Key key}) : super(key: key);
 
@@ -884,13 +892,14 @@ class MonsterSkillupDropLocations extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Skill Up - Dungeon'),
-        // TODO: if monster appears in a skill-up dungeon should not that too
+        // TODO: if monster appears in a skill-up dungeon should note that too
         Text('Not implemented yet =(', style: Theme.of(context).textTheme.body2),
       ],
     );
   }
 }
 
+/// Table with gold/mp/feed info at max level.
 class MonsterBuySellFeedSection extends StatelessWidget {
   final Monster _monster;
 
@@ -941,6 +950,7 @@ class MonsterBuySellFeedSection extends StatelessWidget {
   }
 }
 
+/// Series name and icons for other monsters in the series.
 class MonsterSeries extends StatelessWidget {
   final FullMonster _fullMonster;
 
@@ -964,6 +974,7 @@ class MonsterSeries extends StatelessWidget {
   }
 }
 
+/// Wrapper for the multiple possible evolution sections.
 class MonsterEvolutions extends StatelessWidget {
   final FullMonster _fullMonster;
 
@@ -1001,6 +1012,7 @@ class MonsterEvolutions extends StatelessWidget {
   }
 }
 
+/// An individual evolution section, with a name and list of evos.
 class MonsterEvoSection extends StatelessWidget {
   final String name;
   final List<FullEvolution> evos;
@@ -1023,6 +1035,7 @@ class MonsterEvoSection extends StatelessWidget {
   }
 }
 
+/// An individual evo row, with from/to monster and mats displayed between.
 class MonsterEvoRow extends StatelessWidget {
   final FullEvolution _evo;
 
@@ -1106,6 +1119,7 @@ class MonsterEvoRow extends StatelessWidget {
   }
 }
 
+/// A chunk of awoken skills; displayed possibly twice (regular and super awokens).
 class AwokenSkillSection extends StatelessWidget {
   final List<FullAwakening> _awakenings;
 

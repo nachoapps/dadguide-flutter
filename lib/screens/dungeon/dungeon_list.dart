@@ -8,16 +8,17 @@ import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// Parent class for rows in the dungeon list.
 abstract class ListItem {}
 
-// A ListItem that contains data to display a heading.
+/// A ListItem that contains data to display a heading.
 class HeadingItem implements ListItem {
   final DungeonSubSection section;
 
   HeadingItem(this.section);
 }
 
-// A ListItem that contains data to display an event row.
+/// A ListItem that contains data to display an event row.
 class EventRowItem implements ListItem {
   final ListDungeon model;
 
@@ -36,6 +37,8 @@ List<ListItem> rowsToListItems(List<ListDungeon> events, DungeonTabKey tabKey) {
   return results;
 }
 
+/// List of dungeons to display; a stream because this updates as the user clicks on the various
+/// bottom tab options.
 class DungeonList extends StatelessWidget {
   DungeonList({Key key}) : super(key: key);
 
@@ -49,22 +52,18 @@ class DungeonList extends StatelessWidget {
             print(snapshot.error);
             return Center(child: Icon(Icons.error));
           }
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: CircularProgressIndicator());
           }
 
           var data = snapshot.data;
-          if (data == null) {
-            return Center(child: CircularProgressIndicator());
-          }
-
           var listItems = rowsToListItems(data, displayState.tab);
           if (listItems.isEmpty) {
             return Center(child: Text('No Data'));
           }
 
           return ListView.builder(
-            itemCount: data.length,
+            itemCount: listItems.length,
             itemBuilder: (context, index) {
               var item = listItems[index];
               if (item is HeadingItem) {
@@ -84,6 +83,7 @@ class DungeonList extends StatelessWidget {
   }
 }
 
+/// A row representing a dungeon.
 class DungeonListRow extends StatelessWidget {
   final ListDungeon _model;
 
@@ -139,6 +139,7 @@ class DungeonListRow extends StatelessWidget {
   }
 }
 
+/// Used to display srank/mp icons next to their values.
 class IconAndText extends StatelessWidget {
   final Widget _icon;
   final String _text;

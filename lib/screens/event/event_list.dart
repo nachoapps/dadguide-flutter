@@ -10,16 +10,17 @@ import 'package:provider/provider.dart';
 
 import 'event_search_bloc.dart';
 
+/// Parent class for items which can show up in the event list, since they're different types.
 abstract class ListItem {}
 
-// A ListItem that contains data to display a heading.
+/// A ListItem that contains data to display a heading.
 class HeadingItem implements ListItem {
   final ScheduleSubSection section;
 
   HeadingItem(this.section);
 }
 
-// A ListItem that contains data to display an event row.
+/// A ListItem that contains data to display an event row.
 class EventRowItem implements ListItem {
   final ListEvent model;
 
@@ -62,6 +63,10 @@ int _compareEvents(ListEvent l, ListEvent r) {
   return info;
 }
 
+/// Converts a stream of lists of Events into a ListView of data.
+///
+/// This is a stream because the user's actions (e.g. changing the date) may require a new data
+/// publication, updating the UI.
 class EventListContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -73,15 +78,11 @@ class EventListContents extends StatelessWidget {
             Fimber.e('Error loading data', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: CircularProgressIndicator());
           }
 
           var data = snapshot.data;
-          if (data == null) {
-            return Center(child: CircularProgressIndicator());
-          }
-
           var listItems = rowsToListItems(data, displayState.tab);
           if (listItems.isEmpty) {
             return Center(child: Text('No Data'));
@@ -108,6 +109,7 @@ class EventListContents extends StatelessWidget {
   }
 }
 
+/// An individual event row.
 class EventListRow extends StatelessWidget {
   static final DateFormat longFormat = DateFormat.MMMd().add_jm();
   static final DateFormat shortFormat = DateFormat.jm();

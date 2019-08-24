@@ -6,7 +6,7 @@ class MonsterDetailArgs {
   static const routeName = '/monsterDetail';
   final int monsterId;
 
-  MonsterDetailArgs(this.monsterId);
+  const MonsterDetailArgs(this.monsterId);
 }
 
 Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool ink: false}) {
@@ -34,7 +34,7 @@ class DungeonDetailArgs {
   final int dungeonId;
   final int subDungeonId;
 
-  DungeonDetailArgs(this.dungeonId, this.subDungeonId);
+  const DungeonDetailArgs(this.dungeonId, this.subDungeonId);
 }
 
 Widget wrapDungeonLink(BuildContext context, Widget child, int dungeonId,

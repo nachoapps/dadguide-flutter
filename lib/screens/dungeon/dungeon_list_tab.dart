@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'dungeon_list.dart';
 import 'dungeon_search_bloc.dart';
 
+/// Displays the search bar, dungeon list, and dungeon type selector bar.
 class DungeonTab extends StatelessWidget {
   DungeonTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('adding a DungeonTab');
     return ChangeNotifierProvider(
       key: UniqueKey(),
       builder: (context) => DungeonDisplayState(DungeonTabKey.special),
@@ -24,6 +24,8 @@ class DungeonTab extends StatelessWidget {
   }
 }
 
+/// Top bar in the dungeon tab, contains the search bar and 'clear' widget. Eventually will contain
+/// the dungeon series filter.
 class DungeonSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,7 @@ class DungeonSearchBar extends StatelessWidget {
   }
 }
 
+/// Bottom bar that allows the user to tab between different dungeon types.
 class DungeonDisplayOptionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

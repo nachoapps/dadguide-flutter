@@ -11,12 +11,12 @@ import 'event_search_bloc.dart';
 
 final _dateFormatter = DateFormat.MMMMd();
 
+/// A header-tabbed screen displaying events.
 class EventTab extends StatelessWidget {
   EventTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('adding an eventtab');
     return DefaultTabController(
       length: 3,
       initialIndex: 0,
@@ -37,6 +37,7 @@ class EventTab extends StatelessWidget {
   }
 }
 
+/// The event tab header.
 class EventListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -61,6 +62,7 @@ class EventListHeader extends StatelessWidget {
   }
 }
 
+/// The tab contents.
 class EventListTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -74,6 +76,7 @@ class EventListTabs extends StatelessWidget {
   }
 }
 
+/// Displays a list of Events, chunked into sections by type.
 class EventList extends StatelessWidget {
   final ScheduleTabKey _tabKey;
 
@@ -91,6 +94,7 @@ class EventList extends StatelessWidget {
   }
 }
 
+/// Bar at the bottom of each tab; allows the user to select the current event date.
 class DateSelectBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

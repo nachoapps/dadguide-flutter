@@ -5,6 +5,7 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
+/// Displays a list of the SubDungeons in the Dungeon, which the user can pick from.
 class SelectSubDungeonScreen extends StatelessWidget {
   final SubDungeonSelectionArgs args;
 
@@ -22,6 +23,7 @@ class SelectSubDungeonScreen extends StatelessWidget {
   }
 }
 
+/// Contains a back button and instructional text.
 class SelectSubDungeonTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,15 +40,13 @@ class SelectSubDungeonTopBar extends StatelessWidget {
                   onTap: () => Navigator.of(context).pop(),
                 )),
             Expanded(child: Center(child: Text('Select Difficulty'))),
-            SizedBox(
-              width: 32,
-              height: 32,
-            ),
+            SizedBox(width: 32, height: 32),
           ],
         ));
   }
 }
 
+/// Contains a close button; just an alias for the back button.
 class SelectSubDungeonBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -56,14 +56,18 @@ class SelectSubDungeonBottomBar extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-                height: 24,
-                child:
-                    FlatButton(child: Text('Close'), onPressed: () => Navigator.of(context).pop())),
+              height: 24,
+              child: FlatButton(
+                child: Text('Close'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
           ],
         ));
   }
 }
 
+/// Displays a row for every available SubDungeon.
 class SubDungeonList extends StatelessWidget {
   final FullDungeon data;
 
@@ -79,6 +83,7 @@ class SubDungeonList extends StatelessWidget {
   }
 }
 
+/// A row containing the boss icon, floor name, xp/stam coin/stam, and (optional) reward.
 class SubDungeonRow extends StatelessWidget {
   final SubDungeon data;
 

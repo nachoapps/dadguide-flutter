@@ -8,6 +8,7 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 
+/// Top level state for the event tab; contains the selected date and server.
 class ScheduleDisplayState with ChangeNotifier {
   List<Country> servers = [Prefs.eventCountry];
   List<StarterDragon> starters = Prefs.eventStarters;
@@ -28,6 +29,7 @@ class ScheduleDisplayState with ChangeNotifier {
   }
 }
 
+/// State for an individual sub tab.
 class ScheduleTabState with ChangeNotifier {
   final searchBloc = EventSearchBloc();
 

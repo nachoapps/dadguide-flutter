@@ -10,7 +10,6 @@ import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:provider/provider.dart';
 
 class DungeonDetailScreen extends StatefulWidget {
   final DungeonDetailArgs args;
@@ -36,15 +35,11 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('adding a dungeondetail for ${_args.dungeonId}');
-    return ChangeNotifierProvider(
-      builder: (context) => DungeonDetailSearchState(),
-      child: Column(
-        children: [
-          DungeonDetailActionsBar(),
-          Expanded(child: _retrieveDungeon()),
-        ],
-      ),
+    return Column(
+      children: [
+        DungeonDetailActionsBar(),
+        Expanded(child: _retrieveDungeon()),
+      ],
     );
   }
 
@@ -329,6 +324,7 @@ class DungeonEncounter extends StatelessWidget {
   }
 }
 
+/// The 1 or 2 part attribute bar that displays below an encounter icon.
 class MonsterColorBar extends StatelessWidget {
   final Monster _model;
 
@@ -372,6 +368,7 @@ class MonsterColorBar extends StatelessWidget {
   }
 }
 
+/// Bar at the top of the view, currently only contains the back button.
 class DungeonDetailActionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -393,6 +390,7 @@ class DungeonDetailActionsBar extends StatelessWidget {
   }
 }
 
+/// Bar at the bottom with action buttons, e.g. open YouTube.
 class DungeonDetailOptionsBar extends StatelessWidget {
   final FullDungeon _data;
 
@@ -404,7 +402,7 @@ class DungeonDetailOptionsBar extends StatelessWidget {
       color: Colors.grey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
+        children: [
           IconButton(
             icon: Icon(Icons.format_list_bulleted),
             onPressed: goToSubDungeonSelectionFn(context, _data),
@@ -427,8 +425,7 @@ class DungeonDetailOptionsBar extends StatelessWidget {
   }
 }
 
-class DungeonDetailSearchState with ChangeNotifier {}
-
+/// Widget which, when clicked, sends an error email.
 class MailIssues extends StatelessWidget {
   final FullDungeon _data;
 

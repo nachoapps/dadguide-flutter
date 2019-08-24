@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
+/// Displays a dialog that lets the user toggle their event server, or kick off the update.
 Future<void> showServerSelectDialog(BuildContext context) async {
   Fimber.i('Displaying server select dialog');
   var displayState = Provider.of<ScheduleDisplayState>(context);
@@ -31,6 +32,7 @@ Future<void> showServerSelectDialog(BuildContext context) async {
       });
 }
 
+/// Country icon and name; when clicked, changes the selected events country.
 class CountryTile extends StatelessWidget {
   final ScheduleDisplayState displayState;
   final Country country;

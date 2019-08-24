@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class DungeonSort {}
 
+/// Interface between the tab and the underlying dungeon list data.
 class DungeonDisplayState with ChangeNotifier {
   final searchBloc = DungeonSearchBloc();
 
