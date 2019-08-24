@@ -1,3 +1,4 @@
+/// Enum class for monster typing.
 class MonsterType {
   const MonsterType._(this.id, this.name, this.killers);
 
@@ -64,6 +65,7 @@ class MonsterType {
   }
 }
 
+/// Enum class for killer latents.
 class KillerLatent {
   final int id;
   final String name;
@@ -97,6 +99,8 @@ class KillerLatent {
   }
 }
 
+/// Enum class for languages. This can be used for monster data (only supports 3 languages) but also
+/// for UI data (currently only English, eventually JP/KR/CN.
 class Language {
   final int id;
   final String languageName;
@@ -121,6 +125,8 @@ class Language {
   }
 }
 
+/// Enum representing the game country. Used to select which version of names to display, as well
+/// as which set of events to show.
 class Country {
   final int id;
   final String countryName;
@@ -148,6 +154,7 @@ class Country {
   }
 }
 
+/// The starter dragon used to filter guerrilla events.
 class StarterDragon {
   final int id;
   final String nameCode;
@@ -171,7 +178,9 @@ class StarterDragon {
   }
 }
 
+/// The tabs on the schedule page
 class ScheduleTabKey {
+  // TODO: this probably should move to the events package.
   final int id;
   final String nameCode;
 
@@ -196,6 +205,7 @@ class ScheduleTabKey {
   }
 }
 
+/// Possible sub sections in the event list.
 class ScheduleSubSection {
   final int id;
   final String name;
@@ -217,7 +227,9 @@ class ScheduleSubSection {
   }
 }
 
+/// The tabs on the dungeon page.
 class DungeonTabKey {
+  // TODO: This should move to the dungeon package.
   final int id;
   final String nameCode;
 
@@ -242,6 +254,7 @@ class DungeonTabKey {
   }
 }
 
+/// Possible sub sections in the dungeon list. Currently only 'full list' is supported.
 class DungeonSubSection {
   final int id;
   final String name;
@@ -300,6 +313,7 @@ class DungeonType {
   }
 }
 
+/// Possible evolution sections.
 class EvolutionType {
   final int id;
 

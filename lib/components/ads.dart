@@ -4,18 +4,21 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
+/// The platform-specific AdMob ID. They make you register separate apps for iOS and Android.
 String appId() {
   return Platform.isIOS
       ? 'ca-app-pub-8889612487979093~4523633017'
       : 'ca-app-pub-8889612487979093~4833133513';
 }
 
+/// The banner ID for the app ID.
 String bannerId() {
   return Platform.isIOS
       ? 'ca-app-pub-8889612487979093/4405526594'
       : 'ca-app-pub-8889612487979093/5487739634';
 }
 
+/// Create a banner ad with the default
 BannerAd createBannerAd() {
   MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     keywords: <String>['game', 'mobile game', 'puzzles', 'matching', '3-match'],
@@ -28,30 +31,27 @@ BannerAd createBannerAd() {
     size: AdSize.banner,
     targetingInfo: targetingInfo,
     listener: (MobileAdEvent event) {
-      print("BannerAd event is $event");
+      if (event == MobileAdEvent.failedToLoad) {
+        Fimber.w('BannerAd failed to load: $event');
+      } else {
+        Fimber.v('BannerAd event: $event');
+      }
     },
   );
 }
 
+/// The size of a 'standard' banner. The smart banner looked wrong on my device, needs more testing.
 double getBannerHeight(BuildContext context) {
   return 50;
 }
 
 /// The initial size of the banner is calculated on the height of the
-/// viewport. Due to ADMob banner refresh policies, in order to have
-/// a consistent behaviour, we should keep track of the current AD size
-/// and maintain it when the user rotates the screen, and update that
-/// value at every banner successful.
-/// For now, we will avoid this complexity and set the banner height to
-/// the maximum height that a banner could get on this device, forcing
-/// the use of the longest side as the base.
+/// viewport. Since the app cannot rotate, this only needs to be checked once.
 /// see https://developers.google.com/admob/android/banner#smart_banners
 double getSmartBannerHeight(BuildContext context) {
   MediaQueryData mediaScreen = MediaQuery.of(context);
-  double dpHeight = mediaScreen.orientation == Orientation.portrait
-      ? mediaScreen.size.height
-      : mediaScreen.size.width;
-  Fimber.v("Device height: $dpHeight");
+  // The app is fixed into portrait orientation so no need to check.
+  double dpHeight = mediaScreen.size.height;
   if (dpHeight <= 400.0) {
     return 32.0;
   }

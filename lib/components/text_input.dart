@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 // TODO: convert this to use TextEditingController; it's currently impossible
 // to clear the text contents via the X button.
+
+/// Bar across the top of a couple of screens. Has a spot for a left-button, a text entry widget,
+/// and a clear text widget.
 class TopTextInputBar extends StatelessWidget {
   final String _displayText;
   final String _hintText;

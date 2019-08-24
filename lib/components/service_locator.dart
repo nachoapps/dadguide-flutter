@@ -5,8 +5,10 @@ import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+/// Global service locator singleton.
 GetIt getIt = GetIt();
 
+/// Initialize global singleton dependencies and register with getIt.
 void initializeServiceLocator({bool useDevEndpoints: false, bool logHttpRequests: false}) {
   getIt.registerSingleton<PermanentCacheManager>(PermanentCacheManager());
   var dio = Dio();
@@ -19,6 +21,9 @@ void initializeServiceLocator({bool useDevEndpoints: false, bool logHttpRequests
   getIt.registerSingleton<Endpoints>(endpoints);
 }
 
+/// Try to initialize DB dependencies and register them with getIt.
+///
+/// This may fail if the database has not been downloaded.
 Future<void> tryInitializeServiceLocatorDb(bool throwOnFailure) async {
   try {
     var db = await DatabaseHelper.instance.database;

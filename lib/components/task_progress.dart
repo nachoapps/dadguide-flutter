@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+/// Displays the status of a running task, the total task count, spinner, details, etc.
+///
+/// This is used for the first launch flow, and the interactive update tables dialog.
 class TaskListProgress extends StatefulWidget {
   final TaskPublisher _tasks;
 
@@ -119,8 +122,10 @@ class _TaskListProgressState extends State<TaskListProgress> {
   }
 }
 
+/// Possible states for a task. The various states trigger different UI displays.
 enum TaskStatus { idle, started, failed, finished }
 
+/// An update that a task can publish to adjust the UI.
 class TaskProgress {
   final String taskName;
   final int index;
@@ -133,6 +138,8 @@ class TaskProgress {
       {this.progress, this.message});
 }
 
+/// Mixin for a class that adds the ability to publish status updates, and to listen for those
+/// updates.
 mixin TaskPublisher {
   @protected
   final StreamController<TaskProgress> controller = StreamController.broadcast();

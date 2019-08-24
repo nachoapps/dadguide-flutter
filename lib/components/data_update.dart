@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
+/// Utility which automatically displays a snackbar in the current scaffold when a data update
+/// finishes. Automatically starts an update if necessary.
 class DataUpdater with ChangeNotifier {
   final BuildContext _context;
   StreamSubscription<void> _subscription;
@@ -34,6 +36,7 @@ class DataUpdater with ChangeNotifier {
   }
 }
 
+/// Helper wrapper widget that triggers a UI refresh when an update completes.
 class DataUpdaterWidget extends StatelessWidget {
   final Widget _child;
 

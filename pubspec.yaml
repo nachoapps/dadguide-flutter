@@ -34,7 +34,7 @@ dependencies:
   protobuf: any
 
   # Database codegen
-  moor_flutter: ^1.5.0
+  moor_flutter: ^1.7.0
 
   # Injection
   provider: ^3.0.0+1
@@ -76,7 +76,7 @@ dev_dependencies:
     sdk: flutter
 
   # Database codegen
-  moor_generator: ^1.4.0
+  moor_generator: ^1.7.0
   build_runner:
 
   flutter_launcher_icons: ^0.7.2

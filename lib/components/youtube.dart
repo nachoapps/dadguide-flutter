@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:url_launcher/url_launcher.dart';
 
-// If this doesn't work on iOS try launchUniversalLinkIos from:
+// TODO: try other implementations on iOS like this one:
 // https://github.com/flutter/plugins/blob/master/packages/url_launcher/example/lib/main.dart
+
+/// Try to launch YT natively, falling back to a browser.
+///
+/// This seems to work on Android but not on iOS. Needs some experimentation.
 Future<void> launchYouTubeSearch(String query) async {
   var url = 'https://www.youtube.com/results?search_query=$query';
   var youtubePrefixUrl = 'youtube:$url';

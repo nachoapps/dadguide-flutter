@@ -1,5 +1,6 @@
 import 'package:get_version/get_version.dart';
 
+/// Safely get version info for the current device and app.
 Future<VersionInfo> getVersionInfo() async {
   var platformVersion = 'Unknown';
   var projectVersion = '';
@@ -41,6 +42,7 @@ Future<VersionInfo> getVersionInfo() async {
   return VersionInfo._(platformVersion, projectVersion, projectCode, projectAppID, projectName);
 }
 
+/// Container for device and app version info.
 class VersionInfo {
   final String platformVersion;
   final String projectVersion;
@@ -48,6 +50,11 @@ class VersionInfo {
   final String projectAppID;
   final String projectName;
 
-  VersionInfo._(this.platformVersion, this.projectVersion, this.projectCode, this.projectAppID,
-      this.projectName); // Platform messages are asynchronous, so we initialize in an async method.
+  VersionInfo._(
+    this.platformVersion,
+    this.projectVersion,
+    this.projectCode,
+    this.projectAppID,
+    this.projectName,
+  );
 }

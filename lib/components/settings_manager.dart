@@ -5,6 +5,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:preferences/preferences.dart';
 import 'package:tuple/tuple.dart';
 
+/// List of keys for preferences.
 class PrefKeys {
   static const currentDbVersion = 'current_db_version';
   static const iconsDownloaded = 'icons_downloaded';
@@ -21,10 +22,13 @@ class PrefKeys {
   static const eventsShowGreen = 'events_show_green';
 }
 
+/// Wrapper for reading and writing preferences.
 class Prefs {
+  /// The currently selected event country.
   static Country get eventCountry => Country.byId(PrefService.getInt(PrefKeys.eventCountry));
   static set eventCountry(Country country) => PrefService.setInt(PrefKeys.eventCountry, country.id);
 
+  /// A list of the event starters and their selected status.
   static List<StarterDragon> get eventStarters {
     return [
       if (PrefService.getBool(PrefKeys.eventsShowRed)) StarterDragon.red,
@@ -33,8 +37,10 @@ class Prefs {
     ];
   }
 
+  /// Should we display events that are closed.
   static bool get eventHideClosed => PrefService.getBool(PrefKeys.eventsHideClosed);
 
+  /// Initialize the pref repo and make sure every preference has a sane default at first launch.
   static Future<void> init() async {
     await PrefService.init();
     PrefService.setDefaultValues({
@@ -52,6 +58,7 @@ class Prefs {
     });
   }
 
+  /// Try to determine which country/language to use for the current locale.
   static Tuple2<Language, Country> get _defaultLanguageCountry {
     var locale = ui.window.locale;
     if (locale == null) {
@@ -97,10 +104,12 @@ class Prefs {
     PrefService.setInt(PrefKeys.gameCountry, val);
   }
 
+  /// Store the current time as the last update time.
   static void updateRan() {
     PrefService.setInt(PrefKeys.lastUpdateExecution, DateTime.now().millisecondsSinceEpoch);
   }
 
+  /// Determine if the update needs to run by comparing the current time against the last run time.
   static bool updateRequired() {
     DateTime lastUpdate =
         DateTime.fromMillisecondsSinceEpoch(PrefService.getInt(PrefKeys.lastUpdateExecution));

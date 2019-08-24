@@ -12,15 +12,20 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quiver/iterables.dart' as iterables;
 import 'package:uuid/uuid.dart';
 
+/// Logs all HTTP requests for the cache (mainly images). Used to verify that the cache is working
+/// properly.
 Future<FileFetcherResponse> _loggingHttpGetter(String url, {Map<String, String> headers}) async {
   Fimber.v('Retrieving $url');
-  print('Retrieving $url');
   var httpResponse = await http.get(url, headers: headers);
   return new HttpFileFetcherResponse(httpResponse);
 }
 
+/// All images retrieved into the cache are stored forever.
 var _foreverDuration = Duration(days: 9999);
 
+/// A version of the cache that enforces all items are stored permanently.
+///
+/// Also extends the base cache to allow for bulk insertion of cache items.
 class PermanentCacheManager extends BaseCacheManager {
   static const key = "libCachedImageData";
 
@@ -35,25 +40,29 @@ class PermanentCacheManager extends BaseCacheManager {
     return join(directory.path, key);
   }
 
+  /// TODO: convert to using Endpoints.
   static String urlForImageNamed(String name) {
     return 'https://f002.backblazeb2.com/file/dadguide-data/media/$name';
   }
 
+  /// Stores a file permanently in the cache.
+  ///
   /// The returned [File] is saved on disk.
   @override
   Future<File> putFile(String url, Uint8List fileBytes,
       {String eTag,
-      Duration maxAge = const Duration(days: 30),
+      Duration maxAge = const Duration(days: 30), // This value is ignored.
       String fileExtension = "file"}) async {
     return super.putFile(url, fileBytes,
         eTag: null, maxAge: _foreverDuration, fileExtension: fileExtension);
   }
 
+  /// Unzip files directly from an archive into the cache.
+  ///
+  /// Based on cache_manager.dart:put_file and reimplemented for bulk put efficiency.
   Future<void> storeImageArchive(Archive archive, Function progressCallback) async {
     List<_UnzipArgs> allArgs = [];
 
-    // Based on cache_manager.dart:put_file
-    // Reimplemented for bulk put efficiency.
     var baseFile = Directory(await getFilePath());
     if (!(await baseFile.exists())) {
       baseFile.createSync(recursive: true);
@@ -82,13 +91,14 @@ class PermanentCacheManager extends BaseCacheManager {
   }
 }
 
+/// Synchronously decompresses a list of files. Intended to be used as part of a compute call.
 void _decompressFiles(List<_UnzipArgs> args) {
   for (var arg in args) {
     arg.destFile.writeAsBytesSync(arg.archiveFile.content, flush: true);
   }
 }
 
-/// Helper argument for _decompressLargeFile() received via compute().
+/// Helper argument for _decompressFiles() received via compute().
 class _UnzipArgs {
   final ArchiveFile archiveFile;
   final File destFile;
