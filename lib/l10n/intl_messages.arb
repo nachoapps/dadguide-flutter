@@ -1,14 +1,77 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-08-25T12:19:53.118507",
-  "title": "Hello world App",
+  "@@last_modified": "2019-08-25T16:17:04.482757",
+  "title": "DadGuide",
   "@title": {
     "description": "The application title",
     "type": "text",
     "placeholders": {}
   },
-  "hello": "Hello",
-  "@hello": {
+  "updateComplete": "Update complete",
+  "@updateComplete": {
+    "description": "Snackbar displayed when data update finishes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "updateFailed": "Update failed",
+  "@updateFailed": {
+    "description": "Snackbar displayed when data update fails",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taskExecutingWithCount": "Executing task ({index}/{taskCount}",
+  "@taskExecutingWithCount": {
+    "description": "Indicates task progress",
+    "type": "text",
+    "placeholders": {
+      "index": {},
+      "taskCount": {}
+    }
+  },
+  "taskExecuting": "Executing task",
+  "@taskExecuting": {
+    "description": "Indicates task is running",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taskProgress": "{percent}%",
+  "@taskProgress": {
+    "description": "Indicates task progress as a percentage",
+    "type": "text",
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "taskFailedWithCount": "Task {index} of {taskCount} failed",
+  "@taskFailedWithCount": {
+    "description": "Indicates the latest task failed",
+    "type": "text",
+    "placeholders": {
+      "index": {},
+      "taskCount": {}
+    }
+  },
+  "taskRestarting": "Check your internet connection.\nAutomatically restarting",
+  "@taskRestarting": {
+    "description": "Indicates task failed and will auto restart",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taskWaiting": "Waiting to start tasks",
+  "@taskWaiting": {
+    "description": "Indicates task is preparing to start",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taskFatalError": "Fatal error occurred; try restarting the app",
+  "@taskFatalError": {
+    "description": "Indicates task failed and will not attempt to restart",
+    "type": "text",
+    "placeholders": {}
+  },
+  "taskFinished": "All tasks complete",
+  "@taskFinished": {
+    "description": "Indicates all tasks are complete",
     "type": "text",
     "placeholders": {}
   }

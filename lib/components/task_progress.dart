@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 
 /// Displays the status of a running task, the total task count, spinner, details, etc.
@@ -48,20 +49,22 @@ class _TaskListProgressState extends State<TaskListProgress> {
   }
 
   Widget buildRunning(BuildContext context, TaskProgress update) {
+    var loc = DadGuideLocalizations.of(context);
+
     var executingText = update.index > 0
-        ? 'Executing task (${update.index}/${update.taskCount})'
-        : 'Executing task';
+        ? loc.taskExecutingWithCount(update.index, update.taskCount)
+        : loc.taskExecuting;
     return Card(
       child: Column(
-        children: <Widget>[
+        children: [
           ListTile(
             leading: CircularProgressIndicator(),
             title: Text(executingText),
             subtitle: Row(
-              children: <Widget>[
+              children: [
                 Text(update.taskName),
                 Spacer(),
-                if (update.progress != null) Text('${update.progress}%')
+                if (update.progress != null) Text(loc.taskProgress(update.progress))
               ],
             ),
           ),
@@ -76,47 +79,55 @@ class _TaskListProgressState extends State<TaskListProgress> {
   }
 
   Widget buildFailed(BuildContext context, TaskProgress update) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           ListTile(
             leading: SizedBox(
                 width: 36, height: 36, child: Icon(Icons.error_outline, color: Colors.red)),
-            title: Text('Task ${update.index} of ${update.taskCount} failed'),
+            title: Text(loc.taskFailedWithCount(update.index, update.taskCount)),
             subtitle: Text(update.taskName),
           ),
-          Text(update.message ?? 'Check your internet connection.\nAutomatically restarting.'),
+          Text(update.message ?? loc.taskRestarting),
         ],
       ),
     );
   }
 
   Widget buildIdle(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Card(
       child: ListTile(
         leading: SizedBox(width: 36, height: 36, child: Icon(Icons.schedule, color: Colors.yellow)),
-        title: Text('Waiting to start tasks'),
+        title: Text(loc.taskWaiting),
       ),
     );
   }
 
   Widget buildFatalError(BuildContext context, Object error) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Card(
       child: ListTile(
         leading: SizedBox(width: 36, height: 36, child: Icon(Icons.check, color: Colors.red)),
-        title: Text('Fatal error occurred; try restarting the app'),
-        subtitle: Text(error?.toString() ?? 'unkown error'),
+        title: Text(loc.taskFatalError),
+        subtitle: Text(error?.toString() ?? 'unknown error'),
       ),
     );
   }
 
   Widget buildFinished(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     Future.delayed(Duration(seconds: 1), () => Navigator.pushReplacementNamed(context, '/'));
     return Card(
       child: ListTile(
         leading: SizedBox(width: 36, height: 36, child: Icon(Icons.check, color: Colors.green)),
-        title: Text('All tasks complete'),
+        title: Text(loc.taskFinished),
       ),
     );
   }
