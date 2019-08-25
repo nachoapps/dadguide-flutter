@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -9,7 +13,8 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt();
 
 /// Initialize global singleton dependencies and register with getIt.
-void initializeServiceLocator({bool useDevEndpoints: false, bool logHttpRequests: false}) {
+Future<void> initializeServiceLocator(
+    {bool useDevEndpoints: false, bool logHttpRequests: false}) async {
   getIt.registerSingleton<PermanentCacheManager>(PermanentCacheManager());
   var dio = Dio();
   if (logHttpRequests) {
@@ -19,6 +24,16 @@ void initializeServiceLocator({bool useDevEndpoints: false, bool logHttpRequests
 
   var endpoints = useDevEndpoints ? DevEndpoints() : ProdEndpoints();
   getIt.registerSingleton<Endpoints>(endpoints);
+
+  var versionInfo = await getVersionInfo();
+  getIt.registerSingleton(versionInfo);
+
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS) {
+    getIt.registerSingleton(await deviceInfo.iosInfo);
+  } else {
+    getIt.registerSingleton(await deviceInfo.androidInfo);
+  }
 }
 
 /// Try to initialize DB dependencies and register them with getIt.

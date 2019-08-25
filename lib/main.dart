@@ -36,13 +36,13 @@ void main() async {
   Fimber.plantTree(FimberTree());
 
   // Initialize ads.
-  FirebaseAdMob.instance.initialize(appId: appId());
+  FirebaseAdMob.instance.initialize(appId: appId(), analyticsEnabled: true);
 
   // Ensure the preference defaults are set.
   await Prefs.init();
 
   // Set up services that are guaranteed to start with getIt.
-  initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
+  await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
 
   // Try to initialize the DB and register it with getIt; this will fail on first-launch.
   await tryInitializeServiceLocatorDb(false);

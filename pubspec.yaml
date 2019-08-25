@@ -67,6 +67,7 @@ dependencies:
   # Send bad data email
   flutter_email_sender: ^2.0.3
   get_version: ^0.1.0
+  device_info:
 
   # Open YouTube app
   url_launcher: ^5.1.1
