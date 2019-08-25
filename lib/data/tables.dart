@@ -760,7 +760,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   }
 
   Future<FullSeries> fullSeries(int seriesId) async {
-    // TODO: probably make series non-nullable?
     if (seriesId == null) return null;
     final s = new Stopwatch()..start();
     final seriesValue =
