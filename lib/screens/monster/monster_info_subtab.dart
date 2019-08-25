@@ -466,9 +466,9 @@ class MonsterLevelStatTable extends StatelessWidget {
           if (limitMult > 100)
             TableRow(children: [
               numCell(110),
-              numCell(m.hpMax * limitMult ~/ 100),
-              numCell(m.atkMax * limitMult ~/ 100),
-              numCell(m.rcvMax * limitMult ~/ 100),
+              numCell((m.hpMax * limitMult / 100).round()),
+              numCell((m.atkMax * limitMult / 100).round()),
+              numCell((m.rcvMax * limitMult / 100).round()),
               numCell(m.exp + 50000000),
             ]),
         ],
@@ -488,9 +488,14 @@ class MonsterWeightedStatTable extends StatelessWidget {
     var m = _data.monster;
     var a = _data.awakenings;
     var limitMult = (m.limitMult ?? 0) + 100;
+
     var maxHp = m.hpMax + 99 * 10;
     var atkMax = m.atkMax + 99 * 5;
     var rcvMax = m.rcvMax + 99 * 3;
+
+    var lbMaxHp = (m.hpMax * limitMult / 100 + 99 * 10).round();
+    var lbAtkMax = (m.atkMax * limitMult / 100 + 99 * 5).round();
+    var lbRcvMax = (m.rcvMax * limitMult / 100 + 99 * 3).round();
 
     // Account for stat boosts
     a.forEach((awakening) {
@@ -523,10 +528,10 @@ class MonsterWeightedStatTable extends StatelessWidget {
           if (limitMult > 1)
             TableRow(children: [
               numCell(110),
-              numCell(maxHp * limitMult ~/ 100),
-              numCell(atkMax * limitMult ~/ 100),
-              numCell(rcvMax * limitMult ~/ 100),
-              numCell(_weighted(maxHp, atkMax, rcvMax, limitMult: limitMult)),
+              numCell(lbMaxHp),
+              numCell(lbAtkMax),
+              numCell(lbRcvMax),
+              numCell(_weighted(lbMaxHp, lbAtkMax, lbRcvMax)),
             ]),
         ],
       ),
@@ -624,8 +629,7 @@ TableCell widgetCell(Widget widget) {
   );
 }
 
-int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
-    (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;
+int _weighted(num hp, num atk, num rcv) => (hp / 10 + atk / 5 + rcv / 3).round();
 
 /// Active skill info.
 class MonsterActiveSkillSection extends StatelessWidget {
