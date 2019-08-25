@@ -3,6 +3,11 @@ import 'package:intl/intl.dart';
 
 import 'messages_all.dart';
 
+/// This is the current globally loaded localization. This is a terrible hack and not the right way
+/// to handle this, but it's iritatingly difficult to get ahold of a BuildContext everywhere you
+/// need it. This starts off null and is reloaded whenever the app localization is.
+DadGuideLocalizations localized;
+
 class DadGuideLocalizations {
   // ---- Strings used by DadGuide ----
   String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
@@ -48,10 +53,19 @@ class DadGuideLocalizations {
   String get taskFinished => Intl.message('All tasks complete',
       name: 'taskFinished', desc: 'Indicates all tasks are complete');
 
-//  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
-//  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
-//  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
-//  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
+  // ---- Strings used by onboarding process ----
+  String get onboardingDownloadDb => Intl.message('Downloading initial data',
+      name: 'onboardingDownloadDb', desc: 'Displayed while the database is downloading');
+
+  String get onboardingUnpackDb => Intl.message('Unpacking initial data',
+      name: 'onboardingUnpackDb', desc: 'Displayed while the database is unzipping');
+
+  String get onboardingDownloadImages => Intl.message('Downloading icon set',
+      name: 'onboardingDownloadImages', desc: 'Displayed while the icon set is downloading');
+
+  String get onboardingUnpackImages => Intl.message('Unpacking icon set',
+      name: 'onboardingUnpackImages', desc: 'Displayed while the icon set is unzipping');
+
 //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
@@ -67,7 +81,8 @@ class DadGuideLocalizations {
 
     return initializeMessages(localeName).then((bool _) {
       Intl.defaultLocale = localeName;
-      return new DadGuideLocalizations();
+      localized = DadGuideLocalizations();
+      return localized;
     });
   }
 

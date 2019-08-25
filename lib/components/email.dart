@@ -2,6 +2,8 @@ import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
+// TODO: needs localization
+
 /// Launches the device email client with an error mail pre-populated with monster data.
 Future<void> sendMonsterErrorEmail(Monster monster) async {
   return sendErrorEmail('[Monster ${monster.monsterId}] ${monster.nameNa}');
