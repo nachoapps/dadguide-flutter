@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,12 @@ class DataUpdater with ChangeNotifier {
   DataUpdater(this._context);
 
   void subscribe() {
+    var loc = DadGuideLocalizations.of(_context);
     _subscription = updateManager.updateStream.listen((_) {
-      Scaffold.of(_context).showSnackBar((SnackBar(content: Text('Update Complete'))));
+      Scaffold.of(_context).showSnackBar((SnackBar(content: Text(loc.updateComplete))));
       notifyListeners();
     }, onError: (_) {
-      Scaffold.of(_context).showSnackBar((SnackBar(content: Text('Update Failed'))));
+      Scaffold.of(_context).showSnackBar((SnackBar(content: Text(loc.updateFailed))));
     });
     if (Prefs.updateRequired()) {
       Fimber.w('Update is required, triggering');
