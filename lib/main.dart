@@ -12,6 +12,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
@@ -73,20 +74,34 @@ class DadGuideApp extends StatelessWidget {
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
       ],
       child: MaterialApp(
-        title: 'DadGuide',
-        theme: appTheme(),
-        debugShowCheckedModeBanner: false,
-        navigatorObservers: [observer],
-        home: SetupRequiredChecker(),
-        onGenerateRoute: (settings) {
-          if (settings.name == '/home') {
-            return MaterialPageRoute(builder: (_) => StatefulHomeScreen());
-          } else if (settings.name == '/onboarding') {
-            return MaterialPageRoute(builder: (_) => OnboardingScreen());
-          }
-          throw 'Route not implemented: ${settings.name}';
-        },
-      ),
+          title: 'DadGuide',
+          theme: appTheme(),
+          debugShowCheckedModeBanner: false,
+          navigatorObservers: [observer],
+          home: SetupRequiredChecker(),
+          onGenerateRoute: (settings) {
+            if (settings.name == '/home') {
+              return MaterialPageRoute(builder: (_) => StatefulHomeScreen());
+            } else if (settings.name == '/onboarding') {
+              return MaterialPageRoute(builder: (_) => OnboardingScreen());
+            }
+            throw 'Route not implemented: ${settings.name}';
+          },
+          localizationsDelegates: [
+            // ... app-specific localization delegate[s] here
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en'), // English
+            const Locale('ja'), // Japanese
+            const Locale('ko'), // Korean
+          ],
+          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+            // TODO: respect user preference in Prefs
+            return locale;
+          }),
     );
   }
 }
