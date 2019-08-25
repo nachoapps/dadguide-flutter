@@ -6,6 +6,7 @@ import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -18,20 +19,21 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 var onboardingManager = OnboardingTaskManager._();
 
 /// The different stages that the onboarding runs through.
-enum _SubTasks {
-  downloadDb,
-  unpackDb,
-  downloadImages,
-  unpackImages,
-}
+class _SubTask {
+  final int id;
+  final String Function() _text;
 
-// TODO: convert this to a better enum implementation.
-var _taskNames = {
-  _SubTasks.downloadDb: 'Downloading initial data',
-  _SubTasks.unpackDb: 'Unpacking initial data',
-  _SubTasks.downloadImages: 'Downloading icon set',
-  _SubTasks.unpackImages: 'Unpacking icon set',
-};
+  const _SubTask._(this.id, this._text);
+
+  static _SubTask downloadDb = _SubTask._(1, () => localized.onboardingDownloadDb);
+  static _SubTask unpackDb = _SubTask._(2, () => localized.onboardingUnpackDb);
+  static _SubTask downloadImages = _SubTask._(3, () => localized.onboardingDownloadImages);
+  static _SubTask unpackImages = _SubTask._(4, () => localized.onboardingUnpackImages);
+
+  String get text => _text();
+
+  static List<_SubTask> all = [downloadDb, unpackDb, downloadImages, unpackImages];
+}
 
 /// Singleton that manages the onboarding workflow.
 class OnboardingTaskManager {
@@ -87,41 +89,41 @@ class OnboardingTask with TaskPublisher {
 
   Future<void> _downloadDb() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTasks.downloadDb, ResourceHelper._remoteDbZipFile, 'db.zip');
+        _SubTask.downloadDb, ResourceHelper._remoteDbZipFile, 'db.zip');
 
-    pub(_SubTasks.unpackDb, TaskStatus.idle);
+    pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
       final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
       var archiveDbFile = archive.firstWhere((e) => e.name == ResourceHelper._dbFileName);
       var dbFile = File(await ResourceHelper._dbFilePath());
-      pub(_SubTasks.unpackDb, TaskStatus.started);
+      pub(_SubTask.unpackDb, TaskStatus.started);
       await compute(_decompressLargeFile, _UnzipArgs(archiveDbFile, dbFile));
-      pub(_SubTasks.unpackDb, TaskStatus.finished);
+      pub(_SubTask.unpackDb, TaskStatus.finished);
     } catch (e) {
-      pub(_SubTasks.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
+      pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
     }
   }
 
   Future<void> _downloadIcons() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTasks.downloadImages, ResourceHelper._remoteIconsZipFile, 'icons.zip');
+        _SubTask.downloadImages, ResourceHelper._remoteIconsZipFile, 'icons.zip');
 
-    pub(_SubTasks.unpackImages, TaskStatus.idle);
+    pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
       final cacheManager = getIt<PermanentCacheManager>();
       final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
       await cacheManager.storeImageArchive(archive,
-          (progress) => pub(_SubTasks.unpackImages, TaskStatus.started, progress: progress));
-      pub(_SubTasks.unpackImages, TaskStatus.finished);
+          (progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
+      pub(_SubTask.unpackImages, TaskStatus.finished);
     } catch (e) {
-      pub(_SubTasks.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
+      pub(_SubTask.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
     }
   }
 
   Future<File> _downloadFileWithProgress(
-      _SubTasks task, String remoteZipFile, String tmpFileName) async {
+      _SubTask task, String remoteZipFile, String tmpFileName) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
       File tmpFile = await ResourceHelper.newTmpFile(tmpFileName);
@@ -143,8 +145,8 @@ class OnboardingTask with TaskPublisher {
     }
   }
 
-  void pub(_SubTasks curTask, TaskStatus status, {int progress, String message}) {
-    publish(TaskProgress(_taskNames[curTask], curTask.index + 1, _SubTasks.values.length, status,
+  void pub(_SubTask curTask, TaskStatus status, {int progress, String message}) {
+    publish(TaskProgress(curTask.text, curTask.id, _SubTask.all.length, status,
         progress: progress, message: message));
   }
 }

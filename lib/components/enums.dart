@@ -1,3 +1,5 @@
+// TODO: needs localization
+
 /// Enum class for monster typing.
 class MonsterType {
   const MonsterType._(this.id, this.name, this.killers);
