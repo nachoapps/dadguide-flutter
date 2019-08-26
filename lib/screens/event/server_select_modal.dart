@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/event_search_bloc.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +9,15 @@ import 'package:provider/provider.dart';
 
 /// Displays a dialog that lets the user toggle their event server, or kick off the update.
 Future<void> showServerSelectDialog(BuildContext context) async {
+  var loc = DadGuideLocalizations.of(context);
+
   Fimber.i('Displaying server select dialog');
   var displayState = Provider.of<ScheduleDisplayState>(context);
   return showDialog(
       context: context,
       builder: (innerContext) {
         return SimpleDialog(
-          title: const Text('Server'),
+          title: Text(loc.serverModalTitle),
           children: [
             CountryTile(displayState, Country.jp),
             CountryTile(displayState, Country.na),
@@ -25,7 +28,7 @@ Future<void> showServerSelectDialog(BuildContext context) async {
                 showUpdateDialog(context);
               },
               leading: Icon(Icons.refresh),
-              title: Text('Data Sync'),
+              title: Text(loc.dataSync),
             ),
           ],
         );

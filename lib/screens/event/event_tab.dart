@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -27,7 +28,7 @@ class EventTab extends StatelessWidget {
             preferredSize: Size.fromHeight(40),
             child: EventListHeader(),
           ),
-          body: Column(children: <Widget>[
+          body: Column(children: [
             Expanded(child: EventListTabs()),
             DateSelectBar(),
           ]),
@@ -41,17 +42,19 @@ class EventTab extends StatelessWidget {
 class EventListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return AppBar(
       flexibleSpace: Row(
-        children: <Widget>[
+        children: [
           InkWell(
               onTap: () => showServerSelectDialog(context),
               child: SizedBox(width: 60, height: 40, child: DadGuideIcons.currentCountryOn)),
           Flexible(
             child: TabBar(tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'Guerrilla'),
-              Tab(text: 'Special'),
+              Tab(text: loc.eventTabAll),
+              Tab(text: loc.eventTabGuerrilla),
+              Tab(text: loc.eventTabSpecial),
 //              News disabled for now
 //              Tab(text: 'News'),
             ]),
@@ -66,7 +69,7 @@ class EventListHeader extends StatelessWidget {
 class EventListTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabBarView(children: <Widget>[
+    return TabBarView(children: [
       EventList(ScheduleTabKey.all),
       EventList(ScheduleTabKey.guerrilla),
       EventList(ScheduleTabKey.special),
@@ -107,7 +110,7 @@ class DateSelectBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             SizedBox(
               height: 20,
               child: FlatButton(
@@ -119,7 +122,7 @@ class DateSelectBar extends StatelessWidget {
                   onConfirm: (d) => displayState.currentEventDate = d,
                 ),
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Icon(Icons.event),
                     SizedBox(width: 4),
                     Text(_dateFormatter.format(currentEventDate)),

@@ -2,13 +2,14 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'event_search_bloc.dart';
+import 'package:dadguide2/screens/event/event_search_bloc.dart';
 
 /// Parent class for items which can show up in the event list, since they're different types.
 abstract class ListItem {}
@@ -70,6 +71,7 @@ int _compareEvents(ListEvent l, ListEvent r) {
 class EventListContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<ScheduleTabState>(context);
     return StreamBuilder<List<ListEvent>>(
         stream: displayState.searchBloc.searchResults,
@@ -85,7 +87,7 @@ class EventListContents extends StatelessWidget {
           var data = snapshot.data;
           var listItems = rowsToListItems(data, displayState.tab);
           if (listItems.isEmpty) {
-            return Center(child: Text('No Data'));
+            return Center(child: Text(loc.noData));
           }
 
           return ListView.builder(
@@ -119,13 +121,15 @@ class EventListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var se = _model;
     return InkWell(
       onTap: goToDungeonFn(context, _model.dungeon?.dungeonId),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
-            children: <Widget>[
+            children: [
               PadIcon(se.iconId),
               SizedBox(width: 8),
               Expanded(
@@ -148,7 +152,7 @@ class EventListRow extends StatelessWidget {
                               size: 12,
                             ),
                           SizedBox(width: 4),
-                          Text(underlineText(DateTime.now())),
+                          Text(underlineText(loc, DateTime.now())),
                           SizedBox(width: 4),
                           if (!_model.isClosed()) Text(stamRcvText()),
                         ],
@@ -177,9 +181,9 @@ class EventListRow extends StatelessWidget {
     return '[Stam.Rcv.$stamRcvStr]';
   }
 
-  String underlineText(DateTime displayedDate) {
+  String underlineText(DadGuideLocalizations loc, DateTime displayedDate) {
     if (_model.isClosed()) {
-      return 'Closed';
+      return loc.eventClosed;
     }
 
     String text = '';
@@ -191,7 +195,8 @@ class EventListRow extends StatelessWidget {
 
     int deltaDays = _model.daysUntilClose();
     if (deltaDays > 0) {
-      text += ' [$deltaDays Days]';
+      var dayText = loc.eventDays(deltaDays);
+      text += ' [$dayText]';
     }
     return text.trim();
   }
