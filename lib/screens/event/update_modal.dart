@@ -1,10 +1,13 @@
 import 'package:dadguide2/components/task_progress.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Starts the update and then displays the update dialog. Can be manually triggered by users.
 Future<void> showUpdateDialog(BuildContext context) async {
+  var loc = DadGuideLocalizations.of(context);
+
   Fimber.i('Displaying update dialog');
   return showDialog(
       context: context,
@@ -19,7 +22,7 @@ Future<void> showUpdateDialog(BuildContext context) async {
           } catch (e) {} // Suppress this failure
         });
         return SimpleDialog(
-          title: const Text('Updating DadGuide data'),
+          title: Text(loc.updateModalTitle),
           children: [TaskListProgress(updateManager)],
         );
       });

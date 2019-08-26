@@ -154,6 +154,40 @@ class DadGuideLocalizations {
         desc: 'SubDungeon selection info',
       );
 
+  // ---- Event list strings ----
+  String get eventClosed =>
+      Intl.message('Closed', name: 'eventClosed', desc: 'Displayed below closed event info');
+
+  String eventDays(int days) => Intl.message(
+        '$days Days',
+        name: 'eventDays',
+        args: [eventDays],
+        desc: 'Day count and label in event info',
+      );
+
+  String get eventTabAll =>
+      Intl.message('All', name: 'eventTabAll', desc: 'Subtab text at top of event tab');
+
+  String get eventTabGuerrilla =>
+      Intl.message('Guerrilla', name: 'eventTabGuerrilla', desc: 'Subtab text at top of event tab');
+
+  String get eventTabSpecial =>
+      Intl.message('Special', name: 'eventTabSpecial', desc: 'Subtab text at top of event tab');
+
+  String get eventTabNews =>
+      Intl.message('News', name: 'eventTabNews', desc: 'Subtab text at top of event tab');
+
+  // ---- Event action modal strings ----
+  String get serverModalTitle => Intl.message('Server',
+      name: 'serverModalTitle', desc: 'Title for select server action modal');
+
+  String get dataSync =>
+      Intl.message('Data Sync', name: 'dataSync', desc: 'Button that triggers data syncing');
+
+  // ---- Update action modal strings ----
+  String get updateModalTitle => Intl.message('Updating DadGuide data',
+      name: 'updateModalTitle', desc: 'Title for update data action modal');
+
   //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
