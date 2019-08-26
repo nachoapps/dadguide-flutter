@@ -4,6 +4,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,7 @@ class DungeonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<DungeonDisplayState>(context);
     return StreamBuilder<List<ListDungeon>>(
         stream: displayState.searchBloc.searchResults,
@@ -59,7 +61,7 @@ class DungeonList extends StatelessWidget {
           var data = snapshot.data;
           var listItems = rowsToListItems(data, displayState.tab);
           if (listItems.isEmpty) {
-            return Center(child: Text('No Data'));
+            return Center(child: Text(loc.noData));
           }
 
           return ListView.builder(

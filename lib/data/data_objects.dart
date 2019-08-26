@@ -41,12 +41,6 @@ class FullSubDungeon {
 
   FullEncounter get bossEncounter => battles.isEmpty ? null : battles.last.encounters.last;
 
-  String mpText() {
-    final mp = subDungeon.mpAvg ?? 0;
-    final mpPerStam = (mp / subDungeon.stamina).toStringAsFixed(2);
-    return '$mp ($mpPerStam / Stamina';
-  }
-
   List<int> get rewardIconIds => (subDungeon.rewardIconIds ?? '')
       .split(',')
       .where((x) => num.tryParse(x) != null)

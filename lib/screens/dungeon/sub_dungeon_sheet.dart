@@ -2,6 +2,7 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -27,6 +28,8 @@ class SelectSubDungeonScreen extends StatelessWidget {
 class SelectSubDungeonTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Container(
         color: Colors.blue,
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
@@ -39,7 +42,7 @@ class SelectSubDungeonTopBar extends StatelessWidget {
                   child: Icon(Icons.chevron_left),
                   onTap: () => Navigator.of(context).pop(),
                 )),
-            Expanded(child: Center(child: Text('Select Difficulty'))),
+            Expanded(child: Center(child: Text(loc.subDungeonSelectionTitle))),
             SizedBox(width: 32, height: 32),
           ],
         ));
@@ -50,6 +53,8 @@ class SelectSubDungeonTopBar extends StatelessWidget {
 class SelectSubDungeonBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Container(
         color: Colors.grey,
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
@@ -58,7 +63,7 @@ class SelectSubDungeonBottomBar extends StatelessWidget {
             SizedBox(
               height: 24,
               child: FlatButton(
-                child: Text('Close'),
+                child: Text(loc.close),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -91,6 +96,8 @@ class SubDungeonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var rewards = [];
     try {
       if (data.rewardIconIds != null) {
@@ -120,7 +127,7 @@ class SubDungeonRow extends StatelessWidget {
               Expanded(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
@@ -130,9 +137,9 @@ class SubDungeonRow extends StatelessWidget {
                     style: Theme.of(context).textTheme.caption,
                     child: Row(
                       children: [
-                        Text('Exp/Stam:$expStam'),
+                        Text(loc.dungeonListExpPerStam(expStam)),
                         SizedBox(width: 8),
-                        Text('Coin/Stam:$coinStam'),
+                        Text(loc.dungeonListCoinPerStam(coinStam)),
                       ],
                     ),
                   ),

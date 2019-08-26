@@ -7,6 +7,7 @@ import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -98,11 +99,17 @@ class DungeonHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var m = _model;
+    var loc = DadGuideLocalizations.of(context);
+
+    var subDungeon = _model.selectedSubDungeon.subDungeon;
+    var mp = subDungeon.mpAvg ?? 0;
+    var mpPerStam = mp / subDungeon.stamina;
+
     var bossMonster = m.selectedSubDungeon.bossEncounter?.monster;
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         child: Row(
-          children: <Widget>[
+          children: [
             PadIcon(_model.dungeon.iconId),
             SizedBox(width: 8),
             Expanded(
@@ -112,10 +119,10 @@ class DungeonHeader extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
+                    children: [
                       SizedBox(height: 18),
                       if (bossMonster != null)
-                        Row(children: <Widget>[
+                        Row(children: [
                           typeContainer(bossMonster.type1Id, leftPadding: 2, size: 18),
                           typeContainer(bossMonster.type2Id, leftPadding: 2, size: 18),
                           typeContainer(bossMonster.type3Id, leftPadding: 2, size: 18),
@@ -127,7 +134,7 @@ class DungeonHeader extends StatelessWidget {
                       style: Theme.of(context).textTheme.caption,
                       child: Row(children: [
                         DadGuideIcons.mp,
-                        Text(m.selectedSubDungeon.mpText()),
+                        Text(loc.mpPerStam(mp, mpPerStam)),
                       ])),
                 ],
               ),
@@ -144,6 +151,8 @@ class DungeonSubHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var m = _model;
     return Container(
       color: Colors.grey[300],
@@ -154,10 +163,10 @@ class DungeonSubHeader extends StatelessWidget {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   FittedBox(
                     alignment: Alignment.centerLeft,
                     child: Text(m.subDungeon.nameNa),
@@ -177,12 +186,12 @@ class DungeonSubHeader extends StatelessWidget {
           DefaultTextStyle(
             style: Theme.of(context).textTheme.caption,
             child: Row(
-              children: <Widget>[
+              children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Stamina: ${m.subDungeon.stamina}'),
-                    Text('Battles: ${m.subDungeon.floors}'),
+                  children: [
+                    Text(loc.dungeonStamina(m.subDungeon.stamina)),
+                    Text(loc.dungeonFloors(m.subDungeon.floors)),
                   ],
                 ),
                 SizedBox(width: 20),
@@ -204,24 +213,26 @@ class ExpCoinTable extends StatelessWidget {
   Widget build(BuildContext context) {
     if (sd.expMin == null) return Container(width: 0.0, height: 0.0);
 
+    var loc = DadGuideLocalizations.of(context);
+
     return Table(
       children: [
         TableRow(children: [
           cell(''),
-          cell('Min'),
-          cell('Max'),
-          cell('Avg'),
-          cell('Avg/Stam'),
+          cell(loc.min),
+          cell(loc.max),
+          cell(loc.avg),
+          cell(loc.avgPerStam),
         ]),
         TableRow(children: [
-          cell('EXP'),
+          cell(loc.exp),
           intCell(sd.expMin),
           intCell(sd.expMax),
           intCell(sd.expAvg),
           intCell((sd.expAvg ?? 0 ~/ sd.stamina)),
         ]),
         TableRow(children: [
-          cell('Coin'),
+          cell(loc.coin),
           intCell(sd.coinMin),
           intCell(sd.coinMax),
           intCell(sd.coinAvg),
@@ -243,11 +254,13 @@ class DungeonBattle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var text = 'Battle ${_model.stage}';
+    var loc = DadGuideLocalizations.of(context);
+
+    var text = loc.battleFloor(_model.stage);
     if (_model.stage == -1) {
-      text = 'Invades';
+      text = loc.battleInvades;
     } else if (_model.stage == 0) {
-      text = 'Common Monsters';
+      text = loc.battleCommon;
     }
     return Column(children: [
       Container(
@@ -256,7 +269,7 @@ class DungeonBattle extends StatelessWidget {
         child: Row(children: [
           Text(text),
           Spacer(),
-          Text('Drop'),
+          Text(loc.battleDrop),
         ]),
       ),
       for (var encounter in _model.encounters) DungeonEncounter(encounter)
@@ -376,7 +389,7 @@ class DungeonDetailActionsBar extends StatelessWidget {
         color: Colors.blue,
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Row(
-          children: <Widget>[
+          children: [
             SizedBox(
                 width: 32,
                 height: 32,
@@ -398,6 +411,8 @@ class DungeonDetailOptionsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Material(
       color: Colors.grey[200],
       child: Row(
@@ -414,8 +429,7 @@ class DungeonDetailOptionsBar extends StatelessWidget {
                 await launchYouTubeSearch(_data.dungeon.nameJp);
               } catch (ex, st) {
                 Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('Failed to launch YouTube')));
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.ytLaunchError)));
               }
             },
           )
@@ -433,6 +447,8 @@ class MailIssues extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return GestureDetector(
       onTap: () => sendDungeonErrorEmail(_data.dungeon, _data.selectedSubDungeon.subDungeon),
       child: Card(
@@ -440,8 +456,7 @@ class MailIssues extends StatelessWidget {
           child: Row(
             children: [
               Icon(Icons.mail_outline),
-              Text('Report incorrect information',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              Text(loc.reportBadInfo, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
             ],
           )),
     );
