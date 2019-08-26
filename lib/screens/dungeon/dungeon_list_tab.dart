@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class DungeonTab extends StatelessWidget {
     return ChangeNotifierProvider(
       key: UniqueKey(),
       builder: (context) => DungeonDisplayState(DungeonTabKey.special),
-      child: Column(children: <Widget>[
+      child: Column(children: [
         DungeonSearchBar(),
         Expanded(child: DungeonList(key: UniqueKey())),
         DungeonDisplayOptionsBar(),
@@ -29,11 +30,13 @@ class DungeonTab extends StatelessWidget {
 class DungeonSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     final controller = Provider.of<DungeonDisplayState>(context);
     var searchText = controller.searchText;
     return TopTextInputBar(
       searchText,
-      'Search: Dungeon name',
+      loc.dungeonSearchHint,
 //    Not supporting filter yet yet
 //      InkWell(
 //        child: Icon(Icons.clear_all),
@@ -57,16 +60,18 @@ class DungeonSearchBar extends StatelessWidget {
 class DungeonDisplayOptionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     final controller = Provider.of<DungeonDisplayState>(context);
     return Material(
       color: Colors.grey[100],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _createBottomButton(controller, DungeonTabKey.special, 'Special'),
-          _createBottomButton(controller, DungeonTabKey.normal, 'Normal'),
-          _createBottomButton(controller, DungeonTabKey.technical, 'Technical'),
-          _createBottomButton(controller, DungeonTabKey.multiranking, 'Multi/Rank'),
+        children: [
+          _createBottomButton(controller, DungeonTabKey.special, loc.dungeonTabSpecial),
+          _createBottomButton(controller, DungeonTabKey.normal, loc.dungeonTabNormal),
+          _createBottomButton(controller, DungeonTabKey.technical, loc.dungeonTabTechnical),
+          _createBottomButton(controller, DungeonTabKey.multiranking, loc.dungeonTabMultiRank),
         ],
       ),
     );
