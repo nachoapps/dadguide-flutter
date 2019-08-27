@@ -5,6 +5,7 @@ import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';
+import 'package:dadguide2/services/device_utils.dart' as DeviceUtils;
 import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -30,8 +31,10 @@ Future<void> initializeServiceLocator(
 
   var deviceInfo = DeviceInfoPlugin();
   if (Platform.isIOS) {
-    getIt.registerSingleton(await deviceInfo.iosInfo);
+    var iosInfo = await deviceInfo.iosInfo;
+    getIt.registerSingleton(DeviceUtils.IosDeviceInfo(iosInfo.systemVersion) as DeviceUtils.DeviceInfo);
   } else {
+    // TODO: Wrap the Android info.
     getIt.registerSingleton(await deviceInfo.androidInfo);
   }
 }
