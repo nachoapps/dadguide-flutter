@@ -247,6 +247,10 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Reverse awakenings so the correct order is displayed
+    var reversedAwakenings = _data.awakenings.reversed.toList();
+    // Reverse super awakenings too
+    var reversedSuperAwakenings = _data.superAwakenings.reversed.toList();
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 10, bottom: 30),
       child: Align(
@@ -257,19 +261,19 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (_data.superAwakenings.isNotEmpty)
+                if (reversedSuperAwakenings.isNotEmpty)
                   Column(
                     children: [
-                      for (var a in _data.superAwakenings)
+                      for (var a in reversedSuperAwakenings)
                         Padding(
                             padding: EdgeInsets.only(bottom: 2),
                             child: awakeningContainer(a.awokenSkillId, size: maxHeight)),
                     ],
                   ),
-                if (_data.awakenings.isNotEmpty)
+                if (reversedAwakenings.isNotEmpty)
                   Column(
                     children: [
-                      for (var a in _data.awakenings)
+                      for (var a in reversedAwakenings)
                         Padding(
                             padding: EdgeInsets.only(bottom: 2),
                             child: awakeningContainer(a.awokenSkillId, size: maxHeight)),
@@ -1131,9 +1135,11 @@ class AwokenSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Reverse awakenings so the correct order is displayed
+    var reversedAwakenings = _awakenings.reversed.toList();
     // Create map to merge multiple instances of same awakening
     var map = LinkedHashMap();
-    _awakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
+    reversedAwakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
 
     var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
     return Column(
@@ -1142,7 +1148,7 @@ class AwokenSkillSection extends StatelessWidget {
           children: [
             Text(title),
             Spacer(),
-            for (var a in _awakenings) awakeningContainer(a.awokenSkillId, size: 16),
+            for (var a in reversedAwakenings) awakeningContainer(a.awokenSkillId, size: 16),
           ],
         ),
         for (var a in map.keys)
