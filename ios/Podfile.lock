@@ -1,6 +1,8 @@
 PODS:
   - Crashlytics (3.13.4):
     - Fabric (~> 1.10.2)
+  - device_info (0.0.1):
+    - Flutter
   - Fabric (1.10.2)
   - Firebase/AdMob (6.6.0):
     - Firebase/CoreOnly
@@ -146,6 +148,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -186,6 +189,8 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_admob:
     :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_analytics:
@@ -217,6 +222,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
+  device_info: 3ebad48f726348f69abd802f3334a8d1ed795fbd
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
   firebase_admob: ba3d9c8874c03ccc2b87ae30c50d1630b522a693
