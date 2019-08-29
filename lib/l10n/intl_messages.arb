@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-08-25T16:17:04.482757",
+  "@@last_modified": "2019-08-28T23:50:54.671837",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -72,6 +72,693 @@
   "taskFinished": "All tasks complete",
   "@taskFinished": {
     "description": "Indicates all tasks are complete",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingDownloadDb": "Downloading initial data",
+  "@onboardingDownloadDb": {
+    "description": "Displayed while the database is downloading",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingUnpackDb": "Unpacking initial data",
+  "@onboardingUnpackDb": {
+    "description": "Displayed while the database is unzipping",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingDownloadImages": "Downloading icon set",
+  "@onboardingDownloadImages": {
+    "description": "Displayed while the icon set is downloading",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingUnpackImages": "Unpacking icon set",
+  "@onboardingUnpackImages": {
+    "description": "Displayed while the icon set is unzipping",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mpAndMpPerStam": "{mp} ({mpPerStam} / Stamina)",
+  "@mpAndMpPerStam": {
+    "description": "Lists the MP and MP/Stam for a dungeon",
+    "type": "text",
+    "placeholders": {
+      "mp": {},
+      "mpPerStam": {}
+    }
+  },
+  "dungeonStamina": "Stamina: {stamina}",
+  "@dungeonStamina": {
+    "description": "Lists stamina cost of a dungeon",
+    "type": "text",
+    "placeholders": {
+      "stamina": {}
+    }
+  },
+  "dungeonFloors": "Floors: {floors}",
+  "@dungeonFloors": {
+    "description": "Lists number of floors in a dungeon",
+    "type": "text",
+    "placeholders": {
+      "floors": {}
+    }
+  },
+  "min": "Min",
+  "@min": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "max": "Max",
+  "@max": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "avg": "Avg",
+  "@avg": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "avgPerStam": "Avg/Stam",
+  "@avgPerStam": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exp": "Exp",
+  "@exp": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "coin": "Coin",
+  "@coin": {
+    "description": "Table header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "battleDrop": "Drop",
+  "@battleDrop": {
+    "description": "Label in encounter section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "battleCommon": "Common Monsters",
+  "@battleCommon": {
+    "description": "Header for encounter section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "battleInvades": "Invades",
+  "@battleInvades": {
+    "description": "Header for encounter section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "battleFloor": "Floor {floor}",
+  "@battleFloor": {
+    "description": "Header for encounter section",
+    "type": "text",
+    "placeholders": {
+      "floor": {}
+    }
+  },
+  "ytLaunchError": "Failed to launch YouTube",
+  "@ytLaunchError": {
+    "description": "Snackbar displayed when launching YT fails",
+    "type": "text",
+    "placeholders": {}
+  },
+  "reportBadInfo": "Report incorrect information",
+  "@reportBadInfo": {
+    "description": "Displayed at the bottom of monster/dungeon info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleYtVideos": "Example team compositions and dungeon clears",
+  "@exampleYtVideos": {
+    "description": "Displayed at the bottom of monster/dungeon info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noData": "No Data",
+  "@noData": {
+    "description": "Displayed when a search finds no results",
+    "type": "text",
+    "placeholders": {}
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text for subviews",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonSearchHint": "Search: Dungeon name",
+  "@dungeonSearchHint": {
+    "description": "Grey hint text in dungeon search field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonTabSpecial": "Special",
+  "@dungeonTabSpecial": {
+    "description": "Subtab text at bottom of dungeon tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonTabNormal": "Normal",
+  "@dungeonTabNormal": {
+    "description": "Subtab text at bottom of dungeon tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonTabTechnical": "Technical",
+  "@dungeonTabTechnical": {
+    "description": "Subtab text at bottom of dungeon tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonTabMultiRank": "Multi/Rank",
+  "@dungeonTabMultiRank": {
+    "description": "Subtab text at bottom of dungeon tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "subDungeonSelectionTitle": "Select Difficulty",
+  "@subDungeonSelectionTitle": {
+    "description": "Title for subdungeon selection view",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dungeonListExpPerStam": "Exp/Stam:{expPerStam}",
+  "@dungeonListExpPerStam": {
+    "description": "SubDungeon selection info",
+    "type": "text",
+    "placeholders": {
+      "expPerStam": {}
+    }
+  },
+  "dungeonListCoinPerStam": "Coin/Stam:{coinPerStam}",
+  "@dungeonListCoinPerStam": {
+    "description": "SubDungeon selection info",
+    "type": "text",
+    "placeholders": {
+      "coinPerStam": {}
+    }
+  },
+  "eventClosed": "Closed",
+  "@eventClosed": {
+    "description": "Displayed below closed event info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventDays": "{days} Days",
+  "@eventDays": {
+    "description": "Day count and label in event info",
+    "type": "text",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "eventTabAll": "All",
+  "@eventTabAll": {
+    "description": "Subtab text at top of event tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventTabGuerrilla": "Guerrilla",
+  "@eventTabGuerrilla": {
+    "description": "Subtab text at top of event tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventTabSpecial": "Special",
+  "@eventTabSpecial": {
+    "description": "Subtab text at top of event tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "eventTabNews": "News",
+  "@eventTabNews": {
+    "description": "Subtab text at top of event tab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverModalTitle": "Server",
+  "@serverModalTitle": {
+    "description": "Title for select server action modal",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dataSync": "Data Sync",
+  "@dataSync": {
+    "description": "Button that triggers data syncing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "updateModalTitle": "Updating DadGuide data",
+  "@updateModalTitle": {
+    "description": "Title for update data action modal",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterListNo": "No. {number}",
+  "@monsterListNo": {
+    "description": "Monster list number text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListLevel": "Lv. {number}",
+  "@monsterListLevel": {
+    "description": "Monster list max level text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListHp": "HP {number}",
+  "@monsterListHp": {
+    "description": "Monster list HP text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListAtk": "ATK {number}",
+  "@monsterListAtk": {
+    "description": "Monster list ATK text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListRcv": "RCV {number}",
+  "@monsterListRcv": {
+    "description": "Monster list RCV text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListWeighted": "WT {number}",
+  "@monsterListWeighted": {
+    "description": "Monster list weighted stat text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListLimitBreak": "Limit Break: {number}%",
+  "@monsterListLimitBreak": {
+    "description": "Monster list limit break stat text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterListMp": "MP {number}",
+  "@monsterListMp": {
+    "description": "Monster list mp value text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfoNo": "No. {number}",
+  "@monsterInfoNo": {
+    "description": "Monster info number text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfo297Awoken": "+297 & fully awoken",
+  "@monsterInfo297Awoken": {
+    "description": "Text above the 297+awoken table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoStatBonus": "Stat bonus when assisting",
+  "@monsterInfoStatBonus": {
+    "description": "Text above the assist bonus table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoAvailableKillers": "Available Killer Awoken",
+  "@monsterInfoAvailableKillers": {
+    "description": "Text above the killer icons",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoCost": "Cost {number}",
+  "@monsterInfoCost": {
+    "description": "Monster info cost text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfoLevel": "Lv.",
+  "@monsterInfoLevel": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoHp": "HP",
+  "@monsterInfoHp": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoAtk": "ATK",
+  "@monsterInfoAtk": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoRcv": "RCV",
+  "@monsterInfoRcv": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoShield": "Reduce Dmg.",
+  "@monsterInfoShield": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoExp": "EXP",
+  "@monsterInfoExp": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoWeighted": "Weighted",
+  "@monsterInfoWeighted": {
+    "description": "Header in monster info table",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoSkillMaxed": "Lv.MAX Turn : {max}",
+  "@monsterInfoSkillMaxed": {
+    "description": "Monster info skill text with 0 levels",
+    "type": "text",
+    "placeholders": {
+      "max": {}
+    }
+  },
+  "monsterInfoSkillTurns": "Lv.1 Turn : {max} (Lv.{levels} Turn: {min})",
+  "@monsterInfoSkillTurns": {
+    "description": "Monster info skill text with levels",
+    "type": "text",
+    "placeholders": {
+      "max": {},
+      "min": {},
+      "levels": {}
+    }
+  },
+  "monsterInfoActiveSkillTitle": "Skill:",
+  "@monsterInfoActiveSkillTitle": {
+    "description": "Header for active skill section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoLeaderSkillTitle": "Leader skill:",
+  "@monsterInfoLeaderSkillTitle": {
+    "description": "Header for leader skill section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoHistoryTitle": "History",
+  "@monsterInfoHistoryTitle": {
+    "description": "Header for history section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoHistoryAdded": "[{date}] Added",
+  "@monsterInfoHistoryAdded": {
+    "description": "Monster info date added text",
+    "type": "text",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "monsterInfoSkillupTitle": "Skill Up - Monster",
+  "@monsterInfoSkillupTitle": {
+    "description": "Header for skillups section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoDropsTitle": "Drop Dungeons",
+  "@monsterInfoDropsTitle": {
+    "description": "Header for drops section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoDropsTitleNone": "Drop Dungeons: None",
+  "@monsterInfoDropsTitleNone": {
+    "description": "Header for drops section when there are no drops",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoSkillupDungeonsTitle": "Skill Up - Dungeon",
+  "@monsterInfoSkillupDungeonsTitle": {
+    "description": "Header for skillup drop dungeons",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableInfoMaxLevel": "At max level",
+  "@monsterInfoTableInfoMaxLevel": {
+    "description": "Header column with buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableSellGold": "Sell Gold",
+  "@monsterInfoTableSellGold": {
+    "description": "Row header for buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableSellMp": "Sell MP",
+  "@monsterInfoTableSellMp": {
+    "description": "Row header for buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableBuyMp": "Buy MP",
+  "@monsterInfoTableBuyMp": {
+    "description": "Row header for buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableFeedXp": "Feed XP",
+  "@monsterInfoTableFeedXp": {
+    "description": "Row header for buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTableFeedXpOnColor": "Feed XP\n(on color)",
+  "@monsterInfoTableFeedXpOnColor": {
+    "description": "Row header for buy/sell/feed data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoSeriesHeader": "Series - {seriesName}",
+  "@monsterInfoSeriesHeader": {
+    "description": "Header for series section with icons",
+    "type": "text",
+    "placeholders": {
+      "seriesName": {}
+    }
+  },
+  "monsterInfoEvolution": "Evolution",
+  "@monsterInfoEvolution": {
+    "description": "Evo section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoReversableEvolution": "Reversable Evolution",
+  "@monsterInfoReversableEvolution": {
+    "description": "Evo section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoNonReversableEvolution": "Non-Reversable Evolution",
+  "@monsterInfoNonReversableEvolution": {
+    "description": "Evo section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoEvoDiffHp": "HP {number}",
+  "@monsterInfoEvoDiffHp": {
+    "description": "Evo stat delta text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfoEvoDiffAtk": "ATK {number}",
+  "@monsterInfoEvoDiffAtk": {
+    "description": "Evo stat delta text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfoEvoDiffRcv": "RCV {number}",
+  "@monsterInfoEvoDiffRcv": {
+    "description": "Evo stat delta text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "monsterInfoAwokenSkillSection": "Awoken Skills",
+  "@monsterInfoAwokenSkillSection": {
+    "description": "Header for awoken skills",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoSuperAwokenSkillSection": "Super Awoken Skills",
+  "@monsterInfoSuperAwokenSkillSection": {
+    "description": "Header for super awoken skills",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingTitle": "First-launch setup",
+  "@onboardingTitle": {
+    "description": "Header for onboarding page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingWaitingTitle": "While you're waiting...",
+  "@onboardingWaitingTitle": {
+    "description": "Title above the locale selection stuff",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingWaitingSubTitle": "You can change these value later in the settings tab",
+  "@onboardingWaitingSubTitle": {
+    "description": "Subtitle above the locale selection stuff",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingDisplayLanguage": "Display Language",
+  "@onboardingDisplayLanguage": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingDisplayLanguageDesc": "Applies to UI elements and PAD data",
+  "@onboardingDisplayLanguageDesc": {
+    "description": "Dropdown option subtext",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingGameCountry": "Game Country",
+  "@onboardingGameCountry": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingGameCountryDesc": "Sets your default events, news, and data alerts",
+  "@onboardingGameCountryDesc": {
+    "description": "Dropdown option subtext",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Title of settings page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsGeneralSection": "General",
+  "@settingsGeneralSection": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsUiLanguage": "UI Langauge",
+  "@settingsUiLanguage": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsInfoLanguage": "Info Language",
+  "@settingsInfoLanguage": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsGameCountry": "Game Country",
+  "@settingsGameCountry": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventsSection": "Events",
+  "@settingsEventsSection": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventCountry": "Event Country",
+  "@settingsEventCountry": {
+    "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventsHideClosed": "Hide closed events",
+  "@settingsEventsHideClosed": {
+    "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventsStarterRed": "Show red starter",
+  "@settingsEventsStarterRed": {
+    "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventsStarterBlue": "Show blue starter",
+  "@settingsEventsStarterBlue": {
+    "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventsStarterGreen": "Show green starter",
+  "@settingsEventsStarterGreen": {
+    "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsInfoSection": "Info",
+  "@settingsInfoSection": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsContactUs": "Contact us",
+  "@settingsContactUs": {
+    "description": "Row label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsAbout": "About",
+  "@settingsAbout": {
+    "description": "Row label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsCopyright": "Copyright",
+  "@settingsCopyright": {
+    "description": "Row label",
     "type": "text",
     "placeholders": {}
   }
