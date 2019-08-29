@@ -3,6 +3,7 @@ import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -18,7 +19,7 @@ class MonsterTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MonsterDisplayState>(
       builder: (_) => MonsterDisplayState(),
-      child: Column(children: <Widget>[
+      child: Column(children: [
         MonsterSearchBar(),
         Expanded(child: MonsterList()),
         MonsterDisplayOptionsBar(),
@@ -100,7 +101,7 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
       color: Colors.grey[100],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
+        children: [
 //          Not supporting favorites yet
 //          IconButton(
 //            icon: Icon(Icons.star_border),
@@ -204,15 +205,24 @@ class MonsterListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
+    var textTheme = Theme.of(context).textTheme;
     var m = _model.monster;
+
+    var upperRightText = '${loc.monsterListMp(m.sellMp)} / * ${m.cost}';
+    if (_model.monster.activeSkillId != 0) {
+      // TODO: Fix active skill values
+      upperRightText += ' / S? → ?';
+    }
+
     return InkWell(
       onTap: goToMonsterFn(context, m.monsterId),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               PadIcon(m.monsterId, inheritable: m.inheritable),
               SizedBox(width: 8),
               Expanded(
@@ -221,31 +231,30 @@ class MonsterListRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption,
+                        style: textTheme.caption,
                         child: Row(children: [
-                          Text('No. ${m.monsterNoJp}'),
+                          Text(loc.monsterListNo(m.monsterNoJp)),
                           Spacer(),
-                          // TODO: this text has placeholders
-                          Text('MP ? / * ${m.cost} / S? -> ?'),
+                          Text(upperRightText),
                         ])),
                     FittedBox(alignment: Alignment.centerLeft, child: Text(m.nameNa)),
                     DefaultTextStyle(
-                      style: Theme.of(context).textTheme.caption,
+                      style: textTheme.caption,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                        Text('Lv. ${m.level}'),
-                        Text('HP ${m.hpMax}'),
-                        Text('ATK ${m.atkMax}'),
-                        Text('RCV ${m.rcvMax}'),
-                        Text('WT ${_weighted(m.hpMax, m.atkMax, m.rcvMax)}'),
+                        Text(loc.monsterListLevel(m.level)),
+                        Text(loc.monsterListHp(m.hpMax)),
+                        Text(loc.monsterListAtk(m.atkMax)),
+                        Text(loc.monsterListRcv(m.rcvMax)),
+                        Text(loc.monsterListWeighted(_weighted(m.hpMax, m.atkMax, m.rcvMax))),
                       ]),
                     ),
                     if (m.limitMult != null && m.limitMult > 0)
                       DefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption,
+                        style: textTheme.caption,
                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                          Text('Limit Break: ${100 + m.limitMult}%'),
-                          Text(
-                              'WT ${_weighted(m.hpMax, m.atkMax, m.rcvMax, limitMult: 100 + m.limitMult)}'),
+                          Text(loc.monsterListLimitBreak(100 + m.limitMult)),
+                          Text(loc.monsterListWeighted(_weighted(m.hpMax, m.atkMax, m.rcvMax,
+                              limitMult: 100 + m.limitMult))),
                         ]),
                       ),
                     if (displayState.showAwakenings && _model.awakenings.isNotEmpty)

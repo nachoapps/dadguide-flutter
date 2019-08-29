@@ -134,7 +134,7 @@ class DungeonHeader extends StatelessWidget {
                       style: Theme.of(context).textTheme.caption,
                       child: Row(children: [
                         DadGuideIcons.mp,
-                        Text(loc.mpPerStam(mp, mpPerStam)),
+                        Text(loc.mpAndMpPerStam(mp, mpPerStam.toStringAsFixed(1))),
                       ])),
                 ],
               ),

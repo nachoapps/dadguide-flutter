@@ -67,9 +67,9 @@ class DadGuideLocalizations {
       name: 'onboardingUnpackImages', desc: 'Displayed while the icon set is unzipping');
 
   // ---- Dungeon info strings ----
-  String mpPerStam(int mp, double mpPerStam) => Intl.message(
-        '$mp (${mpPerStam.toStringAsFixed(1)} / Stamina)',
-        name: 'mpPerStam',
+  String mpAndMpPerStam(int mp, String mpPerStam) => Intl.message(
+        '$mp ($mpPerStam / Stamina)',
+        name: 'mpAndMpPerStam',
         args: [mp, mpPerStam],
         desc: 'Lists the MP and MP/Stam for a dungeon',
       );
@@ -118,6 +118,9 @@ class DadGuideLocalizations {
   String get reportBadInfo => Intl.message('Report incorrect information',
       name: 'reportBadInfo', desc: 'Displayed at the bottom of monster/dungeon info');
 
+  String get exampleYtVideos => Intl.message('Example team compositions and dungeon clears',
+      name: 'exampleYtVideos', desc: 'Displayed at the bottom of monster/dungeon info');
+
   String get noData =>
       Intl.message('No Data', name: 'noData', desc: 'Displayed when a search finds no results');
 
@@ -161,7 +164,7 @@ class DadGuideLocalizations {
   String eventDays(int days) => Intl.message(
         '$days Days',
         name: 'eventDays',
-        args: [eventDays],
+        args: [days],
         desc: 'Day count and label in event info',
       );
 
@@ -188,6 +191,213 @@ class DadGuideLocalizations {
   String get updateModalTitle => Intl.message('Updating DadGuide data',
       name: 'updateModalTitle', desc: 'Title for update data action modal');
 
+  // ---- Monster list strings ----
+  String monsterListNo(int number) => Intl.message(
+        'No. $number',
+        name: 'monsterListNo',
+        args: [number],
+        desc: 'Monster list number text',
+      );
+
+  String monsterListLevel(int number) => Intl.message(
+        'Lv. $number',
+        name: 'monsterListLevel',
+        args: [number],
+        desc: 'Monster list max level text',
+      );
+
+  String monsterListHp(int number) => Intl.message(
+        'HP $number',
+        name: 'monsterListHp',
+        args: [number],
+        desc: 'Monster list HP text',
+      );
+
+  String monsterListAtk(int number) => Intl.message(
+        'ATK $number',
+        name: 'monsterListAtk',
+        args: [number],
+        desc: 'Monster list ATK text',
+      );
+
+  String monsterListRcv(int number) => Intl.message(
+        'RCV $number',
+        name: 'monsterListRcv',
+        args: [number],
+        desc: 'Monster list RCV text',
+      );
+
+  String monsterListWeighted(int number) => Intl.message(
+        'WT $number',
+        name: 'monsterListWeighted',
+        args: [number],
+        desc: 'Monster list weighted stat text',
+      );
+
+  String monsterListLimitBreak(int number) => Intl.message(
+        'Limit Break: $number%',
+        name: 'monsterListLimitBreak',
+        args: [number],
+        desc: 'Monster list limit break stat text',
+      );
+
+  String monsterListMp(int number) => Intl.message(
+        'MP $number',
+        name: 'monsterListMp',
+        args: [number],
+        desc: 'Monster list mp value text',
+      );
+
+  // ---- Monster info strings ----
+  String monsterInfoNo(int number) => Intl.message(
+        'No. $number',
+        name: 'monsterInfoNo',
+        args: [number],
+        desc: 'Monster info number text',
+      );
+
+  String get monsterInfo297Awoken => Intl.message('+297 & fully awoken',
+      name: 'monsterInfo297Awoken', desc: 'Text above the 297+awoken table');
+
+  String get monsterInfoStatBonus => Intl.message('Stat bonus when assisting',
+      name: 'monsterInfoStatBonus', desc: 'Text above the assist bonus table');
+
+  String get monsterInfoAvailableKillers => Intl.message('Available Killer Awoken',
+      name: 'monsterInfoAvailableKillers', desc: 'Text above the killer icons');
+
+  String monsterInfoCost(int number) => Intl.message(
+        'Cost $number',
+        name: 'monsterInfoCost',
+        args: [number],
+        desc: 'Monster info cost text',
+      );
+
+  String get monsterInfoLevel =>
+      Intl.message('Lv.', name: 'monsterInfoLevel', desc: 'Header in monster info table');
+
+  String get monsterInfoHp =>
+      Intl.message('HP', name: 'monsterInfoHp', desc: 'Header in monster info table');
+
+  String get monsterInfoAtk =>
+      Intl.message('ATK', name: 'monsterInfoAtk', desc: 'Header in monster info table');
+
+  String get monsterInfoRcv =>
+      Intl.message('RCV', name: 'monsterInfoRcv', desc: 'Header in monster info table');
+
+  String get monsterInfoShield =>
+      Intl.message('Reduce Dmg.', name: 'monsterInfoShield', desc: 'Header in monster info table');
+
+  String get monsterInfoExp =>
+      Intl.message('EXP', name: 'monsterInfoExp', desc: 'Header in monster info table');
+
+  String get monsterInfoWeighted =>
+      Intl.message('Weighted', name: 'monsterInfoWeighted', desc: 'Header in monster info table');
+
+  String monsterInfoSkillMaxed(int max) => Intl.message(
+        'Lv.MAX Turn : $max',
+        name: 'monsterInfoSkillMaxed',
+        args: [max],
+        desc: 'Monster info skill text with 0 levels',
+      );
+
+  String monsterInfoSkillTurns(int max, int min, int levels) => Intl.message(
+        'Lv.1 Turn : $max (Lv.$levels Turn: $min)',
+        name: 'monsterInfoSkillTurns',
+        args: [max, min, levels],
+        desc: 'Monster info skill text with levels',
+      );
+
+  String get monsterInfoActiveSkillTitle => Intl.message('Skill:',
+      name: 'monsterInfoActiveSkillTitle', desc: 'Header for active skill section');
+
+  String get monsterInfoLeaderSkillTitle => Intl.message('Leader skill:',
+      name: 'monsterInfoLeaderSkillTitle', desc: 'Header for leader skill section');
+
+  String get monsterInfoHistoryTitle =>
+      Intl.message('History', name: 'monsterInfoHistoryTitle', desc: 'Header for history section');
+
+  String monsterInfoHistoryAdded(String date) => Intl.message(
+        '[$date] Added',
+        name: 'monsterInfoHistoryAdded',
+        args: [date],
+        desc: 'Monster info date added text',
+      );
+
+  String get monsterInfoSkillupTitle => Intl.message('Skill Up - Monster',
+      name: 'monsterInfoSkillupTitle', desc: 'Header for skillups section');
+
+  String get monsterInfoDropsTitle => Intl.message('Drop Dungeons',
+      name: 'monsterInfoDropsTitle', desc: 'Header for drops section');
+
+  String get monsterInfoDropsTitleNone => Intl.message('Drop Dungeons: None',
+      name: 'monsterInfoDropsTitleNone', desc: 'Header for drops section when there are no drops');
+
+  String get monsterInfoSkillupDungeonsTitle => Intl.message('Skill Up - Dungeon',
+      name: 'monsterInfoSkillupDungeonsTitle', desc: 'Header for skillup drop dungeons');
+
+  String get monsterInfoTableInfoMaxLevel => Intl.message('At max level',
+      name: 'monsterInfoTableInfoMaxLevel', desc: 'Header column with buy/sell/feed data');
+
+  String get monsterInfoTableSellGold => Intl.message('Sell Gold',
+      name: 'monsterInfoTableSellGold', desc: 'Row header for buy/sell/feed data');
+
+  String get monsterInfoTableSellMp => Intl.message('Sell MP',
+      name: 'monsterInfoTableSellMp', desc: 'Row header for buy/sell/feed data');
+
+  String get monsterInfoTableBuyMp => Intl.message('Buy MP',
+      name: 'monsterInfoTableBuyMp', desc: 'Row header for buy/sell/feed data');
+
+  String get monsterInfoTableFeedXp => Intl.message('Feed XP',
+      name: 'monsterInfoTableFeedXp', desc: 'Row header for buy/sell/feed data');
+
+  String get monsterInfoTableFeedXpOnColor => Intl.message('Feed XP\n(on color)',
+      name: 'monsterInfoTableFeedXpOnColor', desc: 'Row header for buy/sell/feed data');
+
+  String monsterInfoSeriesHeader(String seriesName) => Intl.message(
+        'Series - $seriesName',
+        name: 'monsterInfoSeriesHeader',
+        args: [seriesName],
+        desc: 'Header for series section with icons',
+      );
+
+  String get monsterInfoEvolution =>
+      Intl.message('Evolution', name: 'monsterInfoEvolution', desc: 'Evo section header');
+
+  String get monsterInfoReversableEvolution => Intl.message('Reversable Evolution',
+      name: 'monsterInfoReversableEvolution', desc: 'Evo section header');
+
+  String get monsterInfoNonReversableEvolution => Intl.message('Non-Reversable Evolution',
+      name: 'monsterInfoNonReversableEvolution', desc: 'Evo section header');
+
+  String monsterInfoEvoDiffHp(String number) => Intl.message(
+        'HP $number',
+        name: 'monsterInfoEvoDiffHp',
+        args: [number],
+        desc: 'Evo stat delta text',
+      );
+
+  String monsterInfoEvoDiffAtk(String number) => Intl.message(
+        'ATK $number',
+        name: 'monsterInfoEvoDiffAtk',
+        args: [number],
+        desc: 'Evo stat delta text',
+      );
+
+  String monsterInfoEvoDiffRcv(String number) => Intl.message(
+        'RCV $number',
+        name: 'monsterInfoEvoDiffRcv',
+        args: [number],
+        desc: 'Evo stat delta text',
+      );
+
+  String get monsterInfoAwokenSkillSection => Intl.message('Awoken Skills',
+      name: 'monsterInfoAwokenSkillSection', desc: 'Header for awoken skills');
+
+  String get monsterInfoSuperAwokenSkillSection => Intl.message('Super Awoken Skills',
+      name: 'monsterInfoSuperAwokenSkillSection', desc: 'Header for super awoken skills');
+
+  // ---- Onboarding strings ----
+
   //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
@@ -213,7 +423,7 @@ class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocali
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'jp', 'kr'].contains(locale.languageCode);
+    return ['en', 'ja', 'ko'].contains(locale.languageCode);
   }
 
   @override
