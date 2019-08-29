@@ -397,6 +397,28 @@ class DadGuideLocalizations {
       name: 'monsterInfoSuperAwokenSkillSection', desc: 'Header for super awoken skills');
 
   // ---- Onboarding strings ----
+  String get onboardingTitle => Intl.message('First-launch setup',
+      name: 'onboardingTitle', desc: 'Header for onboarding page');
+
+  String get onboardingWaitingTitle => Intl.message('While you\'re waiting...',
+      name: 'onboardingWaitingTitle', desc: 'Title above the locale selection stuff');
+
+  String get onboardingWaitingSubTitle =>
+      Intl.message('You can change these value later in the settings tab',
+          name: 'onboardingWaitingSubTitle', desc: 'Subtitle above the locale selection stuff');
+
+  String get onboardingDisplayLanguage => Intl.message('Display Language',
+      name: 'onboardingWaitingTitle', desc: 'Dropdown option title');
+
+  String get onboardingDisplayLanguageDesc => Intl.message('Applies to UI elements and PAD data',
+      name: 'onboardingDisplayLanguageDesc', desc: 'Dropdown option subtext');
+
+  String get onboardingGameCountry =>
+      Intl.message('Game Country', name: 'onboardingGameCountry', desc: 'Dropdown option title');
+
+  String get onboardingGameCountryDesc =>
+      Intl.message('Sets your default events, news, and data alerts',
+          name: 'onboardingGameCountryDesc', desc: 'Dropdown option subtext');
 
   //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 

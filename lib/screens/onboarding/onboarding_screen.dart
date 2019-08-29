@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
@@ -10,11 +11,13 @@ import 'package:preferences/preferences.dart';
 class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('DadGuide'),
+          title: Text(loc.title),
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -23,7 +26,7 @@ class OnboardingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'First-launch setup',
+                  loc.onboardingTitle,
                   style: Theme.of(context).textTheme.headline,
                 ),
                 SizedBox(height: 5),
@@ -32,22 +35,22 @@ class OnboardingScreen extends StatelessWidget {
                 SizedBox(height: 5),
                 Divider(),
                 ListTile(
-                  title: Text('While you\'re waiting...'),
-                  subtitle: Text('You can change these value later in the settings tab'),
+                  title: Text(loc.onboardingWaitingTitle),
+                  subtitle: Text(loc.onboardingWaitingSubTitle),
                 ),
                 DropdownPreference(
-                  'Display language',
+                  loc.onboardingDisplayLanguage,
                   PrefKeys.infoLanguage,
-                  desc: 'Applies to UI elements and PAD data',
+                  desc: loc.onboardingDisplayLanguageDesc,
                   defaultVal: Prefs.defaultUiLanguageValue,
                   values: Prefs.languageValues,
                   displayValues: Prefs.languageDisplayValues,
                   onChange: (v) => Prefs.setAllLanguage(v),
                 ),
                 DropdownPreference(
-                  'Game Country',
+                  loc.onboardingGameCountry,
                   PrefKeys.gameCountry,
-                  desc: 'Sets your default events, news, and data alerts',
+                  desc: loc.onboardingGameCountryDesc,
                   defaultVal: Prefs.defaultGameCountryValue,
                   values: Prefs.countryValues,
                   displayValues: Prefs.countryDisplayValues,
