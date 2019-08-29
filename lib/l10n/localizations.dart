@@ -420,6 +420,51 @@ class DadGuideLocalizations {
       Intl.message('Sets your default events, news, and data alerts',
           name: 'onboardingGameCountryDesc', desc: 'Dropdown option subtext');
 
+  // ---- Settings strings ----
+  String get settingsTitle =>
+      Intl.message('Settings', name: 'settingsTitle', desc: 'Title of settings page');
+
+  String get settingsGeneralSection =>
+      Intl.message('General', name: 'settingsGeneralSection', desc: 'Section header');
+
+  String get settingsUiLanguage =>
+      Intl.message('UI Langauge', name: 'settingsUiLanguage', desc: 'Dropdown option title');
+
+  String get settingsInfoLanguage =>
+      Intl.message('Info Language', name: 'settingsInfoLanguage', desc: 'Dropdown option title');
+
+  String get settingsGameCountry =>
+      Intl.message('Game Country', name: 'onboardingGameCountry', desc: 'Dropdown option title');
+
+  String get settingsEventsSection =>
+      Intl.message('Events', name: 'settingsEventsSection', desc: 'Section header');
+
+  String get settingsEventCountry =>
+      Intl.message('Event Country', name: 'settingsEventCountry', desc: 'Dropdown option title');
+
+  String get settingsEventsHideClosed =>
+      Intl.message('Hide closed events', name: 'settingsEventsHideClosed', desc: 'Checkbox title');
+
+  String get settingsEventsStarterRed =>
+      Intl.message('Show red starter', name: 'settingsEventsStarterRed', desc: 'Checkbox title');
+
+  String get settingsEventsStarterBlue =>
+      Intl.message('Show blue starter', name: 'settingsEventsStarterBlue', desc: 'Checkbox title');
+
+  String get settingsEventsStarterGreen => Intl.message('Show green starter',
+      name: 'settingsEventsStarterGreen', desc: 'Checkbox title');
+
+  String get settingsInfoSection =>
+      Intl.message('Info', name: 'settingsInfoSection', desc: 'Section header');
+
+  String get settingsContactUs =>
+      Intl.message('Contact us', name: 'settingsContactUs', desc: 'Row label');
+
+  String get settingsAbout => Intl.message('About', name: 'settingsAbout', desc: 'Row label');
+
+  String get settingsCopyright =>
+      Intl.message('Copyright', name: 'settingsCopyright', desc: 'Row label');
+
   //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----

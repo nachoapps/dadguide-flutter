@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 
@@ -8,69 +9,71 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return PreferencePage([
       Container(
         color: Colors.blue,
         height: 36,
-        child: Center(child: Text('Settings')),
+        child: Center(child: Text(loc.settingsTitle)),
       ),
-      PreferenceTitle('General'),
+      PreferenceTitle(loc.settingsGeneralSection),
       DropdownPreference(
-        'UI language',
+        loc.settingsUiLanguage,
         PrefKeys.uiLanguage,
         defaultVal: Prefs.defaultUiLanguageValue,
         values: Prefs.languageValues,
         displayValues: Prefs.languageDisplayValues,
       ),
       DropdownPreference(
-        'Info language',
+        loc.settingsInfoLanguage,
         PrefKeys.infoLanguage,
         defaultVal: Prefs.defaultInfoLanguageValue,
         values: Prefs.languageValues,
         displayValues: Prefs.languageDisplayValues,
       ),
       DropdownPreference(
-        'Game Country',
+        loc.settingsGameCountry,
         PrefKeys.gameCountry,
         defaultVal: Prefs.defaultGameCountryValue,
         values: Prefs.countryValues,
         displayValues: Prefs.countryDisplayValues,
       ),
-      PreferenceTitle('Events'),
+      PreferenceTitle(loc.settingsEventsSection),
       DropdownPreference(
-        'Event Country',
+        loc.settingsEventCountry,
         PrefKeys.eventCountry,
         defaultVal: Prefs.defaultEventCountryValue,
         values: Prefs.countryValues,
         displayValues: Prefs.countryDisplayValues,
       ),
-      CheckboxPreference('Hide closed events', PrefKeys.eventsHideClosed),
-      CheckboxPreference('Show red starter', PrefKeys.eventsShowRed),
-      CheckboxPreference('Show blue starter', PrefKeys.eventsShowBlue),
-      CheckboxPreference('Show green starter', PrefKeys.eventsShowGreen),
-      PreferenceTitle('Info'),
+      CheckboxPreference(loc.settingsEventsHideClosed, PrefKeys.eventsHideClosed),
+      CheckboxPreference(loc.settingsEventsStarterRed, PrefKeys.eventsShowRed),
+      CheckboxPreference(loc.settingsEventsStarterBlue, PrefKeys.eventsShowBlue),
+      CheckboxPreference(loc.settingsEventsStarterGreen, PrefKeys.eventsShowGreen),
+      PreferenceTitle(loc.settingsInfoSection),
       ListTile(
-        title: Text('Contact us'),
+        title: Text(loc.settingsContactUs),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () {
           print('tapped');
         },
       ),
       PreferencePageLink(
-        'About',
+        loc.settingsAbout,
         trailing: Icon(Icons.keyboard_arrow_right),
         page: PreferencePage([
           PreferenceText('Some about text'),
         ]),
       ),
       PreferenceDialogLink(
-        'Copyright',
+        loc.settingsCopyright,
         trailing: Icon(Icons.keyboard_arrow_right),
         dialog: PreferenceDialog(
           [
             PreferenceText('Some copyright text'),
           ],
-          submitText: 'Close',
+          submitText: loc.close,
         ),
       ),
     ]);
