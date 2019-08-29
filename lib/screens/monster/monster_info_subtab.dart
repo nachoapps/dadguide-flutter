@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
@@ -10,6 +11,7 @@ import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +40,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         MonsterDetailBar(),
         Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
 //          Disabled for now; nothing here is implemented
@@ -72,6 +74,8 @@ class MonsterDetailContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var activeSkill = _data.activeSkill;
     bool hasSkillups = activeSkill != null && activeSkill.turnMin != activeSkill.turnMax;
 
@@ -92,15 +96,15 @@ class MonsterDetailContents extends StatelessWidget {
               MonsterLevelStatTable(_data),
 
               SizedBox(height: 4),
-              Text('+297 & fully awoken'),
+              Text(loc.monsterInfo297Awoken),
               MonsterWeightedStatTable(_data),
 
               if (_data.monster.inheritable)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     SizedBox(height: 4),
-                    Text('Stat bonus when assisting'),
+                    Text(loc.monsterInfoStatBonus),
                     MonsterAssistStatTable(_data),
                   ],
                 ),
@@ -108,9 +112,9 @@ class MonsterDetailContents extends StatelessWidget {
               if (_data.killers.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     SizedBox(height: 4),
-                    Text('Available Killer Awoken'),
+                    Text(loc.monsterInfoAvailableKillers),
                     Row(children: [
                       for (var killer in _data.killers) latentContainer(killer.id, size: 36)
                     ]),
@@ -292,8 +296,11 @@ class MonsterDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var rarity = _data.monster.rarity;
-    var topRightText = '★' * rarity + '($rarity) / Cost ${_data.monster.cost}';
+    var cost = loc.monsterInfoCost(_data.monster.cost);
+    var topRightText = '★' * rarity + '($rarity) / $cost';
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,7 +328,7 @@ class MonsterDetailHeader extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('No. ${_data.monster.monsterNoNa}'),
+                    Text(loc.monsterInfoNo(_data.monster.monsterNoNa)),
                     Text(topRightText),
                   ],
                 ),
@@ -375,7 +382,7 @@ class MonsterDetailBar extends StatelessWidget {
         color: Colors.blue,
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Row(
-          children: <Widget>[
+          children: [
             SizedBox(
               width: 32,
               height: 32,
@@ -415,7 +422,7 @@ class MonsterDetailOptionsBar extends StatelessWidget {
       color: Colors.grey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
+        children: [
           dummyIconButton(context, Icons.compare_arrows, 'Compare Monster'),
           dummyIconButton(context, Icons.live_tv, 'YT Link'),
           dummyIconButton(context, Icons.save_alt, 'Save view'),
@@ -433,6 +440,8 @@ class MonsterLevelStatTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var m = _data.monster;
     var limitMult = (m.limitMult ?? 0) + 100;
     return DefaultTextStyle(
@@ -442,11 +451,11 @@ class MonsterLevelStatTable extends StatelessWidget {
         border: TableBorder.all(width: 1.0, color: Colors.black26),
         children: [
           TableRow(children: [
-            cell('Lv.'),
-            cell('HP'),
-            cell('ATK'),
-            cell('RCV'),
-            cell('EXP'),
+            cell(loc.monsterInfoLevel),
+            cell(loc.monsterInfoHp),
+            cell(loc.monsterInfoAtk),
+            cell(loc.monsterInfoRcv),
+            cell(loc.monsterInfoExp),
           ]),
           TableRow(children: [
             numCell(1),
@@ -485,6 +494,8 @@ class MonsterWeightedStatTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var m = _data.monster;
     var a = _data.awakenings;
     var limitMult = (m.limitMult ?? 0) + 100;
@@ -512,11 +523,11 @@ class MonsterWeightedStatTable extends StatelessWidget {
         border: TableBorder.all(width: 1.0, color: Colors.black26),
         children: [
           TableRow(children: [
-            cell('Lv.'),
-            cell('HP'),
-            cell('ATK'),
-            cell('RCV'),
-            cell('Weighted'),
+            cell(loc.monsterInfoLevel),
+            cell(loc.monsterInfoHp),
+            cell(loc.monsterInfoAtk),
+            cell(loc.monsterInfoRcv),
+            cell(loc.monsterInfoWeighted),
           ]),
           TableRow(children: [
             numCell(m.level),
@@ -547,6 +558,8 @@ class MonsterAssistStatTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var m = _data.monster;
     var a = _data.awakenings;
     var hpMax = m.hpMax * .1;
@@ -581,11 +594,11 @@ class MonsterAssistStatTable extends StatelessWidget {
         border: TableBorder.all(width: 1.0, color: Colors.black26),
         children: [
           TableRow(children: [
-            cell('Lv.'),
-            cell('HP'),
-            cell('ATK'),
-            cell('RCV'),
-            cell('Weighted'),
+            cell(loc.monsterInfoLevel),
+            cell(loc.monsterInfoHp),
+            cell(loc.monsterInfoAtk),
+            cell(loc.monsterInfoRcv),
+            cell(loc.monsterInfoWeighted),
           ]),
           TableRow(children: [
             cell('99'),
@@ -639,17 +652,20 @@ class MonsterActiveSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var skillLevels = _skill.turnMax - _skill.turnMin;
     var lvlText = skillLevels == 0
-        ? 'Lv.MAX Turn : ${_skill.turnMax}'
-        : 'Lv.1 Turn : ${_skill.turnMax} (Lv.$skillLevels Turn: ${_skill.turnMin})';
+        ? loc.monsterInfoSkillMaxed(_skill.turnMax)
+        : loc.monsterInfoSkillTurns(_skill.turnMax, _skill.turnMin, skillLevels);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FittedBox(
           child: Row(
             children: [
-              Text('Skill:'),
+              Text(loc.monsterInfoActiveSkillTitle),
               SizedBox(width: 8),
               Text(_skill.nameNa, style: TextStyle(color: Colors.blue)),
             ],
@@ -677,13 +693,15 @@ class MonsterLeaderSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FittedBox(
           child: Row(
             children: [
-              Text('Leader skill:'),
+              Text(loc.monsterInfoLeaderSkillTitle),
               SizedBox(width: 8),
               Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
             ],
@@ -704,11 +722,14 @@ class MonsterHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('History'),
-        Text('[${_data.monster.regDate}] Added', style: Theme.of(context).textTheme.body2),
+      children: [
+        Text(loc.monsterInfoHistoryTitle),
+        Text(loc.monsterInfoHistoryAdded(_data.monster.regDate),
+            style: Theme.of(context).textTheme.body2),
       ],
     );
   }
@@ -722,6 +743,8 @@ class MailIssues extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return GestureDetector(
       onTap: () => sendMonsterErrorEmail(_data.monster),
       child: Card(
@@ -729,8 +752,7 @@ class MailIssues extends StatelessWidget {
           child: Row(
             children: [
               Icon(Icons.mail_outline),
-              Text('Report incorrect information',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              Text(loc.reportBadInfo, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
             ],
           )),
     );
@@ -745,6 +767,8 @@ class MonsterVideos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return GestureDetector(
       // Japanese name usually provides more results than the english
       onTap: () => {launchYouTubeSearch(_data.monster.nameJp)},
@@ -754,7 +778,7 @@ class MonsterVideos extends StatelessWidget {
             children: [
               Icon(Icons.play_arrow),
               Expanded(
-                  child: Text("Example team compositions and dungeon clears",
+                  child: Text(loc.exampleYtVideos,
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
             ],
           )),
@@ -770,6 +794,8 @@ class MonsterLeaderInfoTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var m = _data.monster;
     var ls = _data.leaderSkill;
     // truncates to 1 or 2 decimal places depending on significant decimals
@@ -797,22 +823,22 @@ class MonsterLeaderInfoTable extends StatelessWidget {
             )),
           ]),
           TableRow(children: [
-            cell('HP'),
+            cell(loc.monsterInfoHp),
             cell(ls.maxHp == 1 ? '-' : 'x ${ls.maxHp}'),
             cell(ls.maxHp == 1 ? '-' : 'x ${_truncateNumber(ls.maxHp * ls.maxHp)}'),
           ]),
           TableRow(children: [
-            cell('ATK'),
+            cell(loc.monsterInfoAtk),
             cell(ls.maxAtk == 1 ? '-' : 'x ${ls.maxAtk}'),
             cell(ls.maxAtk == 1 ? '-' : 'x ${_truncateNumber(ls.maxAtk * ls.maxAtk)}'),
           ]),
           TableRow(children: [
-            cell('RCV'),
+            cell(loc.monsterInfoRcv),
             cell(ls.maxRcv == 1 ? '-' : 'x ${ls.maxRcv}'),
             cell(ls.maxRcv == 1 ? '-' : 'x ${_truncateNumber(ls.maxRcv * ls.maxRcv)}'),
           ]),
           TableRow(children: [
-            cell('Reduce Dmg.'),
+            cell(loc.monsterInfoShield),
             cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
             cell(ls.maxShield == 0
                 ? '-'
@@ -832,10 +858,12 @@ class MonsterSkillups extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Skill Up - Monster'),
+        Text(loc.monsterInfoSkillupTitle),
         Wrap(children: [
           for (var id in _monsterIds)
             Padding(padding: EdgeInsets.all(2), child: PadIcon(id, monsterLink: true))
@@ -852,8 +880,10 @@ class MonsterDropLocations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     if (_data.dropLocations.isEmpty) {
-      return Text('Drop Dungeons: None');
+      return Text(loc.monsterInfoDropsTitleNone);
     }
 
     var keys = _data.dropLocations.keys.toList()..sort();
@@ -861,18 +891,19 @@ class MonsterDropLocations extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Drop Dungeons'),
+        Text(loc.monsterInfoDropsTitle),
         for (var k in keys)
           Padding(
               padding: EdgeInsets.symmetric(vertical: 4),
               child: Row(
-                children: <Widget>[
+                children: [
                   PadIcon(k),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       for (var dungeon in _data.dropLocations[k])
                         FlatButton(
+                          // TODO: implement link to dungeon
                           onPressed: () => print('pressed'),
                           color: Colors.orange,
                           child: Text(dungeon.nameNa),
@@ -892,10 +923,12 @@ class MonsterSkillupDropLocations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Skill Up - Dungeon'),
+        Text(loc.monsterInfoSkillupDungeonsTitle),
         // TODO: if monster appears in a skill-up dungeon should note that too
         Text('Not implemented yet =(', style: Theme.of(context).textTheme.body2),
       ],
@@ -911,37 +944,39 @@ class MonsterBuySellFeedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.body2,
       child: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: Table(
               border: TableBorder.all(width: 1.0, color: Colors.black26),
               children: [
                 TableRow(children: [
                   cell(''),
-                  cell('At max level'),
+                  cell(loc.monsterInfoTableInfoMaxLevel),
                 ]),
                 TableRow(children: [
-                  cell('Sell Gold'),
+                  cell(loc.monsterInfoTableSellGold),
                   numCell(_monster.sellGold),
                 ]),
                 TableRow(children: [
-                  cell('Sell MP'),
+                  cell(loc.monsterInfoTableSellMp),
                   numCell(_monster.sellMp),
                 ]),
                 if (_monster.buyMp != null)
                   TableRow(children: [
-                    cell('Buy MP'),
+                    cell(loc.monsterInfoTableBuyMp),
                     numCell(_monster.buyMp),
                   ]),
                 TableRow(children: [
-                  cell('Feed XP'),
+                  cell(loc.monsterInfoTableFeedXp),
                   numCell(_monster.fodderExp),
                 ]),
                 TableRow(children: [
-                  cell('Feed XP\n(on color)'),
+                  cell(loc.monsterInfoTableFeedXpOnColor),
                   numCell(_monster.fodderExp * 1.5),
                 ]),
               ],
@@ -962,10 +997,12 @@ class MonsterSeries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Series - ${_fullMonster.fullSeries.series.nameNa}'),
+        Text(loc.monsterInfoSeriesHeader(_fullMonster.fullSeries.series.nameNa)),
         Wrap(
           runSpacing: 4,
           spacing: 4,
@@ -986,6 +1023,8 @@ class MonsterEvolutions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var evos = _fullMonster.evolutions;
     List<FullEvolution> baseEvos = evos.where((e) => e.type == EvolutionType.evo).toList();
     List<FullEvolution> reversableEvos =
@@ -999,17 +1038,17 @@ class MonsterEvolutions extends StatelessWidget {
         if (baseEvos.isNotEmpty)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection('Evolution', baseEvos),
+            child: MonsterEvoSection(loc.monsterInfoEvolution, baseEvos),
           ),
         if (reversableEvos.isNotEmpty)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection('Reversable Evolutions', reversableEvos),
+            child: MonsterEvoSection(loc.monsterInfoReversableEvolution, reversableEvos),
           ),
         if (nonReversableEvos.isNotEmpty)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection('Non-Reversable Evolutions', nonReversableEvos),
+            child: MonsterEvoSection(loc.monsterInfoNonReversableEvolution, nonReversableEvos),
           ),
       ],
     );
@@ -1027,7 +1066,7 @@ class MonsterEvoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(name),
         for (var evo in evos)
           Padding(
@@ -1047,22 +1086,16 @@ class MonsterEvoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     var hpDiff = _evo.toMonster.hpMax - _evo.fromMonster.hpMax;
     var atkDiff = _evo.toMonster.atkMax - _evo.fromMonster.atkMax;
     var rcvDiff = _evo.toMonster.rcvMax - _evo.fromMonster.rcvMax;
     var deltas = [];
 
-    if (hpDiff > 0)
-      deltas.add('HP +$hpDiff');
-    else if (hpDiff < 0) deltas.add('HP $hpDiff');
-
-    if (atkDiff > 0)
-      deltas.add('ATK +$atkDiff');
-    else if (atkDiff < 0) deltas.add('ATK $atkDiff');
-
-    if (rcvDiff > 0)
-      deltas.add('RCV +$rcvDiff');
-    else if (rcvDiff < 0) deltas.add('RCV $rcvDiff');
+    if (hpDiff != 0) deltas.add(loc.monsterInfoEvoDiffHp(plusMinus(hpDiff)));
+    if (atkDiff != 0) deltas.add(loc.monsterInfoEvoDiffAtk(plusMinus(atkDiff)));
+    if (rcvDiff != 0) deltas.add(loc.monsterInfoEvoDiffRcv(plusMinus(rcvDiff)));
 
     var statText = deltas.join(' / ');
 
@@ -1131,11 +1164,15 @@ class AwokenSkillSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     // Create map to merge multiple instances of same awakening
     var map = LinkedHashMap();
     _awakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
 
-    var title = _awakenings[0].awakening.isSuper ? 'Super Awoken Skills' : 'Awoken Skills';
+    var title = _awakenings[0].awakening.isSuper
+        ? loc.monsterInfoSuperAwokenSkillSection
+        : loc.monsterInfoAwokenSkillSection;
     return Column(
       children: [
         Row(

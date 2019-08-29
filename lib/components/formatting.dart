@@ -6,3 +6,7 @@ final _commaFormat = NumberFormat.decimalPattern();
 String commaFormat(num value) {
   return _commaFormat.format(value);
 }
+
+String plusMinus(num value) {
+  return value > 0 ? '+$value' : '$value';
+}
