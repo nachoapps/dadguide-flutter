@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
 import 'package:dadguide2/services/onboarding_task.dart';
@@ -74,7 +75,7 @@ class DadGuideApp extends StatelessWidget {
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
       ],
       child: MaterialApp(
-          title: 'DadGuide',
+          onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: appTheme(),
           debugShowCheckedModeBanner: false,
           navigatorObservers: [observer],
@@ -88,7 +89,7 @@ class DadGuideApp extends StatelessWidget {
             throw 'Route not implemented: ${settings.name}';
           },
           localizationsDelegates: [
-            // ... app-specific localization delegate[s] here
+            DadGuideLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
