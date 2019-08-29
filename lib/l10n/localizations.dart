@@ -408,7 +408,7 @@ class DadGuideLocalizations {
           name: 'onboardingWaitingSubTitle', desc: 'Subtitle above the locale selection stuff');
 
   String get onboardingDisplayLanguage => Intl.message('Display Language',
-      name: 'onboardingWaitingTitle', desc: 'Dropdown option title');
+      name: 'onboardingDisplayLanguage', desc: 'Dropdown option title');
 
   String get onboardingDisplayLanguageDesc => Intl.message('Applies to UI elements and PAD data',
       name: 'onboardingDisplayLanguageDesc', desc: 'Dropdown option subtext');
@@ -434,7 +434,7 @@ class DadGuideLocalizations {
       Intl.message('Info Language', name: 'settingsInfoLanguage', desc: 'Dropdown option title');
 
   String get settingsGameCountry =>
-      Intl.message('Game Country', name: 'onboardingGameCountry', desc: 'Dropdown option title');
+      Intl.message('Game Country', name: 'settingsGameCountry', desc: 'Dropdown option title');
 
   String get settingsEventsSection =>
       Intl.message('Events', name: 'settingsEventsSection', desc: 'Section header');
