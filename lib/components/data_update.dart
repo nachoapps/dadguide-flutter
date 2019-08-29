@@ -17,7 +17,7 @@ class DataUpdater with ChangeNotifier {
   DataUpdater(this._context);
 
   void subscribe() {
-    var loc = DadGuideLocalizations.of(_context);
+    var loc = localized;
     _subscription = updateManager.updateStream.listen((_) {
       Scaffold.of(_context).showSnackBar((SnackBar(content: Text(loc.updateComplete))));
       notifyListeners();
