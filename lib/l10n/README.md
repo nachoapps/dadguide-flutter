@@ -16,7 +16,7 @@ them to the tool for translations.
 Once translations are applied, copy them into place and run the following command to regenerate
 the l10n code:
 ```
-flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n --no-use-deferred-loading lib/main.dart lib/l10n/intl_??.arb
+flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n --no-use-deferred-loading lib/l10n/localizations.dart lib/l10n/intl_??.arb
 ```
 
 If we ever support CN languages:
