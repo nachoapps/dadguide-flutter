@@ -1,5 +1,5 @@
 {
-  "title": "아빠 가이드",
+  "title": "DadGuide",
   "@title": {
     "description": "The application title",
     "type": "text",
@@ -106,7 +106,7 @@
       "mpPerStam": {}
     }
   },
-  "dungeonStamina": "체력 : {stamina}",
+  "dungeonStamina": "스태미너 : {stamina}",
   "@dungeonStamina": {
     "description": "Lists stamina cost of a dungeon",
     "type": "text",
@@ -114,7 +114,7 @@
       "stamina": {}
     }
   },
-  "dungeonFloors": "층수 : {floors}",
+  "dungeonFloors": "배틀 : {floors}",
   "@dungeonFloors": {
     "description": "Lists number of floors in a dungeon",
     "type": "text",
@@ -128,7 +128,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "max": "맥스",
+  "max": "최대",
   "@max": {
     "description": "Table header",
     "type": "text",
@@ -146,19 +146,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "exp": "특급",
+  "exp": "경험치",
   "@exp": {
     "description": "Table header",
     "type": "text",
     "placeholders": {}
   },
-  "coin": "동전",
+  "coin": "코인",
   "@coin": {
     "description": "Table header",
     "type": "text",
     "placeholders": {}
   },
-  "battleDrop": "하락",
+  "battleDrop": "드랍",
   "@battleDrop": {
     "description": "Label in encounter section",
     "type": "text",
@@ -170,7 +170,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "battleInvades": "침략",
+  "battleInvades": "난입",
   "@battleInvades": {
     "description": "Header for encounter section",
     "type": "text",
@@ -190,13 +190,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "reportBadInfo": "잘못된 정보 신고",
+  "reportBadInfo": "잘못된 정보 신고해주새요",
   "@reportBadInfo": {
     "description": "Displayed at the bottom of monster/dungeon info",
     "type": "text",
     "placeholders": {}
   },
-  "exampleYtVideos": "팀 구성 및 던전 제거 예",
+  "exampleYtVideos": "팀과 던전 명확한 예",
   "@exampleYtVideos": {
     "description": "Displayed at the bottom of monster/dungeon info",
     "type": "text",
@@ -220,25 +220,25 @@
     "type": "text",
     "placeholders": {}
   },
-  "dungeonTabSpecial": "특별한",
+  "dungeonTabSpecial": "스페셜",
   "@dungeonTabSpecial": {
     "description": "Subtab text at bottom of dungeon tab",
     "type": "text",
     "placeholders": {}
   },
-  "dungeonTabNormal": "표준",
+  "dungeonTabNormal": "노멀",
   "@dungeonTabNormal": {
     "description": "Subtab text at bottom of dungeon tab",
     "type": "text",
     "placeholders": {}
   },
-  "dungeonTabTechnical": "전문인",
+  "dungeonTabTechnical": "테크니컬",
   "@dungeonTabTechnical": {
     "description": "Subtab text at bottom of dungeon tab",
     "type": "text",
     "placeholders": {}
   },
-  "dungeonTabMultiRank": "멀티 랭크",
+  "dungeonTabMultiRank": "협력/랭킹",
   "@dungeonTabMultiRank": {
     "description": "Subtab text at bottom of dungeon tab",
     "type": "text",
@@ -250,7 +250,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "dungeonListExpPerStam": "Exp / Stam : {expPerStam}",
+  "dungeonListExpPerStam": "경험치 효율 : {expPerStam}",
   "@dungeonListExpPerStam": {
     "description": "SubDungeon selection info",
     "type": "text",
@@ -258,7 +258,7 @@
       "expPerStam": {}
     }
   },
-  "dungeonListCoinPerStam": "코인 / {coinPerStam} : {coinPerStam}",
+  "dungeonListCoinPerStam": "코인 효율: {coinPerStam}",
   "@dungeonListCoinPerStam": {
     "description": "SubDungeon selection info",
     "type": "text",
@@ -292,7 +292,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "eventTabSpecial": "특별한",
+  "eventTabSpecial": "스페셜",
   "@eventTabSpecial": {
     "description": "Subtab text at top of event tab",
     "type": "text",
@@ -304,7 +304,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "serverModalTitle": "섬기는 사람",
+  "serverModalTitle": "서버",
   "@serverModalTitle": {
     "description": "Title for select server action modal",
     "type": "text",
@@ -322,7 +322,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterListNo": "아니요. {number}",
+  "monsterListNo": "No. {number}",
   "@monsterListNo": {
     "description": "Monster list number text",
     "type": "text",
@@ -346,7 +346,7 @@
       "number": {}
     }
   },
-  "monsterListAtk": "공격력 {number}",
+  "monsterListAtk": "공격 {number}",
   "@monsterListAtk": {
     "description": "Monster list ATK text",
     "type": "text",
@@ -386,7 +386,7 @@
       "number": {}
     }
   },
-  "monsterInfoNo": "아니요. {number}",
+  "monsterInfoNo": "No. {number}",
   "@monsterInfoNo": {
     "description": "Monster info number text",
     "type": "text",
@@ -438,7 +438,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoRcv": "RCV",
+  "monsterInfoRcv": "회복",
   "@monsterInfoRcv": {
     "description": "Header in monster info table",
     "type": "text",
@@ -554,13 +554,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableFeedXp": "피드 XP",
+  "monsterInfoTableFeedXp": "먹이경험치 (타속성)",
   "@monsterInfoTableFeedXp": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableFeedXpOnColor": "피드 XP (컬러)",
+  "monsterInfoTableFeedXpOnColor": "먹이경험치 (동속성)",
   "@monsterInfoTableFeedXpOnColor": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
@@ -608,7 +608,7 @@
       "number": {}
     }
   },
-  "monsterInfoEvoDiffRcv": "RCV {number}",
+  "monsterInfoEvoDiffRcv": "회복 {number}",
   "@monsterInfoEvoDiffRcv": {
     "description": "Evo stat delta text",
     "type": "text",
@@ -616,13 +616,13 @@
       "number": {}
     }
   },
-  "monsterInfoAwokenSkillSection": "깨어 난 기술",
+  "monsterInfoAwokenSkillSection": "각성스킬",
   "@monsterInfoAwokenSkillSection": {
     "description": "Header for awoken skills",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoSuperAwokenSkillSection": "슈퍼 깨어 난 기술",
+  "monsterInfoSuperAwokenSkillSection": "초각성스킬",
   "@monsterInfoSuperAwokenSkillSection": {
     "description": "Header for super awoken skills",
     "type": "text",

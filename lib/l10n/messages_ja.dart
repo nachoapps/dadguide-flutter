@@ -20,13 +20,13 @@ typedef MessageIfAbsent(String message_str, List args);
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'ja';
 
-  static m0(floor) => "床${floor}";
+  static m0(floor) => "フロア${floor}";
 
   static m1(floors) => "フロア： ${floors}";
 
-  static m2(coinPerStam) => "コイン/ ${coinPerStam} ： ${coinPerStam}";
+  static m2(coinPerStam) => "毎ｽﾀﾐﾅコイン ： ${coinPerStam}";
 
-  static m3(expPerStam) => "Exp / Stam： ${expPerStam}";
+  static m3(expPerStam) => "毎ｽﾀﾐﾅ経験値： ${expPerStam}";
 
   static m4(stamina) => "スタミナ： ${stamina}";
 
@@ -42,11 +42,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m10(date) => "[ ${date} ]追加";
 
-  static m11(number) => "いいえ。 ${number}";
+  static m11(number) => "No. ${number}";
 
   static m12(seriesName) => "シリーズ- ${seriesName}";
 
-  static m13(max) => "Lv.MAXターン： ${max}";
+  static m13(max) => "ｽｷﾙﾚﾍﾞﾙ MAX ターン： ${max}";
 
   static m14(max, min, levels) => "Lv.1ターン： ${max} （Lv。 ${levels}ターン： ${min} ）";
 
@@ -54,34 +54,34 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m16(number) => "HP ${number}";
 
-  static m17(number) => "Lv。 ${number}";
+  static m17(number) => "レベル ${number}";
 
-  static m18(number) => "制限ブレーク： ${number} ％";
+  static m18(number) => "限界突破： ${number} ％";
 
-  static m19(number) => "MP ${number}";
+  static m19(number) => "ﾓﾝﾎﾟ ${number}";
 
-  static m20(number) => "いいえ。 ${number}";
+  static m20(number) => "No. ${number}";
 
   static m21(number) => "RCV ${number}";
 
   static m22(number) => "WT ${number}";
 
-  static m23(mp, mpPerStam) => "${mp} （ ${mpPerStam} /スタミナ）";
+  static m23(mp, mpPerStam) => "${mp}（${mpPerStam}／スタミナ）";
 
-  static m24(index, taskCount) => "タスクの実行（ ${index} / ${taskCount}";
+  static m24(index, taskCount) => "タスク（${index} / ${taskCount}）実行中";
 
-  static m25(index, taskCount) => "${taskCount}タスク${index}が失敗しました";
+  static m25(index, taskCount) => "タスク ${index} / ${taskCount} が失敗しました";
 
   static m26(percent) => "${percent} ％";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "avg" : MessageLookupByLibrary.simpleMessage("平均"),
-    "avgPerStam" : MessageLookupByLibrary.simpleMessage("平均/スタン"),
+    "avgPerStam" : MessageLookupByLibrary.simpleMessage("毎ｽﾀﾐﾅ平均"),
     "battleCommon" : MessageLookupByLibrary.simpleMessage("一般的なモンスター"),
     "battleDrop" : MessageLookupByLibrary.simpleMessage("ドロップ"),
     "battleFloor" : m0,
-    "battleInvades" : MessageLookupByLibrary.simpleMessage("侵略"),
+    "battleInvades" : MessageLookupByLibrary.simpleMessage("まれに出現"),
     "close" : MessageLookupByLibrary.simpleMessage("閉じる"),
     "coin" : MessageLookupByLibrary.simpleMessage("コイン"),
     "dataSync" : MessageLookupByLibrary.simpleMessage("データ同期"),
@@ -94,20 +94,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "dungeonTabNormal" : MessageLookupByLibrary.simpleMessage("普通"),
     "dungeonTabSpecial" : MessageLookupByLibrary.simpleMessage("特殊"),
     "dungeonTabTechnical" : MessageLookupByLibrary.simpleMessage("テクニカル"),
-    "eventClosed" : MessageLookupByLibrary.simpleMessage("閉まっている"),
+    "eventClosed" : MessageLookupByLibrary.simpleMessage("終了しました"),
     "eventDays" : m5,
     "eventTabAll" : MessageLookupByLibrary.simpleMessage("すべて"),
     "eventTabGuerrilla" : MessageLookupByLibrary.simpleMessage("ゲリラ"),
     "eventTabNews" : MessageLookupByLibrary.simpleMessage("ニュース"),
     "eventTabSpecial" : MessageLookupByLibrary.simpleMessage("特殊"),
-    "exampleYtVideos" : MessageLookupByLibrary.simpleMessage("チーム構成とダンジョンクリアの例"),
-    "exp" : MessageLookupByLibrary.simpleMessage("Exp"),
-    "max" : MessageLookupByLibrary.simpleMessage("マックス"),
-    "min" : MessageLookupByLibrary.simpleMessage("分"),
-    "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297＆完全に覚醒"),
+    "exampleYtVideos" : MessageLookupByLibrary.simpleMessage("ダンジョンクリアのチーム構成の例"),
+    "exp" : MessageLookupByLibrary.simpleMessage("経験値"),
+    "max" : MessageLookupByLibrary.simpleMessage("最高"),
+    "min" : MessageLookupByLibrary.simpleMessage("最低"),
+    "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297＆フル覚醒"),
     "monsterInfoActiveSkillTitle" : MessageLookupByLibrary.simpleMessage("スキル："),
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("ATK"),
-    "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("利用可能なキラーアウォークン"),
+    "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("利用可能な潜在キラー"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("覚醒スキル"),
     "monsterInfoCost" : m6,
     "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("ドロップダンジョン"),
@@ -121,7 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoHistoryTitle" : MessageLookupByLibrary.simpleMessage("歴史"),
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("リーダースキル："),
-    "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv。"),
+    "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("ﾚﾍﾞﾙ"),
     "monsterInfoNo" : m11,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("不可逆的な進化"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("RCV"),
@@ -132,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoSkillTurns" : m14,
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップ-ダンジョン"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップ-モンスター"),
-    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシスト時の統計ボーナス"),
+    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストのステータスボーナス"),
     "monsterInfoSuperAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("超覚醒スキル"),
     "monsterInfoTableBuyMp" : MessageLookupByLibrary.simpleMessage("MPを購入"),
     "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("フィードXP"),
@@ -140,7 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("最大レベル"),
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("金を売る"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MPを売る"),
-    "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("加重"),
+    "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("ﾌﾟﾗｽ換算"),
     "monsterListAtk" : m15,
     "monsterListHp" : m16,
     "monsterListLevel" : m17,
@@ -153,13 +153,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "noData" : MessageLookupByLibrary.simpleMessage("データなし"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("表示言語"),
     "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UI要素とPADデータに適用"),
-    "onboardingDownloadDb" : MessageLookupByLibrary.simpleMessage("初期データのダウンロード"),
-    "onboardingDownloadImages" : MessageLookupByLibrary.simpleMessage("アイコンセットのダウンロード"),
+    "onboardingDownloadDb" : MessageLookupByLibrary.simpleMessage("初期データはダウンロードしています"),
+    "onboardingDownloadImages" : MessageLookupByLibrary.simpleMessage("アイコンセットはダウンロードしています"),
     "onboardingGameCountry" : MessageLookupByLibrary.simpleMessage("ゲームの国"),
     "onboardingGameCountryDesc" : MessageLookupByLibrary.simpleMessage("デフォルトのイベント、ニュース、データアラートを設定します"),
     "onboardingTitle" : MessageLookupByLibrary.simpleMessage("初回起動セットアップ"),
-    "onboardingUnpackDb" : MessageLookupByLibrary.simpleMessage("初期データの展開"),
-    "onboardingUnpackImages" : MessageLookupByLibrary.simpleMessage("開梱アイコンセット"),
+    "onboardingUnpackDb" : MessageLookupByLibrary.simpleMessage("初期データ展開中"),
+    "onboardingUnpackImages" : MessageLookupByLibrary.simpleMessage("アイコンセット展開中"),
     "onboardingWaitingSubTitle" : MessageLookupByLibrary.simpleMessage("これらの値は、後で設定タブで変更できます"),
     "onboardingWaitingTitle" : MessageLookupByLibrary.simpleMessage("待っている間..."),
     "reportBadInfo" : MessageLookupByLibrary.simpleMessage("誤った情報を報告する"),
@@ -180,18 +180,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("設定"),
     "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("UIランゲージ"),
     "subDungeonSelectionTitle" : MessageLookupByLibrary.simpleMessage("難易度を選択"),
-    "taskExecuting" : MessageLookupByLibrary.simpleMessage("タスクの実行"),
+    "taskExecuting" : MessageLookupByLibrary.simpleMessage("タスク実行中"),
     "taskExecutingWithCount" : m24,
     "taskFailedWithCount" : m25,
-    "taskFatalError" : MessageLookupByLibrary.simpleMessage("致命的なエラーが発生しました。アプリを再起動してみてください"),
-    "taskFinished" : MessageLookupByLibrary.simpleMessage("すべてのタスクが完了"),
+    "taskFatalError" : MessageLookupByLibrary.simpleMessage("致命的なエラーが発生しました。アプリを再起動してみてください。"),
+    "taskFinished" : MessageLookupByLibrary.simpleMessage("すべてのタスクが完了しますた"),
     "taskProgress" : m26,
-    "taskRestarting" : MessageLookupByLibrary.simpleMessage("インターネット接続を確認してください。自動的に再起動する"),
+    "taskRestarting" : MessageLookupByLibrary.simpleMessage("インターネット接続を確認してください。自動的に再起動します。"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("タスクの開始を待っています"),
-    "title" : MessageLookupByLibrary.simpleMessage("お父さんガイド"),
+    "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),
     "updateComplete" : MessageLookupByLibrary.simpleMessage("更新完了"),
-    "updateFailed" : MessageLookupByLibrary.simpleMessage("アップデートに失敗しました"),
-    "updateModalTitle" : MessageLookupByLibrary.simpleMessage("DadGuideデータの更新"),
+    "updateFailed" : MessageLookupByLibrary.simpleMessage("アップデートを失敗しました"),
+    "updateModalTitle" : MessageLookupByLibrary.simpleMessage("DadGuideデータの更新しています"),
     "ytLaunchError" : MessageLookupByLibrary.simpleMessage("YouTubeを起動できませんでした")
   };
 }
