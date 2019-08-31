@@ -1,5 +1,5 @@
 {
-  "title": "お父さんガイド",
+  "title": "DadGuide",
   "@title": {
     "description": "The application title",
     "type": "text",
@@ -11,13 +11,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "updateFailed": "アップデートに失敗しました",
+  "updateFailed": "アップデートを失敗しました",
   "@updateFailed": {
     "description": "Snackbar displayed when data update fails",
     "type": "text",
     "placeholders": {}
   },
-  "taskExecutingWithCount": "タスクの実行（ {index} / {taskCount}",
+  "taskExecutingWithCount": "タスク（{index} / {taskCount}）実行中",
   "@taskExecutingWithCount": {
     "description": "Indicates task progress",
     "type": "text",
@@ -26,7 +26,7 @@
       "taskCount": {}
     }
   },
-  "taskExecuting": "タスクの実行",
+  "taskExecuting": "タスク実行中",
   "@taskExecuting": {
     "description": "Indicates task is running",
     "type": "text",
@@ -40,7 +40,7 @@
       "percent": {}
     }
   },
-  "taskFailedWithCount": "{taskCount}タスク{index}が失敗しました",
+  "taskFailedWithCount": "タスク {index} / {taskCount} が失敗しました",
   "@taskFailedWithCount": {
     "description": "Indicates the latest task failed",
     "type": "text",
@@ -49,7 +49,7 @@
       "taskCount": {}
     }
   },
-  "taskRestarting": "インターネット接続を確認してください。自動的に再起動する",
+  "taskRestarting": "インターネット接続を確認してください。自動的に再起動します。",
   "@taskRestarting": {
     "description": "Indicates task failed and will auto restart",
     "type": "text",
@@ -61,43 +61,43 @@
     "type": "text",
     "placeholders": {}
   },
-  "taskFatalError": "致命的なエラーが発生しました。アプリを再起動してみてください",
+  "taskFatalError": "致命的なエラーが発生しました。アプリを再起動してみてください。",
   "@taskFatalError": {
     "description": "Indicates task failed and will not attempt to restart",
     "type": "text",
     "placeholders": {}
   },
-  "taskFinished": "すべてのタスクが完了",
+  "taskFinished": "すべてのタスクが完了しますた",
   "@taskFinished": {
     "description": "Indicates all tasks are complete",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingDownloadDb": "初期データのダウンロード",
+  "onboardingDownloadDb": "初期データはダウンロードしています",
   "@onboardingDownloadDb": {
     "description": "Displayed while the database is downloading",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingUnpackDb": "初期データの展開",
+  "onboardingUnpackDb": "初期データ展開中",
   "@onboardingUnpackDb": {
     "description": "Displayed while the database is unzipping",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingDownloadImages": "アイコンセットのダウンロード",
+  "onboardingDownloadImages": "アイコンセットはダウンロードしています",
   "@onboardingDownloadImages": {
     "description": "Displayed while the icon set is downloading",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingUnpackImages": "開梱アイコンセット",
+  "onboardingUnpackImages": "アイコンセット展開中",
   "@onboardingUnpackImages": {
     "description": "Displayed while the icon set is unzipping",
     "type": "text",
     "placeholders": {}
   },
-  "mpAndMpPerStam": "{mp} （ {mpPerStam} /スタミナ）",
+  "mpAndMpPerStam": "{mp}（{mpPerStam}／スタミナ）",
   "@mpAndMpPerStam": {
     "description": "Lists the MP and MP/Stam for a dungeon",
     "type": "text",
@@ -122,13 +122,13 @@
       "floors": {}
     }
   },
-  "min": "分",
+  "min": "最低",
   "@min": {
     "description": "Table header",
     "type": "text",
     "placeholders": {}
   },
-  "max": "マックス",
+  "max": "最高",
   "@max": {
     "description": "Table header",
     "type": "text",
@@ -140,13 +140,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "avgPerStam": "平均/スタン",
+  "avgPerStam": "毎ｽﾀﾐﾅ平均",
   "@avgPerStam": {
     "description": "Table header",
     "type": "text",
     "placeholders": {}
   },
-  "exp": "Exp",
+  "exp": "経験値",
   "@exp": {
     "description": "Table header",
     "type": "text",
@@ -170,13 +170,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "battleInvades": "侵略",
+  "battleInvades": "まれに出現",
   "@battleInvades": {
     "description": "Header for encounter section",
     "type": "text",
     "placeholders": {}
   },
-  "battleFloor": "床{floor}",
+  "battleFloor": "フロア{floor}",
   "@battleFloor": {
     "description": "Header for encounter section",
     "type": "text",
@@ -196,7 +196,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleYtVideos": "チーム構成とダンジョンクリアの例",
+  "exampleYtVideos": "ダンジョンクリアのチーム構成の例",
   "@exampleYtVideos": {
     "description": "Displayed at the bottom of monster/dungeon info",
     "type": "text",
@@ -250,7 +250,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "dungeonListExpPerStam": "Exp / Stam： {expPerStam}",
+  "dungeonListExpPerStam": "毎ｽﾀﾐﾅ経験値： {expPerStam}",
   "@dungeonListExpPerStam": {
     "description": "SubDungeon selection info",
     "type": "text",
@@ -258,7 +258,7 @@
       "expPerStam": {}
     }
   },
-  "dungeonListCoinPerStam": "コイン/ {coinPerStam} ： {coinPerStam}",
+  "dungeonListCoinPerStam": "毎ｽﾀﾐﾅコイン ： {coinPerStam}",
   "@dungeonListCoinPerStam": {
     "description": "SubDungeon selection info",
     "type": "text",
@@ -266,7 +266,7 @@
       "coinPerStam": {}
     }
   },
-  "eventClosed": "閉まっている",
+  "eventClosed": "終了しました",
   "@eventClosed": {
     "description": "Displayed below closed event info",
     "type": "text",
@@ -316,13 +316,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "updateModalTitle": "DadGuideデータの更新",
+  "updateModalTitle": "DadGuideデータの更新しています",
   "@updateModalTitle": {
     "description": "Title for update data action modal",
     "type": "text",
     "placeholders": {}
   },
-  "monsterListNo": "いいえ。 {number}",
+  "monsterListNo": "No. {number}",
   "@monsterListNo": {
     "description": "Monster list number text",
     "type": "text",
@@ -330,7 +330,7 @@
       "number": {}
     }
   },
-  "monsterListLevel": "Lv。 {number}",
+  "monsterListLevel": "レベル {number}",
   "@monsterListLevel": {
     "description": "Monster list max level text",
     "type": "text",
@@ -370,7 +370,7 @@
       "number": {}
     }
   },
-  "monsterListLimitBreak": "制限ブレーク： {number} ％",
+  "monsterListLimitBreak": "限界突破： {number} ％",
   "@monsterListLimitBreak": {
     "description": "Monster list limit break stat text",
     "type": "text",
@@ -378,7 +378,7 @@
       "number": {}
     }
   },
-  "monsterListMp": "MP {number}",
+  "monsterListMp": "ﾓﾝﾎﾟ {number}",
   "@monsterListMp": {
     "description": "Monster list mp value text",
     "type": "text",
@@ -386,7 +386,7 @@
       "number": {}
     }
   },
-  "monsterInfoNo": "いいえ。 {number}",
+  "monsterInfoNo": "No. {number}",
   "@monsterInfoNo": {
     "description": "Monster info number text",
     "type": "text",
@@ -394,19 +394,19 @@
       "number": {}
     }
   },
-  "monsterInfo297Awoken": "+297＆完全に覚醒",
+  "monsterInfo297Awoken": "+297＆フル覚醒",
   "@monsterInfo297Awoken": {
     "description": "Text above the 297+awoken table",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoStatBonus": "アシスト時の統計ボーナス",
+  "monsterInfoStatBonus": "アシストのステータスボーナス",
   "@monsterInfoStatBonus": {
     "description": "Text above the assist bonus table",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoAvailableKillers": "利用可能なキラーアウォークン",
+  "monsterInfoAvailableKillers": "利用可能な潜在キラー",
   "@monsterInfoAvailableKillers": {
     "description": "Text above the killer icons",
     "type": "text",
@@ -420,7 +420,7 @@
       "number": {}
     }
   },
-  "monsterInfoLevel": "Lv。",
+  "monsterInfoLevel": "ﾚﾍﾞﾙ",
   "@monsterInfoLevel": {
     "description": "Header in monster info table",
     "type": "text",
@@ -456,13 +456,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoWeighted": "加重",
+  "monsterInfoWeighted": "ﾌﾟﾗｽ換算",
   "@monsterInfoWeighted": {
     "description": "Header in monster info table",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoSkillMaxed": "Lv.MAXターン： {max}",
+  "monsterInfoSkillMaxed": "ｽｷﾙﾚﾍﾞﾙ MAX ターン： {max}",
   "@monsterInfoSkillMaxed": {
     "description": "Monster info skill text with 0 levels",
     "type": "text",
