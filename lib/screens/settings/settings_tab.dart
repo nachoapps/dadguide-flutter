@@ -2,6 +2,7 @@ import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
+import 'package:provider/provider.dart';
 
 /// Displays user-configurable settings, and some misc items like copyright/contact etc.
 class SettingsScreen extends StatelessWidget {
@@ -24,6 +25,7 @@ class SettingsScreen extends StatelessWidget {
         defaultVal: Prefs.defaultUiLanguageValue,
         values: Prefs.languageValues,
         displayValues: Prefs.languageDisplayValues,
+        onChange: (v) => Provider.of<LocaleChangedNotifier>(context).notify(),
       ),
       DropdownPreference(
         loc.settingsInfoLanguage,

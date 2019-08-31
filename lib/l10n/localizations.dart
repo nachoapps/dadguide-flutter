@@ -501,3 +501,9 @@ class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocali
   @override
   bool shouldReload(LocalizationsDelegate<DadGuideLocalizations> old) => false;
 }
+
+class LocaleChangedNotifier with ChangeNotifier {
+  void notify() {
+    notifyListeners();
+  }
+}
