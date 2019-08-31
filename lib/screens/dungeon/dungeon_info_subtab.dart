@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
@@ -15,7 +16,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 class DungeonDetailScreen extends StatefulWidget {
   final DungeonDetailArgs args;
 
-  DungeonDetailScreen(this.args);
+  DungeonDetailScreen(this.args) {
+    screenChangeEvent(runtimeType.toString());
+  }
 
   @override
   _DungeonDetailScreenState createState() => _DungeonDetailScreenState(args);

@@ -8,7 +8,6 @@ import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +58,6 @@ void main() async {
 ///
 class DadGuideApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +70,11 @@ class DadGuideApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<FirebaseAnalytics>.value(value: analytics),
-        Provider<FirebaseAnalyticsObserver>.value(value: observer),
       ],
       child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: appTheme(),
           debugShowCheckedModeBanner: false,
-          navigatorObservers: [observer],
           home: SetupRequiredChecker(),
           onGenerateRoute: (settings) {
             if (settings.name == '/home') {
