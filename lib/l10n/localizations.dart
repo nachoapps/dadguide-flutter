@@ -30,7 +30,7 @@ class DadGuideLocalizations {
   String get taskExecuting =>
       Intl.message('Executing task', name: 'taskExecuting', desc: 'Indicates task is running');
 
-  String taskProgress(int percent) => Intl.message('${percent}%',
+  String taskProgress(int percent) => Intl.message('$percent%',
       name: 'taskProgress', args: [percent], desc: 'Indicates task progress as a percentage');
 
   String taskFailedWithCount(int index, int taskCount) => Intl.message(
@@ -105,7 +105,7 @@ class DadGuideLocalizations {
       Intl.message('Invades', name: 'battleInvades', desc: 'Header for encounter section');
 
   String battleFloor(int floor) => Intl.message(
-        'Floor ${floor}',
+        'Floor $floor',
         name: 'battleFloor',
         args: [floor],
         desc: 'Header for encounter section',
