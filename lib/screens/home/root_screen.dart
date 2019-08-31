@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/ads.dart';
+import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/data_update.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
@@ -112,6 +113,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   @override
   void initState() {
     super.initState();
+    _recordCurrentScreenEvent();
     bannerAd = createBannerAd();
     bannerAd.load().then((v) {
       Fimber.i('Ad loaded: $v');
@@ -134,8 +136,13 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _recordCurrentScreenEvent();
     });
   }
+
+  /// Records a screen view of the currently visible widget.
+  void _recordCurrentScreenEvent() =>
+      screenChangeEvent(_widgetOptions[_selectedIndex].rootItem.runtimeType.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +154,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
         children: [
           Expanded(
             child: Scaffold(
-              body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
+              body: SafeArea(child: _widgetOptions[_selectedIndex]),
               // Prevent the tabs at the bottom from floating above the keyboard.
               resizeToAvoidBottomInset: false,
               bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
