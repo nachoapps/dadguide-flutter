@@ -70,6 +70,7 @@ class DadGuideApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<FirebaseAnalytics>.value(value: analytics),
+        ChangeNotifierProvider<LocaleChangedNotifier>(builder: (_) => LocaleChangedNotifier()),
       ],
       child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
@@ -96,8 +97,7 @@ class DadGuideApp extends StatelessWidget {
             const Locale('ko'), // Korean
           ],
           localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
-            // TODO: respect user preference in Prefs
-            return locale;
+            return Locale(Prefs.uiLanguage.languageCode);
           }),
     );
   }

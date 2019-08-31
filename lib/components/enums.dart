@@ -110,9 +110,9 @@ class Language {
 
   const Language._(this.id, this.languageName, this.languageCode);
 
-  static const Language en = Language._(1, 'English', 'EN');
-  static const Language ja = Language._(0, 'Japanese', 'JP');
-  static const Language ko = Language._(2, 'Korean', 'KR');
+  static const Language en = Language._(1, 'English', 'en');
+  static const Language ja = Language._(0, 'Japanese', 'ja');
+  static const Language ko = Language._(2, 'Korean', 'ko');
 
   static const List<Language> all = [
     en,
