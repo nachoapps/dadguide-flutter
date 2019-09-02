@@ -502,8 +502,16 @@ class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocali
   bool shouldReload(LocalizationsDelegate<DadGuideLocalizations> old) => false;
 }
 
+/// Helper class that triggers a state change.
+///
+/// This uses a hacky workaround; I couldn't get the MaterialApp to rebuild via
+/// a ChangeNotifierProvider and I'm not sure why.
 class LocaleChangedNotifier with ChangeNotifier {
+  State _state;
+
+  LocaleChangedNotifier(this._state);
+
   void notify() {
-    notifyListeners();
+    _state.setState(() {});
   }
 }

@@ -4,6 +4,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/onboarding_task.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
+import 'package:provider/provider.dart';
 
 /// Displays the first-launch UI where the database and icon pack are downloaded and extracted.
 ///
@@ -45,7 +46,10 @@ class OnboardingScreen extends StatelessWidget {
                   defaultVal: Prefs.defaultUiLanguageValue,
                   values: Prefs.languageValues,
                   displayValues: Prefs.languageDisplayValues,
-                  onChange: (v) => Prefs.setAllLanguage(v),
+                  onChange: (v) {
+                    Prefs.setAllLanguage(v);
+                    Provider.of<LocaleChangedNotifier>(context).notify();
+                  },
                 ),
                 DropdownPreference(
                   loc.onboardingGameCountry,

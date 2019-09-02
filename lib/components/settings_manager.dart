@@ -87,9 +87,7 @@ class Prefs {
   static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName).toList();
 
   static Language get uiLanguage => Language.byId(PrefService.getInt(PrefKeys.uiLanguage));
-  static void set uiLanguage(Language language) {
-    PrefService.setInt(PrefKeys.uiLanguage, language.id);
-  }
+  static set uiLanguage(Language language) => PrefService.setInt(PrefKeys.uiLanguage, language.id);
 
   static void setCurrentDbVersion(int val) {
     PrefService.setInt(PrefKeys.currentDbVersion, val);

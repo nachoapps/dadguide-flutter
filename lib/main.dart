@@ -55,10 +55,15 @@ void main() async {
 /// This is the root widget for the entire application.
 ///
 /// It sets up the MaterialApp and Theme for the whole thing. Based on the status of the database
-///
-class DadGuideApp extends StatelessWidget {
+/// it may spawn the initial onboarding step.
+class DadGuideApp extends StatefulWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
 
+  @override
+  _DadGuideAppState createState() => _DadGuideAppState();
+}
+
+class _DadGuideAppState extends State<DadGuideApp> {
   @override
   Widget build(BuildContext context) {
     // Prevent landscape mode.
@@ -67,14 +72,12 @@ class DadGuideApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MultiProvider(
-      providers: [
-        Provider<FirebaseAnalytics>.value(value: analytics),
-        ChangeNotifierProvider<LocaleChangedNotifier>(builder: (_) => LocaleChangedNotifier()),
-      ],
-      child: MaterialApp(
+    return ChangeNotifierProvider<LocaleChangedNotifier>(
+        builder: (_) => LocaleChangedNotifier(this),
+        child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: appTheme(),
+          locale: Locale(Prefs.uiLanguage.languageCode),
           debugShowCheckedModeBanner: false,
           home: SetupRequiredChecker(),
           onGenerateRoute: (settings) {
@@ -96,10 +99,7 @@ class DadGuideApp extends StatelessWidget {
             const Locale('ja'), // Japanese
             const Locale('ko'), // Korean
           ],
-          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
-            return Locale(Prefs.uiLanguage.languageCode);
-          }),
-    );
+        ));
   }
 }
 
