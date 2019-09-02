@@ -140,7 +140,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "avgPerStam": "毎ｽﾀﾐﾅ平均",
+  "avgPerStam": "毎ｽﾀﾐﾅ",
   "@avgPerStam": {
     "description": "Table header",
     "type": "text",
@@ -164,7 +164,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "battleCommon": "一般的なモンスター",
+  "battleCommon": "道中のモンスター",
   "@battleCommon": {
     "description": "Header for encounter section",
     "type": "text",
@@ -346,7 +346,7 @@
       "number": {}
     }
   },
-  "monsterListAtk": "ATK {number}",
+  "monsterListAtk": "攻撃力 {number}",
   "@monsterListAtk": {
     "description": "Monster list ATK text",
     "type": "text",
@@ -354,7 +354,7 @@
       "number": {}
     }
   },
-  "monsterListRcv": "RCV {number}",
+  "monsterListRcv": "回復力 {number}",
   "@monsterListRcv": {
     "description": "Monster list RCV text",
     "type": "text",
@@ -362,7 +362,7 @@
       "number": {}
     }
   },
-  "monsterListWeighted": "WT {number}",
+  "monsterListWeighted": "ﾌﾟﾗｽ {number}",
   "@monsterListWeighted": {
     "description": "Monster list weighted stat text",
     "type": "text",
@@ -400,7 +400,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoStatBonus": "アシストのステータスボーナス",
+  "monsterInfoStatBonus": "アシストによるステータスボーナス",
   "@monsterInfoStatBonus": {
     "description": "Text above the assist bonus table",
     "type": "text",
@@ -412,7 +412,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoCost": "コスト{number}",
+  "monsterInfoCost": "ｺｽﾄ {number}",
   "@monsterInfoCost": {
     "description": "Monster info cost text",
     "type": "text",
@@ -432,19 +432,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoAtk": "ATK",
+  "monsterInfoAtk": "攻撃力",
   "@monsterInfoAtk": {
     "description": "Header in monster info table",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoRcv": "RCV",
+  "monsterInfoRcv": "回復力",
   "@monsterInfoRcv": {
     "description": "Header in monster info table",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoShield": "Dmgを減らします。",
+  "monsterInfoShield": "ダメージ軽減率",
   "@monsterInfoShield": {
     "description": "Header in monster info table",
     "type": "text",
@@ -462,7 +462,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoSkillMaxed": "ｽｷﾙﾚﾍﾞﾙ MAX ターン： {max}",
+  "monsterInfoSkillMaxed": "ｽｷﾙLv. MAX ターン： {max}",
   "@monsterInfoSkillMaxed": {
     "description": "Monster info skill text with 0 levels",
     "type": "text",
@@ -470,7 +470,7 @@
       "max": {}
     }
   },
-  "monsterInfoSkillTurns": "Lv.1ターン： {max} （Lv。 {levels}ターン： {min} ）",
+  "monsterInfoSkillTurns": "Lv.1ターン：{max} （Lv. {levels}ターン： {min}）",
   "@monsterInfoSkillTurns": {
     "description": "Monster info skill text with levels",
     "type": "text",
@@ -498,7 +498,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoHistoryAdded": "[ {date} ]追加",
+  "monsterInfoHistoryAdded": "[ {date} ]に追加",
   "@monsterInfoHistoryAdded": {
     "description": "Monster info date added text",
     "type": "text",
@@ -506,25 +506,25 @@
       "date": {}
     }
   },
-  "monsterInfoSkillupTitle": "スキルアップ-モンスター",
+  "monsterInfoSkillupTitle": "スキルアップモンスター",
   "@monsterInfoSkillupTitle": {
     "description": "Header for skillups section",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoDropsTitle": "ドロップダンジョン",
+  "monsterInfoDropsTitle": "ドロップしたダンジョン",
   "@monsterInfoDropsTitle": {
     "description": "Header for drops section",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoDropsTitleNone": "ドロップダンジョン：なし",
+  "monsterInfoDropsTitleNone": "ドロップしたダンジョン：なし",
   "@monsterInfoDropsTitleNone": {
     "description": "Header for drops section when there are no drops",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoSkillupDungeonsTitle": "スキルアップ-ダンジョン",
+  "monsterInfoSkillupDungeonsTitle": "スキルアップダンジョン",
   "@monsterInfoSkillupDungeonsTitle": {
     "description": "Header for skillup drop dungeons",
     "type": "text",
@@ -536,13 +536,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableSellGold": "金を売る",
+  "monsterInfoTableSellGold": "コインを入手",
   "@monsterInfoTableSellGold": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableSellMp": "MPを売る",
+  "monsterInfoTableSellMp": "MPを入手",
   "@monsterInfoTableSellMp": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
@@ -554,19 +554,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableFeedXp": "フィードXP",
+  "monsterInfoTableFeedXp": "合成経験値",
   "@monsterInfoTableFeedXp": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoTableFeedXpOnColor": "フィードXP（カラー）",
+  "monsterInfoTableFeedXpOnColor": "合成経験値（同じ属性）",
   "@monsterInfoTableFeedXpOnColor": {
     "description": "Row header for buy/sell/feed data",
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoSeriesHeader": "シリーズ- {seriesName}",
+  "monsterInfoSeriesHeader": "シリーズ： {seriesName}",
   "@monsterInfoSeriesHeader": {
     "description": "Header for series section with icons",
     "type": "text",
@@ -586,7 +586,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoNonReversableEvolution": "不可逆的な進化",
+  "monsterInfoNonReversableEvolution": "非可逆進化",
   "@monsterInfoNonReversableEvolution": {
     "description": "Evo section header",
     "type": "text",
@@ -600,7 +600,7 @@
       "number": {}
     }
   },
-  "monsterInfoEvoDiffAtk": "ATK {number}",
+  "monsterInfoEvoDiffAtk": "攻撃力 {number}",
   "@monsterInfoEvoDiffAtk": {
     "description": "Evo stat delta text",
     "type": "text",
@@ -608,7 +608,7 @@
       "number": {}
     }
   },
-  "monsterInfoEvoDiffRcv": "RCV {number}",
+  "monsterInfoEvoDiffRcv": "回復力 {number}",
   "@monsterInfoEvoDiffRcv": {
     "description": "Evo stat delta text",
     "type": "text",
@@ -628,7 +628,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "onboardingTitle": "初回起動セットアップ",
+  "onboardingTitle": "初回起動のセットアップ",
   "@onboardingTitle": {
     "description": "Header for onboarding page",
     "type": "text",
@@ -640,7 +640,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "onboardingWaitingSubTitle": "これらの値は、後で設定タブで変更できます",
+  "onboardingWaitingSubTitle": "数値がセットからは、後で設定タブで変更できます",
   "@onboardingWaitingSubTitle": {
     "description": "Subtitle above the locale selection stuff",
     "type": "text",
@@ -652,19 +652,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "onboardingDisplayLanguageDesc": "UI要素とPADデータに適用",
+  "onboardingDisplayLanguageDesc": "UIとパズドラデータに適用",
   "@onboardingDisplayLanguageDesc": {
     "description": "Dropdown option subtext",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingGameCountry": "ゲームの国",
+  "onboardingGameCountry": "サーバ",
   "@onboardingGameCountry": {
     "description": "Dropdown option title",
     "type": "text",
     "placeholders": {}
   },
-  "onboardingGameCountryDesc": "デフォルトのイベント、ニュース、データアラートを設定します",
+  "onboardingGameCountryDesc": "デフォルトのイベント、ニュース、データの通知を設定します",
   "@onboardingGameCountryDesc": {
     "description": "Dropdown option subtext",
     "type": "text",
@@ -676,13 +676,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsGeneralSection": "全般",
+  "settingsGeneralSection": "一般",
   "@settingsGeneralSection": {
     "description": "Section header",
     "type": "text",
     "placeholders": {}
   },
-  "settingsUiLanguage": "UIランゲージ",
+  "settingsUiLanguage": "UI言語",
   "@settingsUiLanguage": {
     "description": "Dropdown option title",
     "type": "text",
@@ -694,7 +694,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsGameCountry": "ゲームの国",
+  "settingsGameCountry": "サーバ",
   "@settingsGameCountry": {
     "description": "Dropdown option title",
     "type": "text",
@@ -706,7 +706,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsEventCountry": "イベントの国",
+  "settingsEventCountry": "イベントのサーバ",
   "@settingsEventCountry": {
     "description": "Dropdown option title",
     "type": "text",
@@ -718,19 +718,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsEventsStarterRed": "赤いスターターを表示",
+  "settingsEventsStarterRed": "初期ﾊﾟｰﾄﾅｰ：ティラ",
   "@settingsEventsStarterRed": {
     "description": "Checkbox title",
     "type": "text",
     "placeholders": {}
   },
-  "settingsEventsStarterBlue": "青いスターターを表示",
+  "settingsEventsStarterBlue": "初期ﾊﾟｰﾄﾅｰ：プレシィ",
   "@settingsEventsStarterBlue": {
     "description": "Checkbox title",
     "type": "text",
     "placeholders": {}
   },
-  "settingsEventsStarterGreen": "緑色のスターターを表示",
+  "settingsEventsStarterGreen": "初期ﾊﾟｰﾄﾅｰ：ブラッキィ",
   "@settingsEventsStarterGreen": {
     "description": "Checkbox title",
     "type": "text",
@@ -748,13 +748,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsAbout": "約",
+  "settingsAbout": "アプリについて",
   "@settingsAbout": {
     "description": "Row label",
     "type": "text",
     "placeholders": {}
   },
-  "settingsCopyright": "著作権",
+  "settingsCopyright": "コピーライト",
   "@settingsCopyright": {
     "description": "Row label",
     "type": "text",

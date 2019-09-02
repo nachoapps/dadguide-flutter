@@ -32,25 +32,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m5(days) => "${days}日";
 
-  static m6(number) => "コスト${number}";
+  static m6(number) => "ｺｽﾄ ${number}";
 
-  static m7(number) => "ATK ${number}";
+  static m7(number) => "攻撃力 ${number}";
 
   static m8(number) => "HP ${number}";
 
-  static m9(number) => "RCV ${number}";
+  static m9(number) => "回復力 ${number}";
 
-  static m10(date) => "[ ${date} ]追加";
+  static m10(date) => "[ ${date} ]に追加";
 
   static m11(number) => "No. ${number}";
 
-  static m12(seriesName) => "シリーズ- ${seriesName}";
+  static m12(seriesName) => "シリーズ： ${seriesName}";
 
-  static m13(max) => "ｽｷﾙﾚﾍﾞﾙ MAX ターン： ${max}";
+  static m13(max) => "ｽｷﾙLv. MAX ターン： ${max}";
 
-  static m14(max, min, levels) => "Lv.1ターン： ${max} （Lv。 ${levels}ターン： ${min} ）";
+  static m14(max, min, levels) => "Lv.1ターン：${max} （Lv. ${levels}ターン： ${min}）";
 
-  static m15(number) => "ATK ${number}";
+  static m15(number) => "攻撃力 ${number}";
 
   static m16(number) => "HP ${number}";
 
@@ -62,9 +62,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m20(number) => "No. ${number}";
 
-  static m21(number) => "RCV ${number}";
+  static m21(number) => "回復力 ${number}";
 
-  static m22(number) => "WT ${number}";
+  static m22(number) => "ﾌﾟﾗｽ ${number}";
 
   static m23(mp, mpPerStam) => "${mp}（${mpPerStam}／スタミナ）";
 
@@ -77,8 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "avg" : MessageLookupByLibrary.simpleMessage("平均"),
-    "avgPerStam" : MessageLookupByLibrary.simpleMessage("毎ｽﾀﾐﾅ平均"),
-    "battleCommon" : MessageLookupByLibrary.simpleMessage("一般的なモンスター"),
+    "avgPerStam" : MessageLookupByLibrary.simpleMessage("毎ｽﾀﾐﾅ"),
+    "battleCommon" : MessageLookupByLibrary.simpleMessage("道中のモンスター"),
     "battleDrop" : MessageLookupByLibrary.simpleMessage("ドロップ"),
     "battleFloor" : m0,
     "battleInvades" : MessageLookupByLibrary.simpleMessage("まれに出現"),
@@ -106,12 +106,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "min" : MessageLookupByLibrary.simpleMessage("最低"),
     "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297＆フル覚醒"),
     "monsterInfoActiveSkillTitle" : MessageLookupByLibrary.simpleMessage("スキル："),
-    "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("ATK"),
+    "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("攻撃力"),
     "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("利用可能な潜在キラー"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("覚醒スキル"),
     "monsterInfoCost" : m6,
-    "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("ドロップダンジョン"),
-    "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("ドロップダンジョン：なし"),
+    "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("ドロップしたダンジョン"),
+    "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("ドロップしたダンジョン：なし"),
     "monsterInfoEvoDiffAtk" : m7,
     "monsterInfoEvoDiffHp" : m8,
     "monsterInfoEvoDiffRcv" : m9,
@@ -123,23 +123,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("リーダースキル："),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("ﾚﾍﾞﾙ"),
     "monsterInfoNo" : m11,
-    "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("不可逆的な進化"),
-    "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("RCV"),
+    "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("非可逆進化"),
+    "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("回復力"),
     "monsterInfoReversableEvolution" : MessageLookupByLibrary.simpleMessage("可逆進化"),
     "monsterInfoSeriesHeader" : m12,
-    "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("Dmgを減らします。"),
+    "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("ダメージ軽減率"),
     "monsterInfoSkillMaxed" : m13,
     "monsterInfoSkillTurns" : m14,
-    "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップ-ダンジョン"),
-    "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップ-モンスター"),
-    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストのステータスボーナス"),
+    "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップダンジョン"),
+    "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップモンスター"),
+    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストによるステータスボーナス"),
     "monsterInfoSuperAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("超覚醒スキル"),
     "monsterInfoTableBuyMp" : MessageLookupByLibrary.simpleMessage("MPを購入"),
-    "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("フィードXP"),
-    "monsterInfoTableFeedXpOnColor" : MessageLookupByLibrary.simpleMessage("フィードXP（カラー）"),
+    "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("合成経験値"),
+    "monsterInfoTableFeedXpOnColor" : MessageLookupByLibrary.simpleMessage("合成経験値（同じ属性）"),
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("最大レベル"),
-    "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("金を売る"),
-    "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MPを売る"),
+    "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("コインを入手"),
+    "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MPを入手"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("ﾌﾟﾗｽ換算"),
     "monsterListAtk" : m15,
     "monsterListHp" : m16,
@@ -152,33 +152,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "mpAndMpPerStam" : m23,
     "noData" : MessageLookupByLibrary.simpleMessage("データなし"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("表示言語"),
-    "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UI要素とPADデータに適用"),
+    "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UIとパズドラデータに適用"),
     "onboardingDownloadDb" : MessageLookupByLibrary.simpleMessage("初期データはダウンロードしています"),
     "onboardingDownloadImages" : MessageLookupByLibrary.simpleMessage("アイコンセットはダウンロードしています"),
-    "onboardingGameCountry" : MessageLookupByLibrary.simpleMessage("ゲームの国"),
-    "onboardingGameCountryDesc" : MessageLookupByLibrary.simpleMessage("デフォルトのイベント、ニュース、データアラートを設定します"),
-    "onboardingTitle" : MessageLookupByLibrary.simpleMessage("初回起動セットアップ"),
+    "onboardingGameCountry" : MessageLookupByLibrary.simpleMessage("サーバ"),
+    "onboardingGameCountryDesc" : MessageLookupByLibrary.simpleMessage("デフォルトのイベント、ニュース、データの通知を設定します"),
+    "onboardingTitle" : MessageLookupByLibrary.simpleMessage("初回起動のセットアップ"),
     "onboardingUnpackDb" : MessageLookupByLibrary.simpleMessage("初期データ展開中"),
     "onboardingUnpackImages" : MessageLookupByLibrary.simpleMessage("アイコンセット展開中"),
-    "onboardingWaitingSubTitle" : MessageLookupByLibrary.simpleMessage("これらの値は、後で設定タブで変更できます"),
+    "onboardingWaitingSubTitle" : MessageLookupByLibrary.simpleMessage("数値がセットからは、後で設定タブで変更できます"),
     "onboardingWaitingTitle" : MessageLookupByLibrary.simpleMessage("待っている間..."),
     "reportBadInfo" : MessageLookupByLibrary.simpleMessage("誤った情報を報告する"),
     "serverModalTitle" : MessageLookupByLibrary.simpleMessage("サーバ"),
-    "settingsAbout" : MessageLookupByLibrary.simpleMessage("約"),
+    "settingsAbout" : MessageLookupByLibrary.simpleMessage("アプリについて"),
     "settingsContactUs" : MessageLookupByLibrary.simpleMessage("お問い合わせ"),
-    "settingsCopyright" : MessageLookupByLibrary.simpleMessage("著作権"),
-    "settingsEventCountry" : MessageLookupByLibrary.simpleMessage("イベントの国"),
+    "settingsCopyright" : MessageLookupByLibrary.simpleMessage("コピーライト"),
+    "settingsEventCountry" : MessageLookupByLibrary.simpleMessage("イベントのサーバ"),
     "settingsEventsHideClosed" : MessageLookupByLibrary.simpleMessage("終了したイベントを非表示"),
     "settingsEventsSection" : MessageLookupByLibrary.simpleMessage("イベント"),
-    "settingsEventsStarterBlue" : MessageLookupByLibrary.simpleMessage("青いスターターを表示"),
-    "settingsEventsStarterGreen" : MessageLookupByLibrary.simpleMessage("緑色のスターターを表示"),
-    "settingsEventsStarterRed" : MessageLookupByLibrary.simpleMessage("赤いスターターを表示"),
-    "settingsGameCountry" : MessageLookupByLibrary.simpleMessage("ゲームの国"),
-    "settingsGeneralSection" : MessageLookupByLibrary.simpleMessage("全般"),
+    "settingsEventsStarterBlue" : MessageLookupByLibrary.simpleMessage("初期ﾊﾟｰﾄﾅｰ：プレシィ"),
+    "settingsEventsStarterGreen" : MessageLookupByLibrary.simpleMessage("初期ﾊﾟｰﾄﾅｰ：ブラッキィ"),
+    "settingsEventsStarterRed" : MessageLookupByLibrary.simpleMessage("初期ﾊﾟｰﾄﾅｰ：ティラ"),
+    "settingsGameCountry" : MessageLookupByLibrary.simpleMessage("サーバ"),
+    "settingsGeneralSection" : MessageLookupByLibrary.simpleMessage("一般"),
     "settingsInfoLanguage" : MessageLookupByLibrary.simpleMessage("情報言語"),
     "settingsInfoSection" : MessageLookupByLibrary.simpleMessage("情報"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("設定"),
-    "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("UIランゲージ"),
+    "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("UI言語"),
     "subDungeonSelectionTitle" : MessageLookupByLibrary.simpleMessage("難易度を選択"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("タスク実行中"),
     "taskExecutingWithCount" : m24,

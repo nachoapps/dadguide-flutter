@@ -188,7 +188,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "taskProgress" : m26,
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("인터넷 연결을 확인하십시오. 자동 재시작"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("작업 시작을 기다리는 중"),
-    "title" : MessageLookupByLibrary.simpleMessage("아빠 가이드"),
+    "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),
     "updateComplete" : MessageLookupByLibrary.simpleMessage("업데이트 완료"),
     "updateFailed" : MessageLookupByLibrary.simpleMessage("업데이트가 실패"),
     "updateModalTitle" : MessageLookupByLibrary.simpleMessage("DadGuide 데이터 업데이트"),
