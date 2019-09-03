@@ -91,8 +91,9 @@ class SubDungeonList extends StatelessWidget {
 /// A row containing the boss icon, floor name, xp/stam coin/stam, and (optional) reward.
 class SubDungeonRow extends StatelessWidget {
   final SubDungeon data;
+  final LanguageSelector name;
 
-  SubDungeonRow(this.data);
+  SubDungeonRow(this.data) : name = LanguageSelector.name(data);
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +130,7 @@ class SubDungeonRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(data.nameNa)),
+                      fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text(name())),
                   SizedBox(height: 2),
                   DefaultTextStyle(
                     style: Theme.of(context).textTheme.caption,

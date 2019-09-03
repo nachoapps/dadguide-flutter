@@ -3,13 +3,12 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/event/event_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import 'package:dadguide2/screens/event/event_search_bloc.dart';
 
 /// Parent class for items which can show up in the event list, since they're different types.
 abstract class ListItem {}
@@ -167,7 +166,7 @@ class EventListRow extends StatelessWidget {
   }
 
   String headerText() {
-    String text = _model.dungeon?.nameNa ?? _model.event.infoNa;
+    String text = _model.dungeonName() ?? _model.eventInfo();
     if (_model.event.groupName != null) {
       text = '[${_model.event.groupName}] $text';
     }

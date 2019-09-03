@@ -237,7 +237,7 @@ class MonsterListRow extends StatelessWidget {
                           Spacer(),
                           Text(upperRightText),
                         ])),
-                    FittedBox(alignment: Alignment.centerLeft, child: Text(m.nameNa)),
+                    FittedBox(alignment: Alignment.centerLeft, child: Text(_model.name())),
                     DefaultTextStyle(
                       style: textTheme.caption,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
