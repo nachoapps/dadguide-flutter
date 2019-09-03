@@ -2,6 +2,7 @@ import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/data_update.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/dungeon/sub_dungeon_sheet.dart';
@@ -9,6 +10,7 @@ import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_info_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
+import 'package:dadguide2/services/device_utils.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -114,6 +116,11 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   void initState() {
     super.initState();
     _recordCurrentScreenEvent();
+    var deviceInfo = getIt<DeviceInfo>();
+    if (deviceInfo.platform == DevicePlatform.IOS && deviceInfo.osVersion.major < 11) {
+      Fimber.w('Skipping ad load due to IOS bug');
+      return;
+    }
     bannerAd = createBannerAd();
     bannerAd.load().then((v) {
       Fimber.i('Ad loaded: $v');
