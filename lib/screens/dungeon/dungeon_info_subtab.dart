@@ -56,10 +56,8 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData) {
-            print('no dungeon data!');
             return Center(child: CircularProgressIndicator());
           }
-          print('got dungeon data!');
 
           return DungeonDetailContents(snapshot.data);
         });
@@ -132,7 +130,7 @@ class DungeonHeader extends StatelessWidget {
                         ])
                     ],
                   ),
-                  Text(m.dungeon.nameNa),
+                  Text(m.name()),
                   DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(children: [
@@ -172,11 +170,7 @@ class DungeonSubHeader extends StatelessWidget {
                 children: [
                   FittedBox(
                     alignment: Alignment.centerLeft,
-                    child: Text(m.subDungeon.nameNa),
-                  ),
-                  FittedBox(
-                    alignment: Alignment.centerLeft,
-                    child: Text(m.subDungeon.nameJp),
+                    child: Text(m.name()),
                   ),
                 ],
               ),
@@ -310,7 +304,7 @@ class DungeonEncounter extends StatelessWidget {
                     typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
                     typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
                   ]),
-                  Text(_model.monster.nameNa),
+                  Text(_model.name()),
                   IconTheme(
                     data: new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
                     child: DefaultTextStyle(

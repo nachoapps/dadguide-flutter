@@ -1,6 +1,42 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
+
+class LanguageSelector {
+  static LanguageSelector empty() {
+    return LanguageSelector(null, null, null);
+  }
+
+  static LanguageSelector name(dynamic v) {
+    return LanguageSelector(v.nameJp, v.nameNa, v.nameKr);
+  }
+
+  static LanguageSelector desc(dynamic v) {
+    return LanguageSelector(v.descJp, v.descNa, v.descKr);
+  }
+
+  final String _jp;
+  final String _na;
+  final String _kr;
+
+  LanguageSelector(this._jp, this._na, this._kr);
+
+  String call() {
+    switch (Prefs.infoLanguage) {
+      case Language.ja:
+        return _jp;
+      case Language.en:
+        return _na;
+      case Language.ko:
+        return _kr;
+      default:
+        Fimber.e('Unexpected language: ${Prefs.infoLanguage}');
+        return _na;
+    }
+  }
+}
 
 /// Partial data displayed in the dungeon list view.
 class ListDungeon {
@@ -9,7 +45,10 @@ class ListDungeon {
   final int maxScore;
   final int maxAvgMp;
 
-  ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp);
+  final LanguageSelector name;
+
+  ListDungeon(this.dungeon, this.iconMonster, this.maxScore, this.maxAvgMp)
+      : name = LanguageSelector.name(dungeon);
 }
 
 /// Data displayed in the monster view that links to a dungeon.
@@ -19,7 +58,11 @@ class BasicDungeon {
   final String nameNa;
   final String nameKr;
 
-  BasicDungeon(this.dungeonId, this.nameJp, this.nameNa, this.nameKr);
+  LanguageSelector name;
+
+  BasicDungeon(this.dungeonId, this.nameJp, this.nameNa, this.nameKr) {
+    name = LanguageSelector.name(this);
+  }
 }
 
 /// Data displayed in the dungeon view.
@@ -28,7 +71,10 @@ class FullDungeon {
   final List<SubDungeon> subDungeons;
   final FullSubDungeon selectedSubDungeon;
 
-  FullDungeon(this.dungeon, this.subDungeons, this.selectedSubDungeon);
+  final LanguageSelector name;
+
+  FullDungeon(this.dungeon, this.subDungeons, this.selectedSubDungeon)
+      : name = LanguageSelector.name(dungeon);
 }
 
 /// Data displayed in the dungeon view for the selected subdungeon.
@@ -37,7 +83,11 @@ class FullSubDungeon {
   final List<FullEncounter> encounters;
   final List<Battle> battles;
 
-  FullSubDungeon(this.subDungeon, this.encounters) : battles = _computeBattles(encounters);
+  final LanguageSelector name;
+
+  FullSubDungeon(this.subDungeon, this.encounters)
+      : battles = _computeBattles(encounters),
+        name = LanguageSelector.name(subDungeon);
 
   FullEncounter get bossEncounter => battles.isEmpty ? null : battles.last.encounters.last;
 
@@ -62,7 +112,9 @@ class FullSeries {
   final SeriesData series;
   final List<int> members;
 
-  FullSeries(this.series, this.members);
+  final LanguageSelector name;
+
+  FullSeries(this.series, this.members) : name = LanguageSelector.name(series);
 }
 
 /// An encounter row for a battle in a subdungeon stage.
@@ -71,7 +123,9 @@ class FullEncounter {
   final Monster monster;
   final List<Drop> drops;
 
-  FullEncounter(this.encounter, this.monster, this.drops);
+  final LanguageSelector name;
+
+  FullEncounter(this.encounter, this.monster, this.drops) : name = LanguageSelector.name(monster);
 }
 
 /// A list of encounters for a specific stage in a subdungeon.
@@ -95,6 +149,8 @@ class FullMonster {
   final List<FullEvolution> evolutions;
   final Map<int, List<BasicDungeon>> dropLocations;
 
+  final LanguageSelector name;
+
   FullMonster(
       this.monster,
       this.activeSkill,
@@ -105,7 +161,8 @@ class FullMonster {
       this.nextMonsterId,
       this.skillUpMonsters,
       this.evolutions,
-      this.dropLocations);
+      this.dropLocations)
+      : name = LanguageSelector.name(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
   List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
@@ -128,7 +185,9 @@ class ListMonster {
   final Monster monster;
   final List<Awakening> _awakenings;
 
-  ListMonster(this.monster, this._awakenings);
+  final LanguageSelector name;
+
+  ListMonster(this.monster, this._awakenings) : name = LanguageSelector.name(monster);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
@@ -164,7 +223,12 @@ class FullAwakening {
   final Awakening awakening;
   final AwokenSkill awokenSkill;
 
-  FullAwakening(this.awakening, this.awokenSkill);
+  final LanguageSelector name;
+  final LanguageSelector desc;
+
+  FullAwakening(this.awakening, this.awokenSkill)
+      : name = LanguageSelector.name(awokenSkill),
+        desc = LanguageSelector.desc(awokenSkill);
 
   int get awokenSkillId => awakening.awokenSkillId;
 }
@@ -174,11 +238,16 @@ class ListEvent {
   final ScheduleEvent event;
   final Dungeon dungeon;
 
+  final LanguageSelector dungeonName;
+  final LanguageSelector eventInfo;
+
   final DateTime startTime;
   final DateTime endTime;
 
   ListEvent(this.event, this.dungeon)
-      : startTime = DateTime.fromMillisecondsSinceEpoch(event.startTimestamp * 1000, isUtc: true),
+      : dungeonName = dungeon == null ? LanguageSelector.empty() : LanguageSelector.name(dungeon),
+        eventInfo = LanguageSelector(event.infoJp, event.infoNa, event.infoKr),
+        startTime = DateTime.fromMillisecondsSinceEpoch(event.startTimestamp * 1000, isUtc: true),
         endTime = DateTime.fromMillisecondsSinceEpoch(event.endTimestamp * 1000, isUtc: true);
 
   int get iconId => dungeon?.iconId ?? event.iconId ?? 0;
@@ -201,4 +270,24 @@ class ListEvent {
     var now = DateTime.now();
     return now.difference(endTime).inDays;
   }
+}
+
+class FullActiveSkill {
+  final ActiveSkill skill;
+  final LanguageSelector name;
+  final LanguageSelector desc;
+
+  FullActiveSkill(this.skill)
+      : name = LanguageSelector.name(skill),
+        desc = LanguageSelector.desc(skill);
+}
+
+class FullLeaderSkill {
+  final LeaderSkill skill;
+  final LanguageSelector name;
+  final LanguageSelector desc;
+
+  FullLeaderSkill(this.skill)
+      : name = LanguageSelector.name(skill),
+        desc = LanguageSelector.desc(skill);
 }

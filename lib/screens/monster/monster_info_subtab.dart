@@ -16,6 +16,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 
 /// Loads the monster data given by args, and displays it in a MonsterDetailContents.
 class MonsterDetailScreen extends StatefulWidget {
@@ -338,11 +339,7 @@ class MonsterDetailHeader extends StatelessWidget {
               ),
               FittedBox(
                 alignment: Alignment.centerLeft,
-                child: Text(_data.monster.nameNa, style: Theme.of(context).textTheme.title),
-              ),
-              FittedBox(
-                alignment: Alignment.centerLeft,
-                child: Text(_data.monster.nameJp, style: Theme.of(context).textTheme.body1),
+                child: Text(_data.name(), style: Theme.of(context).textTheme.title),
               ),
               Row(children: [
                 TypeIconText(_data.type1),
@@ -649,18 +646,21 @@ int _weighted(num hp, num atk, num rcv) => (hp / 10 + atk / 5 + rcv / 3).round()
 
 /// Active skill info.
 class MonsterActiveSkillSection extends StatelessWidget {
-  final ActiveSkill _skill;
+  final FullActiveSkill _model;
 
-  const MonsterActiveSkillSection(this._skill, {Key key}) : super(key: key);
+  MonsterActiveSkillSection(ActiveSkill skill, {Key key})
+      : _model = FullActiveSkill(skill),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
+    var skill = _model.skill;
 
-    var skillLevels = _skill.turnMax - _skill.turnMin;
+    var skillLevels = skill.turnMax - skill.turnMin;
     var lvlText = skillLevels == 0
-        ? loc.monsterInfoSkillMaxed(_skill.turnMax)
-        : loc.monsterInfoSkillTurns(_skill.turnMax, _skill.turnMin, skillLevels);
+        ? loc.monsterInfoSkillMaxed(skill.turnMax)
+        : loc.monsterInfoSkillTurns(skill.turnMax, skill.turnMin, skillLevels);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -670,7 +670,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
             children: [
               Text(loc.monsterInfoActiveSkillTitle),
               SizedBox(width: 8),
-              Text(_skill.nameNa, style: TextStyle(color: Colors.blue)),
+              Text(_model.name(), style: TextStyle(color: Colors.blue)),
             ],
           ),
         ),
@@ -682,7 +682,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
           ],
         ),
         SizedBox(height: 2),
-        Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
+        Text(_model.desc(), style: Theme.of(context).textTheme.body2),
       ],
     );
   }
@@ -690,9 +690,11 @@ class MonsterActiveSkillSection extends StatelessWidget {
 
 /// Leader skill info.
 class MonsterLeaderSkillSection extends StatelessWidget {
-  final LeaderSkill _skill;
+  final FullLeaderSkill _model;
 
-  const MonsterLeaderSkillSection(this._skill, {Key key}) : super(key: key);
+  MonsterLeaderSkillSection(LeaderSkill skill, {Key key})
+      : _model = FullLeaderSkill(skill),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -706,12 +708,12 @@ class MonsterLeaderSkillSection extends StatelessWidget {
             children: [
               Text(loc.monsterInfoLeaderSkillTitle),
               SizedBox(width: 8),
-              Text(_skill.nameNa, style: TextStyle(color: Colors.green)),
+              Text(_model.name(), style: TextStyle(color: Colors.green)),
             ],
           ),
         ),
         SizedBox(height: 8),
-        Text(_skill.descNa, style: Theme.of(context).textTheme.body2),
+        Text(_model.desc(), style: Theme.of(context).textTheme.body2),
       ],
     );
   }
@@ -905,12 +907,14 @@ class MonsterDropLocations extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       for (var dungeon in _data.dropLocations[k])
-                        FlatButton(
-                          // TODO: implement link to dungeon
-                          onPressed: () => print('pressed'),
-                          color: Colors.orange,
-                          child: Text(dungeon.nameNa),
-                        )
+                        Padding(
+                            padding: EdgeInsets.symmetric(vertical: 1),
+                            child: FlatButton(
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              onPressed: goToDungeonFn(context, dungeon.dungeonId, null),
+                              color: Colors.orange,
+                              child: Text(LanguageSelector.name(dungeon)()),
+                            ))
                     ],
                   )
                 ],
@@ -1005,7 +1009,7 @@ class MonsterSeries extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(loc.monsterInfoSeriesHeader(_fullMonster.fullSeries.series.nameNa)),
+        Text(loc.monsterInfoSeriesHeader(_fullMonster.fullSeries.name())),
         Wrap(
           runSpacing: 4,
           spacing: 4,
@@ -1171,7 +1175,10 @@ class AwokenSkillSection extends StatelessWidget {
 
     // Create map to merge multiple instances of same awakening
     var map = LinkedHashMap();
-    _awakenings.map((a) => a.awokenSkill).forEach((as) => map[as] = (map[as] ?? 0) + 1);
+    for (var a in _awakenings) {
+      var value = map[a.awokenSkillId]?.item2 ?? 0;
+      map[a.awokenSkillId] = Tuple2(a, value + 1);
+    }
 
     var title = _awakenings[0].awakening.isSuper
         ? loc.monsterInfoSuperAwokenSkillSection
@@ -1185,21 +1192,21 @@ class AwokenSkillSection extends StatelessWidget {
             for (var a in _awakenings) awakeningContainer(a.awokenSkillId, size: 16),
           ],
         ),
-        for (var a in map.keys)
+        for (var data in map.values)
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              awakeningContainer(a.awokenSkillId, size: 16),
+              awakeningContainer(data.item1.awokenSkillId, size: 16),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Show number of same awakenings if applicable
-                    if (map[a] > 1)
-                      Text(a.nameNa + " x" + map[a].toString())
+                    if (data.item2 > 1)
+                      Text(data.item1.name() + " x" + data.item2.toString())
                     else
-                      Text(a.nameNa),
-                    Text(a.descNa),
+                      Text(data.item1.name()),
+                    Text(data.item1.desc()),
                   ],
                 ),
               )

@@ -111,13 +111,12 @@ class DungeonListRow extends StatelessWidget {
                     DefaultTextStyle(
                         style: Theme.of(context).textTheme.caption,
                         child: Row(children: [
-                          FittedBox(alignment: Alignment.centerLeft, child: Text(d.nameJp)),
                           Spacer(),
                           typeContainer(m?.type1Id, size: 18, leftPadding: 4),
                           typeContainer(m?.type2Id, size: 18, leftPadding: 4),
                           typeContainer(m?.type3Id, size: 18, leftPadding: 4),
                         ])),
-                    FittedBox(alignment: Alignment.centerLeft, child: Text(d.nameNa)),
+                    FittedBox(alignment: Alignment.centerLeft, child: Text(_model.name())),
                     DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
                       child: Row(
