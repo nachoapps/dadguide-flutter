@@ -209,11 +209,11 @@ class MonsterListRow extends StatelessWidget {
     var displayState = Provider.of<MonsterDisplayState>(context);
     var textTheme = Theme.of(context).textTheme;
     var m = _model.monster;
+    var as = _model.activeSkill;
 
-    var upperRightText = '${loc.monsterListMp(m.sellMp)} / * ${m.cost}';
-    if (_model.monster.activeSkillId != 0) {
-      // TODO: Fix active skill values
-      upperRightText += ' / S? → ?';
+    var upperRightText = '${loc.monsterListMp(m.sellMp)} / ⭐${m.rarity}';
+    if (as != null) {
+      upperRightText += ' / S${as.turnMax}→${as.turnMin}';
     }
 
     return InkWell(

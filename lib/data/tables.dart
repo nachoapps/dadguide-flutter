@@ -693,32 +693,41 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
     });
 
-    var query = select(monsters)
-      ..orderBy([(m) => OrderingTerm(mode: OrderingMode.desc, expression: m.monsterNoJp)]);
+    var query = select(monsters).join([
+      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId))
+    ]);
+
+    query.orderBy([OrderingTerm(mode: OrderingMode.desc, expression: monsters.monsterNoJp)]);
 
     if (args.text.isNotEmpty) {
       var intValue = int.tryParse(args.text);
       if (intValue != null) {
-        query.where((m) => or(m.monsterNoJp.equals(intValue), m.monsterNoNa.equals(intValue)));
+        query.where(or(
+          monsters.monsterNoJp.equals(intValue),
+          monsters.monsterNoNa.equals(intValue),
+        ));
       } else {
-//        query.where((m) => m.nameNa.like('%${args.text}%'));
-        query.where((m) => or(
+        var searchText = '%${args.text}%';
+        query.where(or(
             or(
-              m.nameJp.like('%${args.text}%'),
-              m.nameNa.like('%${args.text}%'),
+              monsters.nameJp.like(searchText),
+              monsters.nameNa.like(searchText),
             ),
-            m.nameKr.like('%${args.text}%')));
+            monsters.nameKr.like(searchText)));
       }
     }
 
-    var results = await query.get().then((rows) => rows.map((m) {
-          var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
-            ..sort((a, b) => a.orderIdx - b.orderIdx);
-          return ListMonster(m, awakeningList);
-        }).toList());
+    var results = <ListMonster>[];
+    for (var row in await query.get()) {
+      var m = row.readTable(monsters);
+      var as = row.readTable(activeSkills);
+
+      var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
+        ..sort((a, b) => a.orderIdx - b.orderIdx);
+      results.add(ListMonster(m, awakeningList, as));
+    }
 
     Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
-
     return results;
   }
 

@@ -184,10 +184,12 @@ class FullMonster {
 class ListMonster {
   final Monster monster;
   final List<Awakening> _awakenings;
+  final ActiveSkill activeSkill;
 
   final LanguageSelector name;
 
-  ListMonster(this.monster, this._awakenings) : name = LanguageSelector.name(monster);
+  ListMonster(this.monster, this._awakenings, this.activeSkill)
+      : name = LanguageSelector.name(monster);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
