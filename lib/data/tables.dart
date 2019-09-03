@@ -552,7 +552,14 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     }
 
     if (args.text.isNotEmpty) {
-      query.where(dungeons.nameNa.like('%${args.text}%'));
+      query.where(
+        or(
+            or(
+              dungeons.nameJp.like('%${args.text}%'),
+              dungeons.nameNa.like('%${args.text}%'),
+            ),
+            dungeons.nameKr.like('%${args.text}%')),
+      );
     }
 
     var mpAndSrankResults =
@@ -694,7 +701,13 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       if (intValue != null) {
         query.where((m) => or(m.monsterNoJp.equals(intValue), m.monsterNoNa.equals(intValue)));
       } else {
-        query.where((m) => m.nameNa.like('%${args.text}%'));
+//        query.where((m) => m.nameNa.like('%${args.text}%'));
+        query.where((m) => or(
+            or(
+              m.nameJp.like('%${args.text}%'),
+              m.nameNa.like('%${args.text}%'),
+            ),
+            m.nameKr.like('%${args.text}%')));
       }
     }
 
@@ -730,7 +743,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     final evolutionList = await allEvolutionsForTree(resultMonster.monsterId);
 
-    var evoTreeIds = Set<int>();
+    var evoTreeIds = {monsterId};
     for (var e in evolutionList) {
       evoTreeIds.add(e.fromMonster.monsterId);
       evoTreeIds.add(e.toMonster.monsterId);
