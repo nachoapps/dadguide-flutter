@@ -31,6 +31,7 @@ class TopTextInputBar extends StatelessWidget {
             SizedBox(width: 32, height: 32, child: _leftWidget),
             Expanded(
               child: TextFormField(
+                key: UniqueKey(),
                 initialValue: _displayText,
                 onFieldSubmitted: _onSubmitted,
                 decoration: InputDecoration(
