@@ -20,10 +20,10 @@ class HeadingItem implements ListItem {
 }
 
 /// A ListItem that contains data to display an event row.
-class EventRowItem implements ListItem {
+class DungeonRowItem implements ListItem {
   final ListDungeon model;
 
-  EventRowItem(this.model);
+  DungeonRowItem(this.model);
 }
 
 List<ListItem> rowsToListItems(List<ListDungeon> events, DungeonTabKey tabKey) {
@@ -33,7 +33,7 @@ List<ListItem> rowsToListItems(List<ListDungeon> events, DungeonTabKey tabKey) {
 
   var results = <ListItem>[];
   results.add(HeadingItem(DungeonSubSection.full_list));
-  results.addAll(events.map((m) => EventRowItem(m)));
+  results.addAll(events.map((m) => DungeonRowItem(m)));
 
   return results;
 }
@@ -64,8 +64,10 @@ class DungeonList extends StatelessWidget {
             return Center(child: Text(loc.noData));
           }
 
-          return ListView.builder(
+          return ListView.separated(
             itemCount: listItems.length,
+            separatorBuilder: (context, index) =>
+                listItems[index] is DungeonRowItem ? Divider(height: 0) : Container(),
             itemBuilder: (context, index) {
               var item = listItems[index];
               if (item is HeadingItem) {
@@ -74,7 +76,7 @@ class DungeonList extends StatelessWidget {
                   child: Center(
                       child: Padding(padding: EdgeInsets.all(4.0), child: Text(item.section.name))),
                 );
-              } else if (item is EventRowItem) {
+              } else if (item is DungeonRowItem) {
                 return DungeonListRow(item.model);
               } else {
                 throw 'Unexpected item type';

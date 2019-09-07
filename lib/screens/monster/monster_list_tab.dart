@@ -58,8 +58,9 @@ class MonsterList extends StatelessWidget {
               ),
             );
           } else {
-            return ListView.builder(
+            return ListView.separated(
               itemCount: data.length,
+              separatorBuilder: (context, index) => Divider(height: 0),
               itemBuilder: (context, index) => MonsterListRow(data[index]),
             );
           }

@@ -89,8 +89,10 @@ class EventListContents extends StatelessWidget {
             return Center(child: Text(loc.noData));
           }
 
-          return ListView.builder(
+          return ListView.separated(
             itemCount: listItems.length,
+            separatorBuilder: (context, index) =>
+                listItems[index] is EventRowItem ? Divider(height: 0) : Container(),
             itemBuilder: (context, index) {
               var item = listItems[index];
               if (item is HeadingItem) {
