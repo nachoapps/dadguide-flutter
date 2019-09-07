@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
@@ -58,26 +59,42 @@ class SettingsScreen extends StatelessWidget {
         title: Text(loc.settingsContactUs),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () {
-          print('tapped');
+          sendFeedback();
         },
       ),
       PreferencePageLink(
         loc.settingsAbout,
         trailing: Icon(Icons.keyboard_arrow_right),
         page: PreferencePage([
-          PreferenceText('Some about text'),
+          PreferenceTitle('Code Contributors'),
+          PreferenceText(_codeContributors.join('\n')),
+          PreferenceTitle('Data Administrators'),
+          PreferenceText(_dataContributors.join('\n')),
+          PreferenceTitle('Artwork'),
+          PreferenceText(_artContributors.join('\n')),
+          Divider(),
+          PreferenceText('This app is open source and free; if you paid for it, you got scammed.'),
+          PreferenceText('Copyright © 2019 Miru Apps LLC. All rights reserved'),
         ]),
-      ),
-      PreferenceDialogLink(
-        loc.settingsCopyright,
-        trailing: Icon(Icons.keyboard_arrow_right),
-        dialog: PreferenceDialog(
-          [
-            PreferenceText('Some copyright text'),
-          ],
-          submitText: loc.close,
-        ),
       ),
     ]);
   }
 }
+
+var _codeContributors = <String>[
+  'tactical_retreat',
+  'ケート (cate)',
+  'chu',
+  'Watonii',
+  'jbills',
+  'PGGB',
+  'ChalupaPapa'
+];
+
+var _dataContributors = <String>[
+  'unmoogical',
+];
+
+var _artContributors = <String>[
+  'Violebot',
+];

@@ -27,3 +27,16 @@ Future<void> sendErrorEmail(String subject) async {
   );
   await FlutterEmailSender.send(email);
 }
+
+/// Launches the device email client with an feedback email.
+Future<void> sendFeedback() async {
+  var info = await getVersionInfo();
+  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})]\n';
+
+  var email = Email(
+    subject: 'Feedback',
+    body: body,
+    recipients: ['tactical0retreat@gmail.com'],
+  );
+  await FlutterEmailSender.send(email);
+}
