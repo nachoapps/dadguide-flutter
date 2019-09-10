@@ -161,6 +161,8 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
         children: [
           Expanded(
             child: Scaffold(
+              // Adding this to try and fix the ios 'transparent drag' issue.
+              backgroundColor: Colors.grey[50],
               body: SafeArea(child: _widgetOptions[_selectedIndex]),
               // Prevent the tabs at the bottom from floating above the keyboard.
               resizeToAvoidBottomInset: false,
