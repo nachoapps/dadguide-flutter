@@ -49,5 +49,9 @@
         <string>ja</string>
         <string>ko</string>
     </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>youtube</string>
+    </array>
 </dict>
 </plist>
