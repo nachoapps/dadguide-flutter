@@ -39,11 +39,14 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DungeonDetailActionsBar(),
-        Expanded(child: _retrieveDungeon()),
-      ],
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          DungeonDetailActionsBar(),
+          Expanded(child: _retrieveDungeon()),
+        ],
+      ),
     );
   }
 

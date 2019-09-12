@@ -43,13 +43,16 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MonsterDetailBar(),
-        Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          MonsterDetailBar(),
+          Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
 //          Disabled for now; nothing here is implemented
 //          MonsterDetailOptionsBar(),
-      ],
+        ],
+      ),
     );
   }
 
