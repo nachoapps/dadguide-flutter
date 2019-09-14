@@ -131,7 +131,7 @@ class EventListRow extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
             children: [
-              PadIcon(se.iconId),
+              PadIcon(se.iconId, size: 36),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
