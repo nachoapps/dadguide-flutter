@@ -1,5 +1,7 @@
 // TODO: needs localization
 
+import 'package:dadguide2/l10n/localizations.dart';
+
 /// Enum class for monster typing.
 class MonsterType {
   const MonsterType._(this.id, this.name, this.killers);
@@ -336,5 +338,50 @@ class EvolutionType {
 
   static EvolutionType byId(int id) {
     return _lookup[id] ?? EvolutionType.unknown_value;
+  }
+}
+
+class MonsterSortType {
+  final int id;
+  final String Function() _label;
+
+  MonsterSortType._(this.id, this._label);
+
+  String get label => _label();
+
+  static MonsterSortType released = MonsterSortType._(0, () => 'unused');
+  static MonsterSortType no = MonsterSortType._(1, localized.monsterSortTypeNumber);
+  static MonsterSortType atk = MonsterSortType._(2, localized.monsterSortTypeAtk);
+  static MonsterSortType hp = MonsterSortType._(3, localized.monsterSortTypeHp);
+  static MonsterSortType rcv = MonsterSortType._(4, localized.monsterSortTypeRcv);
+  static MonsterSortType total = MonsterSortType._(5, localized.monsterSortTypeWeighted);
+  static MonsterSortType attribute = MonsterSortType._(6, localized.monsterSortTypeAttr);
+  static MonsterSortType sub_attribute = MonsterSortType._(7, localized.monsterSortTypeSubAttr);
+  static MonsterSortType type = MonsterSortType._(8, localized.monsterSortTypeType);
+  static MonsterSortType rarity = MonsterSortType._(9, localized.monsterSortTypeRarity);
+  static MonsterSortType cost = MonsterSortType._(10, localized.monsterSortTypeCost);
+  static MonsterSortType mp = MonsterSortType._(11, localized.monsterSortTypeMp);
+  static MonsterSortType skill_turn = MonsterSortType._(12, localized.monsterSortTypeSkillTurn);
+
+  static List<MonsterSortType> allValues = [
+    released,
+    no,
+    atk,
+    hp,
+    rcv,
+    total,
+    attribute,
+    sub_attribute,
+    type,
+    rarity,
+    cost,
+    mp,
+    skill_turn,
+  ];
+
+  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+
+  static MonsterSortType byId(int id) {
+    return _lookup[id] ?? MonsterSortType.no;
   }
 }
