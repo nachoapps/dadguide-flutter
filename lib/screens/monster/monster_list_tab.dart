@@ -2,7 +2,6 @@ import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -133,69 +132,6 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-/// Placeholder for monster sort order.
-class MonsterSort {}
-
-/// Intermediary between monster list model and the UI.
-class MonsterDisplayState with ChangeNotifier {
-  final searchBloc = MonsterSearchBloc();
-  final searchArgs = MonsterSearchArgs();
-
-  bool _favoritesOnly = false;
-  bool _sortNew = false;
-  bool _pictureMode = false;
-  bool _useCustomSort = false;
-  MonsterSort _customSort = MonsterSort();
-  bool _showAwakenings = false;
-
-  set searchText(String text) {
-    searchArgs.text = text?.trim();
-    searchBloc.search(searchArgs);
-    notifyListeners();
-  }
-
-  void clearSearch() {
-    searchText = '';
-  }
-
-  bool get favoritesOnly => _favoritesOnly;
-  bool get sortNew => _sortNew;
-  bool get pictureMode => _pictureMode;
-  bool get useCustomSort => _useCustomSort;
-  MonsterSort get customSort => _customSort;
-  bool get showAwakenings => _showAwakenings;
-
-  set showAwakenings(bool value) {
-    _showAwakenings = value;
-    notifyListeners();
-  }
-
-  set customSort(MonsterSort value) {
-    _customSort = value;
-    notifyListeners();
-  }
-
-  set useCustomSort(bool value) {
-    _useCustomSort = value;
-    notifyListeners();
-  }
-
-  set pictureMode(bool value) {
-    _pictureMode = value;
-    notifyListeners();
-  }
-
-  set sortNew(bool value) {
-    _sortNew = value;
-    notifyListeners();
-  }
-
-  set favoritesOnly(bool value) {
-    _favoritesOnly = value;
-    notifyListeners();
   }
 }
 

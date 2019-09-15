@@ -248,6 +248,46 @@ class DadGuideLocalizations {
         desc: 'Monster list mp value text',
       );
 
+  // ---- Monster sort modal strings ----
+  String get monsterSortModalTitle => Intl.message('Change Sort Order',
+      name: 'monsterSortModalTitle', desc: 'Title for monster sort modal');
+
+  String monsterSortTypeNumber() => Intl.message('No.',
+      name: 'monsterSortTypeNumber', desc: 'Sort order label for monster number');
+
+  String monsterSortTypeAtk() =>
+      Intl.message('No.', name: 'monsterSortTypeAtk', desc: 'Sort order label for atk');
+
+  String monsterSortTypeHp() =>
+      Intl.message('No.', name: 'monsterSortTypeHp', desc: 'Sort order label for hp');
+
+  String monsterSortTypeRcv() =>
+      Intl.message('No.', name: 'monsterSortTypeRcv', desc: 'Sort order label for rcv');
+
+  String monsterSortTypeWeighted() => Intl.message('No.',
+      name: 'monsterSortTypeWeighted', desc: 'Sort order label for weighted stats');
+
+  String monsterSortTypeAttr() => Intl.message('No.',
+      name: 'monsterSortTypeAttr', desc: 'Sort order label for primary attribute');
+
+  String monsterSortTypeSubAttr() => Intl.message('No.',
+      name: 'monsterSortTypeSubAttr', desc: 'Sort order label for sub attribute');
+
+  String monsterSortTypeType() =>
+      Intl.message('No.', name: 'monsterSortTypeType', desc: 'Sort order label for monster type');
+
+  String monsterSortTypeRarity() =>
+      Intl.message('No.', name: 'monsterSortTypeRarity', desc: 'Sort order label for rarity');
+
+  String monsterSortTypeCost() =>
+      Intl.message('No.', name: 'monsterSortTypeCost', desc: 'Sort order label for cost');
+
+  String monsterSortTypeMp() =>
+      Intl.message('No.', name: 'monsterSortTypeMp', desc: 'Sort order label for mp value');
+
+  String monsterSortTypeSkillTurn() => Intl.message('Skill Turn',
+      name: 'monsterSortTypeSkillTurn', desc: 'Sort order label for mons skill turns');
+
   // ---- Monster info strings ----
   String monsterInfoNo(int number) => Intl.message(
         'No. $number',
