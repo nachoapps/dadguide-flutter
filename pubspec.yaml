@@ -15,62 +15,65 @@ dependencies:
     sdk: flutter
 
   # Firebase plugins
-  firebase_core: ^0.4.0+8
-  firebase_admob: ^0.9.0+3
-  firebase_analytics: ^5.0.0
-  firebase_crashlytics: ^0.1.0+2
-  firebase_performance: ^0.3.0+4
+  firebase_core: ^0.4.0+9
+  firebase_admob: ^0.9.0+7
+  firebase_analytics: ^5.0.2
+  firebase_crashlytics: ^0.1.0+3
+  firebase_performance: ^0.3.0+5
   #firebase_remote_config: ^0.2.0+5
   #cloud_firestore: ^0.12.9
 
-  sqflite: ^1.1.6+3
-  path_provider: ^1.2.0
+  sqflite: ^1.1.7+1
+  path_provider: ^1.4.0
 
   stack_trace: ^1.9.3
-  cached_network_image: 1.1.0
+  cached_network_image: 1.1.2+1
   # If updating this, need to verify cache.dart
-  flutter_cache_manager: 1.1.0
+  flutter_cache_manager: 1.1.3
   protobuf: any
 
   # Database codegen
+  # TODO: look into upgrading to 2.0
   moor_flutter: ^1.7.0
 
   # Injection
-  provider: ^3.0.0+1
+  provider: ^3.1.0+1
 
   # Settings page
-  preferences: ^4.0.0
+  # TODO: review new 5.0 features for use in settings dialog
+  preferences: ^5.0.0
 
   # Date/internationalization stuff
   intl: ^0.15.8
 
   # Http downloads
-  dio: ^2.1.7
+  dio: ^3.0.3
 
   # Logging
   flutter_fimber: ^0.3.0
 
   # More icons
   cupertino_icons: ^0.1.2
-  flutter_icons: ^0.1.4
+  flutter_icons: ^0.3.1
 
   # Dependency injection
+  # TODO: look into upgrading to 3.0.3
   get_it: ^1.0.3+2
 
   # Utilities
   quiver: '>=2.0.0 <3.0.0'
-  tuple: ^1.0.2
+  tuple: ^1.0.3
 
   # Date picker
-  flutter_datetime_picker: ^1.2.5
+  flutter_datetime_picker: ^1.2.8
 
   # Send bad data email
-  flutter_email_sender: ^2.0.3
-  get_version: ^0.1.0
-  device_info:
+  flutter_email_sender: ^2.1.0
+  get_version: ^0.2.0+1
+  device_info: ^0.4.1
 
   # Open YouTube app
-  url_launcher: ^5.1.1
+  url_launcher: ^5.2.4
 
 dev_dependencies:
   flutter_test:
@@ -80,10 +83,10 @@ dev_dependencies:
   moor_generator: ^1.7.0
   build_runner:
 
-  flutter_launcher_icons: ^0.7.2
+  flutter_launcher_icons: ^0.7.3
 
   # i10n utilities
-  intl_translation:
+  intl_translation: ^0.17.7
 
 # To rebuild icons, use: flutter pub run flutter_launcher_icons:main
 flutter_icons:
