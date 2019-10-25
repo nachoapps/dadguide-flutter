@@ -15,7 +15,7 @@ class MonsterSearchBloc {
   final _counterController = StreamController<List<ListMonster>>();
 
   MonsterSearchBloc() : _dao = getIt<MonstersDao>() {
-    _counterController.onListen = () => search(MonsterSearchArgs());
+    _counterController.onListen = () => search(MonsterSearchArgs.defaults());
   }
 
   StreamSink<List<ListMonster>> get _resultSink => _counterController.sink;
