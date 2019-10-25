@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:archive/archive.dart';
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
@@ -10,10 +11,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;
 
 // TODO: convert to being supplied by getIt
 var onboardingManager = OnboardingTaskManager._();
@@ -89,13 +87,13 @@ class OnboardingTask with TaskPublisher {
 
   Future<void> _downloadDb() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadDb, ResourceHelper._remoteDbZipFile, 'db.zip');
+        _SubTask.downloadDb, ResourceHelper.remoteDbFile(), 'db.zip');
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
       final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
-      var archiveDbFile = archive.firstWhere((e) => e.name == ResourceHelper._dbFileName);
-      var dbFile = File(await ResourceHelper._dbFilePath());
+      var archiveDbFile = archive.firstWhere((e) => e.name == ResourceHelper.dbFileName);
+      var dbFile = File(await ResourceHelper.dbFilePath());
       pub(_SubTask.unpackDb, TaskStatus.started);
       await compute(_decompressLargeFile, _UnzipArgs(archiveDbFile, dbFile));
       pub(_SubTask.unpackDb, TaskStatus.finished);
@@ -107,7 +105,7 @@ class OnboardingTask with TaskPublisher {
 
   Future<void> _downloadIcons() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadImages, ResourceHelper._remoteIconsZipFile, 'icons.zip');
+        _SubTask.downloadImages, ResourceHelper.remoteIconsFile(), 'icons.zip');
 
     pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
@@ -148,31 +146,6 @@ class OnboardingTask with TaskPublisher {
   void pub(_SubTask curTask, TaskStatus status, {int progress, String message}) {
     publish(TaskProgress(curTask.text, curTask.id, _SubTask.all.length, status,
         progress: progress, message: message));
-  }
-}
-
-class ResourceHelper {
-  static const _remoteDbZipFile =
-      'https://f002.backblazeb2.com/file/dadguide-data/db/dadguide.sqlite.zip';
-  static const _remoteIconsZipFile = 'https://f002.backblazeb2.com/file/dadguide-data/db/icons.zip';
-
-  static const _dbFileName = 'dadguide.sqlite';
-
-  static Future<bool> checkDbExists() async {
-    return await File(await _dbFilePath()).exists();
-  }
-
-  static Future<File> newTmpFile(String name) async {
-    var tmpDir = await getTemporaryDirectory();
-    var tmpFile = File(join(tmpDir.path, name));
-    if (await tmpFile.exists()) {
-      await tmpFile.delete();
-    }
-    return tmpFile;
-  }
-
-  static Future<String> _dbFilePath() async {
-    return join(await sqflite.getDatabasesPath(), _dbFileName);
   }
 }
 

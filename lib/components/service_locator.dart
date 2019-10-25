@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -34,6 +35,9 @@ Future<void> initializeServiceLocator(
 ///
 /// This may fail if the database has not been downloaded.
 Future<void> tryInitializeServiceLocatorDb(bool throwOnFailure) async {
+  if (!await ResourceHelper.checkDbExists()) {
+    return;
+  }
   try {
     var db = await DatabaseHelper.instance.database;
     getIt.registerSingleton<DadGuideDatabase>(db);
