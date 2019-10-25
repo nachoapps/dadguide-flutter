@@ -645,11 +645,10 @@ class MonsterSearchArgs {
   final MonsterSortType sortType;
 
   MonsterSearchArgs({@required this.text, @required this.sortAsc, @required this.sortType});
-  MonsterSearchArgs.defaults() :
-    text = '',
-    sortAsc = false,
-    sortType = MonsterSortType.no;
-
+  MonsterSearchArgs.defaults()
+      : text = '',
+        sortAsc = false,
+        sortType = MonsterSortType.no;
 }
 
 @UseDao(
@@ -718,11 +717,15 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.rarity: monsters.rarity,
       MonsterSortType.cost: monsters.cost,
       MonsterSortType.mp: monsters.sellMp,
-//      MonsterSortType.skillTurn: monsters.ac,
+      MonsterSortType.skillTurn: activeSkills.turnMin,
     };
     var orderExpression = orderMapping[args.sortType];
 
     query.orderBy([OrderingTerm(mode: orderingMode, expression: orderExpression)]);
+    if (args.sortType == MonsterSortType.skillTurn) {
+      // Special handling; we don't want to sort by monsters with no skill
+      query.where(monsters.activeSkillId.isBiggerThanValue(0));
+    }
 
     if (args.text.isNotEmpty) {
       var intValue = int.tryParse(args.text);
