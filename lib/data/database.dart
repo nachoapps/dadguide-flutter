@@ -11,6 +11,8 @@ class DatabaseHelper {
   static final _dbName = 'dadguide.sqlite';
   static final DatabaseHelper instance = DatabaseHelper._internal();
 
+  static var allAwokenSkills = <AwokenSkill>[];
+
   DadGuideDatabase _database;
   DatabaseHelper._internal();
 
@@ -31,6 +33,12 @@ class DatabaseHelper {
 
     Fimber.d('Creating DB');
     _database = new DadGuideDatabase(await _dbFilePath());
+
+    try {
+      allAwokenSkills = await MonstersDao(_database).allAwokenSkills();
+    } catch (ex) {
+      Fimber.e('Failed to get awoken skills from db', ex: ex);
+    }
   }
 
   Future<void> reloadDb() async {
