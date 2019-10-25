@@ -364,7 +364,7 @@ class MonsterSortType {
   static MonsterSortType skill_turn = MonsterSortType._(12, localized.monsterSortTypeSkillTurn);
 
   static List<MonsterSortType> allValues = [
-    released,
+//    released,
     no,
     atk,
     hp,

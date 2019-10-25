@@ -641,8 +641,10 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 
 class MonsterSearchArgs {
   String text;
+  bool sortAsc;
+  MonsterSortType sortType;
 
-  MonsterSearchArgs({this.text = ''});
+  MonsterSearchArgs({this.text = '', sortAsc = false, this.sortType});
 }
 
 @UseDao(
