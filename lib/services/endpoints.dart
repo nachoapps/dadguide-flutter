@@ -2,6 +2,9 @@
 ///
 /// This makes switching between local dev and prod easier.
 abstract class Endpoints {
+  /// Files in the database directory; icons and sqlite db.
+  String db(String fileName);
+
   /// Where to find image files.
   String media(String mediaType, String fileName);
 
@@ -12,6 +15,10 @@ abstract class Endpoints {
 /// Right now this points to my personal machine; if you're doing dev work against a local server,
 /// update it to point to your own.
 class DevEndpoints extends Endpoints {
+  String db(String fileName) {
+    return 'https://f002.backblazeb2.com/file/dadguide-data/db/$fileName';
+  }
+
   String media(String mediaType, String fileName) {
     return null;
   }
@@ -27,6 +34,10 @@ class DevEndpoints extends Endpoints {
 
 /// Points to the production server.
 class ProdEndpoints extends Endpoints {
+  String db(String fileName) {
+    return 'https://f002.backblazeb2.com/file/dadguide-data/db/$fileName';
+  }
+
   // TODO: oops I should start using this.
   String media(String mediaType, String fileName) {
     return null;
