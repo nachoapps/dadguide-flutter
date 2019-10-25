@@ -640,11 +640,16 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 }
 
 class MonsterSearchArgs {
-  String text;
-  bool sortAsc;
-  MonsterSortType sortType;
+  final String text;
+  final bool sortAsc;
+  final MonsterSortType sortType;
 
-  MonsterSearchArgs({this.text = '', sortAsc = false, this.sortType});
+  MonsterSearchArgs({@required this.text, @required this.sortAsc, @required this.sortType});
+  MonsterSearchArgs.defaults() :
+    text = '',
+    sortAsc = false,
+    sortType = MonsterSortType.no;
+
 }
 
 @UseDao(
@@ -699,7 +704,25 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId))
     ]);
 
-    query.orderBy([OrderingTerm(mode: OrderingMode.desc, expression: monsters.monsterNoJp)]);
+    var orderingMode = args.sortAsc ? OrderingMode.asc : OrderingMode.desc;
+    var orderMapping = {
+      MonsterSortType.released: monsters.regDate,
+      MonsterSortType.no: monsters.monsterNoJp,
+      MonsterSortType.atk: monsters.atkMax,
+      MonsterSortType.hp: monsters.hpMax,
+      MonsterSortType.rcv: monsters.rcvMax,
+//      MonsterSortType.total: monsters.monsterNoJp,
+      MonsterSortType.attribute: monsters.attribute1Id,
+      MonsterSortType.subAttribute: monsters.attribute2Id,
+      MonsterSortType.type: monsters.type1Id,
+      MonsterSortType.rarity: monsters.rarity,
+      MonsterSortType.cost: monsters.cost,
+      MonsterSortType.mp: monsters.sellMp,
+//      MonsterSortType.skillTurn: monsters.ac,
+    };
+    var orderExpression = orderMapping[args.sortType];
+
+    query.orderBy([OrderingTerm(mode: orderingMode, expression: orderExpression)]);
 
     if (args.text.isNotEmpty) {
       var intValue = int.tryParse(args.text);
