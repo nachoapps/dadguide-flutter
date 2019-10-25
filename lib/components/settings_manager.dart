@@ -93,9 +93,8 @@ class Prefs {
   static Language get uiLanguage => Language.byId(PrefService.getInt(PrefKeys.uiLanguage));
   static set uiLanguage(Language language) => PrefService.setInt(PrefKeys.uiLanguage, language.id);
 
-  static void setCurrentDbVersion(int val) {
-    PrefService.setInt(PrefKeys.currentDbVersion, val);
-  }
+  static int get currentDbVersion => PrefService.getInt(PrefKeys.currentDbVersion);
+  static set currentDbVersion(int version) => PrefService.setInt(PrefKeys.currentDbVersion, version);
 
   static void setIconsDownloaded(bool val) {
     PrefService.setBool(PrefKeys.iconsDownloaded, val);
