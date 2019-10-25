@@ -11,7 +11,7 @@ Future<DeviceInfo> createDeviceInfo() async {
       return DeviceInfo.ios(iosInfo.systemVersion);
     } else {
       var androidInfo = await deviceInfo.androidInfo;
-      return DeviceInfo.ios(androidInfo.version.release);
+      return DeviceInfo.android(androidInfo.version.release);
     }
   } catch (ex) {
     Fimber.w('Failed to create Device Info', ex: ex);
