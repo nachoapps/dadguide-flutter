@@ -48,15 +48,15 @@ class MonsterType {
   static const MonsterType vendor = MonsterType._(15, 'Vendor', []);
 
   static const List<MonsterType> all = [
-    evoMat,
+    god,
+    devil,
+    dragon,
     balanced,
+    attacker,
     physical,
     healer,
-    dragon,
-    god,
-    attacker,
-    devil,
     machine,
+    evoMat,
     enhance,
     awoken,
     vendor
