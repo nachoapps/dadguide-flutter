@@ -878,4 +878,9 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var x = await dropDungeons(monsterId);
     return x.map((ddr) => BasicDungeon(ddr.dungeonId, ddr.nameJp, ddr.nameNa, ddr.nameKr)).toList();
   }
+
+  Future<List<AwokenSkill>> allAwokenSkills() async {
+    final query = select(awokenSkills)..orderBy([(a) => OrderingTerm(expression: a.awokenSkillId)]);
+    return query.get();
+  }
 }
