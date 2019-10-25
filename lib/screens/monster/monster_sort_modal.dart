@@ -20,9 +20,9 @@ Future<void> showDungeonSortDialog(BuildContext context) async {
         return SimpleDialog(
           title: Text(loc.serverModalTitle),
           children: [
-            CountryTile(displayState, Country.jp),
-            CountryTile(displayState, Country.na),
-            CountryTile(displayState, Country.kr),
+//            CountryTile(displayState, Country.jp),
+//            CountryTile(displayState, Country.na),
+//            CountryTile(displayState, Country.kr),
             ListTile(
               onTap: () {
                 Navigator.pop(innerContext);
