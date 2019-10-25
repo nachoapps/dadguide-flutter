@@ -376,7 +376,7 @@ class MonsterSortType {
     rarity,
     cost,
     mp,
-//    skillTurn,
+    skillTurn,
   ];
 
   static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
