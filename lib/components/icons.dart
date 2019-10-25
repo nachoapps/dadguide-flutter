@@ -29,13 +29,13 @@ class DadGuideIcons {
   static Widget get currentCountryOn =>
       Image.asset('assets/images/${Prefs.eventCountry.iconOnName}');
 
-  static Image get fire => Image.asset('assets/images/orb_01.png');
+  static Image get fire => Image.asset('assets/images/orb_01.png', fit: BoxFit.fill);
 
-  static Image get water => Image.asset('assets/images/orb_02.png');
+  static Image get water => Image.asset('assets/images/orb_02.png', fit: BoxFit.fill);
 
-  static Image get wood => Image.asset('assets/images/orb_03.png');
+  static Image get wood => Image.asset('assets/images/orb_03.png', fit: BoxFit.fill);
 
-  static Image get light => Image.asset('assets/images/orb_04.png');
+  static Image get light => Image.asset('assets/images/orb_04.png', fit: BoxFit.fill);
 
-  static Image get dark => Image.asset('assets/images/orb_05.png');
-
+  static Image get dark => Image.asset('assets/images/orb_05.png', fit: BoxFit.fill);
+}
