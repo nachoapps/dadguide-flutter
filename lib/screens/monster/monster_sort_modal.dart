@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'monster_search_bloc.dart';
 
 /// Displays a dialog that lets the user toggle their event server, or kick off the update.
-Future<void> showDungeonSortDialog(BuildContext context) async {
+Future<void> showMonsterSortDialog(BuildContext context) async {
   var loc = DadGuideLocalizations.of(context);
 
   var displayState = Provider.of<MonsterDisplayState>(context);

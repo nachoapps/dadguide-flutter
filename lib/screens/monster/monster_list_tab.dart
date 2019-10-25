@@ -122,7 +122,7 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.sort),
             color: controller.customSort ? Colors.amber : Colors.black,
-            onPressed: () => showDungeonSortDialog(context),
+            onPressed: () => showMonsterSortDialog(context),
           ),
           IconButton(
             icon: Icon(MaterialCommunityIcons.getIconData('star-box-outline')),
