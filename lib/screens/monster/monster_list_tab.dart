@@ -3,6 +3,7 @@ import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/monster/monster_sort_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -72,7 +73,7 @@ class MonsterSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MonsterDisplayState>(context);
-    var searchText = controller.searchArgs.text;
+    var searchText = controller.searchText;
     return TopTextInputBar(
       searchText,
       'Search: Monster Name/No.',
@@ -84,7 +85,7 @@ class MonsterSearchBar extends StatelessWidget {
       Container(),
       InkWell(
         child: Icon(Icons.cancel),
-        onTap: () => controller.clearSearch(),
+        onTap: () => controller.clearSearchText(),
       ),
       (t) => controller.searchText = t,
       key: ValueKey(searchText),
@@ -118,12 +119,11 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
             color: controller.pictureMode ? Colors.amber : Colors.black,
             onPressed: () => controller.pictureMode = !controller.pictureMode,
           ),
-//          Not supporting sort yet
-//          IconButton(
-//            icon: Icon(Icons.sort),
-//            color: controller.useCustomSort ? Colors.amber : Colors.black,
-//            onPressed: () => controller.useCustomSort = !controller.useCustomSort,
-//          ),
+          IconButton(
+            icon: Icon(Icons.sort),
+            color: controller.customSort ? Colors.amber : Colors.black,
+            onPressed: () => showDungeonSortDialog(context),
+          ),
           IconButton(
             icon: Icon(MaterialCommunityIcons.getIconData('star-box-outline')),
             color: controller.showAwakenings ? Colors.amber : Colors.black,

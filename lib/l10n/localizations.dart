@@ -252,38 +252,44 @@ class DadGuideLocalizations {
   String get monsterSortModalTitle => Intl.message('Change Sort Order',
       name: 'monsterSortModalTitle', desc: 'Title for monster sort modal');
 
+  String get monsterSortDesc =>
+      Intl.message('Descending ▼', name: 'monsterSortDesc', desc: 'Sort descending label');
+
+  String get monsterSortAsc =>
+      Intl.message('Ascending ▲', name: 'monsterSortAsc', desc: 'Sort ascending label');
+
   String monsterSortTypeNumber() => Intl.message('No.',
       name: 'monsterSortTypeNumber', desc: 'Sort order label for monster number');
 
   String monsterSortTypeAtk() =>
-      Intl.message('No.', name: 'monsterSortTypeAtk', desc: 'Sort order label for atk');
+      Intl.message('ATK', name: 'monsterSortTypeAtk', desc: 'Sort order label for atk');
 
   String monsterSortTypeHp() =>
-      Intl.message('No.', name: 'monsterSortTypeHp', desc: 'Sort order label for hp');
+      Intl.message('HP', name: 'monsterSortTypeHp', desc: 'Sort order label for hp');
 
   String monsterSortTypeRcv() =>
-      Intl.message('No.', name: 'monsterSortTypeRcv', desc: 'Sort order label for rcv');
+      Intl.message('RCV', name: 'monsterSortTypeRcv', desc: 'Sort order label for rcv');
 
-  String monsterSortTypeWeighted() => Intl.message('No.',
+  String monsterSortTypeWeighted() => Intl.message('Total',
       name: 'monsterSortTypeWeighted', desc: 'Sort order label for weighted stats');
 
-  String monsterSortTypeAttr() => Intl.message('No.',
+  String monsterSortTypeAttr() => Intl.message('Attribute',
       name: 'monsterSortTypeAttr', desc: 'Sort order label for primary attribute');
 
-  String monsterSortTypeSubAttr() => Intl.message('No.',
+  String monsterSortTypeSubAttr() => Intl.message('Sub Att.',
       name: 'monsterSortTypeSubAttr', desc: 'Sort order label for sub attribute');
 
   String monsterSortTypeType() =>
-      Intl.message('No.', name: 'monsterSortTypeType', desc: 'Sort order label for monster type');
+      Intl.message('Type', name: 'monsterSortTypeType', desc: 'Sort order label for monster type');
 
   String monsterSortTypeRarity() =>
-      Intl.message('No.', name: 'monsterSortTypeRarity', desc: 'Sort order label for rarity');
+      Intl.message('Rarity', name: 'monsterSortTypeRarity', desc: 'Sort order label for rarity');
 
   String monsterSortTypeCost() =>
-      Intl.message('No.', name: 'monsterSortTypeCost', desc: 'Sort order label for cost');
+      Intl.message('Cost', name: 'monsterSortTypeCost', desc: 'Sort order label for cost');
 
   String monsterSortTypeMp() =>
-      Intl.message('No.', name: 'monsterSortTypeMp', desc: 'Sort order label for mp value');
+      Intl.message('MP', name: 'monsterSortTypeMp', desc: 'Sort order label for mp value');
 
   String monsterSortTypeSkillTurn() => Intl.message('Skill Turn',
       name: 'monsterSortTypeSkillTurn', desc: 'Sort order label for mons skill turns');

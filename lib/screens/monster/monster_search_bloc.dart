@@ -31,16 +31,10 @@ class MonsterSearchBloc {
   }
 }
 
-/// Placeholder for monster sort order.
-class MonsterSort {
-  bool sortAsc = false;
-  bool sortNew = false;
-}
-
 /// Intermediary between monster list model and the UI.
 class MonsterDisplayState with ChangeNotifier {
   final searchBloc = MonsterSearchBloc();
-  final searchArgs = MonsterSearchArgs();
+  String _searchText = '';
 
   bool _favoritesOnly = false;
   bool _pictureMode = false;
@@ -49,13 +43,20 @@ class MonsterDisplayState with ChangeNotifier {
   bool _sortAsc = false;
   MonsterSortType _sortType = MonsterSortType.no;
 
+  void doSearch() {
+    searchBloc.search(
+        MonsterSearchArgs(text: _searchText.trim(), sortAsc: _sortAsc, sortType: _sortType));
+  }
+
+  get searchText => _searchText;
+
   set searchText(String text) {
-    searchArgs.text = text?.trim();
-    searchBloc.search(searchArgs);
+    _searchText = text?.trim();
+    doSearch();
     notifyListeners();
   }
 
-  void clearSearch() {
+  void clearSearchText() {
     searchText = '';
   }
 
@@ -79,15 +80,23 @@ class MonsterDisplayState with ChangeNotifier {
   }
 
   bool get sortNew => _sortType == MonsterSortType.released;
+  MonsterSortType get sortType => _sortType;
+  bool get sortAsc => _sortAsc;
   bool get customSort => _sortAsc || _sortType != MonsterSortType.no;
 
   set sortNew(bool value) {
-    _sortType = MonsterSortType.released;
+    _sortType = value ? MonsterSortType.released : MonsterSortType.no;
+    doSearch();
     notifyListeners();
   }
 
   set sortType(MonsterSortType value) {
     _sortType = value;
+    notifyListeners();
+  }
+
+  set sortAsc(bool value) {
+    _sortAsc = value;
     notifyListeners();
   }
 }
