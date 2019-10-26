@@ -61,9 +61,9 @@ class _TaskListProgressState extends State<TaskListProgress> {
             leading: CircularProgressIndicator(),
             title: Text(executingText),
             subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(update.taskName),
-                Spacer(),
+                Flexible(child: Text(update.taskName)),
                 if (update.progress != null) Text(loc.taskProgress(update.progress))
               ],
             ),
