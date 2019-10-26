@@ -248,6 +248,10 @@ class DadGuideLocalizations {
         desc: 'Monster list mp value text',
       );
 
+  // ---- Monster filter modal strings ----
+  String get monsterFilterModalTitle => Intl.message('Advanced Search',
+      name: 'monsterFilterModalTitle', desc: 'Title for monster filter modal');
+
   // ---- Monster sort modal strings ----
   String get monsterSortModalTitle => Intl.message('Change Sort Order',
       name: 'monsterSortModalTitle', desc: 'Title for monster sort modal');

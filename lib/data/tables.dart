@@ -639,16 +639,35 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   }
 }
 
+class MonsterSortArgs {
+  bool sortAsc = false;
+  MonsterSortType sortType = MonsterSortType.no;
+}
+
+class MinMax {
+  int min;
+  int max;
+}
+
+class MonsterFilterArgs {
+  List<int> mainAttr = [];
+  List<int> subAttr = [];
+  MinMax rarity = MinMax();
+  MinMax cost = MinMax();
+  List<int> types = [];
+  List<int> awokenSkills = [];
+}
+
 class MonsterSearchArgs {
   final String text;
-  final bool sortAsc;
-  final MonsterSortType sortType;
+  final MonsterSortArgs sort;
+  final MonsterFilterArgs filter;
 
-  MonsterSearchArgs({@required this.text, @required this.sortAsc, @required this.sortType});
+  MonsterSearchArgs({@required this.text, @required this.sort, @required this.filter});
   MonsterSearchArgs.defaults()
       : text = '',
-        sortAsc = false,
-        sortType = MonsterSortType.no;
+        sort = MonsterSortArgs(),
+        filter = MonsterFilterArgs();
 }
 
 @UseDao(
@@ -703,7 +722,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId))
     ]);
 
-    var orderingMode = args.sortAsc ? OrderingMode.asc : OrderingMode.desc;
+    var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
     var orderMapping = {
       MonsterSortType.released: monsters.regDate,
       MonsterSortType.no: monsters.monsterNoJp,
@@ -719,12 +738,40 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.mp: monsters.sellMp,
       MonsterSortType.skillTurn: activeSkills.turnMin,
     };
-    var orderExpression = orderMapping[args.sortType];
+    var orderExpression = orderMapping[args.sort.sortType];
 
     query.orderBy([OrderingTerm(mode: orderingMode, expression: orderExpression)]);
-    if (args.sortType == MonsterSortType.skillTurn) {
+    if (args.sort.sortType == MonsterSortType.skillTurn) {
       // Special handling; we don't want to sort by monsters with no skill
       query.where(monsters.activeSkillId.isBiggerThanValue(0));
+    }
+
+    var filter = args.filter;
+    if (filter.mainAttr.isNotEmpty) {
+      query.where(isIn(monsters.attribute1Id, filter.mainAttr));
+    }
+    if (filter.subAttr.isNotEmpty) {
+      query.where(isIn(monsters.attribute2Id, filter.subAttr));
+    }
+    if (filter.rarity.min != null) {
+      query.where(monsters.rarity.isBiggerOrEqualValue(filter.rarity.min));
+    }
+    if (filter.rarity.max != null) {
+      query.where(monsters.rarity.isSmallerOrEqualValue(filter.rarity.max));
+    }
+    if (filter.cost.min != null) {
+      query.where(monsters.cost.isBiggerOrEqualValue(filter.cost.min));
+    }
+    if (filter.cost.max != null) {
+      query.where(monsters.cost.isSmallerOrEqualValue(filter.cost.max));
+    }
+    if (filter.types.isNotEmpty) {
+      query.where(or(
+          isIn(monsters.type1Id, filter.types),
+          or(
+            isIn(monsters.type2Id, filter.types),
+            isIn(monsters.type3Id, filter.types),
+          )));
     }
 
     if (args.text.isNotEmpty) {
@@ -752,6 +799,20 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
       var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
         ..sort((a, b) => a.orderIdx - b.orderIdx);
+
+      // It's too hard to apply this filter during the query, so once we have the awakenings,
+      // strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
+      // it's a good match, otherwise skip this row.
+      if (filter.awokenSkills.isNotEmpty) {
+        var copy = List.of(filter.awokenSkills);
+        for (var awakening in awakeningList) {
+          copy.remove(awakening.awokenSkillId);
+        }
+        if (copy.isNotEmpty) {
+          continue;
+        }
+      }
+
       results.add(ListMonster(m, awakeningList, as));
     }
 
