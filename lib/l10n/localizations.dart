@@ -12,6 +12,18 @@ class DadGuideLocalizations {
   // ---- Strings used by DadGuide ----
   String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
+  String get tabEvent =>
+      Intl.message('Event', name: 'tabEvent', desc: 'Bottom tab title for events');
+
+  String get tabMonster =>
+      Intl.message('Monster', name: 'tabMonster', desc: 'Bottom tab title for monster list');
+
+  String get tabDungeon =>
+      Intl.message('Dungeon', name: 'tabDungeon', desc: 'Bottom tab title for dungeon list');
+
+  String get tabSetting =>
+      Intl.message('Setting', name: 'tabSetting', desc: 'Bottom tab title for settings');
+
   // ---- Strings used by update process ----
   String get updateComplete => Intl.message('Update complete',
       name: 'updateComplete', desc: 'Snackbar displayed when data update finishes');
