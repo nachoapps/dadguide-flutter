@@ -385,3 +385,31 @@ class MonsterSortType {
     return _lookup[id] ?? MonsterSortType.no;
   }
 }
+
+/// Enum class for monster typing.
+class OrbType {
+  const OrbType._(this.id, this.name);
+
+  final int id;
+  final String name;
+
+  static const OrbType fire = OrbType._(0, 'Fire');
+  static const OrbType water = OrbType._(1, 'Water');
+  static const OrbType wood = OrbType._(2, 'Wood');
+  static const OrbType light = OrbType._(3, 'Light');
+  static const OrbType dark = OrbType._(4, 'Dark');
+
+  static const List<OrbType> all = [
+    fire,
+    water,
+    wood,
+    light,
+    dark,
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+
+  static OrbType byId(int id) {
+    return _lookup[id];
+  }
+}

@@ -35,6 +35,7 @@ class MonsterSearchBloc {
 class MonsterDisplayState with ChangeNotifier {
   final searchBloc = MonsterSearchBloc();
   String _searchText = '';
+  var filterArgs = MonsterFilterArgs();
 
   bool _favoritesOnly = false;
   bool _pictureMode = false;
@@ -43,9 +44,18 @@ class MonsterDisplayState with ChangeNotifier {
   bool _sortAsc = false;
   MonsterSortType _sortType = MonsterSortType.no;
 
+  void notify() {
+    notifyListeners();
+  }
+
   void doSearch() {
-    searchBloc.search(
-        MonsterSearchArgs(text: _searchText.trim(), sortAsc: _sortAsc, sortType: _sortType));
+    // TODO: stick this back into display state directly
+    var sortArgs = MonsterSortArgs();
+    sortArgs.sortAsc = _sortAsc;
+    sortArgs.sortType = _sortType;
+
+    searchBloc
+        .search(MonsterSearchArgs(text: _searchText.trim(), sort: sortArgs, filter: filterArgs));
   }
 
   get searchText => _searchText;
