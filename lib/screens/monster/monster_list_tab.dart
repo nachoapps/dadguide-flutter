@@ -172,6 +172,9 @@ class MonsterListRow extends StatelessWidget {
                           Text(loc.monsterListNo(m.monsterNoJp)),
                           Spacer(),
                           Text(upperRightText),
+                          TypeIcon(m.type1Id),
+                          TypeIcon(m.type2Id),
+                          TypeIcon(m.type3Id),
                         ])),
                     FittedBox(alignment: Alignment.centerLeft, child: Text(_model.name())),
                     DefaultTextStyle(
@@ -213,6 +216,19 @@ class MonsterListRow extends StatelessWidget {
             ],
           )),
     );
+  }
+}
+
+/// Combination of the type icon and type name with padding (null safe for type).
+class TypeIcon extends StatelessWidget {
+  final int typeId;
+
+  TypeIcon(this.typeId);
+
+  @override
+  Widget build(BuildContext context) {
+    if (typeId == null) return Container();
+    return typeContainer(typeId, leftPadding: 2);
   }
 }
 
