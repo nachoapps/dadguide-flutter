@@ -24,6 +24,22 @@ class DadGuideLocalizations {
   String get tabSetting =>
       Intl.message('Setting', name: 'tabSetting', desc: 'Bottom tab title for settings');
 
+  String get languageEn =>
+      Intl.message('English', name: 'languageEn', desc: 'Used in language selector');
+
+  String get languageJa =>
+      Intl.message('Japanese', name: 'languageJa', desc: 'Used in language selector');
+
+  String get languageKo =>
+      Intl.message('Korean', name: 'languageKo', desc: 'Used in language selector');
+
+  String get countryNa =>
+      Intl.message('North America', name: 'countryNa', desc: 'Used in server selector');
+
+  String get countryJp => Intl.message('Japan', name: 'countryJp', desc: 'Used in server selector');
+
+  String get countryKr => Intl.message('Korea', name: 'countryKo', desc: 'Used in server selector');
+
   // ---- Strings used by update process ----
   String get updateComplete => Intl.message('Update complete',
       name: 'updateComplete', desc: 'Snackbar displayed when data update finishes');
@@ -33,7 +49,7 @@ class DadGuideLocalizations {
 
   // ---- Strings used by task execution widget ----
   String taskExecutingWithCount(int index, int taskCount) => Intl.message(
-        'Executing task ($index/$taskCount',
+        'Executing task ($index/$taskCount)',
         name: 'taskExecutingWithCount',
         args: [index, taskCount],
         desc: 'Indicates task progress',
@@ -565,7 +581,8 @@ class DadGuideLocalizations {
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {
-    final String name = locale.countryCode == null ? locale.languageCode : locale.toString();
+    final String languageCode = locale?.languageCode ?? 'xx';
+    final String name = locale.countryCode == null ? languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
 
     return initializeMessages(localeName).then((bool _) {
@@ -585,7 +602,8 @@ class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocali
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'ja', 'ko'].contains(locale.languageCode);
+    var languageCode = locale?.languageCode ?? 'xx';
+    return ['en', 'ja', 'ko'].contains(languageCode);
   }
 
   @override

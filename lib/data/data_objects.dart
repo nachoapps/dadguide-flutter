@@ -24,16 +24,16 @@ class LanguageSelector {
   LanguageSelector(this._jp, this._na, this._kr);
 
   String call() {
-    switch (Prefs.infoLanguage) {
-      case Language.ja:
-        return _jp;
-      case Language.en:
-        return _na;
-      case Language.ko:
-        return _kr;
-      default:
-        Fimber.e('Unexpected language: ${Prefs.infoLanguage}');
-        return _na;
+    var infoLanguage = Prefs.infoLanguage;
+    if (infoLanguage == Language.ja) {
+      return _jp;
+    } else if (infoLanguage == Language.en) {
+      return _na;
+    } else if (infoLanguage == Language.ko) {
+      return _kr;
+    } else {
+      Fimber.e('Unexpected language: $infoLanguage');
+      return _na;
     }
   }
 }
