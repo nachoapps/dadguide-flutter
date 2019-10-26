@@ -17,7 +17,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "taskExecutingWithCount": "실행 작업 ( {index} / {taskCount}",
+  "taskExecutingWithCount": "실행 작업 ( {index} / {taskCount} )",
   "@taskExecutingWithCount": {
     "description": "Indicates task progress",
     "type": "text",
