@@ -1,9 +1,51 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-08-28T23:50:54.671837",
+  "@@last_modified": "2019-10-25T23:29:54.262988",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabEvent": "Event",
+  "@tabEvent": {
+    "description": "Bottom tab title for events",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabMonster": "Monster",
+  "@tabMonster": {
+    "description": "Bottom tab title for monster list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabDungeon": "Dungeon",
+  "@tabDungeon": {
+    "description": "Bottom tab title for dungeon list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabSetting": "Setting",
+  "@tabSetting": {
+    "description": "Bottom tab title for settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageEn": "English",
+  "@languageEn": {
+    "description": "Used in language selector",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageJa": "Japanese",
+  "@languageJa": {
+    "description": "Used in language selector",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageKo": "Korean",
+  "@languageKo": {
+    "description": "Used in language selector",
     "type": "text",
     "placeholders": {}
   },
@@ -19,7 +61,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "taskExecutingWithCount": "Executing task ({index}/{taskCount}",
+  "taskExecutingWithCount": "Executing task ({index}/{taskCount})",
   "@taskExecutingWithCount": {
     "description": "Indicates task progress",
     "type": "text",
@@ -388,6 +430,150 @@
       "number": {}
     }
   },
+  "monsterFilterModalTitle": "Advanced Search",
+  "@monsterFilterModalTitle": {
+    "description": "Title for monster filter modal",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalMainAttr": "Main Attr",
+  "@monsterFilterModalMainAttr": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalSubAttr": "Sub Attr",
+  "@monsterFilterModalSubAttr": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalRarity": "Rarity",
+  "@monsterFilterModalRarity": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalCost": "Cost",
+  "@monsterFilterModalCost": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalType": "Type",
+  "@monsterFilterModalType": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalAwokens": "Awoken Skills",
+  "@monsterFilterModalAwokens": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalClose": "Close",
+  "@monsterFilterModalClose": {
+    "description": "Bottom button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalReset": "Reset",
+  "@monsterFilterModalReset": {
+    "description": "Bottom button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortModalTitle": "Change Sort Order",
+  "@monsterSortModalTitle": {
+    "description": "Title for monster sort modal",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortDesc": "Descending ▼",
+  "@monsterSortDesc": {
+    "description": "Top button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortAsc": "Ascending ▲",
+  "@monsterSortAsc": {
+    "description": "Top button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeNumber": "No.",
+  "@monsterSortTypeNumber": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeAtk": "ATK",
+  "@monsterSortTypeAtk": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeHp": "HP",
+  "@monsterSortTypeHp": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeRcv": "RCV",
+  "@monsterSortTypeRcv": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeWeighted": "Total",
+  "@monsterSortTypeWeighted": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeAttr": "Attribute",
+  "@monsterSortTypeAttr": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeSubAttr": "Sub Att.",
+  "@monsterSortTypeSubAttr": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeType": "Type",
+  "@monsterSortTypeType": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeRarity": "Rarity",
+  "@monsterSortTypeRarity": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeCost": "Cost",
+  "@monsterSortTypeCost": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeMp": "MP",
+  "@monsterSortTypeMp": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeSkillTurn": "Skill Turn",
+  "@monsterSortTypeSkillTurn": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
   "monsterInfoNo": "No. {number}",
   "@monsterInfoNo": {
     "description": "Monster info number text",
@@ -690,15 +876,33 @@
     "type": "text",
     "placeholders": {}
   },
+  "settingsUiLanguageDesc": "Overwrites your device locale",
+  "@settingsUiLanguageDesc": {
+    "description": "Setting description",
+    "type": "text",
+    "placeholders": {}
+  },
   "settingsInfoLanguage": "Info Language",
   "@settingsInfoLanguage": {
     "description": "Dropdown option title",
     "type": "text",
     "placeholders": {}
   },
+  "settingsInfoLanguageDesc": "Used for monster/dungeon names, skill text, etc",
+  "@settingsInfoLanguageDesc": {
+    "description": "Setting description",
+    "type": "text",
+    "placeholders": {}
+  },
   "settingsGameCountry": "Game Country",
   "@settingsGameCountry": {
     "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsGameCountryDesc": "Controls some other region-specific settings",
+  "@settingsGameCountryDesc": {
+    "description": "Setting description",
     "type": "text",
     "placeholders": {}
   },
@@ -711,6 +915,12 @@
   "settingsEventCountry": "Event Country",
   "@settingsEventCountry": {
     "description": "Dropdown option title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsEventCountryDesc": "Server to display guerrilla events for",
+  "@settingsEventCountryDesc": {
+    "description": "Setting description",
     "type": "text",
     "placeholders": {}
   },
