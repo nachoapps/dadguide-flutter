@@ -3,6 +3,7 @@ import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/data_update.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';
@@ -184,19 +185,21 @@ class BottomNavOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
-          title: Text('Event'),
+          title: Text(loc.tabEvent),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.format_line_spacing),
-          title: Text('Monster'),
+          title: Text(loc.tabMonster),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text('Dungeon'),
+          title: Text(loc.tabDungeon),
         ),
 //        BottomNavigationBarItem(
 //          icon: Icon(Icons.move_to_inbox),
@@ -204,7 +207,7 @@ class BottomNavOptions extends StatelessWidget {
 //        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          title: Text('Setting'),
+          title: Text(loc.tabSetting),
         ),
       ],
       currentIndex: selectedIdx,
