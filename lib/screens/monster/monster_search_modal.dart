@@ -56,13 +56,18 @@ class FilterWidget extends StatelessWidget {
 class AttributeFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(child: AttributeSection('Main Attr', displayState.filterArgs.mainAttr)),
+          Expanded(
+              child: AttributeSection(
+                  loc.monsterFilterModalMainAttr, displayState.filterArgs.mainAttr)),
           VerticalDivider(thickness: 1, color: Colors.grey[300]),
-          Expanded(child: AttributeSection('Sub Attr', displayState.filterArgs.subAttr)),
+          Expanded(
+              child:
+                  AttributeSection(loc.monsterFilterModalSubAttr, displayState.filterArgs.subAttr)),
         ],
       ),
     );
@@ -128,13 +133,15 @@ class ColorButton extends StatelessWidget {
 class RarityCostFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(child: MinMaxSection('Rarity', displayState.filterArgs.rarity)),
+          Expanded(
+              child: MinMaxSection(loc.monsterFilterModalRarity, displayState.filterArgs.rarity)),
           VerticalDivider(thickness: 1, color: Colors.grey[300]),
-          Expanded(child: MinMaxSection('Cost', displayState.filterArgs.cost)),
+          Expanded(child: MinMaxSection(loc.monsterFilterModalCost, displayState.filterArgs.cost)),
         ],
       ),
     );
@@ -198,11 +205,12 @@ class BoxedInput extends StatelessWidget {
 class TypeFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
 
     return Column(
       children: [
-        Text('Type'),
+        Text(loc.monsterFilterModalType),
         SizedBox(height: 4),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -250,6 +258,7 @@ class TypeButton extends StatelessWidget {
 class AwokenSkillsFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     var selectedSkills = displayState.filterArgs.awokenSkills;
     var awokenSkills = DatabaseHelper.allAwokenSkills;
@@ -260,7 +269,7 @@ class AwokenSkillsFilterRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text('Awoken Skills'),
+            Text(loc.monsterFilterModalAwokens),
             SizedBox(width: 8),
             Expanded(
               child: Container(
@@ -331,16 +340,18 @@ class AwakeningButton extends StatelessWidget {
 class FilterActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
+
     return Row(
       children: [
         FlatButton(
-          child: Text('Close'),
+          child: Text(loc.monsterFilterModalClose),
           onPressed: () => Navigator.pop(context),
         ),
         Spacer(),
         FlatButton(
-          child: Text('Reset'),
+          child: Text(loc.monsterFilterModalReset),
           onPressed: () {
             displayState.filterArgs = MonsterFilterArgs();
             displayState.sortType = MonsterSortType.no;

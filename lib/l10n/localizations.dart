@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'messages_all.dart';
 
 /// This is the current globally loaded localization. This is a terrible hack and not the right way
-/// to handle this, but it's iritatingly difficult to get ahold of a BuildContext everywhere you
+/// to handle this, but it's irritatingly difficult to get ahold of a BuildContext everywhere you
 /// need it. This starts off null and is reloaded whenever the app localization is.
 DadGuideLocalizations localized;
 
@@ -263,6 +263,30 @@ class DadGuideLocalizations {
   // ---- Monster filter modal strings ----
   String get monsterFilterModalTitle => Intl.message('Advanced Search',
       name: 'monsterFilterModalTitle', desc: 'Title for monster filter modal');
+
+  String get monsterFilterModalMainAttr => Intl.message('Main Attr',
+      name: 'monsterFilterModalMainAttr', desc: 'Monster filter - main attr section header');
+
+  String get monsterFilterModalSubAttr => Intl.message('Sub Attr',
+      name: 'monsterFilterModalSubAttr', desc: 'Monster filter - sub attr section header');
+
+  String get monsterFilterModalRarity => Intl.message('Rarity',
+      name: 'monsterFilterModalRarity', desc: 'Monster filter - rarity section header');
+
+  String get monsterFilterModalCost => Intl.message('Cost',
+      name: 'monsterFilterModalCost', desc: 'Monster filter - cost section header');
+
+  String get monsterFilterModalType => Intl.message('Type',
+      name: 'monsterFilterModalType', desc: 'Monster filter - type section header');
+
+  String get monsterFilterModalAwokens => Intl.message('Awoken Skills',
+      name: 'monsterFilterModalAwokens', desc: 'Monster filter - awoken skills section header');
+
+  String get monsterFilterModalClose =>
+      Intl.message('Close', name: 'monsterFilterModalClose', desc: 'Monster filter - close screen');
+
+  String get monsterFilterModalReset => Intl.message('Reset',
+      name: 'monsterFilterModalReset', desc: 'Monster filter - reset filters button');
 
   // ---- Monster sort modal strings ----
   String get monsterSortModalTitle => Intl.message('Change Sort Order',
