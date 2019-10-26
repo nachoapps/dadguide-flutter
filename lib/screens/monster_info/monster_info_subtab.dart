@@ -407,33 +407,22 @@ class MonsterDetailBar extends StatelessWidget {
   }
 }
 
-IconButton dummyIconButton(BuildContext context, IconData icon, String title) {
-  return IconButton(
-      icon: Icon(icon),
-      onPressed: () {
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('$title not implemented yet'),
-        ));
-      });
-}
-
-class MonsterDetailOptionsBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.grey[200],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          dummyIconButton(context, Icons.compare_arrows, 'Compare Monster'),
-          dummyIconButton(context, Icons.live_tv, 'YT Link'),
-          dummyIconButton(context, Icons.save_alt, 'Save view'),
-        ],
-      ),
-    );
-  }
-}
+//class MonsterDetailOptionsBar extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return Material(
+//      color: Colors.grey[200],
+//      child: Row(
+//        mainAxisAlignment: MainAxisAlignment.spaceAround,
+//        children: [
+//          dummyIconButton(context, Icons.compare_arrows, 'Compare Monster'),
+//          dummyIconButton(context, Icons.live_tv, 'YT Link'),
+//          dummyIconButton(context, Icons.save_alt, 'Save view'),
+//        ],
+//      ),
+//    );
+//  }
+//}
 
 /// Level 1/99/110 stat table, plus XP required.
 class MonsterLevelStatTable extends StatelessWidget {
