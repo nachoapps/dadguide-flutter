@@ -3,22 +3,21 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// Ignore issues from commonly used lints in this file.
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
+// ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
-// ignore: unnecessary_new
 final messages = new MessageLookup();
 
-// ignore: unused_element
-final _keepAnalysisHappy = Intl.defaultLocale;
-
-// ignore: non_constant_identifier_names
-typedef MessageIfAbsent(String message_str, List args);
+typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  get localeName => 'en';
+  String get localeName => 'en';
 
   static m0(floor) => "Floor ${floor}";
 
@@ -68,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m23(mp, mpPerStam) => "${mp} (${mpPerStam} / Stamina)";
 
-  static m24(index, taskCount) => "Executing task (${index}/${taskCount}";
+  static m24(index, taskCount) => "Executing task (${index}/${taskCount})";
 
   static m25(index, taskCount) => "Task ${index} of ${taskCount} failed";
 
@@ -102,8 +101,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "eventTabSpecial" : MessageLookupByLibrary.simpleMessage("Special"),
     "exampleYtVideos" : MessageLookupByLibrary.simpleMessage("Example team compositions and dungeon clears"),
     "exp" : MessageLookupByLibrary.simpleMessage("Exp"),
+    "languageEn" : MessageLookupByLibrary.simpleMessage("English"),
+    "languageJa" : MessageLookupByLibrary.simpleMessage("Japanese"),
+    "languageKo" : MessageLookupByLibrary.simpleMessage("Korean"),
     "max" : MessageLookupByLibrary.simpleMessage("Max"),
     "min" : MessageLookupByLibrary.simpleMessage("Min"),
+    "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("Awoken Skills"),
+    "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("Close"),
+    "monsterFilterModalCost" : MessageLookupByLibrary.simpleMessage("Cost"),
+    "monsterFilterModalMainAttr" : MessageLookupByLibrary.simpleMessage("Main Attr"),
+    "monsterFilterModalRarity" : MessageLookupByLibrary.simpleMessage("Rarity"),
+    "monsterFilterModalReset" : MessageLookupByLibrary.simpleMessage("Reset"),
+    "monsterFilterModalSubAttr" : MessageLookupByLibrary.simpleMessage("Sub Attr"),
+    "monsterFilterModalTitle" : MessageLookupByLibrary.simpleMessage("Advanced Search"),
+    "monsterFilterModalType" : MessageLookupByLibrary.simpleMessage("Type"),
     "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297 & fully awoken"),
     "monsterInfoActiveSkillTitle" : MessageLookupByLibrary.simpleMessage("Skill:"),
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("ATK"),
@@ -149,6 +160,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterListNo" : m20,
     "monsterListRcv" : m21,
     "monsterListWeighted" : m22,
+    "monsterSortAsc" : MessageLookupByLibrary.simpleMessage("Ascending ▲"),
+    "monsterSortDesc" : MessageLookupByLibrary.simpleMessage("Descending ▼"),
+    "monsterSortModalTitle" : MessageLookupByLibrary.simpleMessage("Change Sort Order"),
+    "monsterSortTypeAtk" : MessageLookupByLibrary.simpleMessage("ATK"),
+    "monsterSortTypeAttr" : MessageLookupByLibrary.simpleMessage("Attribute"),
+    "monsterSortTypeCost" : MessageLookupByLibrary.simpleMessage("Cost"),
+    "monsterSortTypeHp" : MessageLookupByLibrary.simpleMessage("HP"),
+    "monsterSortTypeMp" : MessageLookupByLibrary.simpleMessage("MP"),
+    "monsterSortTypeNumber" : MessageLookupByLibrary.simpleMessage("No."),
+    "monsterSortTypeRarity" : MessageLookupByLibrary.simpleMessage("Rarity"),
+    "monsterSortTypeRcv" : MessageLookupByLibrary.simpleMessage("RCV"),
+    "monsterSortTypeSkillTurn" : MessageLookupByLibrary.simpleMessage("Skill Turn"),
+    "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("Sub Att."),
+    "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("Type"),
+    "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("Total"),
     "mpAndMpPerStam" : m23,
     "noData" : MessageLookupByLibrary.simpleMessage("No Data"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("Display Language"),
@@ -168,18 +194,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsContactUs" : MessageLookupByLibrary.simpleMessage("Contact us"),
     "settingsCopyright" : MessageLookupByLibrary.simpleMessage("Copyright"),
     "settingsEventCountry" : MessageLookupByLibrary.simpleMessage("Event Country"),
+    "settingsEventCountryDesc" : MessageLookupByLibrary.simpleMessage("Server to display guerrilla events for"),
     "settingsEventsHideClosed" : MessageLookupByLibrary.simpleMessage("Hide closed events"),
     "settingsEventsSection" : MessageLookupByLibrary.simpleMessage("Events"),
     "settingsEventsStarterBlue" : MessageLookupByLibrary.simpleMessage("Show blue starter"),
     "settingsEventsStarterGreen" : MessageLookupByLibrary.simpleMessage("Show green starter"),
     "settingsEventsStarterRed" : MessageLookupByLibrary.simpleMessage("Show red starter"),
     "settingsGameCountry" : MessageLookupByLibrary.simpleMessage("Game Country"),
+    "settingsGameCountryDesc" : MessageLookupByLibrary.simpleMessage("Controls some other region-specific settings"),
     "settingsGeneralSection" : MessageLookupByLibrary.simpleMessage("General"),
     "settingsInfoLanguage" : MessageLookupByLibrary.simpleMessage("Info Language"),
+    "settingsInfoLanguageDesc" : MessageLookupByLibrary.simpleMessage("Used for monster/dungeon names, skill text, etc"),
     "settingsInfoSection" : MessageLookupByLibrary.simpleMessage("Info"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("UI Langauge"),
+    "settingsUiLanguageDesc" : MessageLookupByLibrary.simpleMessage("Overwrites your device locale"),
     "subDungeonSelectionTitle" : MessageLookupByLibrary.simpleMessage("Select Difficulty"),
+    "tabDungeon" : MessageLookupByLibrary.simpleMessage("Dungeon"),
+    "tabEvent" : MessageLookupByLibrary.simpleMessage("Event"),
+    "tabMonster" : MessageLookupByLibrary.simpleMessage("Monster"),
+    "tabSetting" : MessageLookupByLibrary.simpleMessage("Setting"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("Executing task"),
     "taskExecutingWithCount" : m24,
     "taskFailedWithCount" : m25,
