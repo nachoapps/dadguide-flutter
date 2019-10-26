@@ -59,7 +59,7 @@ class PermanentCacheManager extends BaseCacheManager {
 
   /// Unzip files directly from an archive into the cache.
   ///
-  /// Based on cache_manager.dart:put_file and reimplemented for bulk put efficiency.
+  /// Based on cache_manager.dart:putFile and reimplemented for bulk put efficiency.
   Future<void> storeImageArchive(Archive archive, Function progressCallback) async {
     List<_UnzipArgs> allArgs = [];
 
