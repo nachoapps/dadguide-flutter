@@ -7,6 +7,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Displays a dialog that lets the user toggle their event server, or kick off the update.
 Future<void> showMonsterFilterDialog(BuildContext context) async {
@@ -22,10 +23,7 @@ Future<void> showMonsterFilterDialog(BuildContext context) async {
             title: Text(loc.monsterFilterModalTitle),
             contentPadding: EdgeInsets.all(8),
             children: [
-              ConstrainedBox(
-                constraints: BoxConstraints.tightForFinite(),
-                child: FilterWidget(),
-              )
+              FilterWidget(),
             ],
           ),
         );
@@ -39,6 +37,8 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        LinksRow(),
+        SizedBox(height: 4),
         AttributeFilterRow(),
         Divider(),
         RarityCostFilterRow(),
@@ -48,6 +48,31 @@ class FilterWidget extends StatelessWidget {
         AwokenSkillsFilterRow(),
         Divider(),
         FilterActionBar(),
+      ],
+    );
+  }
+}
+
+class LinksRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Spacer(),
+        ActionChip(
+          onPressed: () => launch('https://ilmina.com/#/ADVANCED_SEARCH'),
+          label: Text('Ilmina'),
+        ),
+        SizedBox(width: 8),
+        ActionChip(
+          onPressed: () => launch('http://www.puzzledragonx.com/en/monsterbook.asp'),
+          label: Text('PDX'),
+        ),
+        SizedBox(width: 8),
+        ActionChip(
+          onPressed: () => launch('http://pad.skyozora.com/pets'),
+          label: Text('Skyo'),
+        ),
       ],
     );
   }
@@ -263,8 +288,6 @@ class AwokenSkillsFilterRow extends StatelessWidget {
     var selectedSkills = displayState.filterArgs.awokenSkills;
     var awokenSkills = DatabaseHelper.allAwokenSkills;
 
-    print(selectedSkills.length);
-
     return Column(
       children: [
         Row(
@@ -284,12 +307,20 @@ class AwokenSkillsFilterRow extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.all(1), child: awakeningContainer(skillId, size: 16)),
                     Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          selectedSkills.clear();
-                          displayState.notify();
-                        },
-                        icon: Icon(Icons.clear)),
+                    SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: IconButton(
+                          // Disable the inkwell, it looks ugly
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          padding: EdgeInsets.all(2),
+                          onPressed: () {
+                            selectedSkills.clear();
+                            displayState.notify();
+                          },
+                          icon: Icon(Icons.clear)),
+                    ),
                   ],
                 ),
               ),
