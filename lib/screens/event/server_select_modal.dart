@@ -51,7 +51,7 @@ class CountryTile extends StatelessWidget {
         Navigator.pop(context);
       },
       leading: Image.asset('assets/images/$icon'),
-      title: Text(country.countryName),
+      title: Text(country.countryName()),
     );
   }
 }

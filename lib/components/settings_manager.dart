@@ -61,14 +61,16 @@ class Prefs {
   /// Try to determine which country/language to use for the current locale.
   static Tuple2<Language, Country> get _defaultLanguageCountry {
     var locale = ui.window.locale;
+    var languageCode = locale?.languageCode ?? 'xx';
+
     if (locale == null) {
       Fimber.e('Locale was null, defaulting to english/na');
       return Tuple2(Language.en, Country.na);
-    } else if (['ja', 'jpx'].contains(locale.languageCode)) {
+    } else if (['ja', 'jpx'].contains(languageCode)) {
       return Tuple2(Language.ja, Country.jp);
-    } else if (locale.languageCode.startsWith('zh')) {
+    } else if (languageCode.startsWith('zh')) {
       return Tuple2(Language.ja, Country.jp);
-    } else if (['ko'].contains(locale.languageCode)) {
+    } else if (['ko'].contains(languageCode)) {
       return Tuple2(Language.ko, Country.kr);
     } else {
       return Tuple2(Language.en, Country.na);
@@ -81,10 +83,11 @@ class Prefs {
   static int get defaultEventCountryValue => _defaultLanguageCountry.item2.id;
 
   static List<int> get languageValues => Language.all.map((l) => l.id).toList();
-  static List<String> get languageDisplayValues => Language.all.map((l) => l.languageName).toList();
+  static List<String> get languageDisplayValues =>
+      Language.all.map((l) => l.languageName()).toList();
 
   static List<int> get countryValues => Country.all.map((l) => l.id).toList();
-  static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName).toList();
+  static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName()).toList();
 
   static Language get infoLanguage => Language.byId(PrefService.getInt(PrefKeys.infoLanguage));
   static set infoLanguage(Language language) =>
@@ -94,7 +97,8 @@ class Prefs {
   static set uiLanguage(Language language) => PrefService.setInt(PrefKeys.uiLanguage, language.id);
 
   static int get currentDbVersion => PrefService.getInt(PrefKeys.currentDbVersion);
-  static set currentDbVersion(int version) => PrefService.setInt(PrefKeys.currentDbVersion, version);
+  static set currentDbVersion(int version) =>
+      PrefService.setInt(PrefKeys.currentDbVersion, version);
 
   static void setIconsDownloaded(bool val) {
     PrefService.setBool(PrefKeys.iconsDownloaded, val);

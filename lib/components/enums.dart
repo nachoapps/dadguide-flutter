@@ -107,16 +107,16 @@ class KillerLatent {
 /// for UI data (currently only English, eventually JP/KR/CN.
 class Language {
   final int id;
-  final String languageName;
+  final String Function() languageName;
   final String languageCode;
 
-  const Language._(this.id, this.languageName, this.languageCode);
+  Language._(this.id, this.languageName, this.languageCode);
 
-  static const Language en = Language._(1, 'English', 'en');
-  static const Language ja = Language._(0, 'Japanese', 'ja');
-  static const Language ko = Language._(2, 'Korean', 'ko');
+  static Language en = Language._(1, () => localized.languageEn, 'en');
+  static Language ja = Language._(0, () => localized.languageJa, 'ja');
+  static Language ko = Language._(2, () => localized.languageKo, 'ko');
 
-  static const List<Language> all = [
+  static List<Language> all = [
     en,
     ja,
     ko,
@@ -133,19 +133,18 @@ class Language {
 /// as which set of events to show.
 class Country {
   final int id;
-  final String countryName;
+  final String Function() countryName;
   final String countryCode;
   final String iconOnName;
   final String iconOffName;
 
   const Country._(this.id, this.countryName, this.countryCode, this.iconOnName, this.iconOffName);
 
-  // TODO: redo id values to start from 1
-  static const Country na = Country._(1, 'North America', 'NA', 'na_on.png', 'na_off.png');
-  static const Country jp = Country._(0, 'Japan', 'JP', 'jp_on.png', 'jp_off.png');
-  static const Country kr = Country._(2, 'Korea', 'KR', 'kr_on.png', 'kr_off.png');
+  static Country na = Country._(1, () => localized.countryNa, 'NA', 'na_on.png', 'na_off.png');
+  static Country jp = Country._(0, () => localized.countryJp, 'JP', 'jp_on.png', 'jp_off.png');
+  static Country kr = Country._(2, () => localized.countryKr, 'KR', 'kr_on.png', 'kr_off.png');
 
-  static const List<Country> all = [
+  static List<Country> all = [
     na,
     jp,
     kr,

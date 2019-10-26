@@ -99,6 +99,10 @@ class _DadGuideAppState extends State<DadGuideApp> {
             const Locale('ja'), // Japanese
             const Locale('ko'), // Korean
           ],
+          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+            // Added this to support non-supported locales, since fallback selection seems broken.
+            return Locale(Prefs.uiLanguage.languageCode);
+          },
         ));
   }
 }
