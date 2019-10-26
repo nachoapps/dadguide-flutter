@@ -30,7 +30,7 @@ class OnboardingScreen extends StatelessWidget {
                   loc.onboardingTitle,
                   style: Theme.of(context).textTheme.headline,
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 8),
                 Divider(),
                 TaskListProgress(onboardingManager.instance),
                 SizedBox(height: 5),
@@ -39,6 +39,7 @@ class OnboardingScreen extends StatelessWidget {
                   title: Text(loc.onboardingWaitingTitle),
                   subtitle: Text(loc.onboardingWaitingSubTitle),
                 ),
+                SizedBox(height: 16),
                 DropdownPreference(
                   loc.onboardingDisplayLanguage,
                   PrefKeys.infoLanguage,
