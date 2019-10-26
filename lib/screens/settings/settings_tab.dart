@@ -23,6 +23,7 @@ class SettingsScreen extends StatelessWidget {
       DropdownPreference(
         loc.settingsUiLanguage,
         PrefKeys.uiLanguage,
+        desc: 'Overwrites your device locale',
         defaultVal: Prefs.defaultUiLanguageValue,
         values: Prefs.languageValues,
         displayValues: Prefs.languageDisplayValues,
@@ -31,6 +32,7 @@ class SettingsScreen extends StatelessWidget {
       DropdownPreference(
         loc.settingsInfoLanguage,
         PrefKeys.infoLanguage,
+        desc: 'Used for monster/dungeon names, skill text, etc',
         defaultVal: Prefs.defaultInfoLanguageValue,
         values: Prefs.languageValues,
         displayValues: Prefs.languageDisplayValues,
@@ -38,6 +40,7 @@ class SettingsScreen extends StatelessWidget {
       DropdownPreference(
         loc.settingsGameCountry,
         PrefKeys.gameCountry,
+        desc: 'Controls some other region-specific settings',
         defaultVal: Prefs.defaultGameCountryValue,
         values: Prefs.countryValues,
         displayValues: Prefs.countryDisplayValues,
@@ -46,6 +49,7 @@ class SettingsScreen extends StatelessWidget {
       DropdownPreference(
         loc.settingsEventCountry,
         PrefKeys.eventCountry,
+        desc: 'Server to display guerrilla events for',
         defaultVal: Prefs.defaultEventCountryValue,
         values: Prefs.countryValues,
         displayValues: Prefs.countryDisplayValues,
@@ -73,8 +77,8 @@ class SettingsScreen extends StatelessWidget {
           PreferenceTitle('Artwork'),
           PreferenceText(_artContributors.join('\n')),
           Divider(),
-          PreferenceText('This app is open source and free; if you paid for it, you got scammed.'),
-          PreferenceText('Copyright © 2019 Miru Apps LLC. All rights reserved'),
+          PreferenceText('This app is open source and free;\nif you paid for it, you got scammed.'),
+          PreferenceText('Copyright © 2019 Miru Apps LLC.\nAll rights reserved'),
         ]),
       ),
     ]);

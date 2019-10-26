@@ -264,75 +264,73 @@ class DadGuideLocalizations {
   String get monsterFilterModalTitle => Intl.message('Advanced Search',
       name: 'monsterFilterModalTitle', desc: 'Title for monster filter modal');
 
-  String get monsterFilterModalMainAttr => Intl.message('Main Attr',
-      name: 'monsterFilterModalMainAttr', desc: 'Monster filter - main attr section header');
+  String get monsterFilterModalMainAttr =>
+      Intl.message('Main Attr', name: 'monsterFilterModalMainAttr', desc: 'Section header');
 
-  String get monsterFilterModalSubAttr => Intl.message('Sub Attr',
-      name: 'monsterFilterModalSubAttr', desc: 'Monster filter - sub attr section header');
+  String get monsterFilterModalSubAttr =>
+      Intl.message('Sub Attr', name: 'monsterFilterModalSubAttr', desc: 'Section header');
 
-  String get monsterFilterModalRarity => Intl.message('Rarity',
-      name: 'monsterFilterModalRarity', desc: 'Monster filter - rarity section header');
+  String get monsterFilterModalRarity =>
+      Intl.message('Rarity', name: 'monsterFilterModalRarity', desc: 'Section header');
 
-  String get monsterFilterModalCost => Intl.message('Cost',
-      name: 'monsterFilterModalCost', desc: 'Monster filter - cost section header');
+  String get monsterFilterModalCost =>
+      Intl.message('Cost', name: 'monsterFilterModalCost', desc: 'Section header');
 
-  String get monsterFilterModalType => Intl.message('Type',
-      name: 'monsterFilterModalType', desc: 'Monster filter - type section header');
+  String get monsterFilterModalType =>
+      Intl.message('Type', name: 'monsterFilterModalType', desc: 'Section header');
 
-  String get monsterFilterModalAwokens => Intl.message('Awoken Skills',
-      name: 'monsterFilterModalAwokens', desc: 'Monster filter - awoken skills section header');
+  String get monsterFilterModalAwokens =>
+      Intl.message('Awoken Skills', name: 'monsterFilterModalAwokens', desc: 'Section header');
 
   String get monsterFilterModalClose =>
-      Intl.message('Close', name: 'monsterFilterModalClose', desc: 'Monster filter - close screen');
+      Intl.message('Close', name: 'monsterFilterModalClose', desc: 'Bottom button');
 
-  String get monsterFilterModalReset => Intl.message('Reset',
-      name: 'monsterFilterModalReset', desc: 'Monster filter - reset filters button');
+  String get monsterFilterModalReset =>
+      Intl.message('Reset', name: 'monsterFilterModalReset', desc: 'Bottom button');
 
   // ---- Monster sort modal strings ----
   String get monsterSortModalTitle => Intl.message('Change Sort Order',
       name: 'monsterSortModalTitle', desc: 'Title for monster sort modal');
 
   String get monsterSortDesc =>
-      Intl.message('Descending ▼', name: 'monsterSortDesc', desc: 'Sort descending label');
+      Intl.message('Descending ▼', name: 'monsterSortDesc', desc: 'Top button');
 
   String get monsterSortAsc =>
-      Intl.message('Ascending ▲', name: 'monsterSortAsc', desc: 'Sort ascending label');
+      Intl.message('Ascending ▲', name: 'monsterSortAsc', desc: 'Top button');
 
-  String monsterSortTypeNumber() => Intl.message('No.',
-      name: 'monsterSortTypeNumber', desc: 'Sort order label for monster number');
+  String monsterSortTypeNumber() =>
+      Intl.message('No.', name: 'monsterSortTypeNumber', desc: 'Grid button');
 
   String monsterSortTypeAtk() =>
-      Intl.message('ATK', name: 'monsterSortTypeAtk', desc: 'Sort order label for atk');
+      Intl.message('ATK', name: 'monsterSortTypeAtk', desc: 'Grid button');
 
-  String monsterSortTypeHp() =>
-      Intl.message('HP', name: 'monsterSortTypeHp', desc: 'Sort order label for hp');
+  String monsterSortTypeHp() => Intl.message('HP', name: 'monsterSortTypeHp', desc: 'Grid button');
 
   String monsterSortTypeRcv() =>
-      Intl.message('RCV', name: 'monsterSortTypeRcv', desc: 'Sort order label for rcv');
+      Intl.message('RCV', name: 'monsterSortTypeRcv', desc: 'Grid button');
 
-  String monsterSortTypeWeighted() => Intl.message('Total',
-      name: 'monsterSortTypeWeighted', desc: 'Sort order label for weighted stats');
+  String monsterSortTypeWeighted() =>
+      Intl.message('Total', name: 'monsterSortTypeWeighted', desc: 'Grid button');
 
-  String monsterSortTypeAttr() => Intl.message('Attribute',
-      name: 'monsterSortTypeAttr', desc: 'Sort order label for primary attribute');
+  String monsterSortTypeAttr() =>
+      Intl.message('Attribute', name: 'monsterSortTypeAttr', desc: 'Grid button');
 
-  String monsterSortTypeSubAttr() => Intl.message('Sub Att.',
-      name: 'monsterSortTypeSubAttr', desc: 'Sort order label for sub attribute');
+  String monsterSortTypeSubAttr() =>
+      Intl.message('Sub Att.', name: 'monsterSortTypeSubAttr', desc: 'Grid button');
 
   String monsterSortTypeType() =>
-      Intl.message('Type', name: 'monsterSortTypeType', desc: 'Sort order label for monster type');
+      Intl.message('Type', name: 'monsterSortTypeType', desc: 'Grid button');
 
   String monsterSortTypeRarity() =>
-      Intl.message('Rarity', name: 'monsterSortTypeRarity', desc: 'Sort order label for rarity');
+      Intl.message('Rarity', name: 'monsterSortTypeRarity', desc: 'Grid button');
 
   String monsterSortTypeCost() =>
-      Intl.message('Cost', name: 'monsterSortTypeCost', desc: 'Sort order label for cost');
+      Intl.message('Cost', name: 'monsterSortTypeCost', desc: 'Grid button');
 
-  String monsterSortTypeMp() =>
-      Intl.message('MP', name: 'monsterSortTypeMp', desc: 'Sort order label for mp value');
+  String monsterSortTypeMp() => Intl.message('MP', name: 'monsterSortTypeMp', desc: 'Grid button');
 
-  String monsterSortTypeSkillTurn() => Intl.message('Skill Turn',
-      name: 'monsterSortTypeSkillTurn', desc: 'Sort order label for mons skill turns');
+  String monsterSortTypeSkillTurn() =>
+      Intl.message('Skill Turn', name: 'monsterSortTypeSkillTurn', desc: 'Grid button');
 
   // ---- Monster info strings ----
   String monsterInfoNo(int number) => Intl.message(
@@ -516,17 +514,30 @@ class DadGuideLocalizations {
   String get settingsUiLanguage =>
       Intl.message('UI Langauge', name: 'settingsUiLanguage', desc: 'Dropdown option title');
 
+  String get settingsUiLanguageDesc => Intl.message('Overwrites your device locale',
+      name: 'settingsUiLanguageDesc', desc: 'Setting description');
+
   String get settingsInfoLanguage =>
       Intl.message('Info Language', name: 'settingsInfoLanguage', desc: 'Dropdown option title');
 
+  String get settingsInfoLanguageDesc =>
+      Intl.message('Used for monster/dungeon names, skill text, etc',
+          name: 'settingsInfoLanguageDesc', desc: 'Setting description');
+
   String get settingsGameCountry =>
       Intl.message('Game Country', name: 'settingsGameCountry', desc: 'Dropdown option title');
+
+  String get settingsGameCountryDesc => Intl.message('Controls some other region-specific settings',
+      name: 'settingsGameCountryDesc', desc: 'Setting description');
 
   String get settingsEventsSection =>
       Intl.message('Events', name: 'settingsEventsSection', desc: 'Section header');
 
   String get settingsEventCountry =>
       Intl.message('Event Country', name: 'settingsEventCountry', desc: 'Dropdown option title');
+
+  String get settingsEventCountryDesc => Intl.message('Server to display guerrilla events for',
+      name: 'settingsEventCountryDesc', desc: 'Setting description');
 
   String get settingsEventsHideClosed =>
       Intl.message('Hide closed events', name: 'settingsEventsHideClosed', desc: 'Checkbox title');
@@ -550,8 +561,6 @@ class DadGuideLocalizations {
 
   String get settingsCopyright =>
       Intl.message('Copyright', name: 'settingsCopyright', desc: 'Row label');
-
-  //  String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
