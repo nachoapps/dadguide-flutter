@@ -1,4 +1,4 @@
-package info.miru.dadguide2;
+package info.miru.dadguide;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

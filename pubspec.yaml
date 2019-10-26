@@ -1,8 +1,8 @@
 name: dadguide2
-description: DadGuide v2
+description: DadGuide v2 - Helper for Puzzle and Dragons
 
 # Overridden at build time.
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
