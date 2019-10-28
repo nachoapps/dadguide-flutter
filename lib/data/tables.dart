@@ -641,7 +641,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
 
 class MonsterSortArgs {
   bool sortAsc = false;
-  MonsterSortType sortType = MonsterSortType.no;
+  MonsterSortType sortType = MonsterSortType.released;
 }
 
 class MinMax {
