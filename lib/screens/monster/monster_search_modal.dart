@@ -317,6 +317,7 @@ class AwokenSkillsFilterRow extends StatelessWidget {
                           padding: EdgeInsets.all(2),
                           onPressed: () {
                             selectedSkills.clear();
+                            displayState.showAwakenings = false;
                             displayState.notify();
                           },
                           icon: Icon(Icons.clear)),
@@ -362,6 +363,9 @@ class AwakeningButton extends StatelessWidget {
         _selectedAwakenings
           ..add(_awakening)
           ..sort();
+
+        displayState.showAwakenings = true;
+
         displayState.notify();
       },
     );
