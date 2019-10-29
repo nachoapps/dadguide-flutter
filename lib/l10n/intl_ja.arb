@@ -1,973 +1,973 @@
 {
-  "title": "DadGuide",
-  "@title": {
-    "description": "The application title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tabEvent": "Event",
-  "@tabEvent": {
-    "description": "Bottom tab title for events",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tabMonster": "Monster",
-  "@tabMonster": {
-    "description": "Bottom tab title for monster list",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tabDungeon": "Dungeon",
-  "@tabDungeon": {
-    "description": "Bottom tab title for dungeon list",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tabSetting": "Setting",
-  "@tabSetting": {
-    "description": "Bottom tab title for settings",
-    "type": "text",
-    "placeholders": {}
-  },
-  "languageEn": "English",
-  "@languageEn": {
-    "description": "Used in language selector",
-    "type": "text",
-    "placeholders": {}
-  },
-  "languageJa": "Japanese",
-  "@languageJa": {
-    "description": "Used in language selector",
-    "type": "text",
-    "placeholders": {}
-  },
-  "languageKo": "Korean",
-  "@languageKo": {
-    "description": "Used in language selector",
-    "type": "text",
-    "placeholders": {}
-  },
-  "updateComplete": "更新完了",
-  "@updateComplete": {
-    "description": "Snackbar displayed when data update finishes",
-    "type": "text",
-    "placeholders": {}
-  },
-  "updateFailed": "アップデートを失敗しました",
-  "@updateFailed": {
-    "description": "Snackbar displayed when data update fails",
-    "type": "text",
-    "placeholders": {}
-  },
-  "taskExecutingWithCount": "タスク（{index} / {taskCount}）実行中",
-  "@taskExecutingWithCount": {
-    "description": "Indicates task progress",
-    "type": "text",
-    "placeholders": {
-      "index": {},
-      "taskCount": {}
+    "title": "DadGuide",
+    "@title": {
+        "description": "The application title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tabEvent": "イベント",
+    "@tabEvent": {
+        "description": "Bottom tab title for events",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tabMonster": "モンスター",
+    "@tabMonster": {
+        "description": "Bottom tab title for monster list",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tabDungeon": "ダンジョン",
+    "@tabDungeon": {
+        "description": "Bottom tab title for dungeon list",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tabSetting": "設定",
+    "@tabSetting": {
+        "description": "Bottom tab title for settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "languageEn": "英語",
+    "@languageEn": {
+        "description": "Used in language selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "languageJa": "日本語",
+    "@languageJa": {
+        "description": "Used in language selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "languageKo": "韓国語",
+    "@languageKo": {
+        "description": "Used in language selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "updateComplete": "更新完了",
+    "@updateComplete": {
+        "description": "Snackbar displayed when data update finishes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "updateFailed": "アップデートを失敗しました",
+    "@updateFailed": {
+        "description": "Snackbar displayed when data update fails",
+        "type": "text",
+        "placeholders": {}
+    },
+    "taskExecutingWithCount": "タスク（{index} / {taskCount}）実行中",
+    "@taskExecutingWithCount": {
+        "description": "Indicates task progress",
+        "type": "text",
+        "placeholders": {
+            "index": {},
+            "taskCount": {}
+        }
+    },
+    "taskExecuting": "タスク実行中",
+    "@taskExecuting": {
+        "description": "Indicates task is running",
+        "type": "text",
+        "placeholders": {}
+    },
+    "taskProgress": "{percent} ％",
+    "@taskProgress": {
+        "description": "Indicates task progress as a percentage",
+        "type": "text",
+        "placeholders": {
+            "percent": {}
+        }
+    },
+    "taskFailedWithCount": "タスク {index} / {taskCount} が失敗しました",
+    "@taskFailedWithCount": {
+        "description": "Indicates the latest task failed",
+        "type": "text",
+        "placeholders": {
+            "index": {},
+            "taskCount": {}
+        }
+    },
+    "taskRestarting": "インターネット接続を確認してください。自動的に再起動します。",
+    "@taskRestarting": {
+        "description": "Indicates task failed and will auto restart",
+        "type": "text",
+        "placeholders": {}
+    },
+    "taskWaiting": "タスクの開始を待っています",
+    "@taskWaiting": {
+        "description": "Indicates task is preparing to start",
+        "type": "text",
+        "placeholders": {}
+    },
+    "taskFatalError": "致命的なエラーが発生しました。アプリを再起動してみてください。",
+    "@taskFatalError": {
+        "description": "Indicates task failed and will not attempt to restart",
+        "type": "text",
+        "placeholders": {}
+    },
+    "taskFinished": "すべてのタスクが完了しますた",
+    "@taskFinished": {
+        "description": "Indicates all tasks are complete",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingDownloadDb": "初期データはダウンロードしています",
+    "@onboardingDownloadDb": {
+        "description": "Displayed while the database is downloading",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingUnpackDb": "初期データ展開中",
+    "@onboardingUnpackDb": {
+        "description": "Displayed while the database is unzipping",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingDownloadImages": "アイコンセットはダウンロードしています",
+    "@onboardingDownloadImages": {
+        "description": "Displayed while the icon set is downloading",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingUnpackImages": "アイコンセット展開中",
+    "@onboardingUnpackImages": {
+        "description": "Displayed while the icon set is unzipping",
+        "type": "text",
+        "placeholders": {}
+    },
+    "mpAndMpPerStam": "{mp}（{mpPerStam}／スタミナ）",
+    "@mpAndMpPerStam": {
+        "description": "Lists the MP and MP/Stam for a dungeon",
+        "type": "text",
+        "placeholders": {
+            "mp": {},
+            "mpPerStam": {}
+        }
+    },
+    "dungeonStamina": "スタミナ： {stamina}",
+    "@dungeonStamina": {
+        "description": "Lists stamina cost of a dungeon",
+        "type": "text",
+        "placeholders": {
+            "stamina": {}
+        }
+    },
+    "dungeonFloors": "フロア： {floors}",
+    "@dungeonFloors": {
+        "description": "Lists number of floors in a dungeon",
+        "type": "text",
+        "placeholders": {
+            "floors": {}
+        }
+    },
+    "min": "最低",
+    "@min": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "max": "最高",
+    "@max": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "avg": "平均",
+    "@avg": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "avgPerStam": "毎ｽﾀﾐﾅ",
+    "@avgPerStam": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exp": "経験値",
+    "@exp": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "coin": "コイン",
+    "@coin": {
+        "description": "Table header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "battleDrop": "ドロップ",
+    "@battleDrop": {
+        "description": "Label in encounter section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "battleCommon": "道中のモンスター",
+    "@battleCommon": {
+        "description": "Header for encounter section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "battleInvades": "まれに出現",
+    "@battleInvades": {
+        "description": "Header for encounter section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "battleFloor": "フロア{floor}",
+    "@battleFloor": {
+        "description": "Header for encounter section",
+        "type": "text",
+        "placeholders": {
+            "floor": {}
+        }
+    },
+    "ytLaunchError": "YouTubeを起動できませんでした",
+    "@ytLaunchError": {
+        "description": "Snackbar displayed when launching YT fails",
+        "type": "text",
+        "placeholders": {}
+    },
+    "reportBadInfo": "誤った情報を報告する",
+    "@reportBadInfo": {
+        "description": "Displayed at the bottom of monster/dungeon info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleYtVideos": "ダンジョンクリアのチーム構成の例",
+    "@exampleYtVideos": {
+        "description": "Displayed at the bottom of monster/dungeon info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noData": "データなし",
+    "@noData": {
+        "description": "Displayed when a search finds no results",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "閉じる",
+    "@close": {
+        "description": "Close button text for subviews",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonSearchHint": "検索：ダンジョン名",
+    "@dungeonSearchHint": {
+        "description": "Grey hint text in dungeon search field",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonTabSpecial": "特殊",
+    "@dungeonTabSpecial": {
+        "description": "Subtab text at bottom of dungeon tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonTabNormal": "普通",
+    "@dungeonTabNormal": {
+        "description": "Subtab text at bottom of dungeon tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonTabTechnical": "テクニカル",
+    "@dungeonTabTechnical": {
+        "description": "Subtab text at bottom of dungeon tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonTabMultiRank": "マルチ/ランク",
+    "@dungeonTabMultiRank": {
+        "description": "Subtab text at bottom of dungeon tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "subDungeonSelectionTitle": "難易度を選択",
+    "@subDungeonSelectionTitle": {
+        "description": "Title for subdungeon selection view",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dungeonListExpPerStam": "毎ｽﾀﾐﾅ経験値： {expPerStam}",
+    "@dungeonListExpPerStam": {
+        "description": "SubDungeon selection info",
+        "type": "text",
+        "placeholders": {
+            "expPerStam": {}
+        }
+    },
+    "dungeonListCoinPerStam": "毎ｽﾀﾐﾅコイン ： {coinPerStam}",
+    "@dungeonListCoinPerStam": {
+        "description": "SubDungeon selection info",
+        "type": "text",
+        "placeholders": {
+            "coinPerStam": {}
+        }
+    },
+    "eventClosed": "終了しました",
+    "@eventClosed": {
+        "description": "Displayed below closed event info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "eventDays": "{days}日",
+    "@eventDays": {
+        "description": "Day count and label in event info",
+        "type": "text",
+        "placeholders": {
+            "days": {}
+        }
+    },
+    "eventTabAll": "すべて",
+    "@eventTabAll": {
+        "description": "Subtab text at top of event tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "eventTabGuerrilla": "ゲリラ",
+    "@eventTabGuerrilla": {
+        "description": "Subtab text at top of event tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "eventTabSpecial": "特殊",
+    "@eventTabSpecial": {
+        "description": "Subtab text at top of event tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "eventTabNews": "ニュース",
+    "@eventTabNews": {
+        "description": "Subtab text at top of event tab",
+        "type": "text",
+        "placeholders": {}
+    },
+    "serverModalTitle": "サーバ",
+    "@serverModalTitle": {
+        "description": "Title for select server action modal",
+        "type": "text",
+        "placeholders": {}
+    },
+    "dataSync": "データ同期",
+    "@dataSync": {
+        "description": "Button that triggers data syncing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "updateModalTitle": "DadGuideデータの更新しています",
+    "@updateModalTitle": {
+        "description": "Title for update data action modal",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterListNo": "No. {number}",
+    "@monsterListNo": {
+        "description": "Monster list number text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListLevel": "レベル {number}",
+    "@monsterListLevel": {
+        "description": "Monster list max level text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListHp": "HP {number}",
+    "@monsterListHp": {
+        "description": "Monster list HP text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListAtk": "攻撃力 {number}",
+    "@monsterListAtk": {
+        "description": "Monster list ATK text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListRcv": "回復力 {number}",
+    "@monsterListRcv": {
+        "description": "Monster list RCV text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListWeighted": "ﾌﾟﾗｽ {number}",
+    "@monsterListWeighted": {
+        "description": "Monster list weighted stat text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListLimitBreak": "限界突破： {number} ％",
+    "@monsterListLimitBreak": {
+        "description": "Monster list limit break stat text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterListMp": "ﾓﾝﾎﾟ {number}",
+    "@monsterListMp": {
+        "description": "Monster list mp value text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterFilterModalTitle": "詳細検索",
+    "@monsterFilterModalTitle": {
+        "description": "Title for monster filter modal",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalMainAttr": "主属性",
+    "@monsterFilterModalMainAttr": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalSubAttr": "副属性",
+    "@monsterFilterModalSubAttr": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalRarity": "レアリティ",
+    "@monsterFilterModalRarity": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalCost": "コスト",
+    "@monsterFilterModalCost": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalType": "タイプ",
+    "@monsterFilterModalType": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalAwokens": "覚醒スキル",
+    "@monsterFilterModalAwokens": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalClose": "終了",
+    "@monsterFilterModalClose": {
+        "description": "Bottom button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalReset": "リセット",
+    "@monsterFilterModalReset": {
+        "description": "Bottom button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortModalTitle": "ソート順変更",
+    "@monsterSortModalTitle": {
+        "description": "Title for monster sort modal",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortDesc": "降順▼",
+    "@monsterSortDesc": {
+        "description": "Top button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortAsc": "昇順 ▲",
+    "@monsterSortAsc": {
+        "description": "Top button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeNumber": "No.",
+    "@monsterSortTypeNumber": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeAtk": "攻撃力",
+    "@monsterSortTypeAtk": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeHp": "HP",
+    "@monsterSortTypeHp": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeRcv": "回復力",
+    "@monsterSortTypeRcv": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeWeighted": "プラス換算",
+    "@monsterSortTypeWeighted": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeAttr": "属性",
+    "@monsterSortTypeAttr": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeSubAttr": "副属性",
+    "@monsterSortTypeSubAttr": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeType": "タイプ",
+    "@monsterSortTypeType": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeRarity": "レアリティ",
+    "@monsterSortTypeRarity": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeCost": "コスト",
+    "@monsterSortTypeCost": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeMp": "モンポ",
+    "@monsterSortTypeMp": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeSkillTurn": "スキルターン数",
+    "@monsterSortTypeSkillTurn": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoNo": "No. {number}",
+    "@monsterInfoNo": {
+        "description": "Monster info number text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterInfo297Awoken": "+297＆フル覚醒",
+    "@monsterInfo297Awoken": {
+        "description": "Text above the 297+awoken table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoStatBonus": "アシストによるステータスボーナス",
+    "@monsterInfoStatBonus": {
+        "description": "Text above the assist bonus table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoAvailableKillers": "利用可能な潜在キラー",
+    "@monsterInfoAvailableKillers": {
+        "description": "Text above the killer icons",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoCost": "ｺｽﾄ {number}",
+    "@monsterInfoCost": {
+        "description": "Monster info cost text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterInfoLevel": "ﾚﾍﾞﾙ",
+    "@monsterInfoLevel": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoHp": "HP",
+    "@monsterInfoHp": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoAtk": "攻撃力",
+    "@monsterInfoAtk": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoRcv": "回復力",
+    "@monsterInfoRcv": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoShield": "ダメージ軽減率",
+    "@monsterInfoShield": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoExp": "経験値",
+    "@monsterInfoExp": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoWeighted": "ﾌﾟﾗｽ換算",
+    "@monsterInfoWeighted": {
+        "description": "Header in monster info table",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoSkillMaxed": "ｽｷﾙLv. MAX ターン： {max}",
+    "@monsterInfoSkillMaxed": {
+        "description": "Monster info skill text with 0 levels",
+        "type": "text",
+        "placeholders": {
+            "max": {}
+        }
+    },
+    "monsterInfoSkillTurns": "Lv.1ターン：{max} （Lv. {levels}ターン： {min}）",
+    "@monsterInfoSkillTurns": {
+        "description": "Monster info skill text with levels",
+        "type": "text",
+        "placeholders": {
+            "max": {},
+            "min": {},
+            "levels": {}
+        }
+    },
+    "monsterInfoActiveSkillTitle": "スキル：",
+    "@monsterInfoActiveSkillTitle": {
+        "description": "Header for active skill section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoLeaderSkillTitle": "リーダースキル：",
+    "@monsterInfoLeaderSkillTitle": {
+        "description": "Header for leader skill section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoHistoryTitle": "歴史",
+    "@monsterInfoHistoryTitle": {
+        "description": "Header for history section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoHistoryAdded": "[ {date} ]に追加",
+    "@monsterInfoHistoryAdded": {
+        "description": "Monster info date added text",
+        "type": "text",
+        "placeholders": {
+            "date": {}
+        }
+    },
+    "monsterInfoSkillupTitle": "スキルアップモンスター",
+    "@monsterInfoSkillupTitle": {
+        "description": "Header for skillups section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoDropsTitle": "ドロップしたダンジョン",
+    "@monsterInfoDropsTitle": {
+        "description": "Header for drops section",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoDropsTitleNone": "ドロップしたダンジョン：なし",
+    "@monsterInfoDropsTitleNone": {
+        "description": "Header for drops section when there are no drops",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoSkillupDungeonsTitle": "スキルアップダンジョン",
+    "@monsterInfoSkillupDungeonsTitle": {
+        "description": "Header for skillup drop dungeons",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableInfoMaxLevel": "最大レベル",
+    "@monsterInfoTableInfoMaxLevel": {
+        "description": "Header column with buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableSellGold": "コインを入手",
+    "@monsterInfoTableSellGold": {
+        "description": "Row header for buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableSellMp": "MPを入手",
+    "@monsterInfoTableSellMp": {
+        "description": "Row header for buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableBuyMp": "MPを購入",
+    "@monsterInfoTableBuyMp": {
+        "description": "Row header for buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableFeedXp": "合成経験値",
+    "@monsterInfoTableFeedXp": {
+        "description": "Row header for buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTableFeedXpOnColor": "合成経験値（同じ属性）",
+    "@monsterInfoTableFeedXpOnColor": {
+        "description": "Row header for buy/sell/feed data",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoSeriesHeader": "シリーズ： {seriesName}",
+    "@monsterInfoSeriesHeader": {
+        "description": "Header for series section with icons",
+        "type": "text",
+        "placeholders": {
+            "seriesName": {}
+        }
+    },
+    "monsterInfoEvolution": "進化",
+    "@monsterInfoEvolution": {
+        "description": "Evo section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoReversableEvolution": "可逆進化",
+    "@monsterInfoReversableEvolution": {
+        "description": "Evo section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoNonReversableEvolution": "非可逆進化",
+    "@monsterInfoNonReversableEvolution": {
+        "description": "Evo section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoEvoDiffHp": "HP {number}",
+    "@monsterInfoEvoDiffHp": {
+        "description": "Evo stat delta text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterInfoEvoDiffAtk": "攻撃力 {number}",
+    "@monsterInfoEvoDiffAtk": {
+        "description": "Evo stat delta text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterInfoEvoDiffRcv": "回復力 {number}",
+    "@monsterInfoEvoDiffRcv": {
+        "description": "Evo stat delta text",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "monsterInfoAwokenSkillSection": "覚醒スキル",
+    "@monsterInfoAwokenSkillSection": {
+        "description": "Header for awoken skills",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoSuperAwokenSkillSection": "超覚醒スキル",
+    "@monsterInfoSuperAwokenSkillSection": {
+        "description": "Header for super awoken skills",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingTitle": "初回起動のセットアップ",
+    "@onboardingTitle": {
+        "description": "Header for onboarding page",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingWaitingTitle": "待っている間...",
+    "@onboardingWaitingTitle": {
+        "description": "Title above the locale selection stuff",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingWaitingSubTitle": "数値がセットからは、後で設定タブで変更できます",
+    "@onboardingWaitingSubTitle": {
+        "description": "Subtitle above the locale selection stuff",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingDisplayLanguage": "表示言語",
+    "@onboardingDisplayLanguage": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingDisplayLanguageDesc": "UIとパズドラデータに適用",
+    "@onboardingDisplayLanguageDesc": {
+        "description": "Dropdown option subtext",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingGameCountry": "サーバ",
+    "@onboardingGameCountry": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onboardingGameCountryDesc": "デフォルトのイベント、ニュース、データの通知を設定します",
+    "@onboardingGameCountryDesc": {
+        "description": "Dropdown option subtext",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsTitle": "設定",
+    "@settingsTitle": {
+        "description": "Title of settings page",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsGeneralSection": "一般",
+    "@settingsGeneralSection": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsUiLanguage": "UI言語",
+    "@settingsUiLanguage": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsUiLanguageDesc": "デバイスの設定言語を上書きします",
+    "@settingsUiLanguageDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsInfoLanguage": "情報言語",
+    "@settingsInfoLanguage": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsInfoLanguageDesc": "モンスター 、ダンジョン名、スキルテキストなどに使える",
+    "@settingsInfoLanguageDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsGameCountry": "サーバ",
+    "@settingsGameCountry": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsGameCountryDesc": "ほかの地域固有の設定をいくつがセットする",
+    "@settingsGameCountryDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventsSection": "イベント",
+    "@settingsEventsSection": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventCountry": "イベントのサーバ",
+    "@settingsEventCountry": {
+        "description": "Dropdown option title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventCountryDesc": "ゲリライベントの地域",
+    "@settingsEventCountryDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventsHideClosed": "終了したイベントを非表示",
+    "@settingsEventsHideClosed": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventsStarterRed": "初期ﾊﾟｰﾄﾅｰ：ティラ",
+    "@settingsEventsStarterRed": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventsStarterBlue": "初期ﾊﾟｰﾄﾅｰ：プレシィ",
+    "@settingsEventsStarterBlue": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsEventsStarterGreen": "初期ﾊﾟｰﾄﾅｰ：ブラッキィ",
+    "@settingsEventsStarterGreen": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsInfoSection": "情報",
+    "@settingsInfoSection": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsContactUs": "お問い合わせ",
+    "@settingsContactUs": {
+        "description": "Row label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsAbout": "アプリについて",
+    "@settingsAbout": {
+        "description": "Row label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsCopyright": "コピーライト",
+    "@settingsCopyright": {
+        "description": "Row label",
+        "type": "text",
+        "placeholders": {}
     }
-  },
-  "taskExecuting": "タスク実行中",
-  "@taskExecuting": {
-    "description": "Indicates task is running",
-    "type": "text",
-    "placeholders": {}
-  },
-  "taskProgress": "{percent} ％",
-  "@taskProgress": {
-    "description": "Indicates task progress as a percentage",
-    "type": "text",
-    "placeholders": {
-      "percent": {}
-    }
-  },
-  "taskFailedWithCount": "タスク {index} / {taskCount} が失敗しました",
-  "@taskFailedWithCount": {
-    "description": "Indicates the latest task failed",
-    "type": "text",
-    "placeholders": {
-      "index": {},
-      "taskCount": {}
-    }
-  },
-  "taskRestarting": "インターネット接続を確認してください。自動的に再起動します。",
-  "@taskRestarting": {
-    "description": "Indicates task failed and will auto restart",
-    "type": "text",
-    "placeholders": {}
-  },
-  "taskWaiting": "タスクの開始を待っています",
-  "@taskWaiting": {
-    "description": "Indicates task is preparing to start",
-    "type": "text",
-    "placeholders": {}
-  },
-  "taskFatalError": "致命的なエラーが発生しました。アプリを再起動してみてください。",
-  "@taskFatalError": {
-    "description": "Indicates task failed and will not attempt to restart",
-    "type": "text",
-    "placeholders": {}
-  },
-  "taskFinished": "すべてのタスクが完了しますた",
-  "@taskFinished": {
-    "description": "Indicates all tasks are complete",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingDownloadDb": "初期データはダウンロードしています",
-  "@onboardingDownloadDb": {
-    "description": "Displayed while the database is downloading",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingUnpackDb": "初期データ展開中",
-  "@onboardingUnpackDb": {
-    "description": "Displayed while the database is unzipping",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingDownloadImages": "アイコンセットはダウンロードしています",
-  "@onboardingDownloadImages": {
-    "description": "Displayed while the icon set is downloading",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingUnpackImages": "アイコンセット展開中",
-  "@onboardingUnpackImages": {
-    "description": "Displayed while the icon set is unzipping",
-    "type": "text",
-    "placeholders": {}
-  },
-  "mpAndMpPerStam": "{mp}（{mpPerStam}／スタミナ）",
-  "@mpAndMpPerStam": {
-    "description": "Lists the MP and MP/Stam for a dungeon",
-    "type": "text",
-    "placeholders": {
-      "mp": {},
-      "mpPerStam": {}
-    }
-  },
-  "dungeonStamina": "スタミナ： {stamina}",
-  "@dungeonStamina": {
-    "description": "Lists stamina cost of a dungeon",
-    "type": "text",
-    "placeholders": {
-      "stamina": {}
-    }
-  },
-  "dungeonFloors": "フロア： {floors}",
-  "@dungeonFloors": {
-    "description": "Lists number of floors in a dungeon",
-    "type": "text",
-    "placeholders": {
-      "floors": {}
-    }
-  },
-  "min": "最低",
-  "@min": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "max": "最高",
-  "@max": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "avg": "平均",
-  "@avg": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "avgPerStam": "毎ｽﾀﾐﾅ",
-  "@avgPerStam": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "exp": "経験値",
-  "@exp": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "coin": "コイン",
-  "@coin": {
-    "description": "Table header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "battleDrop": "ドロップ",
-  "@battleDrop": {
-    "description": "Label in encounter section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "battleCommon": "道中のモンスター",
-  "@battleCommon": {
-    "description": "Header for encounter section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "battleInvades": "まれに出現",
-  "@battleInvades": {
-    "description": "Header for encounter section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "battleFloor": "フロア{floor}",
-  "@battleFloor": {
-    "description": "Header for encounter section",
-    "type": "text",
-    "placeholders": {
-      "floor": {}
-    }
-  },
-  "ytLaunchError": "YouTubeを起動できませんでした",
-  "@ytLaunchError": {
-    "description": "Snackbar displayed when launching YT fails",
-    "type": "text",
-    "placeholders": {}
-  },
-  "reportBadInfo": "誤った情報を報告する",
-  "@reportBadInfo": {
-    "description": "Displayed at the bottom of monster/dungeon info",
-    "type": "text",
-    "placeholders": {}
-  },
-  "exampleYtVideos": "ダンジョンクリアのチーム構成の例",
-  "@exampleYtVideos": {
-    "description": "Displayed at the bottom of monster/dungeon info",
-    "type": "text",
-    "placeholders": {}
-  },
-  "noData": "データなし",
-  "@noData": {
-    "description": "Displayed when a search finds no results",
-    "type": "text",
-    "placeholders": {}
-  },
-  "close": "閉じる",
-  "@close": {
-    "description": "Close button text for subviews",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonSearchHint": "検索：ダンジョン名",
-  "@dungeonSearchHint": {
-    "description": "Grey hint text in dungeon search field",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonTabSpecial": "特殊",
-  "@dungeonTabSpecial": {
-    "description": "Subtab text at bottom of dungeon tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonTabNormal": "普通",
-  "@dungeonTabNormal": {
-    "description": "Subtab text at bottom of dungeon tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonTabTechnical": "テクニカル",
-  "@dungeonTabTechnical": {
-    "description": "Subtab text at bottom of dungeon tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonTabMultiRank": "マルチ/ランク",
-  "@dungeonTabMultiRank": {
-    "description": "Subtab text at bottom of dungeon tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "subDungeonSelectionTitle": "難易度を選択",
-  "@subDungeonSelectionTitle": {
-    "description": "Title for subdungeon selection view",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dungeonListExpPerStam": "毎ｽﾀﾐﾅ経験値： {expPerStam}",
-  "@dungeonListExpPerStam": {
-    "description": "SubDungeon selection info",
-    "type": "text",
-    "placeholders": {
-      "expPerStam": {}
-    }
-  },
-  "dungeonListCoinPerStam": "毎ｽﾀﾐﾅコイン ： {coinPerStam}",
-  "@dungeonListCoinPerStam": {
-    "description": "SubDungeon selection info",
-    "type": "text",
-    "placeholders": {
-      "coinPerStam": {}
-    }
-  },
-  "eventClosed": "終了しました",
-  "@eventClosed": {
-    "description": "Displayed below closed event info",
-    "type": "text",
-    "placeholders": {}
-  },
-  "eventDays": "{days}日",
-  "@eventDays": {
-    "description": "Day count and label in event info",
-    "type": "text",
-    "placeholders": {
-      "days": {}
-    }
-  },
-  "eventTabAll": "すべて",
-  "@eventTabAll": {
-    "description": "Subtab text at top of event tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "eventTabGuerrilla": "ゲリラ",
-  "@eventTabGuerrilla": {
-    "description": "Subtab text at top of event tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "eventTabSpecial": "特殊",
-  "@eventTabSpecial": {
-    "description": "Subtab text at top of event tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "eventTabNews": "ニュース",
-  "@eventTabNews": {
-    "description": "Subtab text at top of event tab",
-    "type": "text",
-    "placeholders": {}
-  },
-  "serverModalTitle": "サーバ",
-  "@serverModalTitle": {
-    "description": "Title for select server action modal",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dataSync": "データ同期",
-  "@dataSync": {
-    "description": "Button that triggers data syncing",
-    "type": "text",
-    "placeholders": {}
-  },
-  "updateModalTitle": "DadGuideデータの更新しています",
-  "@updateModalTitle": {
-    "description": "Title for update data action modal",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterListNo": "No. {number}",
-  "@monsterListNo": {
-    "description": "Monster list number text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListLevel": "レベル {number}",
-  "@monsterListLevel": {
-    "description": "Monster list max level text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListHp": "HP {number}",
-  "@monsterListHp": {
-    "description": "Monster list HP text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListAtk": "攻撃力 {number}",
-  "@monsterListAtk": {
-    "description": "Monster list ATK text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListRcv": "回復力 {number}",
-  "@monsterListRcv": {
-    "description": "Monster list RCV text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListWeighted": "ﾌﾟﾗｽ {number}",
-  "@monsterListWeighted": {
-    "description": "Monster list weighted stat text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListLimitBreak": "限界突破： {number} ％",
-  "@monsterListLimitBreak": {
-    "description": "Monster list limit break stat text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterListMp": "ﾓﾝﾎﾟ {number}",
-  "@monsterListMp": {
-    "description": "Monster list mp value text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterFilterModalTitle": "Advanced Search",
-  "@monsterFilterModalTitle": {
-    "description": "Title for monster filter modal",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalMainAttr": "Main Attr",
-  "@monsterFilterModalMainAttr": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalSubAttr": "Sub Attr",
-  "@monsterFilterModalSubAttr": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalRarity": "Rarity",
-  "@monsterFilterModalRarity": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalCost": "Cost",
-  "@monsterFilterModalCost": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalType": "Type",
-  "@monsterFilterModalType": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalAwokens": "Awoken Skills",
-  "@monsterFilterModalAwokens": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalClose": "Close",
-  "@monsterFilterModalClose": {
-    "description": "Bottom button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterFilterModalReset": "Reset",
-  "@monsterFilterModalReset": {
-    "description": "Bottom button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortModalTitle": "Change Sort Order",
-  "@monsterSortModalTitle": {
-    "description": "Title for monster sort modal",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortDesc": "Descending ▼",
-  "@monsterSortDesc": {
-    "description": "Top button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortAsc": "Ascending ▲",
-  "@monsterSortAsc": {
-    "description": "Top button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeNumber": "No.",
-  "@monsterSortTypeNumber": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeAtk": "ATK",
-  "@monsterSortTypeAtk": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeHp": "HP",
-  "@monsterSortTypeHp": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeRcv": "RCV",
-  "@monsterSortTypeRcv": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeWeighted": "Total",
-  "@monsterSortTypeWeighted": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeAttr": "Attribute",
-  "@monsterSortTypeAttr": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeSubAttr": "Sub Att.",
-  "@monsterSortTypeSubAttr": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeType": "Type",
-  "@monsterSortTypeType": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeRarity": "Rarity",
-  "@monsterSortTypeRarity": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeCost": "Cost",
-  "@monsterSortTypeCost": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeMp": "MP",
-  "@monsterSortTypeMp": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterSortTypeSkillTurn": "Skill Turn",
-  "@monsterSortTypeSkillTurn": {
-    "description": "Grid button",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoNo": "No. {number}",
-  "@monsterInfoNo": {
-    "description": "Monster info number text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterInfo297Awoken": "+297＆フル覚醒",
-  "@monsterInfo297Awoken": {
-    "description": "Text above the 297+awoken table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoStatBonus": "アシストによるステータスボーナス",
-  "@monsterInfoStatBonus": {
-    "description": "Text above the assist bonus table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoAvailableKillers": "利用可能な潜在キラー",
-  "@monsterInfoAvailableKillers": {
-    "description": "Text above the killer icons",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoCost": "ｺｽﾄ {number}",
-  "@monsterInfoCost": {
-    "description": "Monster info cost text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterInfoLevel": "ﾚﾍﾞﾙ",
-  "@monsterInfoLevel": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoHp": "HP",
-  "@monsterInfoHp": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoAtk": "攻撃力",
-  "@monsterInfoAtk": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoRcv": "回復力",
-  "@monsterInfoRcv": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoShield": "ダメージ軽減率",
-  "@monsterInfoShield": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoExp": "EXP",
-  "@monsterInfoExp": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoWeighted": "ﾌﾟﾗｽ換算",
-  "@monsterInfoWeighted": {
-    "description": "Header in monster info table",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoSkillMaxed": "ｽｷﾙLv. MAX ターン： {max}",
-  "@monsterInfoSkillMaxed": {
-    "description": "Monster info skill text with 0 levels",
-    "type": "text",
-    "placeholders": {
-      "max": {}
-    }
-  },
-  "monsterInfoSkillTurns": "Lv.1ターン：{max} （Lv. {levels}ターン： {min}）",
-  "@monsterInfoSkillTurns": {
-    "description": "Monster info skill text with levels",
-    "type": "text",
-    "placeholders": {
-      "max": {},
-      "min": {},
-      "levels": {}
-    }
-  },
-  "monsterInfoActiveSkillTitle": "スキル：",
-  "@monsterInfoActiveSkillTitle": {
-    "description": "Header for active skill section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoLeaderSkillTitle": "リーダースキル：",
-  "@monsterInfoLeaderSkillTitle": {
-    "description": "Header for leader skill section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoHistoryTitle": "歴史",
-  "@monsterInfoHistoryTitle": {
-    "description": "Header for history section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoHistoryAdded": "[ {date} ]に追加",
-  "@monsterInfoHistoryAdded": {
-    "description": "Monster info date added text",
-    "type": "text",
-    "placeholders": {
-      "date": {}
-    }
-  },
-  "monsterInfoSkillupTitle": "スキルアップモンスター",
-  "@monsterInfoSkillupTitle": {
-    "description": "Header for skillups section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoDropsTitle": "ドロップしたダンジョン",
-  "@monsterInfoDropsTitle": {
-    "description": "Header for drops section",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoDropsTitleNone": "ドロップしたダンジョン：なし",
-  "@monsterInfoDropsTitleNone": {
-    "description": "Header for drops section when there are no drops",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoSkillupDungeonsTitle": "スキルアップダンジョン",
-  "@monsterInfoSkillupDungeonsTitle": {
-    "description": "Header for skillup drop dungeons",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableInfoMaxLevel": "最大レベル",
-  "@monsterInfoTableInfoMaxLevel": {
-    "description": "Header column with buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableSellGold": "コインを入手",
-  "@monsterInfoTableSellGold": {
-    "description": "Row header for buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableSellMp": "MPを入手",
-  "@monsterInfoTableSellMp": {
-    "description": "Row header for buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableBuyMp": "MPを購入",
-  "@monsterInfoTableBuyMp": {
-    "description": "Row header for buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableFeedXp": "合成経験値",
-  "@monsterInfoTableFeedXp": {
-    "description": "Row header for buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoTableFeedXpOnColor": "合成経験値（同じ属性）",
-  "@monsterInfoTableFeedXpOnColor": {
-    "description": "Row header for buy/sell/feed data",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoSeriesHeader": "シリーズ： {seriesName}",
-  "@monsterInfoSeriesHeader": {
-    "description": "Header for series section with icons",
-    "type": "text",
-    "placeholders": {
-      "seriesName": {}
-    }
-  },
-  "monsterInfoEvolution": "進化",
-  "@monsterInfoEvolution": {
-    "description": "Evo section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoReversableEvolution": "可逆進化",
-  "@monsterInfoReversableEvolution": {
-    "description": "Evo section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoNonReversableEvolution": "非可逆進化",
-  "@monsterInfoNonReversableEvolution": {
-    "description": "Evo section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoEvoDiffHp": "HP {number}",
-  "@monsterInfoEvoDiffHp": {
-    "description": "Evo stat delta text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterInfoEvoDiffAtk": "攻撃力 {number}",
-  "@monsterInfoEvoDiffAtk": {
-    "description": "Evo stat delta text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterInfoEvoDiffRcv": "回復力 {number}",
-  "@monsterInfoEvoDiffRcv": {
-    "description": "Evo stat delta text",
-    "type": "text",
-    "placeholders": {
-      "number": {}
-    }
-  },
-  "monsterInfoAwokenSkillSection": "覚醒スキル",
-  "@monsterInfoAwokenSkillSection": {
-    "description": "Header for awoken skills",
-    "type": "text",
-    "placeholders": {}
-  },
-  "monsterInfoSuperAwokenSkillSection": "超覚醒スキル",
-  "@monsterInfoSuperAwokenSkillSection": {
-    "description": "Header for super awoken skills",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingTitle": "初回起動のセットアップ",
-  "@onboardingTitle": {
-    "description": "Header for onboarding page",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingWaitingTitle": "待っている間...",
-  "@onboardingWaitingTitle": {
-    "description": "Title above the locale selection stuff",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingWaitingSubTitle": "数値がセットからは、後で設定タブで変更できます",
-  "@onboardingWaitingSubTitle": {
-    "description": "Subtitle above the locale selection stuff",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingDisplayLanguage": "表示言語",
-  "@onboardingDisplayLanguage": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingDisplayLanguageDesc": "UIとパズドラデータに適用",
-  "@onboardingDisplayLanguageDesc": {
-    "description": "Dropdown option subtext",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingGameCountry": "サーバ",
-  "@onboardingGameCountry": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "onboardingGameCountryDesc": "デフォルトのイベント、ニュース、データの通知を設定します",
-  "@onboardingGameCountryDesc": {
-    "description": "Dropdown option subtext",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsTitle": "設定",
-  "@settingsTitle": {
-    "description": "Title of settings page",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsGeneralSection": "一般",
-  "@settingsGeneralSection": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsUiLanguage": "UI言語",
-  "@settingsUiLanguage": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsUiLanguageDesc": "Overwrites your device locale",
-  "@settingsUiLanguageDesc": {
-    "description": "Setting description",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsInfoLanguage": "情報言語",
-  "@settingsInfoLanguage": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsInfoLanguageDesc": "Used for monster/dungeon names, skill text, etc",
-  "@settingsInfoLanguageDesc": {
-    "description": "Setting description",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsGameCountry": "サーバ",
-  "@settingsGameCountry": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsGameCountryDesc": "Controls some other region-specific settings",
-  "@settingsGameCountryDesc": {
-    "description": "Setting description",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventsSection": "イベント",
-  "@settingsEventsSection": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventCountry": "イベントのサーバ",
-  "@settingsEventCountry": {
-    "description": "Dropdown option title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventCountryDesc": "Server to display guerrilla events for",
-  "@settingsEventCountryDesc": {
-    "description": "Setting description",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventsHideClosed": "終了したイベントを非表示",
-  "@settingsEventsHideClosed": {
-    "description": "Checkbox title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventsStarterRed": "初期ﾊﾟｰﾄﾅｰ：ティラ",
-  "@settingsEventsStarterRed": {
-    "description": "Checkbox title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventsStarterBlue": "初期ﾊﾟｰﾄﾅｰ：プレシィ",
-  "@settingsEventsStarterBlue": {
-    "description": "Checkbox title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsEventsStarterGreen": "初期ﾊﾟｰﾄﾅｰ：ブラッキィ",
-  "@settingsEventsStarterGreen": {
-    "description": "Checkbox title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsInfoSection": "情報",
-  "@settingsInfoSection": {
-    "description": "Section header",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsContactUs": "お問い合わせ",
-  "@settingsContactUs": {
-    "description": "Row label",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsAbout": "アプリについて",
-  "@settingsAbout": {
-    "description": "Row label",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsCopyright": "コピーライト",
-  "@settingsCopyright": {
-    "description": "Row label",
-    "type": "text",
-    "placeholders": {}
-  }
 }

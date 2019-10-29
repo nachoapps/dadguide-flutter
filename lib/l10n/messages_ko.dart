@@ -57,11 +57,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m18(number) => "한도 휴식 : ${number} %";
 
-  static m19(number) => "MP ${number}";
+  static m19(number) => "몬스터 포인트 ${number}";
 
   static m20(number) => "No. ${number}";
 
-  static m21(number) => "RCV ${number}";
+  static m21(number) => "회복 ${number}";
 
   static m22(number) => "무게 ${number}";
 
@@ -101,8 +101,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "eventTabSpecial" : MessageLookupByLibrary.simpleMessage("스페셜"),
     "exampleYtVideos" : MessageLookupByLibrary.simpleMessage("팀과 던전 명확한 예"),
     "exp" : MessageLookupByLibrary.simpleMessage("경험치"),
+    "languageEn" : MessageLookupByLibrary.simpleMessage("영어"),
+    "languageJa" : MessageLookupByLibrary.simpleMessage("일본어"),
+    "languageKo" : MessageLookupByLibrary.simpleMessage("한국어"),
     "max" : MessageLookupByLibrary.simpleMessage("최대"),
     "min" : MessageLookupByLibrary.simpleMessage("최소"),
+    "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("각성스킬"),
+    "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("닫기"),
+    "monsterFilterModalCost" : MessageLookupByLibrary.simpleMessage("코스트"),
+    "monsterFilterModalMainAttr" : MessageLookupByLibrary.simpleMessage("주속성"),
+    "monsterFilterModalRarity" : MessageLookupByLibrary.simpleMessage("레어도"),
+    "monsterFilterModalReset" : MessageLookupByLibrary.simpleMessage("초기화"),
+    "monsterFilterModalSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
+    "monsterFilterModalTitle" : MessageLookupByLibrary.simpleMessage("Advanced Search"),
+    "monsterFilterModalType" : MessageLookupByLibrary.simpleMessage("타입"),
     "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297 및 완전히 깨어남"),
     "monsterInfoActiveSkillTitle" : MessageLookupByLibrary.simpleMessage("기술:"),
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("공격"),
@@ -148,6 +160,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterListNo" : m20,
     "monsterListRcv" : m21,
     "monsterListWeighted" : m22,
+    "monsterSortAsc" : MessageLookupByLibrary.simpleMessage("Ascending ▲"),
+    "monsterSortDesc" : MessageLookupByLibrary.simpleMessage("Descending ▼"),
+    "monsterSortModalTitle" : MessageLookupByLibrary.simpleMessage("Change Sort Order"),
+    "monsterSortTypeAtk" : MessageLookupByLibrary.simpleMessage("공격"),
+    "monsterSortTypeAttr" : MessageLookupByLibrary.simpleMessage("주속성"),
+    "monsterSortTypeCost" : MessageLookupByLibrary.simpleMessage("코스트"),
+    "monsterSortTypeHp" : MessageLookupByLibrary.simpleMessage("HP"),
+    "monsterSortTypeMp" : MessageLookupByLibrary.simpleMessage("MP"),
+    "monsterSortTypeNumber" : MessageLookupByLibrary.simpleMessage("No."),
+    "monsterSortTypeRarity" : MessageLookupByLibrary.simpleMessage("레어도"),
+    "monsterSortTypeRcv" : MessageLookupByLibrary.simpleMessage("회복"),
+    "monsterSortTypeSkillTurn" : MessageLookupByLibrary.simpleMessage("Skill Turn"),
+    "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
+    "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("타입"),
+    "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
     "mpAndMpPerStam" : m23,
     "noData" : MessageLookupByLibrary.simpleMessage("데이터 없음"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("표시 언어"),
@@ -167,18 +194,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsContactUs" : MessageLookupByLibrary.simpleMessage("연락주세요"),
     "settingsCopyright" : MessageLookupByLibrary.simpleMessage("저작권"),
     "settingsEventCountry" : MessageLookupByLibrary.simpleMessage("이벤트 국가"),
+    "settingsEventCountryDesc" : MessageLookupByLibrary.simpleMessage("Server to display guerrilla events for"),
     "settingsEventsHideClosed" : MessageLookupByLibrary.simpleMessage("비공개 이벤트 숨기기"),
     "settingsEventsSection" : MessageLookupByLibrary.simpleMessage("행사"),
     "settingsEventsStarterBlue" : MessageLookupByLibrary.simpleMessage("파란색 스타터 표시"),
     "settingsEventsStarterGreen" : MessageLookupByLibrary.simpleMessage("녹색 스타터 표시"),
     "settingsEventsStarterRed" : MessageLookupByLibrary.simpleMessage("빨간색 스타터 표시"),
     "settingsGameCountry" : MessageLookupByLibrary.simpleMessage("게임 국가"),
+    "settingsGameCountryDesc" : MessageLookupByLibrary.simpleMessage("Controls some other region-specific settings"),
     "settingsGeneralSection" : MessageLookupByLibrary.simpleMessage("일반"),
     "settingsInfoLanguage" : MessageLookupByLibrary.simpleMessage("정보 언어"),
+    "settingsInfoLanguageDesc" : MessageLookupByLibrary.simpleMessage("Used for monster/dungeon names, skill text, etc"),
     "settingsInfoSection" : MessageLookupByLibrary.simpleMessage("정보"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("설정"),
-    "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("UI Langauge"),
+    "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("언어 설정"),
+    "settingsUiLanguageDesc" : MessageLookupByLibrary.simpleMessage("Overwrites your device locale"),
     "subDungeonSelectionTitle" : MessageLookupByLibrary.simpleMessage("난이도 선택"),
+    "tabDungeon" : MessageLookupByLibrary.simpleMessage("던전"),
+    "tabEvent" : MessageLookupByLibrary.simpleMessage("이배트"),
+    "tabMonster" : MessageLookupByLibrary.simpleMessage("몬스터"),
+    "tabSetting" : MessageLookupByLibrary.simpleMessage("설정"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("실행 작업"),
     "taskExecutingWithCount" : m24,
     "taskFailedWithCount" : m25,
