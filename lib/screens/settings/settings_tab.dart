@@ -72,7 +72,7 @@ class SettingsScreen extends StatelessWidget {
         page: PreferencePage([
           PreferenceTitle('Code Contributors'),
           PreferenceText(_codeContributors.join('\n')),
-          PreferenceTitle('Data Administrators'),
+          PreferenceTitle('Data and Translations'),
           PreferenceText(_dataContributors.join('\n')),
           PreferenceTitle('Artwork'),
           PreferenceText(_artContributors.join('\n')),
@@ -97,6 +97,8 @@ var _codeContributors = <String>[
 
 var _dataContributors = <String>[
   'unmoogical',
+  'fether',
+  'LucinaFanBoy',
 ];
 
 var _artContributors = <String>[
