@@ -922,7 +922,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     final query = (select(awakenings)..where((a) => a.monsterId.equals(monsterId))).join([
       leftOuterJoin(awokenSkills, awokenSkills.awokenSkillId.equalsExp(awakenings.awokenSkillId)),
     ])
-      ..orderBy([OrderingTerm(mode: OrderingMode.desc, expression: awakenings.orderIdx)]);
+      ..orderBy([OrderingTerm(mode: OrderingMode.asc, expression: awakenings.orderIdx)]);
 
     var results = await query.get().then((rows) {
       return Future.wait(rows.map((row) async {
