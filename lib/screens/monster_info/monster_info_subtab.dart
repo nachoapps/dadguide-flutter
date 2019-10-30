@@ -895,12 +895,13 @@ class MonsterDropLocations extends StatelessWidget {
               child: Row(
                 children: [
                   PadIcon(k),
+                  SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       for (var dungeon in _data.dropLocations[k])
                         Padding(
-                            padding: EdgeInsets.symmetric(vertical: 1),
+                            padding: EdgeInsets.symmetric(vertical: 2),
                             child: FlatButton(
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               onPressed: goToDungeonFn(context, dungeon.dungeonId, null),
