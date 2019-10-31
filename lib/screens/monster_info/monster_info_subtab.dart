@@ -505,8 +505,11 @@ class MonsterWeightedStatTable extends StatelessWidget {
     a.forEach((awakening) {
       var aS = awakening.awokenSkill;
       maxHp += aS.adjHp;
+      lbMaxHp += aS.adjHp;
       atkMax += aS.adjAtk;
+      lbAtkMax += aS.adjAtk;
       rcvMax += aS.adjRcv;
+      lbRcvMax += aS.adjRcv;
     });
 
     return DefaultTextStyle(
@@ -529,7 +532,7 @@ class MonsterWeightedStatTable extends StatelessWidget {
             numCell(rcvMax),
             numCell(_weighted(maxHp, atkMax, rcvMax)),
           ]),
-          if (limitMult > 1)
+          if (limitMult > 100)
             TableRow(children: [
               numCell(110),
               numCell(lbMaxHp),
@@ -594,14 +597,14 @@ class MonsterAssistStatTable extends StatelessWidget {
             cell(loc.monsterInfoWeighted),
           ]),
           TableRow(children: [
-            cell('99'),
+            numCell(m.level),
             numCell(hpMax),
             numCell(atkMax),
             numCell(rcvMax),
             numCell(_weighted(hpMax, atkMax, rcvMax)),
           ]),
           TableRow(children: [
-            cell('99\n+297'),
+            cell('${m.level}\n+297'),
             numCell(hp297Max),
             numCell(atk297Max),
             numCell(rcv297Max),
