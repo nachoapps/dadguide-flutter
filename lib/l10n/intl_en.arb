@@ -1,31 +1,31 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-10-25T23:29:54.262988",
+  "@@last_modified": "2019-10-30T21:49:19.204486",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
     "type": "text",
     "placeholders": {}
   },
-  "tabEvent": "Event",
+  "tabEvent": "Events",
   "@tabEvent": {
     "description": "Bottom tab title for events",
     "type": "text",
     "placeholders": {}
   },
-  "tabMonster": "Monster",
+  "tabMonster": "Monsters",
   "@tabMonster": {
     "description": "Bottom tab title for monster list",
     "type": "text",
     "placeholders": {}
   },
-  "tabDungeon": "Dungeon",
+  "tabDungeon": "Dungeons",
   "@tabDungeon": {
     "description": "Bottom tab title for dungeon list",
     "type": "text",
     "placeholders": {}
   },
-  "tabSetting": "Setting",
+  "tabSetting": "Settings",
   "@tabSetting": {
     "description": "Bottom tab title for settings",
     "type": "text",
@@ -46,6 +46,24 @@
   "languageKo": "Korean",
   "@languageKo": {
     "description": "Used in language selector",
+    "type": "text",
+    "placeholders": {}
+  },
+  "countryNa": "North America",
+  "@countryNa": {
+    "description": "Used in server selector",
+    "type": "text",
+    "placeholders": {}
+  },
+  "countryJp": "Japan",
+  "@countryJp": {
+    "description": "Used in server selector",
+    "type": "text",
+    "placeholders": {}
+  },
+  "countryKr": "Korea",
+  "@countryKr": {
+    "description": "Used in server selector",
     "type": "text",
     "placeholders": {}
   },
@@ -828,7 +846,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "onboardingWaitingSubTitle": "You can change these value later in the settings tab",
+  "onboardingWaitingSubTitle": "You can change these values later in the settings tab",
   "@onboardingWaitingSubTitle": {
     "description": "Subtitle above the locale selection stuff",
     "type": "text",

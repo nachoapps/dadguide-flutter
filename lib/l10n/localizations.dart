@@ -13,16 +13,16 @@ class DadGuideLocalizations {
   String get title => Intl.message('DadGuide', name: 'title', desc: 'The application title');
 
   String get tabEvent =>
-      Intl.message('Event', name: 'tabEvent', desc: 'Bottom tab title for events');
+      Intl.message('Events', name: 'tabEvent', desc: 'Bottom tab title for events');
 
   String get tabMonster =>
-      Intl.message('Monster', name: 'tabMonster', desc: 'Bottom tab title for monster list');
+      Intl.message('Monsters', name: 'tabMonster', desc: 'Bottom tab title for monster list');
 
   String get tabDungeon =>
-      Intl.message('Dungeon', name: 'tabDungeon', desc: 'Bottom tab title for dungeon list');
+      Intl.message('Dungeons', name: 'tabDungeon', desc: 'Bottom tab title for dungeon list');
 
   String get tabSetting =>
-      Intl.message('Setting', name: 'tabSetting', desc: 'Bottom tab title for settings');
+      Intl.message('Settings', name: 'tabSetting', desc: 'Bottom tab title for settings');
 
   String get languageEn =>
       Intl.message('English', name: 'languageEn', desc: 'Used in language selector');
@@ -38,7 +38,7 @@ class DadGuideLocalizations {
 
   String get countryJp => Intl.message('Japan', name: 'countryJp', desc: 'Used in server selector');
 
-  String get countryKr => Intl.message('Korea', name: 'countryKo', desc: 'Used in server selector');
+  String get countryKr => Intl.message('Korea', name: 'countryKr', desc: 'Used in server selector');
 
   // ---- Strings used by update process ----
   String get updateComplete => Intl.message('Update complete',
@@ -504,7 +504,7 @@ class DadGuideLocalizations {
       name: 'onboardingWaitingTitle', desc: 'Title above the locale selection stuff');
 
   String get onboardingWaitingSubTitle =>
-      Intl.message('You can change these value later in the settings tab',
+      Intl.message('You can change these values later in the settings tab',
           name: 'onboardingWaitingSubTitle', desc: 'Subtitle above the locale selection stuff');
 
   String get onboardingDisplayLanguage => Intl.message('Display Language',
