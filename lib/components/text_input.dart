@@ -33,6 +33,7 @@ class TopTextInputBar extends StatelessWidget {
               child: TextFormField(
                 key: UniqueKey(),
                 initialValue: _displayText,
+                autocorrect: false,
                 onFieldSubmitted: _onSubmitted,
                 decoration: InputDecoration(
                   border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
