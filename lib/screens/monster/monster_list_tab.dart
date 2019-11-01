@@ -4,6 +4,7 @@ import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_sort_modal.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -98,7 +99,7 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<MonsterDisplayState>(context);
     return Material(
-      color: Colors.grey[100],
+      color: grey(context, 100),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -110,22 +111,22 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
 //          ),
           IconButton(
             icon: Icon(Foundation.getIconData('burst-new')),
-            color: controller.sortNew ? Colors.amber : Colors.black,
+            color: controller.sortNew ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.sortNew = !controller.sortNew,
           ),
           IconButton(
             icon: Icon(SimpleLineIcons.getIconData('picture')),
-            color: controller.pictureMode ? Colors.amber : Colors.black,
+            color: controller.pictureMode ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.pictureMode = !controller.pictureMode,
           ),
           IconButton(
             icon: Icon(Icons.sort),
-            color: controller.customSort ? Colors.amber : Colors.black,
+            color: controller.customSort ? Colors.blue : grey(context, 1000),
             onPressed: () => showMonsterSortDialog(context),
           ),
           IconButton(
             icon: Icon(MaterialCommunityIcons.getIconData('star-box-outline')),
-            color: controller.showAwakenings ? Colors.amber : Colors.black,
+            color: controller.showAwakenings ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.showAwakenings = !controller.showAwakenings,
           ),
         ],

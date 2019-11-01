@@ -9,6 +9,7 @@ import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -159,7 +160,7 @@ class DungeonSubHeader extends StatelessWidget {
 
     var m = _model;
     return Container(
-      color: Colors.grey[300],
+      color: grey(context, 300),
       padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -264,7 +265,7 @@ class DungeonBattle extends StatelessWidget {
     }
     return Column(children: [
       Container(
-        color: Colors.grey[400],
+        color: grey(context, 400),
         padding: const EdgeInsets.all(4.0),
         child: Row(children: [
           Text(text),
@@ -314,11 +315,12 @@ class DungeonEncounter extends StatelessWidget {
                         style: Theme.of(context).textTheme.caption,
                         child: Row(
                           children: [
-                            item(1, Icons.refresh, _model.encounter.turns),
-                            item(3, Feather.getIconData('heart'), _model.encounter.hp),
+                            item(1, Icons.refresh, _model.encounter.turns, context),
+                            item(3, Feather.getIconData('heart'), _model.encounter.hp, context),
                             item(3, MaterialCommunityIcons.getIconData('sword'),
-                                _model.encounter.atk),
-                            item(3, Feather.getIconData('shield'), _model.encounter.defence),
+                                _model.encounter.atk, context),
+                            item(3, Feather.getIconData('shield'), _model.encounter.defence,
+                                context),
                           ],
                         )),
                   ),
@@ -332,8 +334,11 @@ class DungeonEncounter extends StatelessWidget {
     );
   }
 
-  Widget item(int flex, IconData iconData, int value) {
-    return Expanded(flex: flex, child: Row(children: [Icon(iconData), Text(commaFormat(value))]));
+  Widget item(int flex, IconData iconData, int value, BuildContext context) {
+    return Expanded(
+        flex: flex,
+        child:
+            Row(children: [Icon(iconData, color: grey(context, 1000)), Text(commaFormat(value))]));
   }
 }
 
@@ -414,7 +419,7 @@ class DungeonDetailOptionsBar extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     return Material(
-      color: Colors.grey[200],
+      color: grey(context, 200),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -452,7 +457,7 @@ class MailIssues extends StatelessWidget {
     return GestureDetector(
       onTap: () => sendDungeonErrorEmail(_data.dungeon, _data.selectedSubDungeon.subDungeon),
       child: Card(
-          color: Colors.grey[300],
+          color: grey(context, 300),
           child: Row(
             children: [
               Icon(Icons.mail_outline),

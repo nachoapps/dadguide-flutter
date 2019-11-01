@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,10 +63,10 @@ class ToggleSortButton extends FlatButton {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      color: Colors.grey[200],
+      color: grey(context, 200),
       disabledColor: Colors.lightBlueAccent,
-      textColor: Colors.black,
-      disabledTextColor: Colors.white,
+      textColor: grey(context, 1000),
+      disabledTextColor: grey(context, 0),
       child: Text(_text),
       onPressed: _selected ? null : _selectedOnPressed,
     );

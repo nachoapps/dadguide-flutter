@@ -12,6 +12,7 @@ import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/services/device_utils.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -211,8 +212,8 @@ class BottomNavOptions extends StatelessWidget {
         ),
       ],
       currentIndex: selectedIdx,
-      selectedItemColor: Colors.amber[800],
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: Colors.blue,
+      unselectedItemColor: grey(context, 1000),
       showUnselectedLabels: true,
       onTap: onTap,
     );

@@ -2,6 +2,7 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -105,7 +106,7 @@ class DateSelectBar extends StatelessWidget {
     var currentEventDate = displayState.currentEventDate;
 
     return Container(
-      color: Colors.grey[400],
+      color: grey(context, 400),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Row(

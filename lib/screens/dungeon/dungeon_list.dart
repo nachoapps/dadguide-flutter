@@ -6,6 +6,7 @@ import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +73,7 @@ class DungeonList extends StatelessWidget {
               var item = listItems[index];
               if (item is HeadingItem) {
                 return Container(
-                  color: Colors.grey[300],
+                  color: grey(context, 300),
                   child: Center(
                       child: Padding(padding: EdgeInsets.all(4.0), child: Text(item.section.name))),
                 );

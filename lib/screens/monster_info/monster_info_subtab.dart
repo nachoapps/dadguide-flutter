@@ -748,7 +748,7 @@ class MailIssues extends StatelessWidget {
     return GestureDetector(
       onTap: () => sendMonsterErrorEmail(_data.monster),
       child: Card(
-          color: Colors.grey[300],
+          color: grey(context, 300),
           child: Row(
             children: [
               Icon(Icons.mail_outline),
@@ -773,7 +773,7 @@ class MonsterVideos extends StatelessWidget {
       // Japanese name usually provides more results than the english
       onTap: () => {launchYouTubeSearch(_data.monster.nameJp)},
       child: Card(
-          color: Colors.grey[300],
+          color: grey(context, 300),
           child: Row(
             children: [
               Icon(Icons.play_arrow),

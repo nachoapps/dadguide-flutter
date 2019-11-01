@@ -5,6 +5,7 @@ import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -89,7 +90,7 @@ class AttributeFilterRow extends StatelessWidget {
           Expanded(
               child: AttributeSection(
                   loc.monsterFilterModalMainAttr, displayState.filterArgs.mainAttr)),
-          VerticalDivider(thickness: 1, color: Colors.grey[300]),
+          VerticalDivider(thickness: 1, color: grey(context, 300)),
           Expanded(
               child:
                   AttributeSection(loc.monsterFilterModalSubAttr, displayState.filterArgs.subAttr)),
@@ -165,7 +166,7 @@ class RarityCostFilterRow extends StatelessWidget {
         children: [
           Expanded(
               child: MinMaxSection(loc.monsterFilterModalRarity, displayState.filterArgs.rarity)),
-          VerticalDivider(thickness: 1, color: Colors.grey[300]),
+          VerticalDivider(thickness: 1, color: grey(context, 300)),
           Expanded(child: MinMaxSection(loc.monsterFilterModalCost, displayState.filterArgs.cost)),
         ],
       ),
@@ -220,7 +221,7 @@ class BoxedInput extends StatelessWidget {
         border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
         focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
         contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        fillColor: Colors.grey[200],
+        fillColor: grey(context, 200),
         filled: true,
       ),
     );
@@ -299,7 +300,7 @@ class AwokenSkillsFilterRow extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: new BorderRadius.circular(2.0),
                   border: Border.all(),
-                  color: Colors.grey[200],
+                  color: grey(context, 200),
                 ),
                 child: Row(
                   children: [

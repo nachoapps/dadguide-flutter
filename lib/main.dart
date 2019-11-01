@@ -77,6 +77,7 @@ class _DadGuideAppState extends State<DadGuideApp> {
         child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: appTheme(),
+          darkTheme: darkAppTheme(),
           locale: Locale(Prefs.uiLanguage.languageCode),
           debugShowCheckedModeBanner: false,
           home: SetupRequiredChecker(),

@@ -1,3 +1,4 @@
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 
 // TODO: convert this to use TextEditingController; it's currently impossible
@@ -41,7 +42,7 @@ class TopTextInputBar extends StatelessWidget {
                       new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
                   contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   hintText: _hintText,
-                  fillColor: Colors.white,
+                  fillColor: grey(context, 200),
                   filled: true,
                 ),
               ),

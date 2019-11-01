@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,24 +65,27 @@ class DungeonDisplayOptionsBar extends StatelessWidget {
 
     final controller = Provider.of<DungeonDisplayState>(context);
     return Material(
-      color: Colors.grey[100],
+      color: grey(context, 100),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _createBottomButton(controller, DungeonTabKey.special, loc.dungeonTabSpecial),
-          _createBottomButton(controller, DungeonTabKey.normal, loc.dungeonTabNormal),
-          _createBottomButton(controller, DungeonTabKey.technical, loc.dungeonTabTechnical),
-          _createBottomButton(controller, DungeonTabKey.multiranking, loc.dungeonTabMultiRank),
+          _createBottomButton(controller, DungeonTabKey.special, loc.dungeonTabSpecial, context),
+          _createBottomButton(controller, DungeonTabKey.normal, loc.dungeonTabNormal, context),
+          _createBottomButton(
+              controller, DungeonTabKey.technical, loc.dungeonTabTechnical, context),
+          _createBottomButton(
+              controller, DungeonTabKey.multiranking, loc.dungeonTabMultiRank, context),
         ],
       ),
     );
   }
 
-  Widget _createBottomButton(DungeonDisplayState controller, DungeonTabKey tab, String name) {
+  Widget _createBottomButton(
+      DungeonDisplayState controller, DungeonTabKey tab, String name, BuildContext context) {
     return FlatButton(
       onPressed: () => controller.tab = tab,
       child: Text(name),
-      textColor: controller.tab == tab ? Colors.amber : Colors.black,
+      textColor: controller.tab == tab ? Colors.blue : grey(context, 1000),
     );
   }
 }
