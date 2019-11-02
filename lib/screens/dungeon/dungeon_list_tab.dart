@@ -52,7 +52,7 @@ class DungeonSearchBar extends StatelessWidget {
         },
       ),
       (t) => controller.searchText = t,
-      key: ValueKey(searchText),
+      key: UniqueKey(),
     );
   }
 }
