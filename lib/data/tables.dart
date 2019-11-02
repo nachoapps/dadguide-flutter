@@ -807,6 +807,19 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
         ..sort((a, b) => a.orderIdx - b.orderIdx);
 
+      // Fix for bug in pipeline; duplicate awakenings
+      // TODO: remove me once pipeline is repaired
+      var map = <int, Awakening>{};
+      for (var r in awakeningList) {
+        var item = map[r.orderIdx];
+        if (item == null || r.tstamp > item.tstamp) {
+          item = r;
+        }
+        map[item.orderIdx] = r;
+      }
+
+      awakeningList = map.values.toList()..sort((l, r) => l.orderIdx - r.orderIdx);
+
       // It's too hard to apply this filter during the query, so once we have the awakenings,
       // strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
       // it's a good match, otherwise skip this row.
@@ -942,7 +955,21 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       }));
     });
 
-    return results;
+    // Fix for bug in pipeline; duplicate awakenings
+    // TODO: remove me once pipeline is repaired
+    var map = <int, FullAwakening>{};
+    for (var r in results) {
+      var item = map[r.awakening.orderIdx];
+      if (item == null || r.awakening.tstamp > item.awakening.tstamp) {
+        item = r;
+      }
+
+      map[item.awakening.orderIdx] = r;
+    }
+    var revisedAwakenings = map.values.toList()
+      ..sort((l, r) => l.awakening.orderIdx - r.awakening.orderIdx);
+
+    return revisedAwakenings;
   }
 
   Future<List<BasicDungeon>> findDropDungeons(int monsterId) async {
