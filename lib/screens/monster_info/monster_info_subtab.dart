@@ -117,6 +117,9 @@ class MonsterDetailContents extends StatelessWidget {
                   ],
                 ),
 
+              if (_data.monster.inheritable)
+                SizedBox(height: 4),
+
               if (_data.killers.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,15 +132,15 @@ class MonsterDetailContents extends StatelessWidget {
                   ],
                 ),
 
-              if (activeSkill != null)
-                Divider(),
+              if (_data.leaderSkill != null || _data.activeSkill != null)
+                Divider(thickness: 2),
 
               if (activeSkill != null)
                 Padding(
                     child: MonsterActiveSkillSection(activeSkill),
                     padding: EdgeInsets.only(top: 4)),
 
-              if (_data.leaderSkill != null)
+              if (activeSkill != null)
                 Divider(),
 
               if (_data.leaderSkill != null)
@@ -146,7 +149,9 @@ class MonsterDetailContents extends StatelessWidget {
                     padding: EdgeInsets.only(top: 4)),
 
               if (_data.leaderSkill != null)
-                Padding(child: MonsterLeaderInfoTable(_data), padding: EdgeInsets.only(top: 4)),
+                Padding(
+                    child: MonsterLeaderInfoTable(_data),
+                    padding: EdgeInsets.only(top: 4, bottom: 8)),
 
               if (hasSkillups)
                 Padding(
