@@ -278,6 +278,8 @@ class MonsterDetailPortraitAwakenings extends StatelessWidget {
                             child: awakeningContainer(a.awokenSkillId, size: maxHeight)),
                     ],
                   ),
+                if (_data.superAwakenings.isNotEmpty && _data.awakenings.isNotEmpty)
+                  SizedBox(width: 8),
                 if (_data.awakenings.isNotEmpty)
                   Column(
                     children: [
