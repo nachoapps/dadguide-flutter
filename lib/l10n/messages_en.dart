@@ -136,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("Leader skill:"),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv."),
+    "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("Material for"),
     "monsterInfoNo" : m11,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("Non-Reversable Evolution"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("RCV"),

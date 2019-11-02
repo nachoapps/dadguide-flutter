@@ -148,6 +148,7 @@ class FullMonster {
   final List<int> skillUpMonsters;
   final List<FullEvolution> evolutions;
   final Map<int, List<BasicDungeon>> dropLocations;
+  final List<int> materialForMonsters;
 
   final LanguageSelector name;
 
@@ -161,7 +162,8 @@ class FullMonster {
       this.nextMonsterId,
       this.skillUpMonsters,
       this.evolutions,
-      this.dropLocations)
+      this.dropLocations,
+      this.materialForMonsters)
       : name = LanguageSelector.name(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();

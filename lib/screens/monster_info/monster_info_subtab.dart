@@ -185,6 +185,9 @@ class MonsterDetailContents extends StatelessWidget {
               if (_data.fullSeries != null)
                 Padding(child: MonsterSeries(_data), padding: EdgeInsets.only(top: 4)),
 
+              if (_data.materialForMonsters.isNotEmpty)
+                Padding(child: MonsterMaterialFor(_data), padding: EdgeInsets.only(top: 4)),
+
               SizedBox(height: 8),
               MonsterHistory(_data),
 
@@ -1017,6 +1020,32 @@ class MonsterSeries extends StatelessWidget {
           spacing: 4,
           children: [
             for (var id in _fullMonster.fullSeries.members) PadIcon(id, monsterLink: true),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Series name and icons for other monsters in the series.
+class MonsterMaterialFor extends StatelessWidget {
+  final FullMonster _fullMonster;
+
+  const MonsterMaterialFor(this._fullMonster, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(loc.monsterInfoMaterialForHeader, style: subtitle(context)),
+        Wrap(
+          runSpacing: 4,
+          spacing: 4,
+          children: [
+            for (var id in _fullMonster.materialForMonsters) PadIcon(id, monsterLink: true),
           ],
         ),
       ],

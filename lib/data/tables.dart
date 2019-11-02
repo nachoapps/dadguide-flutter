@@ -702,6 +702,13 @@ class MonsterSearchArgs {
             ' INNER JOIN drops USING (encounter_id)' +
             ' WHERE drops.monster_id = :monsterId' +
             ' GROUP BY 1, 2, 3, 4'),
+    'materialForIds': ('SELECT to_id as "monsterId" FROM evolutions' +
+        ' WHERE mat_1_id = :monsterId' +
+        ' OR mat_2_id = :monsterId' +
+        ' OR mat_3_id = :monsterId' +
+        ' OR mat_4_id = :monsterId' +
+        ' OR mat_5_id = :monsterId'
+            ' GROUP BY 1'),
   },
 )
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
@@ -853,6 +860,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     }
     dropLocations.removeWhere((k, v) => v.isEmpty);
 
+    var materialForMonsters = await materialFor(monsterId);
+
     var fullMonster = FullMonster(
       resultMonster,
       row.readTable(activeSkills),
@@ -864,6 +873,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       skillUpMonsterIdsResult,
       evolutionList,
       dropLocations,
+      materialForMonsters,
     );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
@@ -943,5 +953,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<List<AwokenSkill>> allAwokenSkills() async {
     final query = select(awokenSkills)..orderBy([(a) => OrderingTerm(expression: a.awokenSkillId)]);
     return query.get();
+  }
+
+  Future<List<int>> materialFor(int materialMonsterId) async {
+    var x = await materialForIds(materialMonsterId);
+    return x.map((e) => e.monsterId).toList();
   }
 }

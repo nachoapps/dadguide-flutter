@@ -460,6 +460,9 @@ class DadGuideLocalizations {
         desc: 'Header for series section with icons',
       );
 
+  String get monsterInfoMaterialForHeader => Intl.message('Material for',
+      name: 'monsterInfoMaterialForHeader', desc: 'Material for icons section header');
+
   String get monsterInfoEvolution =>
       Intl.message('Evolution', name: 'monsterInfoEvolution', desc: 'Evo section header');
 

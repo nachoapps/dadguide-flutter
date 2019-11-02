@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-10-30T21:49:19.204486",
+  "@@last_modified": "2019-11-01T22:50:31.015081",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -779,6 +779,12 @@
     "placeholders": {
       "seriesName": {}
     }
+  },
+  "monsterInfoMaterialForHeader": "Material for",
+  "@monsterInfoMaterialForHeader": {
+    "description": "Material for icons section header",
+    "type": "text",
+    "placeholders": {}
   },
   "monsterInfoEvolution": "Evolution",
   "@monsterInfoEvolution": {
