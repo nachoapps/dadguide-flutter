@@ -390,7 +390,7 @@ class FilterActionBar extends StatelessWidget {
           child: Text(loc.monsterFilterModalReset),
           onPressed: () {
             displayState.filterArgs = MonsterFilterArgs();
-            displayState.sortType = MonsterSortType.no;
+            displayState.sortType = MonsterSortType.released;
             displayState.sortAsc = false;
             displayState.notify();
           },

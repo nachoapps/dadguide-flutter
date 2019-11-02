@@ -23,6 +23,8 @@ Future<void> showMonsterSortDialog(BuildContext context) async {
               SortOrderRow(),
               Divider(),
               SortOptionsGrid(),
+              Divider(),
+              FilterActionBar(),
             ],
           ),
         );
@@ -96,6 +98,32 @@ class SortOptionsGrid extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class FilterActionBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
+
+    return Row(
+      children: [
+        FlatButton(
+          child: Text(loc.monsterFilterModalClose),
+          onPressed: () => Navigator.pop(context),
+        ),
+        Spacer(),
+        FlatButton(
+          child: Text(loc.monsterFilterModalReset),
+          onPressed: () {
+            displayState.sortType = MonsterSortType.released;
+            displayState.sortAsc = false;
+            displayState.notify();
+          },
+        ),
+      ],
     );
   }
 }
