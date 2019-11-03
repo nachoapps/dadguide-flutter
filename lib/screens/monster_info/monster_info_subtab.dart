@@ -451,7 +451,7 @@ class MonsterLevelStatTable extends StatelessWidget {
       style: Theme.of(context).textTheme.caption,
       child: Table(
         columnWidths: {0: FixedColumnWidth(40)},
-        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [
           TableRow(children: [
             cell(loc.monsterInfoLevel),
@@ -526,7 +526,7 @@ class MonsterWeightedStatTable extends StatelessWidget {
       style: Theme.of(context).textTheme.caption,
       child: Table(
         columnWidths: {0: FixedColumnWidth(40)},
-        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [
           TableRow(children: [
             cell(loc.monsterInfoLevel),
@@ -597,7 +597,7 @@ class MonsterAssistStatTable extends StatelessWidget {
       style: Theme.of(context).textTheme.caption,
       child: Table(
         columnWidths: {0: FixedColumnWidth(40)},
-        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [
           TableRow(children: [
             cell(loc.monsterInfoLevel),
@@ -815,7 +815,7 @@ class MonsterLeaderInfoTable extends StatelessWidget {
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.caption,
       child: Table(
-        border: TableBorder.all(width: 1.0, color: Colors.black26),
+        border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [
           TableRow(children: [
             Container(),
@@ -964,7 +964,7 @@ class MonsterBuySellFeedSection extends StatelessWidget {
         children: [
           Expanded(
             child: Table(
-              border: TableBorder.all(width: 1.0, color: Colors.black26),
+              border: TableBorder.all(width: 1.0, color: grey(context, 800)),
               children: [
                 TableRow(children: [
                   cell(''),
@@ -1156,6 +1156,11 @@ class MonsterEvoRow extends StatelessWidget {
               for (var matId in _evo.evoMatIds)
                 Padding(
                   child: PadIcon(matId, size: 38, monsterLink: true),
+                  padding: EdgeInsets.symmetric(horizontal: 2),
+                ),
+              for (int i = 0; i < 5 - _evo.evoMatIds.length; i++)
+                Padding(
+                  child: SizedBox(width: 38),
                   padding: EdgeInsets.symmetric(horizontal: 2),
                 ),
             ]),
