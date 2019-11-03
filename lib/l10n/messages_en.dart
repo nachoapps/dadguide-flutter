@@ -171,6 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterSortTypeAttr" : MessageLookupByLibrary.simpleMessage("Attribute"),
     "monsterSortTypeCost" : MessageLookupByLibrary.simpleMessage("Cost"),
     "monsterSortTypeHp" : MessageLookupByLibrary.simpleMessage("HP"),
+    "monsterSortTypeLimitBrokenWeighted" : MessageLookupByLibrary.simpleMessage("LB Total"),
     "monsterSortTypeMp" : MessageLookupByLibrary.simpleMessage("MP"),
     "monsterSortTypeNumber" : MessageLookupByLibrary.simpleMessage("No."),
     "monsterSortTypeRarity" : MessageLookupByLibrary.simpleMessage("Rarity"),

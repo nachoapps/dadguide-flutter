@@ -746,6 +746,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.skillTurn: activeSkills.turnMin,
     };
     var orderExpression = orderMapping[args.sort.sortType];
+    if (args.sort.sortType == MonsterSortType.total) {
+      orderExpression = CustomExpression('hp_max/10 + atk_max/5 + rcv_max/3');
+    } else if (args.sort.sortType == MonsterSortType.limitTotal) {
+      orderExpression =
+          CustomExpression('(hp_max/10 + atk_max/5 + rcv_max/3) * (100 + limit_mult)');
+    }
 
     query.orderBy([OrderingTerm(mode: orderingMode, expression: orderExpression)]);
     if (args.sort.sortType == MonsterSortType.skillTurn) {

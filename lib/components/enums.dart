@@ -354,6 +354,8 @@ class MonsterSortType {
   static MonsterSortType hp = MonsterSortType._(3, localized.monsterSortTypeHp);
   static MonsterSortType rcv = MonsterSortType._(4, localized.monsterSortTypeRcv);
   static MonsterSortType total = MonsterSortType._(5, localized.monsterSortTypeWeighted);
+  static MonsterSortType limitTotal =
+      MonsterSortType._(5, localized.monsterSortTypeLimitBrokenWeighted);
   static MonsterSortType attribute = MonsterSortType._(6, localized.monsterSortTypeAttr);
   static MonsterSortType subAttribute = MonsterSortType._(7, localized.monsterSortTypeSubAttr);
   static MonsterSortType type = MonsterSortType._(8, localized.monsterSortTypeType);
@@ -370,7 +372,8 @@ class MonsterSortType {
     atk,
     hp,
     rcv,
-//    total,
+    total,
+    limitTotal,
     type,
     rarity,
     cost,

@@ -328,6 +328,9 @@ class DadGuideLocalizations {
   String monsterSortTypeWeighted() =>
       Intl.message('Total', name: 'monsterSortTypeWeighted', desc: 'Grid button');
 
+  String monsterSortTypeLimitBrokenWeighted() =>
+      Intl.message('LB Total', name: 'monsterSortTypeLimitBrokenWeighted', desc: 'Grid button');
+
   String monsterSortTypeAttr() =>
       Intl.message('Attribute', name: 'monsterSortTypeAttr', desc: 'Grid button');
 
