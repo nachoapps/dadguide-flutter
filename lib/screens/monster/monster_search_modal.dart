@@ -63,16 +63,19 @@ class LinksRow extends StatelessWidget {
         ActionChip(
           onPressed: () => launch('https://ilmina.com/#/ADVANCED_SEARCH'),
           label: Text('Ilmina'),
+          avatar: Icon(Icons.open_in_new),
         ),
         SizedBox(width: 8),
         ActionChip(
           onPressed: () => launch('http://www.puzzledragonx.com/en/monsterbook.asp'),
           label: Text('PDX'),
+          avatar: Icon(Icons.open_in_new),
         ),
         SizedBox(width: 8),
         ActionChip(
           onPressed: () => launch('http://pad.skyozora.com/pets'),
           label: Text('Skyo'),
+          avatar: Icon(Icons.open_in_new),
         ),
       ],
     );
@@ -126,6 +129,13 @@ class AttributeSection extends StatelessWidget {
   }
 }
 
+var greyscaleFilter = ColorFilter.matrix([
+  .33, .59, .11, 0, 0, // red
+  .33, .59, .11, 0, 0, //green
+  .33, .59, .11, 0, 0, // blue
+  .33, .59, .11, 1, 0, // alpha
+]);
+
 class ColorButton extends StatelessWidget {
   final int _attr;
   final List<int> _selectedAttrs;
@@ -137,14 +147,7 @@ class ColorButton extends StatelessWidget {
     var displayState = Provider.of<MonsterDisplayState>(context);
     var widget = _selectedAttrs.contains(_attr)
         ? _image
-        : ColorFiltered(
-            colorFilter: ColorFilter.matrix([
-              .33, .59, .11, 0, 0, // red
-              .33, .59, .11, 0, 0, //green
-              .33, .59, .11, 0, 0, // blue
-              1, 1, 1, 1, 0, // alpha
-            ]),
-            child: _image);
+        : ColorFiltered(colorFilter: greyscaleFilter, child: _image);
     return Expanded(
       child: GestureDetector(
         child: widget,
@@ -267,9 +270,7 @@ class TypeButton extends StatelessWidget {
     var displayState = Provider.of<MonsterDisplayState>(context);
     var widget = _selectedTypes.contains(_type)
         ? _image
-        : ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white.withOpacity(.6), BlendMode.hardLight),
-            child: _image);
+        : ColorFiltered(colorFilter: greyscaleFilter, child: _image);
     return Expanded(
       child: GestureDetector(
         child: widget,
