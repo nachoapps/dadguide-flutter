@@ -138,7 +138,12 @@ class ColorButton extends StatelessWidget {
     var widget = _selectedAttrs.contains(_attr)
         ? _image
         : ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.white.withOpacity(.6), BlendMode.hardLight),
+            colorFilter: ColorFilter.matrix([
+              .33, .59, .11, 0, 0, // red
+              .33, .59, .11, 0, 0, //green
+              .33, .59, .11, 0, 0, // blue
+              1, 1, 1, 1, 0, // alpha
+            ]),
             child: _image);
     return Expanded(
       child: GestureDetector(
