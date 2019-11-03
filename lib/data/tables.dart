@@ -736,9 +736,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.atk: monsters.atkMax,
       MonsterSortType.hp: monsters.hpMax,
       MonsterSortType.rcv: monsters.rcvMax,
-//      MonsterSortType.total: monsters.monsterNoJp,
-      MonsterSortType.attribute: monsters.attribute1Id,
-      MonsterSortType.subAttribute: monsters.attribute2Id,
       MonsterSortType.type: monsters.type1Id,
       MonsterSortType.rarity: monsters.rarity,
       MonsterSortType.cost: monsters.cost,
@@ -753,7 +750,27 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
           CustomExpression('(hp_max/10 + atk_max/5 + rcv_max/3) * (100 + limit_mult)');
     }
 
-    query.orderBy([OrderingTerm(mode: orderingMode, expression: orderExpression)]);
+    List<OrderingTerm> orderingTerms;
+
+    // Special handling for attribute and subattribute; append extra sorting terms to improve
+    // quality of display.
+    if (args.sort.sortType == MonsterSortType.attribute) {
+      orderingTerms = [
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute1Id),
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
+        OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp),
+      ];
+    } else if (args.sort.sortType == MonsterSortType.subAttribute) {
+      orderingTerms = [
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
+        OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp),
+      ];
+    } else {
+      orderingTerms = [OrderingTerm(mode: orderingMode, expression: orderExpression)];
+    }
+
+    query.orderBy(orderingTerms);
+
     if (args.sort.sortType == MonsterSortType.skillTurn) {
       // Special handling; we don't want to sort by monsters with no skill
       query.where(monsters.activeSkillId.isBiggerThanValue(0));
