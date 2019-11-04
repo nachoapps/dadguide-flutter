@@ -18,11 +18,16 @@ class DataUpdater with ChangeNotifier {
 
   void subscribe() {
     var loc = localized;
+    var scaffold = Scaffold.of(_context);
     _subscription = updateManager.updateStream.listen((_) {
-      Scaffold.of(_context).showSnackBar((SnackBar(content: Text(loc.updateComplete))));
+      scaffold
+        ..removeCurrentSnackBar()
+        ..showSnackBar((SnackBar(content: Text(loc.updateComplete))));
       notifyListeners();
     }, onError: (_) {
-      Scaffold.of(_context).showSnackBar((SnackBar(content: Text(loc.updateFailed))));
+      scaffold
+        ..removeCurrentSnackBar()
+        ..showSnackBar((SnackBar(content: Text(loc.updateFailed))));
     });
     if (Prefs.updateRequired()) {
       Fimber.w('Update is required, triggering');
