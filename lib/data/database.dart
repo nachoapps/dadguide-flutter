@@ -12,6 +12,8 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._internal();
 
   static var allAwokenSkills = <AwokenSkill>[];
+  static var allActiveSkillTags = <ActiveSkillTag>[];
+  static var allLeaderSkillTags = <LeaderSkillTag>[];
 
   DadGuideDatabase _database;
   DatabaseHelper._internal();
@@ -35,7 +37,10 @@ class DatabaseHelper {
     _database = new DadGuideDatabase(await _dbFilePath());
 
     try {
-      allAwokenSkills = await MonstersDao(_database).allAwokenSkills();
+      var monsterDao = MonstersDao(_database);
+      allAwokenSkills = await monsterDao.allAwokenSkills();
+      allActiveSkillTags = await monsterDao.allActiveSkillTags();
+      allLeaderSkillTags = await monsterDao.allLeaderSkillTags();
     } catch (ex) {
       Fimber.e('Failed to get awoken skills from db', ex: ex);
     }

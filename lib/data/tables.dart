@@ -43,6 +43,20 @@ class ActiveSkills extends Table {
   IntColumn get tstamp => integer()();
 }
 
+class ActiveSkillTags extends Table {
+  IntColumn get activeSkillTagId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+
+  TextColumn get nameNa => text()();
+
+  TextColumn get nameKr => text()();
+
+  IntColumn get orderIdx => integer()();
+
+  IntColumn get tstamp => integer()();
+}
+
 class Awakenings extends Table {
   IntColumn get awakeningId => integer().autoIncrement()();
 
@@ -199,6 +213,20 @@ class LeaderSkills extends Table {
   RealColumn get maxRcv => real()();
 
   RealColumn get maxShield => real()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class LeaderSkillTags extends Table {
+  IntColumn get leaderSkillTagId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+
+  TextColumn get nameNa => text()();
+
+  TextColumn get nameKr => text()();
+
+  IntColumn get orderIdx => integer()();
 
   IntColumn get tstamp => integer()();
 }
@@ -415,6 +443,7 @@ class Timestamps extends Table {
   ],
   tables: [
     ActiveSkills,
+    ActiveSkillTags,
     Awakenings,
     AwokenSkills,
     Drops,
@@ -422,6 +451,7 @@ class Timestamps extends Table {
     Encounters,
     Evolutions,
     LeaderSkills,
+    LeaderSkillTags,
     Monsters,
     Series,
     Schedule,
@@ -673,6 +703,7 @@ class MonsterSearchArgs {
 @UseDao(
   tables: [
     ActiveSkills,
+    ActiveSkillTags,
     Awakenings,
     AwokenSkills,
     Drops,
@@ -680,6 +711,7 @@ class MonsterSearchArgs {
     Encounters,
     Evolutions,
     LeaderSkills,
+    LeaderSkillTags,
     Monsters,
     Series,
     SubDungeons,
@@ -1002,6 +1034,16 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
   Future<List<AwokenSkill>> allAwokenSkills() async {
     final query = select(awokenSkills)..orderBy([(a) => OrderingTerm(expression: a.awokenSkillId)]);
+    return query.get();
+  }
+
+  Future<List<ActiveSkillTag>> allActiveSkillTags() async {
+    final query = select(activeSkillTags)..orderBy([(a) => OrderingTerm(expression: a.orderIdx)]);
+    return query.get();
+  }
+
+  Future<List<LeaderSkillTag>> allLeaderSkillTags() async {
+    final query = select(leaderSkillTags)..orderBy([(l) => OrderingTerm(expression: l.orderIdx)]);
     return query.get();
   }
 
