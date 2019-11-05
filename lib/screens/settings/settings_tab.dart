@@ -31,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
         DropdownPreference(
           loc.settingsUiLanguage,
           PrefKeys.uiLanguage,
-          desc: 'Overwrites your device locale',
+          desc: loc.settingsUiLanguageDesc,
           defaultVal: Prefs.defaultUiLanguageValue,
           values: Prefs.languageValues,
           displayValues: Prefs.languageDisplayValues,
@@ -40,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
         DropdownPreference(
           loc.settingsInfoLanguage,
           PrefKeys.infoLanguage,
-          desc: 'Used for monster/dungeon names, skill text, etc',
+          desc: loc.settingsInfoLanguageDesc,
           defaultVal: Prefs.defaultInfoLanguageValue,
           values: Prefs.languageValues,
           displayValues: Prefs.languageDisplayValues,
@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
         DropdownPreference(
           loc.settingsGameCountry,
           PrefKeys.gameCountry,
-          desc: 'Controls region-specific settings',
+          desc: loc.settingsGameCountryDesc,
           defaultVal: Prefs.defaultGameCountryValue,
           values: Prefs.countryValues,
           displayValues: Prefs.countryDisplayValues,
@@ -63,7 +63,7 @@ class SettingsScreen extends StatelessWidget {
         DropdownPreference(
           loc.settingsEventCountry,
           PrefKeys.eventCountry,
-          desc: 'Server to display guerrilla events for',
+          desc: loc.settingsEventCountryDesc,
           defaultVal: Prefs.defaultEventCountryValue,
           values: Prefs.countryValues,
           displayValues: Prefs.countryDisplayValues,
