@@ -20,6 +20,9 @@ class PrefKeys {
   static const eventsShowRed = 'events_show_red';
   static const eventsShowBlue = 'events_show_blue';
   static const eventsShowGreen = 'events_show_green';
+
+  static const uiTheme = 'ui_theme';
+  static const uiDarkMode = 'ui_dark_mode';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -42,6 +45,10 @@ class Prefs {
 
   /// Initialize the pref repo and make sure every preference has a sane default at first launch.
   static Future<void> init() async {
+    var windowBrightness = ui.window.platformBrightness;
+    var defaultTheme =
+        windowBrightness == ui.Brightness.light ? UiTheme.lightBlue : UiTheme.darkBlue;
+
     await PrefService.init();
     PrefService.setDefaultValues({
       PrefKeys.currentDbVersion: 0,
@@ -55,6 +62,8 @@ class Prefs {
       PrefKeys.eventsShowRed: true,
       PrefKeys.eventsShowBlue: true,
       PrefKeys.eventsShowGreen: true,
+      PrefKeys.uiTheme: defaultTheme.id,
+      PrefKeys.uiDarkMode: defaultTheme.isDark(),
     });
   }
 
@@ -95,6 +104,16 @@ class Prefs {
 
   static Language get uiLanguage => Language.byId(PrefService.getInt(PrefKeys.uiLanguage));
   static set uiLanguage(Language language) => PrefService.setInt(PrefKeys.uiLanguage, language.id);
+
+  static UiTheme get uiTheme => UiTheme.byId(PrefService.getInt(PrefKeys.uiTheme));
+  static set uiTheme(UiTheme theme) => PrefService.setInt(PrefKeys.uiTheme, theme.id);
+
+  static bool get uiDarkMode => PrefService.getBool(PrefKeys.uiDarkMode);
+  static set uiDarkMode(bool darkMode) {
+    PrefService.setBool(PrefKeys.uiTheme, darkMode);
+    // Temporary propagation of the saved actual theme
+    Prefs.uiTheme = darkMode ? UiTheme.darkBlue : UiTheme.lightBlue;
+  }
 
   static int get currentDbVersion => PrefService.getInt(PrefKeys.currentDbVersion);
   static set currentDbVersion(int version) =>

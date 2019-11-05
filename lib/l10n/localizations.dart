@@ -561,6 +561,9 @@ class DadGuideLocalizations {
   String get settingsEventCountryDesc => Intl.message('Server to display guerrilla events for',
       name: 'settingsEventCountryDesc', desc: 'Setting description');
 
+  String get settingsDarkMode =>
+      Intl.message('Dark Mode', name: 'settingsDarkMode', desc: 'Checkbox title');
+
   String get settingsEventsHideClosed =>
       Intl.message('Hide closed events', name: 'settingsEventsHideClosed', desc: 'Checkbox title');
 

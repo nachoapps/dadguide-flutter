@@ -76,8 +76,8 @@ class _DadGuideAppState extends State<DadGuideApp> {
         builder: (_) => LocaleChangedNotifier(this),
         child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
-          theme: appTheme(),
-          darkTheme: darkAppTheme(),
+          theme: themeFromPrefs(),
+          darkTheme: themeFromPrefs(),
           locale: Locale(Prefs.uiLanguage.languageCode),
           debugShowCheckedModeBanner: false,
           home: SetupRequiredChecker(),

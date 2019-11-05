@@ -1,7 +1,8 @@
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/material.dart';
 
 Color grey(BuildContext context, int value) {
-  var isLight = MediaQuery.of(context).platformBrightness == Brightness.light;
+  var isLight = !Prefs.uiDarkMode;
   if (value >= 1000) return isLight ? Colors.black : Colors.white;
   if (value <= 0) return isLight ? Colors.white : Colors.black;
   return isLight ? Colors.grey[value] : Colors.grey[1000 - value];

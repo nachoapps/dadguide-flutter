@@ -1,4 +1,9 @@
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/material.dart';
+
+ThemeData themeFromPrefs() {
+  return !Prefs.uiDarkMode ? appTheme() : darkAppTheme();
+}
 
 ThemeData appTheme() {
   return ThemeData(

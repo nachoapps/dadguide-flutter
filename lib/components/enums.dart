@@ -1,6 +1,7 @@
 // TODO: needs localization
 
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:flutter/material.dart';
 
 /// Enum class for monster typing.
 class MonsterType {
@@ -412,6 +413,30 @@ class OrbType {
   static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
 
   static OrbType byId(int id) {
+    return _lookup[id];
+  }
+}
+
+/// Enum class for UI look and feel.
+class UiTheme {
+  const UiTheme._(this.id, this.brightness);
+
+  final int id;
+  final Brightness brightness;
+
+  bool isDark() => brightness == Brightness.dark;
+
+  static const UiTheme lightBlue = UiTheme._(1, Brightness.light);
+  static const UiTheme darkBlue = UiTheme._(2, Brightness.dark);
+
+  static const List<UiTheme> all = [
+    lightBlue,
+    darkBlue,
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+
+  static UiTheme byId(int id) {
     return _lookup[id];
   }
 }

@@ -48,10 +48,16 @@ class SettingsScreen extends StatelessWidget {
         DropdownPreference(
           loc.settingsGameCountry,
           PrefKeys.gameCountry,
-          desc: 'Controls some other region-specific settings',
+          desc: 'Controls region-specific settings',
           defaultVal: Prefs.defaultGameCountryValue,
           values: Prefs.countryValues,
           displayValues: Prefs.countryDisplayValues,
+        ),
+        CheckboxPreference(
+          loc.settingsDarkMode,
+          PrefKeys.uiDarkMode,
+          // This is a hack to refresh the app when dark mode changes.
+          onChange: () => Provider.of<LocaleChangedNotifier>(context).notify(),
         ),
         PreferenceTitle(loc.settingsEventsSection),
         DropdownPreference(
@@ -103,6 +109,8 @@ var _codeContributors = <String>[
   'jbills',
   'PGGB',
   'ChalupaPapa',
+  'davenger',
+  'Raijinili',
 ];
 
 var _dataContributors = <String>[
