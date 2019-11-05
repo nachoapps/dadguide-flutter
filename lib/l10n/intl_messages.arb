@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-02T22:36:20.876124",
+  "@@last_modified": "2019-11-04T21:09:19.289599",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -951,6 +951,12 @@
   "settingsEventCountryDesc": "Server to display guerrilla events for",
   "@settingsEventCountryDesc": {
     "description": "Setting description",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDarkMode": "Dark Mode",
+  "@settingsDarkMode": {
+    "description": "Checkbox title",
     "type": "text",
     "placeholders": {}
   },
