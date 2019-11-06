@@ -40,6 +40,8 @@ class ActiveSkills extends Table {
 
   IntColumn get turnMin => integer()();
 
+  TextColumn get tags => text()();
+
   IntColumn get tstamp => integer()();
 }
 
@@ -213,6 +215,8 @@ class LeaderSkills extends Table {
   RealColumn get maxRcv => real()();
 
   RealColumn get maxShield => real()();
+
+  TextColumn get tags => text()();
 
   IntColumn get tstamp => integer()();
 }
@@ -688,8 +692,6 @@ class MonsterFilterArgs {
   List<int> awokenSkills = [];
   Set<ActiveSkillTag> activeTags = {};
   Set<LeaderSkillTag> leaderTags = {};
-//  List<ActiveSkillTag> activeTags = [];
-//  List<LeaderSkillTag> leaderTags = [];
 }
 
 class MonsterSearchArgs {
@@ -762,7 +764,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     });
 
     var query = select(monsters).join([
-      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId))
+      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
+      leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId))
     ]);
 
     var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
@@ -856,6 +859,34 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
             ),
             monsters.nameKr.like(searchText)));
       }
+    }
+
+    if (args.filter.leaderTags.isNotEmpty) {
+      var expr;
+      for (var curTag in args.filter.leaderTags) {
+        var searchText = '%(${curTag.leaderSkillTagId})%';
+        var curExpr = leaderSkills.tags.like(searchText);
+        if (expr == null) {
+          expr = curExpr;
+        } else {
+          expr = or(expr, curExpr);
+        }
+      }
+      query.where(expr);
+    }
+
+    if (args.filter.activeTags.isNotEmpty) {
+      var expr;
+      for (var curTag in args.filter.activeTags) {
+        var searchText = '%(${curTag.activeSkillTagId})%';
+        var curExpr = activeSkills.tags.like(searchText);
+        if (expr == null) {
+          expr = curExpr;
+        } else {
+          expr = or(expr, curExpr);
+        }
+      }
+      query.where(expr);
     }
 
     var results = <ListMonster>[];
