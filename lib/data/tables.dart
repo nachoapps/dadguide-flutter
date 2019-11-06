@@ -686,6 +686,10 @@ class MonsterFilterArgs {
   MinMax cost = MinMax();
   List<int> types = [];
   List<int> awokenSkills = [];
+  Set<ActiveSkillTag> activeTags = {};
+  Set<LeaderSkillTag> leaderTags = {};
+//  List<ActiveSkillTag> activeTags = [];
+//  List<LeaderSkillTag> leaderTags = [];
 }
 
 class MonsterSearchArgs {

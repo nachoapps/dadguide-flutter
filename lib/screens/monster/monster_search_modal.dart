@@ -2,6 +2,7 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -106,6 +107,10 @@ class FilterWidget extends StatelessWidget {
         TypeFilterRow(),
         Divider(),
         AwokenSkillsFilterRow(),
+        Divider(),
+        ActiveSkillTagsRow(),
+        Divider(),
+        LeaderSkillTagsRow(),
       ],
     );
   }
@@ -436,19 +441,90 @@ class AwakeningButton extends StatelessWidget {
   }
 }
 
-class FilterActionBar extends StatelessWidget {
+class ActiveSkillTagsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
+    return SkillTagsRow(
+      title: 'Active Skills',
+      tagHolder: displayState.filterArgs.activeTags,
+      tagOptions: DatabaseHelper.allActiveSkillTags,
+    );
+  }
+}
 
-    return Row(
+class LeaderSkillTagsRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
+    return SkillTagsRow(
+      title: 'Leader Skills',
+      tagHolder: displayState.filterArgs.leaderTags,
+      tagOptions: DatabaseHelper.allLeaderSkillTags,
+    );
+  }
+}
+
+class SkillTagsRow extends StatelessWidget {
+  final String title;
+  final Set<dynamic> tagHolder;
+  final List<dynamic> tagOptions;
+
+  const SkillTagsRow({Key key, this.title, this.tagHolder, this.tagOptions}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<MonsterDisplayState>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        FlatButton(
-          child: Text(loc.monsterFilterModalClose),
-          onPressed: () => Navigator.pop(context),
-        ),
+        Text(title),
+        GridView.count(
+          padding: EdgeInsets.all(8),
+          crossAxisCount: 2,
+          childAspectRatio: 8 / 1,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            for (var tag in tagOptions)
+              ToggleTagButton(
+                tagHolder.contains(tag),
+                LanguageSelector.name(tag).call(),
+                () {
+                  if (tagHolder.contains(tag)) {
+                    tagHolder.remove(tag);
+                  } else {
+                    tagHolder.add(tag);
+                  }
+                  displayState.notify();
+                },
+              ),
+          ],
+        )
       ],
+    );
+  }
+}
+
+class ToggleTagButton extends FlatButton {
+  final bool _selected;
+  final String _text;
+  final VoidCallback _selectedOnPressed;
+
+  ToggleTagButton(this._selected, this._text, this._selectedOnPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      color: _selected ? Colors.lightBlueAccent : grey(context, 200),
+      textColor: _selected ? grey(context, 0) : grey(context, 1000),
+      child: FittedBox(child: Text(_text)),
+      onPressed: _selectedOnPressed,
     );
   }
 }
