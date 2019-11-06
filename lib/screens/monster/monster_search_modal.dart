@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -10,27 +11,85 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Displays a dialog that lets the user toggle their event server, or kick off the update.
-Future<void> showMonsterFilterDialog(BuildContext context) async {
-  var loc = DadGuideLocalizations.of(context);
+/// Displays controls that allow the user to filter the monster list.
+class FilterMonstersScreen extends StatelessWidget {
+  final FilterMonstersArgs args;
 
-  var displayState = Provider.of<MonsterDisplayState>(context);
-  var dialogResults = await showDialog(
-      context: context,
-      builder: (innerContext) {
-        return ChangeNotifierProvider.value(
-          value: displayState,
-          child: SimpleDialog(
-            title: Text(loc.monsterFilterModalTitle),
-            contentPadding: EdgeInsets.all(8),
+  FilterMonstersScreen(this.args);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: args.displayState,
+      child: Column(
+        children: [
+          FilterMonstersTopBar(),
+          Expanded(child: SingleChildScrollView(child: FilterWidget())),
+          FilterMonstersBottomBar(),
+        ],
+      ),
+    );
+  }
+}
+
+/// Contains a back button and screen title.
+class FilterMonstersTopBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
+
+    return Container(
+        color: Colors.blue,
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        child: Row(
+          children: [
+            SizedBox(
+                width: 32,
+                height: 32,
+                child: InkWell(
+                  child: Icon(Icons.chevron_left),
+                  onTap: () => Navigator.of(context).pop(displayState),
+                )),
+            Expanded(child: Center(child: Text(loc.monsterFilterModalTitle))),
+            SizedBox(width: 32, height: 32),
+          ],
+        ));
+  }
+}
+
+/// Contains a close button; just an alias for the back button.
+class FilterMonstersBottomBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
+
+    return SizedBox(
+      height: 32,
+      child: Container(
+          color: Colors.grey,
+          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+          child: Row(
             children: [
-              FilterWidget(),
+              FlatButton(
+                child: Text(loc.close),
+                onPressed: () => Navigator.of(context).pop(displayState),
+              ),
+              Spacer(),
+              FlatButton(
+                child: Text(loc.monsterFilterModalReset),
+                onPressed: () {
+                  displayState.filterArgs = MonsterFilterArgs();
+                  displayState.sortType = MonsterSortType.released;
+                  displayState.sortAsc = false;
+                  displayState.notify();
+                },
+              ),
             ],
-          ),
-        );
-      });
-  displayState.doSearch();
-  return dialogResults;
+          )),
+    );
+  }
 }
 
 class FilterWidget extends StatelessWidget {
@@ -47,8 +106,6 @@ class FilterWidget extends StatelessWidget {
         TypeFilterRow(),
         Divider(),
         AwokenSkillsFilterRow(),
-        Divider(),
-        FilterActionBar(),
       ],
     );
   }
@@ -337,8 +394,8 @@ class AwokenSkillsFilterRow extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Wrap(
-          spacing: 4,
-          runSpacing: 4,
+          spacing: 8,
+          runSpacing: 8,
           children: [
             for (var skill in awokenSkills)
               AwakeningButton(
@@ -390,16 +447,6 @@ class FilterActionBar extends StatelessWidget {
         FlatButton(
           child: Text(loc.monsterFilterModalClose),
           onPressed: () => Navigator.pop(context),
-        ),
-        Spacer(),
-        FlatButton(
-          child: Text(loc.monsterFilterModalReset),
-          onPressed: () {
-            displayState.filterArgs = MonsterFilterArgs();
-            displayState.sortType = MonsterSortType.released;
-            displayState.sortAsc = false;
-            displayState.notify();
-          },
         ),
       ],
     );

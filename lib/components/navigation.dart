@@ -1,4 +1,5 @@
 import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -81,5 +82,22 @@ Function goToSubDungeonSelectionFn(BuildContext context, FullDungeon dungeon) {
   return () async {
     return Navigator.pushNamed(context, SubDungeonSelectionArgs.routeName,
         arguments: SubDungeonSelectionArgs(dungeon));
+  };
+}
+
+/// Arguments for the sub dungeon selection view. We are guaranteed to have the dungeon data at
+/// this point, so it's injected directly instead of by id.
+class FilterMonstersArgs {
+  static const routeName = '/filterMonsters';
+  final MonsterDisplayState displayState;
+
+  FilterMonstersArgs(this.displayState);
+}
+
+/// Returns a Function which when executed, sends the user to sub dungeon selection.
+Function goToFilterMonstersFn(BuildContext context, MonsterDisplayState displayState) {
+  return () async {
+    return Navigator.pushNamed(context, FilterMonstersArgs.routeName,
+        arguments: FilterMonstersArgs(displayState));
   };
 }

@@ -11,7 +11,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
 import 'monster_search_bloc.dart';
-import 'monster_search_modal.dart';
 
 /// Displays the search bar, list of monsters, and display options toggles.
 class MonsterTab extends StatelessWidget {
@@ -81,7 +80,10 @@ class MonsterSearchBar extends StatelessWidget {
       'Search: Monster Name/No.',
       InkWell(
         child: Icon(Icons.clear_all),
-        onTap: () => showMonsterFilterDialog(context),
+        onTap: () async {
+          await goToFilterMonstersFn(context, controller)();
+          controller.doSearch();
+        },
       ),
       InkWell(
         child: Icon(Icons.cancel),

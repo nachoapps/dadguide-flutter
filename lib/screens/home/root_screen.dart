@@ -9,6 +9,7 @@ import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
+import 'package:dadguide2/screens/monster/monster_search_modal.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/services/device_utils.dart';
@@ -29,6 +30,7 @@ class TabNavigatorRoutes {
   static const String monsterDetail = MonsterDetailArgs.routeName;
   static const String dungeonDetail = DungeonDetailArgs.routeName;
   static const String subDungeonSelection = SubDungeonSelectionArgs.routeName;
+  static const String filterMonsters = FilterMonstersArgs.routeName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -62,6 +64,9 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.subDungeonSelection:
               var args = routeSettings.arguments as SubDungeonSelectionArgs;
               return MaterialPageRoute(builder: (context) => SelectSubDungeonScreen(args));
+            case TabNavigatorRoutes.filterMonsters:
+              var args = routeSettings.arguments as FilterMonstersArgs;
+              return MaterialPageRoute(builder: (context) => FilterMonstersScreen(args));
             default:
               throw 'Unexpected route';
           }
