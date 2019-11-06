@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -284,6 +285,14 @@ class FullActiveSkill {
   FullActiveSkill(this.skill)
       : name = LanguageSelector.name(skill),
         desc = LanguageSelector.desc(skill);
+
+  List<ActiveSkillTag> get tags {
+    var tagItems = skill.tags.split(',').map((v) => v.replaceAll(RegExp('[()]'), ''));
+    var asMap = Map.fromIterable(DatabaseHelper.allActiveSkillTags, key: (i) => i.activeSkillTagId);
+    return [
+      for (var tag in tagItems) asMap[int.tryParse(tag)],
+    ]..removeWhere((v) => v == null);
+  }
 }
 
 class FullLeaderSkill {
@@ -294,4 +303,12 @@ class FullLeaderSkill {
   FullLeaderSkill(this.skill)
       : name = LanguageSelector.name(skill),
         desc = LanguageSelector.desc(skill);
+
+  List<LeaderSkillTag> get tags {
+    var tagItems = skill.tags.split(',').map((v) => v.replaceAll(RegExp('[()]'), ''));
+    var lsMap = Map.fromIterable(DatabaseHelper.allLeaderSkillTags, key: (i) => i.leaderSkillTagId);
+    return [
+      for (var tag in tagItems) lsMap[int.tryParse(tag)],
+    ]..removeWhere((v) => v == null);
+  }
 }

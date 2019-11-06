@@ -127,7 +127,10 @@ class MonsterDetailContents extends StatelessWidget {
                     SizedBox(height: 4),
                     Text(loc.monsterInfoAvailableKillers),
                     Row(children: [
-                      for (var killer in _data.killers) latentContainer(killer.id, size: 36)
+                      for (var killer in _data.killers)
+                        Padding(
+                            padding: EdgeInsets.only(right: 4),
+                            child: latentContainer(killer.id, size: 36))
                     ]),
                   ],
                 ),
@@ -689,6 +692,8 @@ class MonsterActiveSkillSection extends StatelessWidget {
         ),
         SizedBox(height: 2),
         Text(_model.desc(), style: secondary(context)),
+        SizedBox(height: 4),
+        SkillTagsRow(tags: _model.tags),
       ],
     );
   }
@@ -720,7 +725,54 @@ class MonsterLeaderSkillSection extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(_model.desc(), style: secondary(context)),
+        SizedBox(height: 4),
+        SkillTagsRow(tags: _model.tags),
       ],
+    );
+  }
+}
+
+class SkillTagsRow extends StatelessWidget {
+  final List<dynamic> tags;
+
+  const SkillTagsRow({Key key, this.tags}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      padding: EdgeInsets.all(4),
+      crossAxisCount: 2,
+      childAspectRatio: 8 / 1,
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        for (var tag in tags)
+          TagButton(
+            LanguageSelector.name(tag).call(),
+            null,
+          ),
+      ],
+    );
+  }
+}
+
+class TagButton extends FlatButton {
+  final String _text;
+  final VoidCallback _selectedOnPressed;
+
+  TagButton(this._text, this._selectedOnPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      color: grey(context, 200),
+      disabledColor: grey(context, 200),
+      textColor: grey(context, 1000),
+      disabledTextColor: grey(context, 1000),
+      child: FittedBox(child: Text(_text)),
+      onPressed: _selectedOnPressed,
     );
   }
 }
@@ -1225,10 +1277,15 @@ class AwokenSkillSection extends StatelessWidget {
           children: [
             Text(title, style: subtitle(context)),
             Spacer(),
-            for (var a in _awakenings) awakeningContainer(a.awokenSkillId, size: 16),
+            for (var a in _awakenings)
+              Padding(
+                padding: EdgeInsets.only(left: 2),
+                child: awakeningContainer(a.awokenSkillId, size: 16),
+              ),
           ],
         ),
         SizedBox(height: 4),
+        // TODO: I think this would look nicer if the awakening aligned with the name
         for (var data in map.values)
           Padding(
             padding: EdgeInsets.symmetric(vertical: 2),
@@ -1236,6 +1293,7 @@ class AwokenSkillSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 awakeningContainer(data.item1.awokenSkillId, size: 16),
+                SizedBox(width: 4),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
