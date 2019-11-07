@@ -383,7 +383,7 @@ class AwokenSkillsFilterRow extends StatelessWidget {
                           // Disable the inkwell, it looks ugly
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
-                          padding: EdgeInsets.all(2),
+                          padding: EdgeInsets.all(0),
                           onPressed: () {
                             selectedSkills.clear();
                             displayState.showAwakenings = false;
