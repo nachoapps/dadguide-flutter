@@ -376,20 +376,20 @@ class AwokenSkillsFilterRow extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.all(1), child: awakeningContainer(skillId, size: 16)),
                     Spacer(),
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: IconButton(
-                          // Disable the inkwell, it looks ugly
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            selectedSkills.clear();
-                            displayState.showAwakenings = false;
-                            displayState.notify();
-                          },
-                          icon: Icon(Icons.clear)),
+                    Material(
+                      color: Colors.transparent,
+                      child: SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: IconButton(
+                            padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              selectedSkills.clear();
+                              displayState.showAwakenings = false;
+                              displayState.notify();
+                            },
+                            icon: Icon(Icons.clear)),
+                      ),
                     ),
                   ],
                 ),
