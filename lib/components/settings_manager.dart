@@ -23,6 +23,8 @@ class PrefKeys {
 
   static const uiTheme = 'ui_theme';
   static const uiDarkMode = 'ui_dark_mode';
+
+  static const hideUnreleasedMonsters = 'hide_unreleased_monsters';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -64,6 +66,7 @@ class Prefs {
       PrefKeys.eventsShowGreen: true,
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
+      PrefKeys.hideUnreleasedMonsters: false,
     });
   }
 
@@ -133,6 +136,8 @@ class Prefs {
     PrefService.setInt(PrefKeys.gameCountry, val);
   }
 
+  static Country get gameCountry => Country.byId(PrefService.getInt(PrefKeys.gameCountry));
+
   /// Store the current time as the last update time.
   static void updateRan() {
     PrefService.setInt(PrefKeys.lastUpdateExecution, DateTime.now().millisecondsSinceEpoch);
@@ -144,4 +149,8 @@ class Prefs {
         DateTime.fromMillisecondsSinceEpoch(PrefService.getInt(PrefKeys.lastUpdateExecution));
     return DateTime.now().difference(lastUpdate).inMinutes > 10;
   }
+
+  static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
+  static set hideUnreleasedMonsters(bool val) =>
+      PrefService.setBool(PrefKeys.hideUnreleasedMonsters, val);
 }

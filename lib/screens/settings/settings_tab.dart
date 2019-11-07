@@ -54,6 +54,11 @@ class SettingsScreen extends StatelessWidget {
           displayValues: Prefs.countryDisplayValues,
         ),
         CheckboxPreference(
+          loc.settingsHideUnreleasedMonsters,
+          PrefKeys.hideUnreleasedMonsters,
+          desc: loc.settingsHideUnreleasedMonstersDesc,
+        ),
+        CheckboxPreference(
           loc.settingsDarkMode,
           PrefKeys.uiDarkMode,
           // This is a hack to refresh the app when dark mode changes.

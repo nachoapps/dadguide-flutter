@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-04T21:09:19.289599",
+  "@@last_modified": "2019-11-06T21:02:36.627801",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -957,6 +957,18 @@
   "settingsDarkMode": "Dark Mode",
   "@settingsDarkMode": {
     "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsHideUnreleasedMonsters": "Hide unreleased monsters",
+  "@settingsHideUnreleasedMonsters": {
+    "description": "Checkbox title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsHideUnreleasedMonstersDesc": "Hides monsters that are not released for the selected Game Country",
+  "@settingsHideUnreleasedMonstersDesc": {
+    "description": "Setting description",
     "type": "text",
     "placeholders": {}
   },

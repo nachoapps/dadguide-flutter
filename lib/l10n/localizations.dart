@@ -564,6 +564,13 @@ class DadGuideLocalizations {
   String get settingsDarkMode =>
       Intl.message('Dark Mode', name: 'settingsDarkMode', desc: 'Checkbox title');
 
+  String get settingsHideUnreleasedMonsters => Intl.message('Hide unreleased monsters',
+      name: 'settingsHideUnreleasedMonsters', desc: 'Checkbox title');
+
+  String get settingsHideUnreleasedMonstersDesc =>
+      Intl.message('Hides monsters that are not released for the selected Game Country',
+          name: 'settingsHideUnreleasedMonstersDesc', desc: 'Setting description');
+
   String get settingsEventsHideClosed =>
       Intl.message('Hide closed events', name: 'settingsEventsHideClosed', desc: 'Checkbox title');
 

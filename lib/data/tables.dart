@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
@@ -887,6 +888,19 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         }
       }
       query.where(expr);
+    }
+
+    if (Prefs.hideUnreleasedMonsters) {
+      var country = Prefs.gameCountry;
+      if (country == Country.jp) {
+        query.where(monsters.onJp.equals(true));
+      } else if (country == Country.na) {
+        query.where(monsters.onNa.equals(true));
+      } else if (country == Country.kr) {
+        query.where(monsters.onKr.equals(true));
+      } else {
+        Fimber.e('Unexpected country value: $country');
+      }
     }
 
     var results = <ListMonster>[];
