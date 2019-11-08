@@ -9,7 +9,9 @@ import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/dungeon_info/sub_dungeon_items.dart';
 import 'package:dadguide2/theme/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -75,6 +77,8 @@ class DungeonDetailContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Column(
       children: [
         Expanded(
@@ -85,6 +89,9 @@ class DungeonDetailContents extends StatelessWidget {
                 DungeonHeader(_data),
                 DungeonSubHeader(_data.selectedSubDungeon),
                 for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
+                SizedBox(height: 8),
+                GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
+                SubDungeonList(_data),
                 MailIssues(_data),
               ],
             ),
@@ -264,15 +271,11 @@ class DungeonBattle extends StatelessWidget {
       text = loc.battleCommon;
     }
     return Column(children: [
-      Container(
-        color: grey(context, 400),
-        padding: const EdgeInsets.all(4.0),
-        child: Row(children: [
-          Text(text),
-          Spacer(),
-          Text(loc.battleDrop),
-        ]),
-      ),
+      GreyBar(children: [
+        Text(text),
+        Spacer(),
+        Text(loc.battleDrop),
+      ]),
       for (var encounter in _model.encounters) DungeonEncounter(encounter)
     ]);
   }
@@ -464,6 +467,20 @@ class MailIssues extends StatelessWidget {
               Text(loc.reportBadInfo, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
             ],
           )),
+    );
+  }
+}
+
+class GreyBar extends StatelessWidget {
+  final List<Widget> children;
+
+  const GreyBar({Key key, this.children}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: grey(context, 400),
+      padding: const EdgeInsets.all(4.0),
+      child: Row(children: children),
     );
   }
 }

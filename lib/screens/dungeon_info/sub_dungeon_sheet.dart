@@ -1,10 +1,7 @@
-import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
-import 'package:dadguide2/data/data_objects.dart';
-import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/dungeon_info/sub_dungeon_items.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Displays a list of the SubDungeons in the Dungeon, which the user can pick from.
 class SelectSubDungeonScreen extends StatelessWidget {
@@ -17,7 +14,7 @@ class SelectSubDungeonScreen extends StatelessWidget {
     return Column(
       children: [
         SelectSubDungeonTopBar(),
-        Expanded(child: SubDungeonList(args.fullDungeon)),
+        Expanded(child: SingleChildScrollView(child: SubDungeonList(args.fullDungeon))),
         SelectSubDungeonBottomBar(),
       ],
     );
@@ -69,88 +66,5 @@ class SelectSubDungeonBottomBar extends StatelessWidget {
             ),
           ],
         ));
-  }
-}
-
-/// Displays a row for every available SubDungeon.
-class SubDungeonList extends StatelessWidget {
-  final FullDungeon data;
-
-  SubDungeonList(this.data);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (var sd in data.subDungeons) SubDungeonRow(sd),
-      ],
-    );
-  }
-}
-
-/// A row containing the boss icon, floor name, xp/stam coin/stam, and (optional) reward.
-class SubDungeonRow extends StatelessWidget {
-  final SubDungeon data;
-  final LanguageSelector name;
-
-  SubDungeonRow(this.data) : name = LanguageSelector.name(data);
-
-  @override
-  Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
-
-    var rewards = [];
-    try {
-      if (data.rewardIconIds != null) {
-        rewards = data.rewardIconIds.split(',').map(int.parse).toList();
-      }
-    } catch (ex) {
-      Fimber.w('Failed to parse rewards', ex: ex);
-    }
-
-    var expStam = (data.expAvg ?? 0) ~/ data.stamina;
-    var coinStam = (data.coinAvg ?? 0) ~/ data.stamina;
-
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pop(data);
-        Navigator.of(context).pushReplacementNamed(DungeonDetailArgs.routeName,
-            arguments: DungeonDetailArgs(data.dungeonId, data.subDungeonId));
-      },
-      child: Container(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(width: .1))),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            children: [
-              PadIcon(data.iconId),
-              SizedBox(width: 8),
-              Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                      fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text(name())),
-                  SizedBox(height: 2),
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.caption,
-                    child: Row(
-                      children: [
-                        Text(loc.dungeonListExpPerStam(expStam)),
-                        SizedBox(width: 8),
-                        Text(loc.dungeonListCoinPerStam(coinStam)),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-              SizedBox(width: 6),
-              for (var rewardId in rewards)
-                Padding(padding: EdgeInsets.only(left: 2), child: PadIcon(rewardId)),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
