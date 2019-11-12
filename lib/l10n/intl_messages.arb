@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-06T21:02:36.627801",
+  "@@last_modified": "2019-11-11T22:01:14.896385",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -214,7 +214,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "coin": "Coin",
+  "coin": "Coins",
   "@coin": {
     "description": "Table header",
     "type": "text",
@@ -612,7 +612,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "monsterInfoStatBonus": "Stat bonus when assisting",
+  "monsterInfoStatBonus": "Stat bonus when assisting (+297)",
   "@monsterInfoStatBonus": {
     "description": "Text above the assist bonus table",
     "type": "text",

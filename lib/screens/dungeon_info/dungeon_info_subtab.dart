@@ -129,18 +129,6 @@ class DungeonHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(height: 18),
-                      if (bossMonster != null)
-                        Row(children: [
-                          typeContainer(bossMonster.type1Id, leftPadding: 2, size: 18),
-                          typeContainer(bossMonster.type2Id, leftPadding: 2, size: 18),
-                          typeContainer(bossMonster.type3Id, leftPadding: 2, size: 18),
-                        ])
-                    ],
-                  ),
                   Text(m.name()),
                   DefaultTextStyle(
                       style: Theme.of(context).textTheme.caption,
@@ -237,14 +225,14 @@ class ExpCoinTable extends StatelessWidget {
           intCell(sd.expMin),
           intCell(sd.expMax),
           intCell(sd.expAvg),
-          intCell((sd.expAvg ?? 0 ~/ sd.stamina)),
+          intCell(((sd.expAvg ?? 0) ~/ sd.stamina)),
         ]),
         TableRow(children: [
           cell(loc.coin),
           intCell(sd.coinMin),
           intCell(sd.coinMax),
           intCell(sd.coinAvg),
-          intCell((sd.coinAvg ?? 0 ~/ sd.stamina)),
+          intCell(((sd.coinAvg ?? 0) ~/ sd.stamina)),
         ]),
       ],
     );

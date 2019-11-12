@@ -143,7 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoSkillTurns" : m14,
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-던전"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-몬스터"),
-    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("보조 할 때의 스탯 보너스"),
+    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("보조 할 때의 스탯 보너스 (+297)"),
     "monsterInfoSuperAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("초각성스킬"),
     "monsterInfoTableBuyMp" : MessageLookupByLibrary.simpleMessage("MP 구매"),
     "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("먹이경험치 (타속성)"),

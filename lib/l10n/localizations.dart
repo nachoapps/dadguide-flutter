@@ -121,7 +121,7 @@ class DadGuideLocalizations {
   String get avg => Intl.message('Avg', name: 'avg', desc: 'Table header');
   String get avgPerStam => Intl.message('Avg/Stam', name: 'avgPerStam', desc: 'Table header');
   String get exp => Intl.message('Exp', name: 'exp', desc: 'Table header');
-  String get coin => Intl.message('Coin', name: 'coin', desc: 'Table header');
+  String get coin => Intl.message('Coins', name: 'coin', desc: 'Table header');
 
   String get battleDrop =>
       Intl.message('Drop', name: 'battleDrop', desc: 'Label in encounter section');
@@ -362,7 +362,7 @@ class DadGuideLocalizations {
   String get monsterInfo297Awoken => Intl.message('+297 & fully awoken',
       name: 'monsterInfo297Awoken', desc: 'Text above the 297+awoken table');
 
-  String get monsterInfoStatBonus => Intl.message('Stat bonus when assisting',
+  String get monsterInfoStatBonus => Intl.message('Stat bonus when assisting (+297)',
       name: 'monsterInfoStatBonus', desc: 'Text above the assist bonus table');
 
   String get monsterInfoAvailableKillers => Intl.message('Available Killer Awoken',

@@ -586,7 +586,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoStatBonus": "アシストによるステータスボーナス",
+    "monsterInfoStatBonus": "アシストによるステータスボーナス (+297)",
     "@monsterInfoStatBonus": {
         "description": "Text above the assist bonus table",
         "type": "text",

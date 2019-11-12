@@ -571,12 +571,18 @@ class MonsterAssistStatTable extends StatelessWidget {
 
     var m = _data.monster;
     var a = _data.awakenings;
-    var hpMax = m.hpMax * .1;
-    var atkMax = m.atkMax * .05;
-    var rcvMax = m.rcvMax * .15;
-    var hp297Max = hpMax + 99 * 10 * .1;
-    var atk297Max = atkMax + 99 * 5 * .05;
-    var rcv297Max = rcvMax + 99 * 3 * .15;
+
+    var hp297Max = (m.hpMax + 99 * 10) * .1;
+    var atk297Max = (m.atkMax + 99 * 5) * .05;
+    var rcv297Max = (m.rcvMax + 99 * 3) * .15;
+
+    var limitMult = (m.limitMult ?? 0) + 100;
+    var lbMaxHp = (m.hpMax * limitMult / 100 + 99 * 10).round();
+    var lbAtkMax = (m.atkMax * limitMult / 100 + 99 * 5).round();
+    var lbRcvMax = (m.rcvMax * limitMult / 100 + 99 * 3).round();
+
+    // TODO: These tables got so damn ugly need to clean up calculation of these stats
+
     var isEquip = false;
 
     // Only add stat changes if assist type
@@ -587,12 +593,12 @@ class MonsterAssistStatTable extends StatelessWidget {
     if (isEquip) {
       a.forEach((awakening) {
         var aS = awakening.awokenSkill;
-        hpMax += aS.adjHp;
         hp297Max += aS.adjHp;
-        atkMax += aS.adjAtk;
         atk297Max += aS.adjAtk;
-        rcvMax += aS.adjRcv;
         rcv297Max += aS.adjRcv;
+        lbMaxHp += aS.adjHp;
+        lbAtkMax += aS.adjAtk;
+        lbRcvMax += aS.adjRcv;
       });
     }
 
@@ -610,19 +616,20 @@ class MonsterAssistStatTable extends StatelessWidget {
             cell(loc.monsterInfoWeighted),
           ]),
           TableRow(children: [
-            numCell(m.level),
-            numCell(hpMax),
-            numCell(atkMax),
-            numCell(rcvMax),
-            numCell(_weighted(hpMax, atkMax, rcvMax)),
-          ]),
-          TableRow(children: [
-            cell('${m.level}\n+297'),
+            cell('${m.level}'),
             numCell(hp297Max),
             numCell(atk297Max),
             numCell(rcv297Max),
             numCell(_weighted(hp297Max, atk297Max, rcv297Max)),
           ]),
+          if (limitMult > 100)
+            TableRow(children: [
+              cell('110'),
+              numCell(lbMaxHp),
+              numCell(lbAtkMax),
+              numCell(lbRcvMax),
+              numCell(_weighted(lbMaxHp, lbAtkMax, lbRcvMax)),
+            ]),
         ],
       ),
     );

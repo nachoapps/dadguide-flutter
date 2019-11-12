@@ -586,7 +586,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoStatBonus": "보조 할 때의 스탯 보너스",
+    "monsterInfoStatBonus": "보조 할 때의 스탯 보너스 (+297)",
     "@monsterInfoStatBonus": {
         "description": "Text above the assist bonus table",
         "type": "text",

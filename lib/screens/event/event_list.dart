@@ -180,7 +180,7 @@ class EventListRow extends StatelessWidget {
     var timeTo = _model.isOpen() ? _model.endTime : _model.startTime;
     var stamRcv = timeTo.difference(DateTime.now()).inMinutes ~/ 3;
     var stamRcvStr = NumberFormat.decimalPattern().format(stamRcv);
-    return '[Stam.Rcv.$stamRcvStr]';
+    return '[Stam.Recovered $stamRcvStr]';
   }
 
   String underlineText(DadGuideLocalizations loc, DateTime displayedDate) {
