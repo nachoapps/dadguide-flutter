@@ -323,13 +323,15 @@ class MonsterDetailHeader extends StatelessWidget {
     var cost = loc.monsterInfoCost(_data.monster.cost);
     var topRightText = '★' * rarity + '($rarity) / $cost';
 
+    var equipSkill = _data.equipSkill;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PadIcon(_data.monster.monsterId),
+            PadIcon(_data.monster.monsterId, inheritable: _data.monster.inheritable),
             Row(
               children: [
                 DadGuideIcons.largeMp,
@@ -362,6 +364,13 @@ class MonsterDetailHeader extends StatelessWidget {
                 TypeIconText(_data.type1),
                 TypeIconText(_data.type2),
                 TypeIconText(_data.type3),
+                if (equipSkill != null)
+                  Row(children: [
+                    SizedBox(width: 12),
+                    awakeningContainer(equipSkill.awokenSkillId, size: 16),
+                    SizedBox(width: 2),
+                    Text(equipSkill.name(), style: Theme.of(context).textTheme.caption),
+                  ]),
               ])
             ],
           ),
@@ -686,7 +695,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
             children: [
               Text(loc.monsterInfoActiveSkillTitle, style: subtitle(context)),
               SizedBox(width: 8),
-              Text(_model.name(), style: TextStyle(color: Colors.blue)),
+              Text(_model.name()),
             ],
           ),
         ),
@@ -694,7 +703,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
         Row(
           children: [
             Spacer(),
-            Text(lvlText, style: Theme.of(context).textTheme.caption),
+            Text(lvlText, style: Theme.of(context).textTheme.caption.copyWith(fontSize: 12)),
           ],
         ),
         SizedBox(height: 2),
@@ -726,7 +735,7 @@ class MonsterLeaderSkillSection extends StatelessWidget {
             children: [
               Text(loc.monsterInfoLeaderSkillTitle, style: subtitle(context)),
               SizedBox(width: 8),
-              Text(_model.name(), style: TextStyle(color: Colors.green)),
+              Text(_model.name()),
             ],
           ),
         ),
@@ -967,24 +976,46 @@ class MonsterDropLocations extends StatelessWidget {
               child: Row(
                 children: [
                   PadIcon(k),
-                  SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var dungeon in _data.dropLocations[k])
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 2),
-                            child: FlatButton(
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              onPressed: goToDungeonFn(context, dungeon.dungeonId, null),
-                              color: Colors.orange,
-                              child: Text(LanguageSelector.name(dungeon)()),
-                            ))
-                    ],
-                  )
+                  Flexible(child: DropDungeonList(dungeons: _data.dropLocations[k])),
                 ],
               ))
       ],
+    );
+  }
+}
+
+class DropDungeonList extends StatelessWidget {
+  final List<BasicDungeon> dungeons;
+
+  const DropDungeonList({Key key, this.dungeons}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      padding: EdgeInsets.all(8),
+      crossAxisCount: 2,
+      childAspectRatio: 7 / 1,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: [for (var tag in dungeons) DungeonButton(tag)],
+    );
+  }
+}
+
+class DungeonButton extends FlatButton {
+  final BasicDungeon dungeon;
+
+  DungeonButton(this.dungeon);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      color: grey(context, 200),
+      textColor: grey(context, 1000),
+      child: FittedBox(child: Text(LanguageSelector.name(dungeon)())),
+      onPressed: goToDungeonFn(context, dungeon.dungeonId, null),
     );
   }
 }
@@ -1019,41 +1050,34 @@ class MonsterBuySellFeedSection extends StatelessWidget {
 
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.body2,
-      child: Row(
+      child: Table(
+        border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [
-          Expanded(
-            child: Table(
-              border: TableBorder.all(width: 1.0, color: grey(context, 800)),
-              children: [
-                TableRow(children: [
-                  cell(''),
-                  cell(loc.monsterInfoTableInfoMaxLevel),
-                ]),
-                TableRow(children: [
-                  cell(loc.monsterInfoTableSellGold),
-                  numCell(_monster.sellGold),
-                ]),
-                TableRow(children: [
-                  cell(loc.monsterInfoTableSellMp),
-                  numCell(_monster.sellMp),
-                ]),
-                if (_monster.buyMp != null)
-                  TableRow(children: [
-                    cell(loc.monsterInfoTableBuyMp),
-                    numCell(_monster.buyMp),
-                  ]),
-                TableRow(children: [
-                  cell(loc.monsterInfoTableFeedXp),
-                  numCell(_monster.fodderExp),
-                ]),
-                TableRow(children: [
-                  cell(loc.monsterInfoTableFeedXpOnColor),
-                  numCell(_monster.fodderExp * 1.5),
-                ]),
-              ],
-            ),
-          ),
-          Spacer(),
+          TableRow(children: [
+            cell(''),
+            cell(loc.monsterInfoTableInfoMaxLevel),
+          ]),
+          TableRow(children: [
+            cell(loc.monsterInfoTableSellGold),
+            numCell(_monster.sellGold),
+          ]),
+          TableRow(children: [
+            cell(loc.monsterInfoTableSellMp),
+            numCell(_monster.sellMp),
+          ]),
+          if (_monster.buyMp != null)
+            TableRow(children: [
+              cell(loc.monsterInfoTableBuyMp),
+              numCell(_monster.buyMp),
+            ]),
+          TableRow(children: [
+            cell(loc.monsterInfoTableFeedXp),
+            numCell(_monster.fodderExp),
+          ]),
+          TableRow(children: [
+            cell(loc.monsterInfoTableFeedXpOnColor),
+            numCell(_monster.fodderExp * 1.5),
+          ]),
         ],
       ),
     );

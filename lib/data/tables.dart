@@ -682,6 +682,8 @@ class MonsterSortArgs {
 class MinMax {
   int min;
   int max;
+
+  bool get modified => min != null || max != null;
 }
 
 class MonsterFilterArgs {
@@ -693,6 +695,16 @@ class MonsterFilterArgs {
   List<int> awokenSkills = [];
   Set<ActiveSkillTag> activeTags = {};
   Set<LeaderSkillTag> leaderTags = {};
+
+  bool get modified =>
+      mainAttr.isNotEmpty ||
+      subAttr.isNotEmpty ||
+      rarity.modified ||
+      cost.modified ||
+      types.isNotEmpty ||
+      awokenSkills.isNotEmpty ||
+      activeTags.isNotEmpty ||
+      leaderTags.isNotEmpty;
 }
 
 class MonsterSearchArgs {

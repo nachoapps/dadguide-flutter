@@ -60,6 +60,7 @@ class MonsterDisplayState with ChangeNotifier {
   }
 
   void clearSearchText() {
+    filterArgs = MonsterFilterArgs();
     searchText = '';
   }
 
@@ -81,6 +82,8 @@ class MonsterDisplayState with ChangeNotifier {
     _favoritesOnly = value;
     notifyListeners();
   }
+
+  bool get filterSet => filterArgs.modified;
 
   bool get sortNew => sortArgs.sortType == MonsterSortType.released;
   MonsterSortType get sortType => sortArgs.sortType;

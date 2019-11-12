@@ -181,6 +181,9 @@ class FullMonster {
     killers.addAll(type3?.killers ?? []);
     return killers;
   }
+
+  FullAwakening get equipSkill =>
+      _awakenings.firstWhere((a) => a.awokenSkillId == 49, orElse: () => null);
 }
 
 /// Partial monster info displayed in monster list view.

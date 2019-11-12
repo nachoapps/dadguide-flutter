@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-11T22:01:14.896385",
+  "@@last_modified": "2019-11-11T23:00:49.215097",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -480,6 +480,18 @@
   },
   "monsterFilterModalType": "Type",
   "@monsterFilterModalType": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalActiveSkills": "Active Skills",
+  "@monsterFilterModalActiveSkills": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalLeaderSkills": "Leader Skills",
+  "@monsterFilterModalLeaderSkills": {
     "description": "Section header",
     "type": "text",
     "placeholders": {}

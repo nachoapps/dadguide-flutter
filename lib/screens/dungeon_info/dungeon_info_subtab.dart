@@ -411,25 +411,30 @@ class DungeonDetailOptionsBar extends StatelessWidget {
 
     return Material(
       color: grey(context, 200),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-            icon: Icon(Icons.format_list_bulleted),
-            onPressed: goToSubDungeonSelectionFn(context, _data),
-          ),
-          IconButton(
-            icon: Icon(Icons.live_tv),
-            onPressed: () async {
-              try {
-                await launchYouTubeSearch(_data.dungeon.nameJp);
-              } catch (ex, st) {
-                Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.ytLaunchError)));
-              }
-            },
-          )
-        ],
+      child: SizedBox(
+        height: 36,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(Icons.format_list_bulleted),
+              onPressed: goToSubDungeonSelectionFn(context, _data),
+            ),
+            IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(Icons.live_tv),
+              onPressed: () async {
+                try {
+                  await launchYouTubeSearch(_data.dungeon.nameJp);
+                } catch (ex, st) {
+                  Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
+                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.ytLaunchError)));
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

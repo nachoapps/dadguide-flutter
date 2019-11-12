@@ -447,7 +447,7 @@ class ActiveSkillTagsRow extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     return SkillTagsRow(
-      title: 'Active Skills',
+      title: loc.monsterFilterModalActiveSkills,
       tagHolder: displayState.filterArgs.activeTags,
       tagOptions: DatabaseHelper.allActiveSkillTags,
     );
@@ -460,7 +460,7 @@ class LeaderSkillTagsRow extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     return SkillTagsRow(
-      title: 'Leader Skills',
+      title: loc.monsterFilterModalLeaderSkills,
       tagHolder: displayState.filterArgs.leaderTags,
       tagOptions: DatabaseHelper.allLeaderSkillTags,
     );

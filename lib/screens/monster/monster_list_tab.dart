@@ -79,7 +79,11 @@ class MonsterSearchBar extends StatelessWidget {
       searchText,
       'Search: Monster Name/No.',
       InkWell(
-        child: Icon(Icons.clear_all),
+        child: Icon(
+            controller.filterSet
+                ? FontAwesome.getIconData('filter')
+                : Feather.getIconData('filter'),
+            color: controller.filterSet ? Colors.black : Colors.white),
         onTap: () async {
           await goToFilterMonstersFn(context, controller)();
           controller.doSearch();
