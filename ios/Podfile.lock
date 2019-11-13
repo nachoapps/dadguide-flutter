@@ -4,7 +4,9 @@ PODS:
   - device_info (0.0.1):
     - Flutter
   - Fabric (1.10.2)
-  - FBAudienceNetwork (4.99.3)
+  - FBAudienceNetwork (5.6.0):
+    - FBSDKCoreKit/Basics (>= 5.6.0)
+  - FBSDKCoreKit/Basics (5.10.0)
   - Firebase/AdMob (6.12.0):
     - Firebase/CoreOnly
     - Google-Mobile-Ads-SDK (~> 7.50)
@@ -109,9 +111,9 @@ PODS:
   - GoogleDataTransportCCTSupport (1.2.1):
     - GoogleDataTransport (~> 3.0)
     - nanopb (~> 0.3.901)
-  - GoogleMobileAdsMediationFacebook (4.99.3.0):
-    - FBAudienceNetwork (= 4.99.3)
-    - Google-Mobile-Ads-SDK (>= 7.12.0)
+  - GoogleMobileAdsMediationFacebook (5.6.0.0):
+    - FBAudienceNetwork (= 5.6.0)
+    - Google-Mobile-Ads-SDK (>= 7.51.0)
   - GoogleToolboxForMac/Defines (2.2.2)
   - GoogleToolboxForMac/Logger (2.2.2):
     - GoogleToolboxForMac/Defines (= 2.2.2)
@@ -162,7 +164,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - get_version (from `.symlinks/plugins/get_version/ios`)
@@ -174,10 +176,11 @@ DEPENDENCIES:
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Crashlytics
     - Fabric
     - FBAudienceNetwork
+    - FBSDKCoreKit
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -214,7 +217,7 @@ EXTERNAL SOURCES:
   firebase_performance:
     :path: ".symlinks/plugins/firebase_performance/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   flutter_email_sender:
     :path: ".symlinks/plugins/flutter_email_sender/ios"
   flutter_fimber:
@@ -236,7 +239,8 @@ SPEC CHECKSUMS:
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  FBAudienceNetwork: 4db9db11614ea1a165c05233183b7fdf741db55e
+  FBAudienceNetwork: 1ea63543665445a3a5b4a059e8210a343b6ab3c1
+  FBSDKCoreKit: f9bae468a078f20c05c73450825ccd54cfafbbb7
   Firebase: da031bc7012374e3bed17a6731b89327b29863b9
   firebase_admob: d8c2bc95b5e0069406280ce6adb816cdee6aa595
   firebase_analytics: 045e7ebe7b8a4d27357168072868ff082dca15a6
@@ -261,7 +265,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 037f46d1d8ae8b312720f1042585ab961a1289e3
   GoogleDataTransport: 166f9b9f82cbf60a204e8fe2daa9db3e3ec1fb15
   GoogleDataTransportCCTSupport: f6ab1962e9dc05ab1fb938b795e5b310209edeec
-  GoogleMobileAdsMediationFacebook: 4f0d253e700cee038a8a8c2f852958f43567834e
+  GoogleMobileAdsMediationFacebook: 2306b9822775e4ddb50c29fc758d6b45efcf6a72
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
