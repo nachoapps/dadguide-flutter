@@ -4,6 +4,7 @@ PODS:
   - device_info (0.0.1):
     - Flutter
   - Fabric (1.10.2)
+  - FBAudienceNetwork (4.99.3)
   - Firebase/AdMob (6.11.0):
     - Firebase/CoreOnly
     - Google-Mobile-Ads-SDK (~> 7.50)
@@ -108,6 +109,9 @@ PODS:
   - GoogleDataTransportCCTSupport (1.2.1):
     - GoogleDataTransport (~> 3.0)
     - nanopb (~> 0.3.901)
+  - GoogleMobileAdsMediationFacebook (4.99.3.0):
+    - FBAudienceNetwork (= 4.99.3)
+    - Google-Mobile-Ads-SDK (>= 7.12.0)
   - GoogleToolboxForMac/Defines (2.2.2)
   - GoogleToolboxForMac/Logger (2.2.2):
     - GoogleToolboxForMac/Defines (= 2.2.2)
@@ -162,6 +166,7 @@ DEPENDENCIES:
   - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - get_version (from `.symlinks/plugins/get_version/ios`)
+  - GoogleMobileAdsMediationFacebook
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -172,6 +177,7 @@ SPEC REPOS:
   trunk:
     - Crashlytics
     - Fabric
+    - FBAudienceNetwork
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -187,6 +193,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
+    - GoogleMobileAdsMediationFacebook
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
@@ -229,6 +236,7 @@ SPEC CHECKSUMS:
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  FBAudienceNetwork: 4db9db11614ea1a165c05233183b7fdf741db55e
   Firebase: bc9cfc7a96c73268656d5aaab453ff1b4b530e0e
   firebase_admob: d8c2bc95b5e0069406280ce6adb816cdee6aa595
   firebase_analytics: 045e7ebe7b8a4d27357168072868ff082dca15a6
@@ -253,6 +261,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 434cc7be25e71dc04b8d0e3079125127b330e84a
   GoogleDataTransport: 166f9b9f82cbf60a204e8fe2daa9db3e3ec1fb15
   GoogleDataTransportCCTSupport: f6ab1962e9dc05ab1fb938b795e5b310209edeec
+  GoogleMobileAdsMediationFacebook: 4f0d253e700cee038a8a8c2f852958f43567834e
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
@@ -264,6 +273,6 @@ SPEC CHECKSUMS:
   sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
 
-PODFILE CHECKSUM: b6a0a141693093b304368d08511b46cf3d1d0ac5
+PODFILE CHECKSUM: 8bb79016b18e4948469080fdb433810300cbd646
 
 COCOAPODS: 1.8.4
