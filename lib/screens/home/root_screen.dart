@@ -178,7 +178,8 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
           SizedBox(
               height: getBannerHeight(context),
               child: Center(
-                child: Text("Failed to load ad", style: Theme.of(context).textTheme.body1),
+                child: Text("Failed to load ad",
+                    style: Theme.of(context).textTheme.body1.copyWith(color: grey(context, 1000))),
               )),
         ],
       ),
