@@ -5,7 +5,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "tabEvent": "이배트",
+    "tabEvent": "이벤트들",
     "@tabEvent": {
         "description": "Bottom tab title for events",
         "type": "text",
@@ -47,6 +47,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "countryNa": "북아메리카",
+    "@countryNa": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "countryJp": "일본",
+    "@countryJp": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "countryKr": "한국",
+    "@countryKr": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
     "updateComplete": "업데이트 완료",
     "@updateComplete": {
         "description": "Snackbar displayed when data update finishes",
@@ -59,7 +77,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "taskExecutingWithCount": "실행 작업 ( {index} / {taskCount} )",
+    "taskExecutingWithCount": "실행 작업 ({index} / {taskCount})",
     "@taskExecutingWithCount": {
         "description": "Indicates task progress",
         "type": "text",
@@ -428,7 +446,7 @@
             "number": {}
         }
     },
-    "monsterFilterModalTitle": "Advanced Search",
+    "monsterFilterModalTitle": "고급검색",
     "@monsterFilterModalTitle": {
         "description": "Title for monster filter modal",
         "type": "text",
@@ -464,6 +482,18 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterFilterModalActiveSkills": "Active Skills",
+    "@monsterFilterModalActiveSkills": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalLeaderSkills": "Leader Skills",
+    "@monsterFilterModalLeaderSkills": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterFilterModalAwokens": "각성스킬",
     "@monsterFilterModalAwokens": {
         "description": "Section header",
@@ -482,19 +512,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortModalTitle": "Change Sort Order",
+    "monsterSortModalTitle": "정렬 순서 변경",
     "@monsterSortModalTitle": {
         "description": "Title for monster sort modal",
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortDesc": "Descending ▼",
+    "monsterSortDesc": "내림차순 ▼",
     "@monsterSortDesc": {
         "description": "Top button",
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortAsc": "Ascending ▲",
+    "monsterSortAsc": "오름차순 ▲",
     "@monsterSortAsc": {
         "description": "Top button",
         "type": "text",
@@ -526,6 +556,12 @@
     },
     "monsterSortTypeWeighted": "환산치",
     "@monsterSortTypeWeighted": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeLimitBrokenWeighted": "LB Total",
+    "@monsterSortTypeLimitBrokenWeighted": {
         "description": "Grid button",
         "type": "text",
         "placeholders": {}
@@ -684,7 +720,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoHistoryAdded": "[ {date} ] 추가",
+    "monsterInfoHistoryAdded": "[{date}] 추가",
     "@monsterInfoHistoryAdded": {
         "description": "Monster info date added text",
         "type": "text",
@@ -759,6 +795,12 @@
         "placeholders": {
             "seriesName": {}
         }
+    },
+    "monsterInfoMaterialForHeader": "Material for",
+    "@monsterInfoMaterialForHeader": {
+        "description": "Material for icons section header",
+        "type": "text",
+        "placeholders": {}
     },
     "monsterInfoEvolution": "진화",
     "@monsterInfoEvolution": {
@@ -922,6 +964,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "settingsDarkMode": "다크 모드",
+    "@settingsDarkMode": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHideUnreleasedMonsters": "Hide unreleased monsters",
+    "@settingsHideUnreleasedMonsters": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHideUnreleasedMonstersDesc": "Hides monsters that are not released for the selected Game Country",
+    "@settingsHideUnreleasedMonstersDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
     "settingsEventsHideClosed": "비공개 이벤트 숨기기",
     "@settingsEventsHideClosed": {
         "description": "Checkbox title",
@@ -967,6 +1027,78 @@
     "settingsCopyright": "저작권",
     "@settingsCopyright": {
         "description": "Row label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeEvoMat": "진화용",
+    "@typeEvoMat": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeBalanced": "밸런스",
+    "@typeBalanced": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typePhysical": "체력",
+    "@typePhysical": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeHealer": "회복",
+    "@typeHealer": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeDragon": "드래곤",
+    "@typeDragon": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeGod": "신",
+    "@typeGod": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeAttacker": "공격",
+    "@typeAttacker": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeDevil": "악마",
+    "@typeDevil": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeMachine": "머신",
+    "@typeMachine": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeEnhance": "강화합성용",
+    "@typeEnhance": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeAwoken": "능력각성용",
+    "@typeAwoken": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeVendor": "매각용",
+    "@typeVendor": {
+        "description": "Monster type",
         "type": "text",
         "placeholders": {}
     }

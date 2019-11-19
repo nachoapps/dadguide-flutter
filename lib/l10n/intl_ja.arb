@@ -47,6 +47,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "countryNa": "北米",
+    "@countryNa": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "countryJp": "日本",
+    "@countryJp": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
+    "countryKr": "韓国",
+    "@countryKr": {
+        "description": "Used in server selector",
+        "type": "text",
+        "placeholders": {}
+    },
     "updateComplete": "更新完了",
     "@updateComplete": {
         "description": "Snackbar displayed when data update finishes",
@@ -464,6 +482,18 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterFilterModalActiveSkills": "Active Skills",
+    "@monsterFilterModalActiveSkills": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalLeaderSkills": "Leader Skills",
+    "@monsterFilterModalLeaderSkills": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterFilterModalAwokens": "覚醒スキル",
     "@monsterFilterModalAwokens": {
         "description": "Section header",
@@ -526,6 +556,12 @@
     },
     "monsterSortTypeWeighted": "プラス換算",
     "@monsterSortTypeWeighted": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeLimitBrokenWeighted": "LB Total",
+    "@monsterSortTypeLimitBrokenWeighted": {
         "description": "Grid button",
         "type": "text",
         "placeholders": {}
@@ -656,7 +692,7 @@
             "max": {}
         }
     },
-    "monsterInfoSkillTurns": "Lv.1ターン：{max} （Lv. {levels}ターン： {min}）",
+    "monsterInfoSkillTurns": "Lv.1ターン：{max} (Lv. {levels}ターン： {min})",
     "@monsterInfoSkillTurns": {
         "description": "Monster info skill text with levels",
         "type": "text",
@@ -746,7 +782,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoTableFeedXpOnColor": "合成経験値（同じ属性）",
+    "monsterInfoTableFeedXpOnColor": "合成経験値(同じ属性)",
     "@monsterInfoTableFeedXpOnColor": {
         "description": "Row header for buy/sell/feed data",
         "type": "text",
@@ -759,6 +795,12 @@
         "placeholders": {
             "seriesName": {}
         }
+    },
+    "monsterInfoMaterialForHeader": "Material for",
+    "@monsterInfoMaterialForHeader": {
+        "description": "Material for icons section header",
+        "type": "text",
+        "placeholders": {}
     },
     "monsterInfoEvolution": "進化",
     "@monsterInfoEvolution": {
@@ -922,6 +964,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "settingsDarkMode": "ダークモード",
+    "@settingsDarkMode": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHideUnreleasedMonsters": "Hide unreleased monsters",
+    "@settingsHideUnreleasedMonsters": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHideUnreleasedMonstersDesc": "Hides monsters that are not released for the selected Game Country",
+    "@settingsHideUnreleasedMonstersDesc": {
+        "description": "Setting description",
+        "type": "text",
+        "placeholders": {}
+    },
     "settingsEventsHideClosed": "終了したイベントを非表示",
     "@settingsEventsHideClosed": {
         "description": "Checkbox title",
@@ -967,6 +1027,78 @@
     "settingsCopyright": "コピーライト",
     "@settingsCopyright": {
         "description": "Row label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeEvoMat": "進化用",
+    "@typeEvoMat": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeBalanced": "バランス",
+    "@typeBalanced": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typePhysical": "体力",
+    "@typePhysical": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeHealer": "回復",
+    "@typeHealer": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeDragon": "ドラゴン",
+    "@typeDragon": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeGod": "神",
+    "@typeGod": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeAttacker": "攻撃",
+    "@typeAttacker": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeDevil": "悪魔",
+    "@typeDevil": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeMachine": "マシン",
+    "@typeMachine": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeEnhance": "強化合成用",
+    "@typeEnhance": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeAwoken": "能力覚醒用",
+    "@typeAwoken": {
+        "description": "Monster type",
+        "type": "text",
+        "placeholders": {}
+    },
+    "typeVendor": "売却用",
+    "@typeVendor": {
+        "description": "Monster type",
         "type": "text",
         "placeholders": {}
     }

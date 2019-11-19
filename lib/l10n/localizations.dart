@@ -600,6 +600,20 @@ class DadGuideLocalizations {
   String get settingsCopyright =>
       Intl.message('Copyright', name: 'settingsCopyright', desc: 'Row label');
 
+  // ---- Monster type strings ----
+  String get typeEvoMat => Intl.message('Evo Material', name: 'typeEvoMat', desc: 'Monster type');
+  String get typeBalanced => Intl.message('Balanced', name: 'typeBalanced', desc: 'Monster type');
+  String get typePhysical => Intl.message('Physical', name: 'typePhysical', desc: 'Monster type');
+  String get typeHealer => Intl.message('Healer', name: 'typeHealer', desc: 'Monster type');
+  String get typeDragon => Intl.message('Dragon', name: 'typeDragon', desc: 'Monster type');
+  String get typeGod => Intl.message('God', name: 'typeGod', desc: 'Monster type');
+  String get typeAttacker => Intl.message('Attacker', name: 'typeAttacker', desc: 'Monster type');
+  String get typeDevil => Intl.message('Devil', name: 'typeDevil', desc: 'Monster type');
+  String get typeMachine => Intl.message('Machine', name: 'typeMachine', desc: 'Monster type');
+  String get typeEnhance => Intl.message('Enhance', name: 'typeEnhance', desc: 'Monster type');
+  String get typeAwoken => Intl.message('Awoken', name: 'typeAwoken', desc: 'Monster type');
+  String get typeVendor => Intl.message('Vendor', name: 'typeVendor', desc: 'Monster type');
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {

@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-11T23:00:49.215097",
+  "@@last_modified": "2019-11-18T23:12:29.435486",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -1029,6 +1029,78 @@
   "settingsCopyright": "Copyright",
   "@settingsCopyright": {
     "description": "Row label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeEvoMat": "Evo Material",
+  "@typeEvoMat": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeBalanced": "Balanced",
+  "@typeBalanced": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typePhysical": "Physical",
+  "@typePhysical": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeHealer": "Healer",
+  "@typeHealer": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeDragon": "Dragon",
+  "@typeDragon": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeGod": "God",
+  "@typeGod": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeAttacker": "Attacker",
+  "@typeAttacker": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeDevil": "Devil",
+  "@typeDevil": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeMachine": "Machine",
+  "@typeMachine": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeEnhance": "Enhance",
+  "@typeEnhance": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeAwoken": "Awoken",
+  "@typeAwoken": {
+    "description": "Monster type",
+    "type": "text",
+    "placeholders": {}
+  },
+  "typeVendor": "Vendor",
+  "@typeVendor": {
+    "description": "Monster type",
     "type": "text",
     "placeholders": {}
   }

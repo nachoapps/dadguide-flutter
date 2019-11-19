@@ -39,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m9(number) => "회복 ${number}";
 
-  static m10(date) => "[ ${date} ] 추가";
+  static m10(date) => "[${date}] 추가";
 
   static m11(number) => "No. ${number}";
 
@@ -67,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m23(mp, mpPerStam) => "${mp} ( ${mpPerStam} / 체력)";
 
-  static m24(index, taskCount) => "실행 작업 ( ${index} / ${taskCount} )";
+  static m24(index, taskCount) => "실행 작업 (${index} / ${taskCount})";
 
   static m25(index, taskCount) => "${taskCount} 의 작업 ${index} 에 실패했습니다";
 
@@ -83,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "battleInvades" : MessageLookupByLibrary.simpleMessage("난입"),
     "close" : MessageLookupByLibrary.simpleMessage("닫기"),
     "coin" : MessageLookupByLibrary.simpleMessage("코인"),
+    "countryJp" : MessageLookupByLibrary.simpleMessage("일본"),
+    "countryKr" : MessageLookupByLibrary.simpleMessage("한국"),
+    "countryNa" : MessageLookupByLibrary.simpleMessage("북아메리카"),
     "dataSync" : MessageLookupByLibrary.simpleMessage("데이터 동기화"),
     "dungeonFloors" : m1,
     "dungeonListCoinPerStam" : m2,
@@ -106,14 +109,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "languageKo" : MessageLookupByLibrary.simpleMessage("한국어"),
     "max" : MessageLookupByLibrary.simpleMessage("최대"),
     "min" : MessageLookupByLibrary.simpleMessage("최소"),
+    "monsterFilterModalActiveSkills" : MessageLookupByLibrary.simpleMessage("Active Skills"),
     "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("각성스킬"),
     "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("닫기"),
     "monsterFilterModalCost" : MessageLookupByLibrary.simpleMessage("코스트"),
+    "monsterFilterModalLeaderSkills" : MessageLookupByLibrary.simpleMessage("Leader Skills"),
     "monsterFilterModalMainAttr" : MessageLookupByLibrary.simpleMessage("주속성"),
     "monsterFilterModalRarity" : MessageLookupByLibrary.simpleMessage("레어도"),
     "monsterFilterModalReset" : MessageLookupByLibrary.simpleMessage("초기화"),
     "monsterFilterModalSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
-    "monsterFilterModalTitle" : MessageLookupByLibrary.simpleMessage("Advanced Search"),
+    "monsterFilterModalTitle" : MessageLookupByLibrary.simpleMessage("고급검색"),
     "monsterFilterModalType" : MessageLookupByLibrary.simpleMessage("타입"),
     "monsterInfo297Awoken" : MessageLookupByLibrary.simpleMessage("+297 및 완전히 깨어남"),
     "monsterInfoActiveSkillTitle" : MessageLookupByLibrary.simpleMessage("기술:"),
@@ -133,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("리더 스킬 :"),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv."),
+    "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("Material for"),
     "monsterInfoNo" : m11,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("돌이킬 수없는 진화"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("회복"),
@@ -160,13 +166,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterListNo" : m20,
     "monsterListRcv" : m21,
     "monsterListWeighted" : m22,
-    "monsterSortAsc" : MessageLookupByLibrary.simpleMessage("Ascending ▲"),
-    "monsterSortDesc" : MessageLookupByLibrary.simpleMessage("Descending ▼"),
-    "monsterSortModalTitle" : MessageLookupByLibrary.simpleMessage("Change Sort Order"),
+    "monsterSortAsc" : MessageLookupByLibrary.simpleMessage("오름차순 ▲"),
+    "monsterSortDesc" : MessageLookupByLibrary.simpleMessage("내림차순 ▼"),
+    "monsterSortModalTitle" : MessageLookupByLibrary.simpleMessage("정렬 순서 변경"),
     "monsterSortTypeAtk" : MessageLookupByLibrary.simpleMessage("공격"),
     "monsterSortTypeAttr" : MessageLookupByLibrary.simpleMessage("주속성"),
     "monsterSortTypeCost" : MessageLookupByLibrary.simpleMessage("코스트"),
     "monsterSortTypeHp" : MessageLookupByLibrary.simpleMessage("HP"),
+    "monsterSortTypeLimitBrokenWeighted" : MessageLookupByLibrary.simpleMessage("LB Total"),
     "monsterSortTypeMp" : MessageLookupByLibrary.simpleMessage("MP"),
     "monsterSortTypeNumber" : MessageLookupByLibrary.simpleMessage("No."),
     "monsterSortTypeRarity" : MessageLookupByLibrary.simpleMessage("레어도"),
@@ -193,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsAbout" : MessageLookupByLibrary.simpleMessage("약"),
     "settingsContactUs" : MessageLookupByLibrary.simpleMessage("연락주세요"),
     "settingsCopyright" : MessageLookupByLibrary.simpleMessage("저작권"),
+    "settingsDarkMode" : MessageLookupByLibrary.simpleMessage("다크 모드"),
     "settingsEventCountry" : MessageLookupByLibrary.simpleMessage("이벤트 국가"),
     "settingsEventCountryDesc" : MessageLookupByLibrary.simpleMessage("Server to display guerrilla events for"),
     "settingsEventsHideClosed" : MessageLookupByLibrary.simpleMessage("비공개 이벤트 숨기기"),
@@ -203,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsGameCountry" : MessageLookupByLibrary.simpleMessage("게임 국가"),
     "settingsGameCountryDesc" : MessageLookupByLibrary.simpleMessage("Controls some other region-specific settings"),
     "settingsGeneralSection" : MessageLookupByLibrary.simpleMessage("일반"),
+    "settingsHideUnreleasedMonsters" : MessageLookupByLibrary.simpleMessage("Hide unreleased monsters"),
+    "settingsHideUnreleasedMonstersDesc" : MessageLookupByLibrary.simpleMessage("Hides monsters that are not released for the selected Game Country"),
     "settingsInfoLanguage" : MessageLookupByLibrary.simpleMessage("정보 언어"),
     "settingsInfoLanguageDesc" : MessageLookupByLibrary.simpleMessage("Used for monster/dungeon names, skill text, etc"),
     "settingsInfoSection" : MessageLookupByLibrary.simpleMessage("정보"),
@@ -211,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsUiLanguageDesc" : MessageLookupByLibrary.simpleMessage("Overwrites your device locale"),
     "subDungeonSelectionTitle" : MessageLookupByLibrary.simpleMessage("난이도 선택"),
     "tabDungeon" : MessageLookupByLibrary.simpleMessage("던전"),
-    "tabEvent" : MessageLookupByLibrary.simpleMessage("이배트"),
+    "tabEvent" : MessageLookupByLibrary.simpleMessage("이벤트들"),
     "tabMonster" : MessageLookupByLibrary.simpleMessage("몬스터"),
     "tabSetting" : MessageLookupByLibrary.simpleMessage("설정"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("실행 작업"),
@@ -223,6 +233,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("인터넷 연결을 확인하십시오. 자동 재시작"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("작업 시작을 기다리는 중"),
     "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),
+    "typeAttacker" : MessageLookupByLibrary.simpleMessage("공격"),
+    "typeAwoken" : MessageLookupByLibrary.simpleMessage("능력각성용"),
+    "typeBalanced" : MessageLookupByLibrary.simpleMessage("밸런스"),
+    "typeDevil" : MessageLookupByLibrary.simpleMessage("악마"),
+    "typeDragon" : MessageLookupByLibrary.simpleMessage("드래곤"),
+    "typeEnhance" : MessageLookupByLibrary.simpleMessage("강화합성용"),
+    "typeEvoMat" : MessageLookupByLibrary.simpleMessage("진화용"),
+    "typeGod" : MessageLookupByLibrary.simpleMessage("신"),
+    "typeHealer" : MessageLookupByLibrary.simpleMessage("회복"),
+    "typeMachine" : MessageLookupByLibrary.simpleMessage("머신"),
+    "typePhysical" : MessageLookupByLibrary.simpleMessage("체력"),
+    "typeVendor" : MessageLookupByLibrary.simpleMessage("매각용"),
     "updateComplete" : MessageLookupByLibrary.simpleMessage("업데이트 완료"),
     "updateFailed" : MessageLookupByLibrary.simpleMessage("업데이트가 실패"),
     "updateModalTitle" : MessageLookupByLibrary.simpleMessage("DadGuide 데이터 업데이트"),
