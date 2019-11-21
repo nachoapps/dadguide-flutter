@@ -975,6 +975,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         ? []
         : (await skillUpMonsterIds(resultMonster.activeSkillId)).map((x) => x.monsterId).toList();
 
+    var skillUpDungeons = Map<int, List<BasicDungeon>>();
+    for (var monsterId in skillUpMonsterIdsResult){
+      var skillUpMonsterDropLocations = await findDropDungeons(monsterId);
+      skillUpDungeons[monsterId] = skillUpMonsterDropLocations;
+    }
+
     final evolutionList = await allEvolutionsForTree(resultMonster.monsterId);
 
     var evoTreeIds = {monsterId};
@@ -1000,6 +1006,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
       nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
       skillUpMonsterIdsResult,
+      skillUpDungeons,
       evolutionList,
       dropLocations,
       materialForMonsters,
