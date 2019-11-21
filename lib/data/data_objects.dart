@@ -147,6 +147,7 @@ class FullMonster {
   final int prevMonsterId;
   final int nextMonsterId;
   final List<int> skillUpMonsters;
+  final Map<int, List<BasicDungeon>> skillUpDungeons;
   final List<FullEvolution> evolutions;
   final Map<int, List<BasicDungeon>> dropLocations;
   final List<int> materialForMonsters;
@@ -162,6 +163,7 @@ class FullMonster {
       this.prevMonsterId,
       this.nextMonsterId,
       this.skillUpMonsters,
+      this.skillUpDungeons,
       this.evolutions,
       this.dropLocations,
       this.materialForMonsters)

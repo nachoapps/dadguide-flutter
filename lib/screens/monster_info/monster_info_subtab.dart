@@ -163,10 +163,10 @@ class MonsterDetailContents extends StatelessWidget {
                 ),
 
               if (hasSkillups)
-                Padding(child: MonsterSkillupDropLocations(), padding: EdgeInsets.only(top: 4)),
+                Padding(child: MonsterSkillupDropLocations(_data), padding: EdgeInsets.only(top: 4)),
 
               SizedBox(height: 8),
-              MonsterDropLocations(_data),
+              MonsterDropLocations(_data.dropLocations, loc.monsterInfoDropsTitle),
 
               if (_data.awakenings.isNotEmpty)
                 Padding(
@@ -953,30 +953,33 @@ class MonsterSkillups extends StatelessWidget {
 
 /// Displays dungeons that the monster drops in.
 class MonsterDropLocations extends StatelessWidget {
-  final FullMonster _data;
-  const MonsterDropLocations(this._data, {Key key}) : super(key: key);
+  final Map<int, List<BasicDungeon>> _dropLocations;
+  final String _title;
+  const MonsterDropLocations(this._dropLocations, this._title, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    if (_data.dropLocations.isEmpty) {
-      return Text(loc.monsterInfoDropsTitleNone, style: subtitle(context));
+    if (_dropLocations.isEmpty) {
+      return Text(_title == loc.monsterInfoSkillupDungeonsTitle
+          ? loc.monsterInfoSkillupDungeonTitleNone
+          : loc.monsterInfoDropsTitleNone, style: subtitle(context));
     }
 
-    var keys = _data.dropLocations.keys.toList()..sort();
+    var keys = _dropLocations.keys.toList()..sort();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(loc.monsterInfoDropsTitle),
+        Text(_title),
         for (var k in keys)
           Padding(
               padding: EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 children: [
                   PadIcon(k),
-                  Flexible(child: DropDungeonList(dungeons: _data.dropLocations[k])),
+                  Flexible(child: DropDungeonList(dungeons: _dropLocations[k])),
                 ],
               ))
       ],
@@ -1022,18 +1025,19 @@ class DungeonButton extends FlatButton {
 
 /// Locations where the skillup monsters drop.
 class MonsterSkillupDropLocations extends StatelessWidget {
-  const MonsterSkillupDropLocations({Key key}) : super(key: key);
+  final FullMonster _fullMonster;
+  const MonsterSkillupDropLocations(this._fullMonster, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
+    // Remove duplicate information already displayed in the monster drop section
+    _fullMonster.skillUpDungeons.removeWhere((key, dungeon) => _fullMonster.dropLocations.keys.contains(key) || dungeon.isEmpty);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(loc.monsterInfoSkillupDungeonsTitle),
-        // TODO: if monster appears in a skill-up dungeon should note that too
-        Text('Not implemented yet =(', style: secondary(context)),
+        MonsterDropLocations(_fullMonster.skillUpDungeons, loc.monsterInfoSkillupDungeonsTitle)
       ],
     );
   }

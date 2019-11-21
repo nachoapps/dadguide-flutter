@@ -444,6 +444,9 @@ class DadGuideLocalizations {
   String get monsterInfoSkillupDungeonsTitle => Intl.message('Skill Up - Dungeon',
       name: 'monsterInfoSkillupDungeonsTitle', desc: 'Header for skillup drop dungeons');
 
+  String get monsterInfoSkillupDungeonTitleNone => Intl.message('Skill Up - Dungeon: None',
+      name: 'monsterInfoSkillupDungeonTitleNone', desc: 'Header for skill up dungeon section when there are no drops');
+
   String get monsterInfoTableInfoMaxLevel => Intl.message('At max level',
       name: 'monsterInfoTableInfoMaxLevel', desc: 'Header column with buy/sell/feed data');
 
