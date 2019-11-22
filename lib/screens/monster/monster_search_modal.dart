@@ -104,7 +104,7 @@ class FilterWidget extends StatelessWidget {
         Divider(),
         RarityCostFilterRow(),
         Divider(),
-        TypeFilterRow(),
+        TypeSeriesFilterRow(),
         Divider(),
         AwokenSkillsFilterRow(),
         Divider(),
@@ -259,14 +259,14 @@ class MinMaxSection extends StatelessWidget {
         Row(
           children: [
             Flexible(
-                child: BoxedInput(minMax.min?.toString() ?? '',
+                child: BoxedInput(TextInputType.number, minMax.min?.toString() ?? '',
                     (v) => minMax.min = v.trim() == '' ? null : int.parse(v))),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text('~'),
             ),
             Flexible(
-                child: BoxedInput(minMax.max?.toString() ?? '',
+                child: BoxedInput(TextInputType.number, minMax.max?.toString() ?? '',
                     (v) => minMax.max = v.trim() == '' ? null : int.parse(v))),
           ],
         ),
@@ -278,13 +278,14 @@ class MinMaxSection extends StatelessWidget {
 class BoxedInput extends StatelessWidget {
   final String _text;
   final ValueChanged<String> _onChanged;
+  final TextInputType _textInputType;
 
-  const BoxedInput(this._text, this._onChanged, {Key key}) : super(key: key);
+  const BoxedInput(this._textInputType, this._text, this._onChanged, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      keyboardType: _textInputType,
       initialValue: _text,
       onChanged: _onChanged,
       decoration: InputDecoration(
@@ -298,7 +299,41 @@ class BoxedInput extends StatelessWidget {
   }
 }
 
-class TypeFilterRow extends StatelessWidget {
+class TypeSeriesFilterRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Expanded(
+            child: TypeFilterSection()
+          ),
+          VerticalDivider(thickness: 1, color: grey(context, 300)),
+          Expanded(
+            child: SeriesFilterSection()
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SeriesFilterSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
+
+    return Column(
+      children: [
+        Text(loc.monsterFilterModalSeries),
+        BoxedInput(TextInputType.text, displayState.filterArgs.series, (v) => displayState.filterArgs.series = v)
+      ]
+    );
+  }
+}
+
+class TypeFilterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
@@ -308,8 +343,10 @@ class TypeFilterRow extends StatelessWidget {
       children: [
         Text(loc.monsterFilterModalType),
         SizedBox(height: 4),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          alignment:WrapAlignment.center,
           children: [
             for (var monsterType in MonsterType.all)
               TypeButton(monsterType.id, displayState.filterArgs.types,
@@ -333,18 +370,16 @@ class TypeButton extends StatelessWidget {
     var widget = _selectedTypes.contains(_type)
         ? _image
         : ColorFiltered(colorFilter: greyscaleFilter, child: _image);
-    return Expanded(
-      child: GestureDetector(
-        child: widget,
-        onTap: () {
-          if (_selectedTypes.contains(_type)) {
-            _selectedTypes.remove(_type);
-          } else {
-            _selectedTypes.add(_type);
-          }
-          displayState.notify();
-        },
-      ),
+    return GestureDetector(
+      child: widget,
+      onTap: () {
+        if (_selectedTypes.contains(_type)) {
+          _selectedTypes.remove(_type);
+        } else {
+          _selectedTypes.add(_type);
+        }
+        displayState.notify();
+      },
     );
   }
 }

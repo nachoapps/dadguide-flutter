@@ -295,6 +295,9 @@ class DadGuideLocalizations {
   String get monsterFilterModalType =>
       Intl.message('Type', name: 'monsterFilterModalType', desc: 'Section header');
 
+  String get monsterFilterModalSeries =>
+      Intl.message('Series', name: 'monsterFilterModalSeries', desc: 'Section header');
+
   String get monsterFilterModalActiveSkills =>
       Intl.message('Active Skills', name: 'monsterFilterModalActiveSkills', desc: 'Section header');
 
