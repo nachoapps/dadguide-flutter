@@ -695,6 +695,7 @@ class MonsterFilterArgs {
   List<int> awokenSkills = [];
   Set<ActiveSkillTag> activeTags = {};
   Set<LeaderSkillTag> leaderTags = {};
+  String series = '';
 
   bool get modified =>
       mainAttr.isNotEmpty ||
@@ -704,7 +705,8 @@ class MonsterFilterArgs {
       types.isNotEmpty ||
       awokenSkills.isNotEmpty ||
       activeTags.isNotEmpty ||
-      leaderTags.isNotEmpty;
+      leaderTags.isNotEmpty ||
+      series != '';
 }
 
 class MonsterSearchArgs {
@@ -776,10 +778,16 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
     });
 
-    var query = select(monsters).join([
+    var joins = [
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
       leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId))
-    ]);
+    ];
+
+    if(args.filter.series != ''){
+      joins.add(leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)));
+    }
+    var query = select(monsters).join(joins);
+
 
     var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
     var orderMapping = {
@@ -899,6 +907,18 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
           expr = or(expr, curExpr);
         }
       }
+      query.where(expr);
+    }
+
+    if (args.filter.series != ''){
+      var seriesText = '%${args.filter.series}%';
+      var expr = or(
+        series.nameJp.like(seriesText),
+        or(
+          series.nameNa.like(seriesText),
+          series.nameKr.like(seriesText)
+        )
+      );
       query.where(expr);
     }
 
