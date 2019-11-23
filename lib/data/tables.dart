@@ -109,8 +109,6 @@ class Dungeons extends Table {
 
   IntColumn get dungeonType => integer()();
 
-  IntColumn get seriesId => integer().nullable()();
-
   IntColumn get iconId => integer().nullable()();
 
   TextColumn get rewardJp => text().nullable()();
@@ -783,11 +781,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId))
     ];
 
-    if(args.filter.series != ''){
+    if (args.filter.series != '') {
       joins.add(leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)));
     }
     var query = select(monsters).join(joins);
-
 
     var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
     var orderMapping = {
@@ -910,15 +907,14 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       query.where(expr);
     }
 
-    if (args.filter.series != ''){
+    if (args.filter.series != '') {
       var seriesText = '%${args.filter.series}%';
       var expr = or(
-        series.nameJp.like(seriesText),
-        or(
-          series.nameNa.like(seriesText),
-          series.nameKr.like(seriesText)
-        )
-      );
+          series.nameJp.like(seriesText),
+          or(
+            series.nameNa.like(seriesText),
+            series.nameKr.like(seriesText),
+          ));
       query.where(expr);
     }
 
@@ -996,7 +992,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         : (await skillUpMonsterIds(resultMonster.activeSkillId)).map((x) => x.monsterId).toList();
 
     var skillUpDungeons = Map<int, List<BasicDungeon>>();
-    for (var monsterId in skillUpMonsterIdsResult){
+    for (var monsterId in skillUpMonsterIdsResult) {
       var skillUpMonsterDropLocations = await findDropDungeons(monsterId);
       skillUpDungeons[monsterId] = skillUpMonsterDropLocations;
     }
