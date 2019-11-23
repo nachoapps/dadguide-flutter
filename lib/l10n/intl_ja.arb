@@ -77,7 +77,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "taskExecutingWithCount": "タスク（{index} / {taskCount}）実行中",
+    "taskExecutingWithCount": "タスク({index} / {taskCount})実行中",
     "@taskExecutingWithCount": {
         "description": "Indicates task progress",
         "type": "text",
@@ -157,7 +157,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "mpAndMpPerStam": "{mp}（{mpPerStam}／スタミナ）",
+    "mpAndMpPerStam": "{mp}({mpPerStam}／スタミナ)",
     "@mpAndMpPerStam": {
         "description": "Lists the MP and MP/Stam for a dungeon",
         "type": "text",

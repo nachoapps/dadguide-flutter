@@ -65,9 +65,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m22(number) => "ﾌﾟﾗｽ ${number}";
 
-  static m23(mp, mpPerStam) => "${mp}（${mpPerStam}／スタミナ）";
+  static m23(mp, mpPerStam) => "${mp}(${mpPerStam}／スタミナ)";
 
-  static m24(index, taskCount) => "タスク（${index} / ${taskCount}）実行中";
+  static m24(index, taskCount) => "タスク(${index} / ${taskCount})実行中";
 
   static m25(index, taskCount) => "タスク ${index} / ${taskCount} が失敗しました";
 
@@ -149,7 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoSkillTurns" : m14,
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップダンジョン"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップモンスター"),
-    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストによるステータスボーナス (+297)"),
+    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストによるステータスボーナス"),
     "monsterInfoSuperAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("超覚醒スキル"),
     "monsterInfoTableBuyMp" : MessageLookupByLibrary.simpleMessage("MPを購入"),
     "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("合成経験値"),

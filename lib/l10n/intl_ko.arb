@@ -5,7 +5,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "tabEvent": "이벤트들",
+    "tabEvent": "이벤트",
     "@tabEvent": {
         "description": "Bottom tab title for events",
         "type": "text",
@@ -47,7 +47,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "countryNa": "북아메리카",
+    "countryNa": "북미",
     "@countryNa": {
         "description": "Used in server selector",
         "type": "text",
@@ -71,7 +71,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "updateFailed": "업데이트가 실패",
+    "updateFailed": "업데이트 실패",
     "@updateFailed": {
         "description": "Snackbar displayed when data update fails",
         "type": "text",
@@ -86,7 +86,7 @@
             "taskCount": {}
         }
     },
-    "taskExecuting": "실행 작업",
+    "taskExecuting": "작업 실행 중",
     "@taskExecuting": {
         "description": "Indicates task is running",
         "type": "text",
@@ -115,13 +115,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "taskWaiting": "작업 시작을 기다리는 중",
+    "taskWaiting": "작업 대기 중",
     "@taskWaiting": {
         "description": "Indicates task is preparing to start",
         "type": "text",
         "placeholders": {}
     },
-    "taskFatalError": "치명적인 오류가 발생했습니다. 앱을 다시 시작해보십시오",
+    "taskFatalError": "치명적인 오류가 발생했습니다. 앱을 다시 시작해 주세요.",
     "@taskFatalError": {
         "description": "Indicates task failed and will not attempt to restart",
         "type": "text",
@@ -139,7 +139,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "onboardingUnpackDb": "초기 데이터 포장 풀기",
+    "onboardingUnpackDb": "초기 데이터 압축 해제 중",
     "@onboardingUnpackDb": {
         "description": "Displayed while the database is unzipping",
         "type": "text",
@@ -151,13 +151,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "onboardingUnpackImages": "포장 풀기 아이콘 세트",
+    "onboardingUnpackImages": "아이콘 세트 압축 해제 중",
     "@onboardingUnpackImages": {
         "description": "Displayed while the icon set is unzipping",
         "type": "text",
         "placeholders": {}
     },
-    "mpAndMpPerStam": "{mp} ( {mpPerStam} / 체력)",
+    "mpAndMpPerStam": "{mp} ({mpPerStam} / 스태미나)",
     "@mpAndMpPerStam": {
         "description": "Lists the MP and MP/Stam for a dungeon",
         "type": "text",
@@ -236,7 +236,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "battleFloor": "층 {floor}",
+    "battleFloor": "{floor} 층",
     "@battleFloor": {
         "description": "Header for encounter section",
         "type": "text",
@@ -318,7 +318,7 @@
             "expPerStam": {}
         }
     },
-    "dungeonListCoinPerStam": "코인 효율: {coinPerStam}",
+    "dungeonListCoinPerStam": "스태미나당 코인: {coinPerStam}",
     "@dungeonListCoinPerStam": {
         "description": "SubDungeon selection info",
         "type": "text",
@@ -326,7 +326,7 @@
             "coinPerStam": {}
         }
     },
-    "eventClosed": "닫은",
+    "eventClosed": "종료된 이벤트",
     "@eventClosed": {
         "description": "Displayed below closed event info",
         "type": "text",
@@ -340,7 +340,7 @@
             "days": {}
         }
     },
-    "eventTabAll": "모든",
+    "eventTabAll": "전체",
     "@eventTabAll": {
         "description": "Subtab text at top of event tab",
         "type": "text",
@@ -422,7 +422,7 @@
             "number": {}
         }
     },
-    "monsterListWeighted": "무게 {number}",
+    "monsterListWeighted": "환산치 {number}",
     "@monsterListWeighted": {
         "description": "Monster list weighted stat text",
         "type": "text",
@@ -446,7 +446,7 @@
             "number": {}
         }
     },
-    "monsterFilterModalTitle": "고급검색",
+    "monsterFilterModalTitle": "상세 검색",
     "@monsterFilterModalTitle": {
         "description": "Title for monster filter modal",
         "type": "text",
@@ -482,13 +482,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterFilterModalActiveSkills": "Active Skills",
+    "monsterFilterModalActiveSkills": "액티브 스킬",
     "@monsterFilterModalActiveSkills": {
         "description": "Section header",
         "type": "text",
         "placeholders": {}
     },
-    "monsterFilterModalLeaderSkills": "Leader Skills",
+    "monsterFilterModalLeaderSkills": "리더 스킬",
     "@monsterFilterModalLeaderSkills": {
         "description": "Section header",
         "type": "text",
@@ -518,13 +518,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortDesc": "내림차순 ▼",
+    "monsterSortDesc": "내림차순",
     "@monsterSortDesc": {
         "description": "Top button",
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortAsc": "오름차순 ▲",
+    "monsterSortAsc": "오름차순",
     "@monsterSortAsc": {
         "description": "Top button",
         "type": "text",
@@ -560,7 +560,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortTypeLimitBrokenWeighted": "LB Total",
+    "monsterSortTypeLimitBrokenWeighted": "LB 환산치",
     "@monsterSortTypeLimitBrokenWeighted": {
         "description": "Grid button",
         "type": "text",
@@ -602,7 +602,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortTypeSkillTurn": "Skill Turn",
+    "monsterSortTypeSkillTurn": "스킬 턴",
     "@monsterSortTypeSkillTurn": {
         "description": "Grid button",
         "type": "text",
@@ -616,13 +616,13 @@
             "number": {}
         }
     },
-    "monsterInfo297Awoken": "+297 및 완전히 깨어남",
+    "monsterInfo297Awoken": "+297 및 능력 각성",
     "@monsterInfo297Awoken": {
         "description": "Text above the 297+awoken table",
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoStatBonus": "보조 할 때의 스탯 보너스 (+297)",
+    "monsterInfoStatBonus": "보조 할 때의 스탯 보너스",
     "@monsterInfoStatBonus": {
         "description": "Text above the assist bonus table",
         "type": "text",
@@ -634,7 +634,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoCost": "비용 {number}",
+    "monsterInfoCost": "코스트 {number}",
     "@monsterInfoCost": {
         "description": "Monster info cost text",
         "type": "text",
@@ -666,7 +666,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoShield": "Dmg을 줄이십시오.",
+    "monsterInfoShield": "대미지 경감",
     "@monsterInfoShield": {
         "description": "Header in monster info table",
         "type": "text",
@@ -678,7 +678,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoWeighted": "가중",
+    "monsterInfoWeighted": "환산치",
     "@monsterInfoWeighted": {
         "description": "Header in monster info table",
         "type": "text",
@@ -702,7 +702,7 @@
             "levels": {}
         }
     },
-    "monsterInfoActiveSkillTitle": "기술:",
+    "monsterInfoActiveSkillTitle": "스킬:",
     "@monsterInfoActiveSkillTitle": {
         "description": "Header for active skill section",
         "type": "text",
@@ -714,7 +714,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoHistoryTitle": "역사",
+    "monsterInfoHistoryTitle": "히스토리",
     "@monsterInfoHistoryTitle": {
         "description": "Header for history section",
         "type": "text",
@@ -796,7 +796,7 @@
             "seriesName": {}
         }
     },
-    "monsterInfoMaterialForHeader": "Material for",
+    "monsterInfoMaterialForHeader": "사용처",
     "@monsterInfoMaterialForHeader": {
         "description": "Material for icons section header",
         "type": "text",
@@ -868,7 +868,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "onboardingWaitingSubTitle": "나중에 설정 탭에서이 값을 변경할 수 있습니다",
+    "onboardingWaitingSubTitle": "아래 항목은 나중에 설정 탭에서 다시 변경할 수 있습니다.",
     "@onboardingWaitingSubTitle": {
         "description": "Subtitle above the locale selection stuff",
         "type": "text",
@@ -916,7 +916,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsUiLanguageDesc": "Overwrites your device locale",
+    "settingsUiLanguageDesc": "기기에 설정되어 있는 지역의 언어를 불러옵니다.",
     "@settingsUiLanguageDesc": {
         "description": "Setting description",
         "type": "text",
@@ -928,7 +928,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsInfoLanguageDesc": "Used for monster/dungeon names, skill text, etc",
+    "settingsInfoLanguageDesc": "몬스터/던전 이름, 스킬 등에 적용됩니다.",
     "@settingsInfoLanguageDesc": {
         "description": "Setting description",
         "type": "text",
@@ -940,7 +940,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsGameCountryDesc": "Controls some other region-specific settings",
+    "settingsGameCountryDesc": "지역별 설정을 제어합니다.",
     "@settingsGameCountryDesc": {
         "description": "Setting description",
         "type": "text",
@@ -958,7 +958,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsEventCountryDesc": "Server to display guerrilla events for",
+    "settingsEventCountryDesc": "게릴라 이벤트를 표시할 서버입니다.",
     "@settingsEventCountryDesc": {
         "description": "Setting description",
         "type": "text",
@@ -970,13 +970,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsHideUnreleasedMonsters": "Hide unreleased monsters",
+    "settingsHideUnreleasedMonsters": "출시되지 않은 몬스터 숨기기",
     "@settingsHideUnreleasedMonsters": {
         "description": "Checkbox title",
         "type": "text",
         "placeholders": {}
     },
-    "settingsHideUnreleasedMonstersDesc": "Hides monsters that are not released for the selected Game Country",
+    "settingsHideUnreleasedMonstersDesc": "해당 국가에서 아직 출시되지 않은 몬스터를 숨깁니다.",
     "@settingsHideUnreleasedMonstersDesc": {
         "description": "Setting description",
         "type": "text",

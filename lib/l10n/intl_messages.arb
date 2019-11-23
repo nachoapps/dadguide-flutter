@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-18T23:34:17.081412",
+  "@@last_modified": "2019-11-23T11:16:22.446988",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -484,6 +484,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "monsterFilterModalSeries": "Series",
+  "@monsterFilterModalSeries": {
+    "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
   "monsterFilterModalActiveSkills": "Active Skills",
   "@monsterFilterModalActiveSkills": {
     "description": "Section header",
@@ -751,6 +757,12 @@
   "monsterInfoSkillupDungeonsTitle": "Skill Up - Dungeon",
   "@monsterInfoSkillupDungeonsTitle": {
     "description": "Header for skillup drop dungeons",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoSkillupDungeonTitleNone": "Skill Up - Dungeon: None",
+  "@monsterInfoSkillupDungeonTitleNone": {
+    "description": "Header for skill up dungeon section when there are no drops",
     "type": "text",
     "placeholders": {}
   },

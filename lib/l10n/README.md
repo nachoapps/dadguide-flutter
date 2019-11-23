@@ -13,8 +13,11 @@ Not clear what the proper workflow is to manage these going forwards. Possibly u
 to merge new translations from intl_messages.arb into intl_messages_<language> and then re-upload
 them to the tool for translations.
 
-Once translations are applied, copy them into place and run the following command to regenerate
-the l10n code:
+Once translations are applied, go to the project settings page in Crowdin and click 
+'Build & Download'. Unzip the result and rename the individual files to `intl_ja.arb` and
+`intl_ko.arb`. Delete the `locale en` bit on line 2 and copy them into place. 
+
+Then run the following command to regenerate the l10n code:
 ```
 flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n --no-use-deferred-loading lib/l10n/localizations.dart lib/l10n/intl_??.arb
 ```
