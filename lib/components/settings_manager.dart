@@ -25,12 +25,17 @@ class PrefKeys {
   static const uiDarkMode = 'ui_dark_mode';
 
   static const hideUnreleasedMonsters = 'hide_unreleased_monsters';
+
+  static const trackedDungeons = 'tracked_dungeons';
+
+  static const inDevMode = 'in_dev_mode';
 }
 
 /// Wrapper for reading and writing preferences.
 class Prefs {
   /// The currently selected event country.
   static Country get eventCountry => Country.byId(PrefService.getInt(PrefKeys.eventCountry));
+
   static set eventCountry(Country country) => PrefService.setInt(PrefKeys.eventCountry, country.id);
 
   /// A list of the event starters and their selected status.
@@ -46,7 +51,7 @@ class Prefs {
   static bool get eventHideClosed => PrefService.getBool(PrefKeys.eventsHideClosed);
 
   /// Initialize the pref repo and make sure every preference has a sane default at first launch.
-  static Future<void> init() async {
+  static Future<void> init(bool inDevMode) async {
     var windowBrightness = ui.window.platformBrightness;
     var defaultTheme =
         windowBrightness == ui.Brightness.light ? UiTheme.lightBlue : UiTheme.darkBlue;
@@ -67,6 +72,8 @@ class Prefs {
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
+      PrefKeys.trackedDungeons: <String>[],
+      PrefKeys.inDevMode: inDevMode,
     });
   }
 
@@ -90,28 +97,37 @@ class Prefs {
   }
 
   static int get defaultUiLanguageValue => _defaultLanguageCountry.item1.id;
+
   static int get defaultInfoLanguageValue => _defaultLanguageCountry.item1.id;
+
   static int get defaultGameCountryValue => _defaultLanguageCountry.item2.id;
+
   static int get defaultEventCountryValue => _defaultLanguageCountry.item2.id;
 
   static List<int> get languageValues => Language.all.map((l) => l.id).toList();
+
   static List<String> get languageDisplayValues =>
       Language.all.map((l) => l.languageName()).toList();
 
   static List<int> get countryValues => Country.all.map((l) => l.id).toList();
+
   static List<String> get countryDisplayValues => Country.all.map((l) => l.countryName()).toList();
 
   static Language get infoLanguage => Language.byId(PrefService.getInt(PrefKeys.infoLanguage));
+
   static set infoLanguage(Language language) =>
       PrefService.setInt(PrefKeys.infoLanguage, language.id);
 
   static Language get uiLanguage => Language.byId(PrefService.getInt(PrefKeys.uiLanguage));
+
   static set uiLanguage(Language language) => PrefService.setInt(PrefKeys.uiLanguage, language.id);
 
   static UiTheme get uiTheme => UiTheme.byId(PrefService.getInt(PrefKeys.uiTheme));
+
   static set uiTheme(UiTheme theme) => PrefService.setInt(PrefKeys.uiTheme, theme.id);
 
   static bool get uiDarkMode => PrefService.getBool(PrefKeys.uiDarkMode);
+
   static set uiDarkMode(bool darkMode) {
     PrefService.setBool(PrefKeys.uiTheme, darkMode);
     // Temporary propagation of the saved actual theme
@@ -119,6 +135,7 @@ class Prefs {
   }
 
   static int get currentDbVersion => PrefService.getInt(PrefKeys.currentDbVersion);
+
   static set currentDbVersion(int version) =>
       PrefService.setInt(PrefKeys.currentDbVersion, version);
 
@@ -138,6 +155,34 @@ class Prefs {
 
   static Country get gameCountry => Country.byId(PrefService.getInt(PrefKeys.gameCountry));
 
+  /// Sorted by insert order. Consider sorting?
+  /// Note the app and database uses dungeonId as an int, but shared_preferences only has a list of strings for storage.
+  static List<int> addTrackedDungeon(int dungeonId) {
+    List<int> trackedDungeons = Prefs.trackedDungeons;
+    trackedDungeons.add(dungeonId);
+    setTrackedDungeons(trackedDungeons);
+    return trackedDungeons;
+  }
+
+  static List<int> removeTrackedDungeon(int dungeonId) {
+    List<int> trackedDungeons = Prefs.trackedDungeons;
+    trackedDungeons.remove(dungeonId);
+    setTrackedDungeons(trackedDungeons);
+    return trackedDungeons;
+  }
+
+  static void setTrackedDungeons(List<int> dungeonIds) {
+    PrefService.setStringList(
+        PrefKeys.trackedDungeons, dungeonIds.map((int x) => x.toString()).toList());
+  }
+
+  static List<int> get trackedDungeons {
+    List<int> trackedDungeons = (PrefService.get(PrefKeys.trackedDungeons) as List).map<int>((s) => int.parse(s)).toList();
+    return trackedDungeons;
+  }
+
+  static bool get inDevMode => PrefService.get(PrefKeys.inDevMode);
+
   /// Store the current time as the last update time.
   static void updateRan() {
     PrefService.setInt(PrefKeys.lastUpdateExecution, DateTime.now().millisecondsSinceEpoch);
@@ -151,6 +196,7 @@ class Prefs {
   }
 
   static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
+
   static set hideUnreleasedMonsters(bool val) =>
       PrefService.setBool(PrefKeys.hideUnreleasedMonsters, val);
 }

@@ -31,7 +31,11 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 28
+    // Original code
+    // compileSdkVersion 28
+
+    // For background_fetch
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     lintOptions {
         disable 'InvalidPackage'
@@ -41,7 +45,10 @@ android {
         applicationId "info.miru.dadguide"
         minSdkVersion 21
         multiDexEnabled true
-        targetSdkVersion 28
+        // Original code
+        //targetSdkVersion 28
+        // For background_fetch
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -68,8 +75,13 @@ flutter {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // original code
+    // androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    // androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // For background_fetch
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.ads.mediation:facebook:5.6.0.0'
 }

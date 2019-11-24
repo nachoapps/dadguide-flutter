@@ -546,6 +546,7 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
     return results;
   }
 
+  /// Should note this is not just 'currentEvents', it's actually ALL events in the database.
   Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
 }
 

@@ -1,14 +1,22 @@
+import 'package:dadguide2/components/data_update.dart';
 import 'package:dadguide2/components/email.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/services/update_service.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:intl/intl.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
 
 /// Displays user-configurable settings, and some misc items like copyright/contact etc.
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +109,28 @@ class SettingsScreen extends StatelessWidget {
             PreferenceText('Copyright © 2019 Miru Apps LLC.\nAll rights reserved'),
           ]),
         ),
+        if (Prefs.inDevMode) ...[
+          PreferenceTitle('Debug menu'),
+          FlatButton(
+              onPressed: () async {
+                var _scheduleDao = getIt<ScheduleDao>();
+                var _dungeonDao = getIt<DungeonsDao>();
+                var _database = getIt<DadGuideDatabase>();
+                var dungeons = await _scheduleDao.currentEvents;
+                Fimber.i("current events dungeons: ${dungeons.length}");
+                dungeons.forEach((dungeon){
+                  Fimber.i('${DateFormat('MM-dd-yyyy').format(DateTime.fromMillisecondsSinceEpoch(dungeon.startTimestamp *1000))} to ${DateFormat('MM-dd-yyyy').format(DateTime.fromMillisecondsSinceEpoch(dungeon.endTimestamp *1000))}');
+                });
+                dungeons.sort((a, b) => a.dungeonId.compareTo(b.dungeonId));
+                var testDungeon = dungeons[0];
+                Prefs.addTrackedDungeon(testDungeon.dungeonId);
+                FullDungeon fullDungeon = await _dungeonDao.lookupFullDungeon(testDungeon.dungeonId);
+                var dungeonName = fullDungeon.dungeon.nameNa;
+                Fimber.i("Added dungeon ${dungeonName} to tracked dungeons.");
+              },
+              child: Text("Track Latest Event Dungeon and Update DB")
+          ),
+        ]
       ]),
     );
   }

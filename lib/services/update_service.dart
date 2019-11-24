@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' show HttpStatus;
 
+import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';

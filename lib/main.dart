@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/ads.dart';
+import 'package:dadguide2/components/background_fetch.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -17,8 +18,8 @@ import 'package:provider/provider.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
 /// handler which seems to swallow some helpful Flutter error reporting. This should never be
-/// checked in with true.
-bool inDevMode = false;
+/// checked in with true. Also enables the debug menu for some of the integration tests.
+bool inDevMode = true;
 
 /// If true, uses dev (local) endpoints. Unless you're running the Sanic webserver from the
 /// dadguide-data project, you probably don't want this.
@@ -40,7 +41,7 @@ void main() async {
   FirebaseAdMob.instance.initialize(appId: appId(), analyticsEnabled: true);
 
   // Ensure the preference defaults are set.
-  await Prefs.init();
+  await Prefs.init(inDevMode);
 
   // Set up services that are guaranteed to start with getIt.
   await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
@@ -71,7 +72,8 @@ class _DadGuideAppState extends State<DadGuideApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
+    // Initializes all the background_fetch plugin.
+    BackgroundFetchInit();
     return ChangeNotifierProvider<LocaleChangedNotifier>(
         builder: (_) => LocaleChangedNotifier(this),
         child: MaterialApp(

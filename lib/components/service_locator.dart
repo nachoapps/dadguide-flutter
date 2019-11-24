@@ -5,9 +5,11 @@ import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get_it/get_it.dart';
 
 /// Global service locator singleton.
@@ -36,6 +38,10 @@ Future<void> initializeServiceLocator(
     HttpHeaders.userAgentHeader:
         'DadGuide v${versionInfo.projectCode} - ${versionInfo.platformVersion}',
   };
+
+  // Initialize Notifications Plugin
+  var notifications = NotificationInit();
+  getIt.registerSingleton<NotificationInit>(notifications);
 }
 
 /// Try to initialize DB dependencies and register them with getIt.

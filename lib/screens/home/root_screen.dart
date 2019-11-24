@@ -13,6 +13,7 @@ import 'package:dadguide2/screens/monster/monster_search_modal.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/services/device_utils.dart';
+import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
