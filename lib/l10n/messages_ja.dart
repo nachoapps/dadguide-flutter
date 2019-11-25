@@ -149,7 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoSkillTurns" : m14,
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップダンジョン"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップモンスター"),
-    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストによるステータスボーナス"),
+    "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("アシストによるステータスボーナス (+297)"),
     "monsterInfoSuperAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("超覚醒スキル"),
     "monsterInfoTableBuyMp" : MessageLookupByLibrary.simpleMessage("MPを購入"),
     "monsterInfoTableFeedXp" : MessageLookupByLibrary.simpleMessage("合成経験値"),

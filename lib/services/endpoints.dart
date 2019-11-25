@@ -1,3 +1,6 @@
+import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/version_info.dart';
+
 /// Returns URLs configured properly for the given arguments.
 ///
 /// This makes switching between local dev and prod easier.
@@ -28,6 +31,8 @@ class DevEndpoints extends Endpoints {
     if (tstamp != null) {
       url += '&tstamp=$tstamp';
     }
+    var versionInfo = getIt<VersionInfo>();
+    url += '&v=${versionInfo.projectCode}';
     return url;
   }
 }
@@ -48,6 +53,8 @@ class ProdEndpoints extends Endpoints {
     if (tstamp != null) {
       url += '&tstamp=$tstamp';
     }
+    var versionInfo = getIt<VersionInfo>();
+    url += '&v=${versionInfo.projectCode}';
     return url;
   }
 }

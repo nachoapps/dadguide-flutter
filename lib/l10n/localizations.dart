@@ -47,6 +47,9 @@ class DadGuideLocalizations {
   String get updateFailed => Intl.message('Update failed',
       name: 'updateFailed', desc: 'Snackbar displayed when data update fails');
 
+  String get updateFailedTooOld => Intl.message('DadGuide needs to update',
+      name: 'updateFailedTooOld', desc: 'Snackbar displayed when the app is out of date');
+
   // ---- Strings used by task execution widget ----
   String taskExecutingWithCount(int index, int taskCount) => Intl.message(
         'Executing task ($index/$taskCount)',
@@ -448,7 +451,8 @@ class DadGuideLocalizations {
       name: 'monsterInfoSkillupDungeonsTitle', desc: 'Header for skillup drop dungeons');
 
   String get monsterInfoSkillupDungeonTitleNone => Intl.message('Skill Up - Dungeon: None',
-      name: 'monsterInfoSkillupDungeonTitleNone', desc: 'Header for skill up dungeon section when there are no drops');
+      name: 'monsterInfoSkillupDungeonTitleNone',
+      desc: 'Header for skill up dungeon section when there are no drops');
 
   String get monsterInfoTableInfoMaxLevel => Intl.message('At max level',
       name: 'monsterInfoTableInfoMaxLevel', desc: 'Header column with buy/sell/feed data');

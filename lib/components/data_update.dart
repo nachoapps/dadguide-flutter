@@ -24,10 +24,15 @@ class DataUpdater with ChangeNotifier {
         ..removeCurrentSnackBar()
         ..showSnackBar((SnackBar(content: Text(loc.updateComplete))));
       notifyListeners();
-    }, onError: (_) {
-      scaffold
-        ..removeCurrentSnackBar()
-        ..showSnackBar((SnackBar(content: Text(loc.updateFailed))));
+    }, onError: (error) {
+      scaffold.removeCurrentSnackBar();
+      if (error is ApplicationUpdateRequired) {
+        Fimber.w('Application update required');
+        scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailedTooOld))));
+      } else {
+        Fimber.e('Update failed', ex: error);
+        scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailed))));
+      }
     });
     if (Prefs.updateRequired()) {
       Fimber.w('Update is required, triggering');

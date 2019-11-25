@@ -1,3 +1,5 @@
+import 'dart:io' show HttpHeaders;
+
 import 'package:dadguide2/components/cache.dart';
 import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';
@@ -29,6 +31,11 @@ Future<void> initializeServiceLocator(
 
   var deviceInfo = await createDeviceInfo();
   getIt.registerSingleton(deviceInfo);
+
+  dio.options.headers = {
+    HttpHeaders.userAgentHeader:
+        'DadGuide v${versionInfo.projectCode} - ${versionInfo.platformVersion}',
+  };
 }
 
 /// Try to initialize DB dependencies and register them with getIt.

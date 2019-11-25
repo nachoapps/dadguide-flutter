@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2019-11-23T11:16:22.446988",
+  "@@last_modified": "2019-11-25T13:16:45.020372",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -76,6 +76,12 @@
   "updateFailed": "Update failed",
   "@updateFailed": {
     "description": "Snackbar displayed when data update fails",
+    "type": "text",
+    "placeholders": {}
+  },
+  "updateFailedTooOld": "DadGuide needs to update",
+  "@updateFailedTooOld": {
+    "description": "Snackbar displayed when the app is out of date",
     "type": "text",
     "placeholders": {}
   },

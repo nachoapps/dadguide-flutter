@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show HttpStatus;
 
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
@@ -12,6 +13,8 @@ import 'package:tuple/tuple.dart';
 
 // TODO: convert this to being supplied by getIt.
 final updateManager = UpdateManager._();
+
+class ApplicationUpdateRequired implements Exception {}
 
 /// Singleton that controls updates to the database.
 ///
@@ -162,6 +165,9 @@ class UpdateTask with TaskPublisher {
   Future<List<Map<String, dynamic>>> _retrieveTableData(String tableName, {int tstamp}) async {
     var url = _endpoints.api(tableName, tstamp: tstamp);
     var resp = await _dio.get(url);
+    if (resp.statusCode == HttpStatus.notAcceptable) {
+      throw ApplicationUpdateRequired();
+    }
     var data = resp.data;
     var items = data['items'] as List<dynamic>;
     return items.cast<Map<String, dynamic>>();

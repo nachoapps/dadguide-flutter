@@ -249,6 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "typeVendor" : MessageLookupByLibrary.simpleMessage("Vendor"),
     "updateComplete" : MessageLookupByLibrary.simpleMessage("Update complete"),
     "updateFailed" : MessageLookupByLibrary.simpleMessage("Update failed"),
+    "updateFailedTooOld" : MessageLookupByLibrary.simpleMessage("DadGuide needs to update"),
     "updateModalTitle" : MessageLookupByLibrary.simpleMessage("Updating DadGuide data"),
     "ytLaunchError" : MessageLookupByLibrary.simpleMessage("Failed to launch YouTube")
   };
