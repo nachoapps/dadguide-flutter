@@ -776,10 +776,16 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
     });
 
+    var hasLeaderSkillTagFilter = args.filter.leaderTags.isNotEmpty;
+
     var joins = [
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
-      leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId))
     ];
+
+    if (hasLeaderSkillTagFilter) {
+      joins.add(leftOuterJoin(
+          leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)));
+    }
 
     if (args.filter.series != '') {
       joins.add(leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)));
@@ -879,7 +885,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       }
     }
 
-    if (args.filter.leaderTags.isNotEmpty) {
+    if (hasLeaderSkillTagFilter) {
       var expr;
       for (var curTag in args.filter.leaderTags) {
         var searchText = '%(${curTag.leaderSkillTagId})%';
