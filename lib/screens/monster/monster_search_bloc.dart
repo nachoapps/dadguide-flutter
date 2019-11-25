@@ -47,8 +47,12 @@ class MonsterDisplayState with ChangeNotifier {
   }
 
   void doSearch() {
-    searchBloc
-        .search(MonsterSearchArgs(text: _searchText.trim(), sort: sortArgs, filter: filterArgs));
+    searchBloc.search(MonsterSearchArgs(
+      text: _searchText.trim(),
+      sort: sortArgs,
+      filter: filterArgs,
+      awakeningsRequired: _showAwakenings,
+    ));
   }
 
   get searchText => _searchText;
@@ -70,6 +74,7 @@ class MonsterDisplayState with ChangeNotifier {
 
   set showAwakenings(bool value) {
     _showAwakenings = value;
+    doSearch();
     notifyListeners();
   }
 

@@ -46,6 +46,23 @@ class ActiveSkills extends Table {
   IntColumn get tstamp => integer()();
 }
 
+/// This class is a hack; for some queries we only care about a subset of columns (the turn min/max
+/// and tags) so there's no need to retrieve them.
+class ActiveSkillsNoText extends Table {
+  IntColumn get activeSkillId => integer().autoIncrement()();
+
+  IntColumn get turnMax => integer()();
+
+  IntColumn get turnMin => integer()();
+
+  TextColumn get tags => text()();
+
+  IntColumn get tstamp => integer()();
+
+  @override
+  String get tableName => 'active_skills';
+}
+
 class ActiveSkillTags extends Table {
   IntColumn get activeSkillTagId => integer().autoIncrement()();
 
@@ -364,19 +381,6 @@ class Series extends Table {
   IntColumn get tstamp => integer()();
 }
 
-//
-//class SkillCondition extends Table {
-//  IntColumn get conditionId => integer().autoIncrement()();
-//  IntColumn get conditionType => integer()();
-//
-//  TextColumn get nameJp => text()();
-//  TextColumn get nameNa => text()();
-//  TextColumn get nameKr => text()();
-//  IntColumn get orderIdx => integer()();
-//
-//  IntColumn get tstamp => integer()();
-//}
-
 class SubDungeons extends Table {
   IntColumn get subDungeonId => integer().autoIncrement()();
 
@@ -446,6 +450,7 @@ class Timestamps extends Table {
   ],
   tables: [
     ActiveSkills,
+    ActiveSkillsNoText,
     ActiveSkillTags,
     Awakenings,
     AwokenSkills,
@@ -459,7 +464,6 @@ class Timestamps extends Table {
     Series,
     Schedule,
     SubDungeons,
-//  SkillCondition,
     Timestamps,
   ],
   queries: {},
@@ -711,17 +715,25 @@ class MonsterSearchArgs {
   final String text;
   final MonsterSortArgs sort;
   final MonsterFilterArgs filter;
+  final bool awakeningsRequired;
 
-  MonsterSearchArgs({@required this.text, @required this.sort, @required this.filter});
+  MonsterSearchArgs(
+      {@required this.text,
+      @required this.sort,
+      @required this.filter,
+      @required this.awakeningsRequired});
+
   MonsterSearchArgs.defaults()
       : text = '',
         sort = MonsterSortArgs(),
-        filter = MonsterFilterArgs();
+        filter = MonsterFilterArgs(),
+        awakeningsRequired = false;
 }
 
 @UseDao(
   tables: [
     ActiveSkills,
+    ActiveSkillsNoText,
     ActiveSkillTags,
     Awakenings,
     AwokenSkills,
@@ -769,7 +781,11 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     Fimber.d('doing list monster lookup');
     var s = new Stopwatch()..start();
 
-    final awakeningResults = await select(awakenings).get();
+    // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
+    var awakeningResults = [];
+    if (args.awakeningsRequired) {
+      awakeningResults = await select(awakenings).get();
+    }
 
     var monsterAwakenings = Map<int, List<Awakening>>();
     awakeningResults.forEach((a) {
@@ -779,9 +795,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var hasLeaderSkillTagFilter = args.filter.leaderTags.isNotEmpty;
 
     var joins = [
-      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
+      // Join the limited AS table since we only need id, min/max cd, and tags.
+      leftOuterJoin(
+          activeSkillsNoText, activeSkillsNoText.activeSkillId.equalsExp(monsters.activeSkillId)),
     ];
 
+    // Optimization to avoid joining leader table if not necessary.
     if (hasLeaderSkillTagFilter) {
       joins.add(leftOuterJoin(
           leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)));
