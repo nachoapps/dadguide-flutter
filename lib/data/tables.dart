@@ -981,18 +981,19 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       // strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
       // it's a good match, otherwise skip this row.
       if (filter.awokenSkills.isNotEmpty) {
-        var saMatched = false;
         var copy = List.of(filter.awokenSkills);
-        for (var awakening in awakeningList) {
-          if (awakening.isSuper) {
-            if (saMatched) {
-              // Can't match super awakenings twice.
-              continue;
-            } else {
-              saMatched = true;
-            }
-          }
+        var regularAwakenings = List.of(awakeningList).where((a) => !a.isSuper);
+        var superAwakenings = List.of(awakeningList).where((a) => a.isSuper);
+
+        for (var awakening in regularAwakenings) {
           copy.remove(awakening.awokenSkillId);
+        }
+        for (var awakening in superAwakenings) {
+          if (copy.contains(awakening.awokenSkillId)) {
+            copy.remove(awakening.awokenSkillId);
+            // Only match one super awakening.
+            break;
+          }
         }
         if (copy.isNotEmpty) {
           continue;
