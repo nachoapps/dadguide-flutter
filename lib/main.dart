@@ -18,8 +18,8 @@ import 'package:provider/provider.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
 /// handler which seems to swallow some helpful Flutter error reporting. This should never be
-/// checked in with true. Also enables the debug menu for some of the integration tests.
-bool inDevMode = true;
+/// checked in with true. It gets stored as a preference for re-use throughout the app.
+bool inDevMode = false;
 
 /// If true, uses dev (local) endpoints. Unless you're running the Sanic webserver from the
 /// dadguide-data project, you probably don't want this.

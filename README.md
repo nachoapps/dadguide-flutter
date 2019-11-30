@@ -23,8 +23,3 @@ fix some stuff please let me know.
 
 Take a look at lib/data/README.md; this project uses codegen for some files and you need to start
 that while developing.
-
-## Running integration tests
-
-We've got one integration test so far. You can run it by running the command 
-`flutter drive --target=test_driver/app.dart --no-build` in the root folder.

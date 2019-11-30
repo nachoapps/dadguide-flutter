@@ -82,9 +82,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:
-    sdk: flutter
-  test: any
 
   # Database codegen
   moor_generator: ^1.7.0

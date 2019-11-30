@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
@@ -10,7 +8,6 @@ import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';

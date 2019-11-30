@@ -9,7 +9,6 @@ import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get_it/get_it.dart';
 
 /// Global service locator singleton.
