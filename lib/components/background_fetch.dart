@@ -4,6 +4,7 @@ import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 class BackgroundFetchInit {
@@ -14,8 +15,8 @@ class BackgroundFetchInit {
   Future<void> init() async {
     BackgroundFetch.configure(
         BackgroundFetchConfig(
-            // Will run in the background every 600 minutes. Consider making this a preference.
-            minimumFetchInterval: 600,
+            // Will run in the background every 15 minutes. Consider making this a preference.
+            minimumFetchInterval: 15,
             stopOnTerminate: false,
             forceReload: true,
             enableHeadless: false,
@@ -27,6 +28,10 @@ class BackgroundFetchInit {
       var notifications = Notifications();
       var _scheduleDao = getIt<ScheduleDao>();
       var _trackedDungeons = Prefs.trackedDungeons;
+
+      // force an update
+      await updateManager.start();
+
       Fimber.i("User's tracked dungeons: $_trackedDungeons");
       var events = await _scheduleDao.findListEvents(EventSearchArgs.from(
         [Prefs.eventCountry],
@@ -40,7 +45,7 @@ class BackgroundFetchInit {
       events.forEach((event) => notifications.checkEvent(event.event));
       BackgroundFetch.finish();
     }).then((result) {
-      Fimber.i("Background fetch task done.");
+      Fimber.i("BackgroundFetch config done");
     }).catchError((e, stacktrace) => Fimber.i("Error", ex: e, stacktrace: stacktrace));
   }
 }
