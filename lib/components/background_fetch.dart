@@ -13,17 +13,17 @@ class BackgroundFetchInit {
 
   Future<void> init() async {
     BackgroundFetch.configure(
-            BackgroundFetchConfig(
-                // Will run in the background every 600 minutes. Consider making this a preference.
-                minimumFetchInterval: 600,
-                stopOnTerminate: false,
-                forceReload: true,
-                enableHeadless: false,
-                requiresBatteryNotLow: false,
-                requiresCharging: false,
-                requiresStorageNotLow: false,
-                requiresDeviceIdle: false,
-                requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_NONE), () async {
+        BackgroundFetchConfig(
+            // Will run in the background every 600 minutes. Consider making this a preference.
+            minimumFetchInterval: 600,
+            stopOnTerminate: false,
+            forceReload: true,
+            enableHeadless: false,
+            requiresBatteryNotLow: false,
+            requiresCharging: false,
+            requiresStorageNotLow: false,
+            requiresDeviceIdle: false,
+            requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_NONE), () async {
       var notifications = Notifications();
       var _scheduleDao = getIt<ScheduleDao>();
       var _trackedDungeons = Prefs.trackedDungeons;
@@ -39,8 +39,8 @@ class BackgroundFetchInit {
       Fimber.d("Event ids found: ${events.map((event) => event.dungeon.dungeonId).join(", ")}");
       events.forEach((event) => notifications.checkEvent(event.event));
       BackgroundFetch.finish();
-    })
-        .then(Fimber.i("Background fetch task done."))
-        .catchError((e, stacktrace) => Fimber.i("Error", ex: e, stacktrace: stacktrace));
+    }).then((result) {
+      Fimber.i("Background fetch task done.");
+    }).catchError((e, stacktrace) => Fimber.i("Error", ex: e, stacktrace: stacktrace));
   }
 }

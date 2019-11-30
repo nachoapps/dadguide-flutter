@@ -177,7 +177,8 @@ class Prefs {
   }
 
   static List<int> get trackedDungeons {
-    List<int> trackedDungeons = (PrefService.get(PrefKeys.trackedDungeons) as List).map<int>((s) => int.parse(s)).toList();
+    List<int> trackedDungeons =
+        (PrefService.get(PrefKeys.trackedDungeons) as List).map<int>((s) => int.parse(s)).toList();
     return trackedDungeons;
   }
 

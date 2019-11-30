@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({Key key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);

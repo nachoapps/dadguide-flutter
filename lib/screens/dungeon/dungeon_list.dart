@@ -253,8 +253,8 @@ class DungeonMiniInfo extends StatelessWidget {
       if (_tracked)
         Container(
           padding: EdgeInsets.all(3),
-          child: Text("Tracking",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          child:
+              Text("Tracking", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Theme.of(context).primaryColor,

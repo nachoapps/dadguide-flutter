@@ -502,10 +502,12 @@ class EventSearchArgs {
   bool hideClosed = false;
 
   EventSearchArgs();
+
   EventSearchArgs.from(
       this.servers, this.starters, this.tab, this.dateStart, this.dateEnd, this.hideClosed);
 
   List<int> get serverIds => servers.map((c) => c.id).toList();
+
   List<String> get starterNames => starters.map((s) => s.nameCode).toList();
 }
 
