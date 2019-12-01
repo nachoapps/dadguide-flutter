@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
@@ -64,56 +65,39 @@ class ReceivedNotification {
   final String body;
   final String payload;
 
-  ReceivedNotification({@required this.id, @required this.title, @required this.body, @required this.payload});
+  ReceivedNotification(
+      {@required this.id, @required this.title, @required this.body, @required this.payload});
 }
 
 class Notifications {
-  final notifications = getIt<NotificationInit>();
+  final _notificationPlugin = getIt<NotificationInit>();
+  final Map<int, FullDungeon> _dungeons = {};
+  final Set<int> _dungeonIds = {};
+  final List<ScheduleEvent> _events = [];
 
-  // TODO: implement this code block, which is the callback for when a user clicks on a notification
-//  void initState() {
-//    _notificationsBloc._didReceiveLocalNotificationController.stream
-//        .listen((ReceivedNotification receivedNotification) async {
-//      await showDialog(
-//        context: context,
-//        builder: (BuildContext context) => CupertinoAlertDialog(
-//          title: receivedNotification.title != null
-//              ? Text(receivedNotification.title)
-//              : null,
-//          content: receivedNotification.body != null
-//              ? Text(receivedNotification.body)
-//              : null,
-//          actions: [
-//            CupertinoDialogAction(
-//              isDefaultAction: true,
-//              child: Text('Ok'),
-//              onPressed: () async {
-//                Navigator.of(context, rootNavigator: true).pop();
-//                await Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) =>
-//                        SecondScreen(receivedNotification.payload),
-//                  ),
-//                );
-//              },
-//            )
-//          ],
-//        ),
-//      );
-//    });
-//    _notificationsBloc._selectNotificationController.stream.listen((String payload) async {
-//      await Navigator.push(
-//        context,
-//        MaterialPageRoute(builder: (context) =>DungeonDetailScreen(payload)),
-//      );
-//    });
-//  }
+  /// extracts dungeonIds from the ListEvents
+  void _getDungeonIds() {
+    _events.forEach((event) => _dungeonIds.add(event.dungeonId));
+  }
 
-  /// checks if the event is being tracked by a user
-  Future<bool> checkEvent(ScheduleEvent event) async {
-    int dungeonId = event.dungeonId;
-    return Prefs.trackedDungeons.contains(dungeonId);
+  /// retrieves FullDungeons from the dungeonIds
+  Future<void> _retrieveFullDungeons() async {
+    DungeonsDao _dungeonsDao = getIt<DungeonsDao>();
+    await Future.forEach(
+        _dungeonIds, (id) async => _dungeons[id] = await _dungeonsDao.lookupFullDungeon(id));
+  }
+
+  /// takes the schedule and creates notifications from them.
+  Future<void> checkEvents(List<ListEvent> events) async {
+//    _notificationPlugin.flutterLocalNotificationsPlugin.cancelAll();
+    events.forEach((listEvent) {
+      if (Prefs.trackedDungeons.contains(listEvent.dungeon.dungeonId) &&
+          Prefs.checkCountryNotifyStatusById(listEvent.event.serverId)) {
+        _events.add(listEvent.event);
+      }
+    });
+    _getDungeonIds();
+    await _retrieveFullDungeons();
   }
 
   /// schedules the actual notification in the OS
@@ -121,14 +105,15 @@ class Notifications {
       DateTime scheduledTime, NotificationDetails notificationDetails,
       {payload}) async {
     List<int> pendingNotificationRequestIds =
-    (await notifications.flutterLocalNotificationsPlugin.pendingNotificationRequests())
-        .map((x) => x.id).toList();
+    (await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests())
+        .map((x) => x.id)
+        .toList();
 
     if (!pendingNotificationRequestIds.contains(uniqueId)) {
       Fimber.d(
-          "New notification scheduled: ID: $uniqueId, Title: $title, Body: $body, ${_formatTime(
-              scheduledTime)}");
-      await notifications.flutterLocalNotificationsPlugin.schedule(
+          "New notification scheduled: ID: $uniqueId, Title: '$title', scheduledTime: '${_formatTime(
+              scheduledTime)}', Body: '$body'");
+      await _notificationPlugin.flutterLocalNotificationsPlugin.schedule(
           uniqueId, title, body, scheduledTime, notificationDetails,
           payload: payload, androidAllowWhileIdle: true);
     } else {
@@ -144,10 +129,7 @@ class Notifications {
       DateFormat.MMMd().add_jm().format(dateTime.toLocal());
 
   /// takes the event and schedules a notification to appear at the event start time.
-  Future<void> scheduleEventNotification(ScheduleEvent event) async {
-    DungeonsDao _dungeonsDao = getIt<DungeonsDao>();
-    FullDungeon fullDungeon = await _dungeonsDao.lookupFullDungeon(event.dungeonId);
-    String datetimeDisplay = _formatTime(_eventDateTime(event.endTimestamp));
+  Future<void> scheduleEventNotifications() async {
     var androidDetails = AndroidNotificationDetails('Dungeons', 'Subscribed dungeon notification',
         'Notify user that their dungeon is now available',
         importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
@@ -155,23 +137,30 @@ class Notifications {
     var iOSDetails = IOSNotificationDetails();
     var notificationDetails = NotificationDetails(androidDetails, iOSDetails);
 
-    // each event and timestamp make it's unique notification id. This is because some events have
-    // the same dungeonId but have separate start times, so we can't simply use the dungeonId.
-    int uniqueId = event.dungeonId + event.startTimestamp;
-    String groupName = event.groupName != null ? "[${event.groupName}] " : "";
-    String title = '$groupName${fullDungeon.name.call()} active';
-    String body = 'Available until $datetimeDisplay';
-    DateTime startTime = _eventDateTime(event.startTimestamp);
+    for (var event in _events) {
+      String datetimeDisplay = _formatTime(_eventDateTime(event.endTimestamp));
 
-    _createScheduledNotification(uniqueId, title, body, startTime, notificationDetails);
+      List<String> titleComponents = [];
+      titleComponents.add("[${Country
+          .byId(event.serverId)
+          .countryCode}]");
+      if (event.groupName != null) titleComponents.add("[${event.groupName}]");
+      titleComponents.add('${_dungeons[event.dungeonId].name.call().trim()} active');
+      String title = titleComponents.join(" ");
+      String body = 'Available until $datetimeDisplay';
+      DateTime startTime = _eventDateTime(event.startTimestamp);
+
+      _createScheduledNotification(event.eventId, title, body, startTime, notificationDetails);
+    }
   }
 
   Future<void> logScheduledNotifications() async {
     List<PendingNotificationRequest> pendingNotificationRequests =
-    await notifications.flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests();
     pendingNotificationRequests.forEach((pendingNotification) =>
         Fimber.d(
             "Notification #${pendingNotification.id} is pending. Title: '${pendingNotification
                 .title}', Body: '${pendingNotification.body}'"));
+//    _notificationPlugin.flutterLocalNotificationsPlugin.cancelAll();
   }
 }

@@ -49,10 +49,8 @@ class BackgroundFetchInit {
             "Event ids found: ${events.map((listEvent) => listEvent.dungeon.dungeonId).join(
                 ", ")}");
 
-      events.forEach((listEvent) async {
-        if (await notifications.checkEvent(listEvent.event))
-          await notifications.scheduleEventNotification(listEvent.event);
-      });
+      await notifications.checkEvents(events);
+      await notifications.scheduleEventNotifications();
       await notifications.logScheduledNotifications();
 
       BackgroundFetch.finish();

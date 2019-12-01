@@ -120,10 +120,15 @@ class DadGuideLocalizations {
       );
 
   String get min => Intl.message('Min', name: 'min', desc: 'Table header');
+
   String get max => Intl.message('Max', name: 'max', desc: 'Table header');
+
   String get avg => Intl.message('Avg', name: 'avg', desc: 'Table header');
+
   String get avgPerStam => Intl.message('Avg/Stam', name: 'avgPerStam', desc: 'Table header');
+
   String get exp => Intl.message('Exp', name: 'exp', desc: 'Table header');
+
   String get coin => Intl.message('Coins', name: 'coin', desc: 'Table header');
 
   String get battleDrop =>
@@ -163,10 +168,13 @@ class DadGuideLocalizations {
 
   String get dungeonTabSpecial => Intl.message('Special',
       name: 'dungeonTabSpecial', desc: 'Subtab text at bottom of dungeon tab');
+
   String get dungeonTabNormal => Intl.message('Normal',
       name: 'dungeonTabNormal', desc: 'Subtab text at bottom of dungeon tab');
+
   String get dungeonTabTechnical => Intl.message('Technical',
       name: 'dungeonTabTechnical', desc: 'Subtab text at bottom of dungeon tab');
+
   String get dungeonTabMultiRank => Intl.message('Multi/Rank',
       name: 'dungeonTabMultiRank', desc: 'Subtab text at bottom of dungeon tab');
 
@@ -599,6 +607,15 @@ class DadGuideLocalizations {
   String get settingsEventsStarterGreen => Intl.message('Show green starter',
       name: 'settingsEventsStarterGreen', desc: 'Checkbox title');
 
+  String get settingsEventsNotifyNA =>
+      Intl.message('Notify for NA events', name: 'settingsEventNotifyNA', desc: 'Checkbox title');
+
+  String get settingsEventsNotifyJP =>
+      Intl.message('Notify for JP events', name: 'settingsEventNotifyJP', desc: 'Checkbox title');
+
+  String get settingsEventsNotifyKR =>
+      Intl.message('Notify for KR events', name: 'settingsEventNotifyKR', desc: 'Checkbox title');
+
   String get settingsInfoSection =>
       Intl.message('Info', name: 'settingsInfoSection', desc: 'Section header');
 
@@ -612,16 +629,27 @@ class DadGuideLocalizations {
 
   // ---- Monster type strings ----
   String get typeEvoMat => Intl.message('Evo Material', name: 'typeEvoMat', desc: 'Monster type');
+
   String get typeBalanced => Intl.message('Balanced', name: 'typeBalanced', desc: 'Monster type');
+
   String get typePhysical => Intl.message('Physical', name: 'typePhysical', desc: 'Monster type');
+
   String get typeHealer => Intl.message('Healer', name: 'typeHealer', desc: 'Monster type');
+
   String get typeDragon => Intl.message('Dragon', name: 'typeDragon', desc: 'Monster type');
+
   String get typeGod => Intl.message('God', name: 'typeGod', desc: 'Monster type');
+
   String get typeAttacker => Intl.message('Attacker', name: 'typeAttacker', desc: 'Monster type');
+
   String get typeDevil => Intl.message('Devil', name: 'typeDevil', desc: 'Monster type');
+
   String get typeMachine => Intl.message('Machine', name: 'typeMachine', desc: 'Monster type');
+
   String get typeEnhance => Intl.message('Enhance', name: 'typeEnhance', desc: 'Monster type');
+
   String get typeAwoken => Intl.message('Awoken', name: 'typeAwoken', desc: 'Monster type');
+
   String get typeVendor => Intl.message('Vendor', name: 'typeVendor', desc: 'Monster type');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----

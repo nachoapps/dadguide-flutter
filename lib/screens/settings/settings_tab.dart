@@ -77,6 +77,9 @@ class SettingsScreen extends StatelessWidget {
         CheckboxPreference(loc.settingsEventsStarterRed, PrefKeys.eventsShowRed),
         CheckboxPreference(loc.settingsEventsStarterBlue, PrefKeys.eventsShowBlue),
         CheckboxPreference(loc.settingsEventsStarterGreen, PrefKeys.eventsShowGreen),
+        CheckboxPreference(loc.settingsEventsNotifyNA, PrefKeys.eventsNotifyNA),
+        CheckboxPreference(loc.settingsEventsNotifyJP, PrefKeys.eventsNotifyJP),
+        CheckboxPreference(loc.settingsEventsNotifyKR, PrefKeys.eventsNotifyKR),
         PreferenceTitle(loc.settingsInfoSection),
         ListTile(
           title: Text(loc.settingsContactUs),
