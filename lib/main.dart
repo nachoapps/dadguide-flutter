@@ -41,7 +41,10 @@ void main() async {
   FirebaseAdMob.instance.initialize(appId: appId(), analyticsEnabled: true);
 
   // Ensure the preference defaults are set.
-  await Prefs.init(inDevMode);
+  await Prefs.init();
+
+  // Set dev mode for re-use throughout the app
+  Prefs.setInDevMode(inDevMode);
 
   // Set up services that are guaranteed to start with getIt.
   await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);

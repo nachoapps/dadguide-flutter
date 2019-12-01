@@ -51,7 +51,7 @@ class Prefs {
   static bool get eventHideClosed => PrefService.getBool(PrefKeys.eventsHideClosed);
 
   /// Initialize the pref repo and make sure every preference has a sane default at first launch.
-  static Future<void> init(bool inDevMode) async {
+  static Future<void> init() async {
     var windowBrightness = ui.window.platformBrightness;
     var defaultTheme =
         windowBrightness == ui.Brightness.light ? UiTheme.lightBlue : UiTheme.darkBlue;
@@ -73,7 +73,7 @@ class Prefs {
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
       PrefKeys.trackedDungeons: <String>[],
-      PrefKeys.inDevMode: inDevMode,
+      PrefKeys.inDevMode: false,
     });
   }
 
@@ -183,6 +183,11 @@ class Prefs {
   }
 
   static bool get inDevMode => PrefService.get(PrefKeys.inDevMode);
+
+  static void setInDevMode(bool inDevMode) {
+    PrefService.setBool(PrefKeys.inDevMode, inDevMode);
+  }
+
 
   /// Store the current time as the last update time.
   static void updateRan() {

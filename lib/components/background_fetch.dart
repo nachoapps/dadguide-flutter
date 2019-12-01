@@ -3,20 +3,22 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 class BackgroundFetchInit {
   BackgroundFetchInit() {
-    init();
+    updateDatabaseTask();
   }
 
-  Future<void> init() async {
+  /// updates the database and schedules tracked event notifications.
+  Future<void> updateDatabaseTask() async {
     BackgroundFetch.configure(
         BackgroundFetchConfig(
-            // Will run in the background every 15 minutes. Consider making this a preference.
-            minimumFetchInterval: 15,
+          // minutes
+            minimumFetchInterval: 1440,
             stopOnTerminate: false,
             forceReload: true,
             enableHeadless: false,
@@ -24,7 +26,7 @@ class BackgroundFetchInit {
             requiresCharging: false,
             requiresStorageNotLow: false,
             requiresDeviceIdle: false,
-            requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_NONE), () async {
+            requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_ANY), () async {
       var notifications = Notifications();
       var _scheduleDao = getIt<ScheduleDao>();
       var _trackedDungeons = Prefs.trackedDungeons;
@@ -33,7 +35,7 @@ class BackgroundFetchInit {
       await updateManager.start();
 
       Fimber.i("User's tracked dungeons: $_trackedDungeons");
-      var events = await _scheduleDao.findListEvents(EventSearchArgs.from(
+      List<ListEvent> events = await _scheduleDao.findListEvents(EventSearchArgs.from(
         [Prefs.eventCountry],
         Prefs.eventStarters,
         ScheduleTabKey.all,
@@ -41,11 +43,22 @@ class BackgroundFetchInit {
         DateTime.now().add(Duration(days: 2)),
         Prefs.eventHideClosed,
       ));
-      Fimber.d("Event ids found: ${events.map((event) => event.dungeon.dungeonId).join(", ")}");
-      events.forEach((event) => notifications.checkEvent(event.event));
+
+      if (Prefs.inDevMode)
+        Fimber.d(
+            "Event ids found: ${events.map((listEvent) => listEvent.dungeon.dungeonId).join(
+                ", ")}");
+
+      events.forEach((listEvent) async {
+        if (await notifications.checkEvent(listEvent.event))
+          notifications.scheduleEventNotification(listEvent.event);
+      });
+      await notifications.logScheduledNotifications();
+
       BackgroundFetch.finish();
     }).then((result) {
       Fimber.i("BackgroundFetch config done");
-    }).catchError((e, stacktrace) => Fimber.i("Error", ex: e, stacktrace: stacktrace));
+    }).catchError((e, stacktrace) =>
+        Fimber.i("BackgroundFetch configuration error", ex: e, stacktrace: stacktrace));
   }
 }
