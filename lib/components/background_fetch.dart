@@ -51,7 +51,7 @@ class BackgroundFetchInit {
 
       events.forEach((listEvent) async {
         if (await notifications.checkEvent(listEvent.event))
-          notifications.scheduleEventNotification(listEvent.event);
+          await notifications.scheduleEventNotification(listEvent.event);
       });
       await notifications.logScheduledNotifications();
 

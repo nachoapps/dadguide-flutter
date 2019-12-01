@@ -125,8 +125,9 @@ class Notifications {
         .map((x) => x.id).toList();
 
     if (!pendingNotificationRequestIds.contains(uniqueId)) {
-      Fimber.d("Scheduling a notification #$uniqueId at ${DateFormat.yMd().add_jm().format(
-          scheduledTime.toLocal())}");
+      Fimber.d(
+          "New notification scheduled: ID: $uniqueId, Title: $title, Body: $body, ${_formatTime(
+              scheduledTime)}");
       await notifications.flutterLocalNotificationsPlugin.schedule(
           uniqueId, title, body, scheduledTime, notificationDetails,
           payload: payload, androidAllowWhileIdle: true);
@@ -147,8 +148,6 @@ class Notifications {
     DungeonsDao _dungeonsDao = getIt<DungeonsDao>();
     FullDungeon fullDungeon = await _dungeonsDao.lookupFullDungeon(event.dungeonId);
     String datetimeDisplay = _formatTime(_eventDateTime(event.endTimestamp));
-    Fimber.i("Scheduling ${event.groupName} - ${fullDungeon.name.call()} at ${_formatTime(
-        _eventDateTime(event.startTimestamp))}");
     var androidDetails = AndroidNotificationDetails('Dungeons', 'Subscribed dungeon notification',
         'Notify user that their dungeon is now available',
         importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
