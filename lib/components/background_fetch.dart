@@ -50,8 +50,6 @@ class BackgroundFetchInit {
                 ", ")}");
 
       await notifications.checkEvents(events);
-      await notifications.scheduleEventNotifications();
-      await notifications.logScheduledNotifications();
 
       BackgroundFetch.finish();
     }).then((result) {

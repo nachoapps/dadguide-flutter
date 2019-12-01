@@ -72,32 +72,28 @@ class ReceivedNotification {
 class Notifications {
   final _notificationPlugin = getIt<NotificationInit>();
   final Map<int, FullDungeon> _dungeons = {};
-  final Set<int> _dungeonIds = {};
   final List<ScheduleEvent> _events = [];
 
-  /// extracts dungeonIds from the ListEvents
-  void _getDungeonIds() {
-    _events.forEach((event) => _dungeonIds.add(event.dungeonId));
-  }
-
-  /// retrieves FullDungeons from the dungeonIds
-  Future<void> _retrieveFullDungeons() async {
-    DungeonsDao _dungeonsDao = getIt<DungeonsDao>();
-    await Future.forEach(
-        _dungeonIds, (id) async => _dungeons[id] = await _dungeonsDao.lookupFullDungeon(id));
-  }
-
-  /// takes the schedule and creates notifications from them.
+  /// takes the schedule and creates the notifications for each tracked event in the schedule.
   Future<void> checkEvents(List<ListEvent> events) async {
-//    _notificationPlugin.flutterLocalNotificationsPlugin.cancelAll();
     events.forEach((listEvent) {
       if (Prefs.trackedDungeons.contains(listEvent.dungeon.dungeonId) &&
           Prefs.checkCountryNotifyStatusById(listEvent.event.serverId)) {
         _events.add(listEvent.event);
       }
     });
-    _getDungeonIds();
     await _retrieveFullDungeons();
+    await _scheduleEventNotifications();
+    await _logScheduledNotifications();
+  }
+
+  /// retrieves FullDungeons for each event from the _events list, to avoid repeatedly querying db.
+  Future<void> _retrieveFullDungeons() async {
+    final Set<int> _dungeonIds = {};
+    _events.forEach((event) => _dungeonIds.add(event.dungeonId));
+    DungeonsDao _dungeonsDao = getIt<DungeonsDao>();
+    await Future.forEach(
+        _dungeonIds, (id) async => _dungeons[id] = await _dungeonsDao.lookupFullDungeon(id));
   }
 
   /// schedules the actual notification in the OS
@@ -121,15 +117,14 @@ class Notifications {
     }
   }
 
-  /// gets a datetime from a timestamp in seconds
   static DateTime _eventDateTime(int secondsFromEpoch) =>
       DateTime.fromMillisecondsSinceEpoch(secondsFromEpoch * 1000, isUtc: true);
 
   static String _formatTime(DateTime dateTime) =>
       DateFormat.MMMd().add_jm().format(dateTime.toLocal());
 
-  /// takes the event and schedules a notification to appear at the event start time.
-  Future<void> scheduleEventNotifications() async {
+  /// schedules all of the notifications in the _events list
+  Future<void> _scheduleEventNotifications() async {
     var androidDetails = AndroidNotificationDetails('Dungeons', 'Subscribed dungeon notification',
         'Notify user that their dungeon is now available',
         importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
@@ -154,13 +149,12 @@ class Notifications {
     }
   }
 
-  Future<void> logScheduledNotifications() async {
+  Future<void> _logScheduledNotifications() async {
     List<PendingNotificationRequest> pendingNotificationRequests =
     await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests();
     pendingNotificationRequests.forEach((pendingNotification) =>
         Fimber.d(
             "Notification #${pendingNotification.id} is pending. Title: '${pendingNotification
                 .title}', Body: '${pendingNotification.body}'"));
-//    _notificationPlugin.flutterLocalNotificationsPlugin.cancelAll();
   }
 }
