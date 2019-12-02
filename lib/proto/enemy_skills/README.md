@@ -1,0 +1,1 @@
+These files are generated using the proto source files in the dadguide-data project.
