@@ -163,7 +163,8 @@ class MonsterDetailContents extends StatelessWidget {
                 ),
 
               if (hasSkillups)
-                Padding(child: MonsterSkillupDropLocations(_data), padding: EdgeInsets.only(top: 4)),
+                Padding(
+                    child: MonsterSkillupDropLocations(_data), padding: EdgeInsets.only(top: 4)),
 
               SizedBox(height: 8),
               MonsterDropLocations(_data.dropLocations, loc.monsterInfoDropsTitle),
@@ -586,9 +587,9 @@ class MonsterAssistStatTable extends StatelessWidget {
     var rcv297Max = (m.rcvMax + 99 * 3) * .15;
 
     var limitMult = (m.limitMult ?? 0) + 100;
-    var lbMaxHp = (m.hpMax * limitMult / 100 + 99 * 10).round();
-    var lbAtkMax = (m.atkMax * limitMult / 100 + 99 * 5).round();
-    var lbRcvMax = (m.rcvMax * limitMult / 100 + 99 * 3).round();
+    var lbMaxHp = ((m.hpMax * limitMult / 100 + 99 * 10) * .1).round();
+    var lbAtkMax = ((m.atkMax * limitMult / 100 + 99 * 5) * .05).round();
+    var lbRcvMax = ((m.rcvMax * limitMult / 100 + 99 * 3) * .15).round();
 
     // TODO: These tables got so damn ugly need to clean up calculation of these stats
 
@@ -962,9 +963,11 @@ class MonsterDropLocations extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     if (_dropLocations.isEmpty) {
-      return Text(_title == loc.monsterInfoSkillupDungeonsTitle
-          ? loc.monsterInfoSkillupDungeonTitleNone
-          : loc.monsterInfoDropsTitleNone, style: subtitle(context));
+      return Text(
+          _title == loc.monsterInfoSkillupDungeonsTitle
+              ? loc.monsterInfoSkillupDungeonTitleNone
+              : loc.monsterInfoDropsTitleNone,
+          style: subtitle(context));
     }
 
     var keys = _dropLocations.keys.toList()..sort();
@@ -1032,7 +1035,8 @@ class MonsterSkillupDropLocations extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
     // Remove duplicate information already displayed in the monster drop section
-    _fullMonster.skillUpDungeons.removeWhere((key, dungeon) => _fullMonster.dropLocations.keys.contains(key) || dungeon.isEmpty);
+    _fullMonster.skillUpDungeons.removeWhere(
+        (key, dungeon) => _fullMonster.dropLocations.keys.contains(key) || dungeon.isEmpty);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
