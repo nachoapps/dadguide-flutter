@@ -125,28 +125,28 @@ class UpdateTask with TaskPublisher {
       // TODO: ughhh this is super gross and must be fixable but dart is complaining about types.
       if (table == _database.activeSkills) {
         await _database.upsertData(_database.activeSkills, _database.activeSkills.map(row));
-      } else if (table == _database.awokenSkills) {
-        await _database.upsertData(_database.awokenSkills, _database.awokenSkills.map(row));
-      } else if (table == _database.leaderSkills) {
-        await _database.upsertData(_database.leaderSkills, _database.leaderSkills.map(row));
-      } else if (table == _database.series) {
-        await _database.upsertData(_database.series, _database.series.map(row));
-      } else if (table == _database.monsters) {
-        await _database.upsertData(_database.monsters, _database.monsters.map(row));
-      } else if (table == _database.evolutions) {
-        await _database.upsertData(_database.evolutions, _database.evolutions.map(row));
       } else if (table == _database.awakenings) {
         await _database.upsertData(_database.awakenings, _database.awakenings.map(row));
-      } else if (table == _database.dungeons) {
-        await _database.upsertData(_database.dungeons, _database.dungeons.map(row));
-      } else if (table == _database.subDungeons) {
-        await _database.upsertData(_database.subDungeons, _database.subDungeons.map(row));
-      } else if (table == _database.encounters) {
-        await _database.upsertData(_database.encounters, _database.encounters.map(row));
+      } else if (table == _database.awokenSkills) {
+        await _database.upsertData(_database.awokenSkills, _database.awokenSkills.map(row));
       } else if (table == _database.drops) {
         await _database.upsertData(_database.drops, _database.drops.map(row));
+      } else if (table == _database.dungeons) {
+        await _database.upsertData(_database.dungeons, _database.dungeons.map(row));
+      } else if (table == _database.encounters) {
+        await _database.upsertData(_database.encounters, _database.encounters.map(row));
+      } else if (table == _database.evolutions) {
+        await _database.upsertData(_database.evolutions, _database.evolutions.map(row));
+      } else if (table == _database.leaderSkills) {
+        await _database.upsertData(_database.leaderSkills, _database.leaderSkills.map(row));
+      } else if (table == _database.monsters) {
+        await _database.upsertData(_database.monsters, _database.monsters.map(row));
       } else if (table == _database.schedule) {
         await _database.upsertData(_database.schedule, _database.schedule.map(row));
+      } else if (table == _database.series) {
+        await _database.upsertData(_database.series, _database.series.map(row));
+      } else if (table == _database.subDungeons) {
+        await _database.upsertData(_database.subDungeons, _database.subDungeons.map(row));
       } else {
         throw 'Unexpected table: ${table.actualTableName}';
       }
