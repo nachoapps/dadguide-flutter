@@ -3,6 +3,7 @@ import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 class LanguageSelector {
@@ -83,10 +84,11 @@ class FullSubDungeon {
   final SubDungeon subDungeon;
   final List<FullEncounter> encounters;
   final List<Battle> battles;
+  final Map<int, EnemySkill> esLibrary;
 
   final LanguageSelector name;
 
-  FullSubDungeon(this.subDungeon, this.encounters)
+  FullSubDungeon(this.subDungeon, this.encounters, this.esLibrary)
       : battles = _computeBattles(encounters),
         name = LanguageSelector.name(subDungeon);
 
@@ -118,15 +120,44 @@ class FullSeries {
   FullSeries(this.series, this.members) : name = LanguageSelector.name(series);
 }
 
+MonsterBehavior parseBehavior(EnemyDataItem item) {
+  var behavior = MonsterBehavior();
+  if (item != null) {
+    behavior.mergeFromBuffer(item.behavior);
+  }
+  return behavior;
+}
+
 /// An encounter row for a battle in a subdungeon stage.
 class FullEncounter {
   final Encounter encounter;
   final Monster monster;
   final List<Drop> drops;
 
+  final MonsterBehavior behavior;
   final LanguageSelector name;
 
-  FullEncounter(this.encounter, this.monster, this.drops) : name = LanguageSelector.name(monster);
+  FullEncounter(this.encounter, this.monster, EnemyDataItem enemyDataItem, this.drops)
+      : behavior = parseBehavior(enemyDataItem),
+        name = LanguageSelector.name(monster);
+
+  bool get approved => behavior.approved;
+
+  List<BehaviorGroup> get levelBehaviors {
+    var behaviorGroups = <BehaviorGroup>[];
+
+    // Find all the behavior options where the level is greater or equal then then enecounter level.
+    var possibleLevels = behavior.levels.where((lb) => lb.level <= encounter.level);
+
+    // Assuming we have at least one level...
+    if (possibleLevels.isNotEmpty) {
+      // We take the behavior at the lowest level that qualified.
+      var selectedLevel = possibleLevels.reduce((l, r) => l.level < r.level ? l : r);
+      behaviorGroups.addAll(selectedLevel.groups);
+    }
+
+    return behaviorGroups;
+  }
 }
 
 /// A list of encounters for a specific stage in a subdungeon.

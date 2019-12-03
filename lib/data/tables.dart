@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
@@ -183,6 +184,39 @@ class Encounters extends Table {
   IntColumn get atk => integer()();
 
   IntColumn get defence => integer()();
+
+  IntColumn get tstamp => integer()();
+}
+
+@DataClassName("EnemyDataItem")
+class EnemyData extends Table {
+  IntColumn get enemyId => integer().autoIncrement()();
+
+  BlobColumn get behavior => blob()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class EnemySkills extends Table {
+  IntColumn get enemySkillId => integer().autoIncrement()();
+
+  TextColumn get nameJp => text()();
+
+  TextColumn get nameNa => text()();
+
+  TextColumn get nameKr => text()();
+
+  TextColumn get descJp => text()();
+
+  TextColumn get descNa => text()();
+
+  TextColumn get descKr => text()();
+
+  IntColumn get minHits => integer()();
+
+  IntColumn get maxHits => integer()();
+
+  IntColumn get atk_mult => integer()();
 
   IntColumn get tstamp => integer()();
 }
@@ -457,6 +491,8 @@ class Timestamps extends Table {
     Drops,
     Dungeons,
     Encounters,
+    EnemyData,
+    EnemySkills,
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
@@ -565,6 +601,8 @@ class DungeonSearchArgs {
     Drops,
     Dungeons,
     Encounters,
+    EnemyData,
+    EnemySkills,
     Evolutions,
     Monsters,
     SubDungeons,
@@ -643,23 +681,40 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     final subDungeonItem = (await subDungeonQuery.get()).first;
     final fullEncountersList = await lookupFullEncounters(subDungeonId);
 
+    // Scan through all the enemy skill ids for the behavior of every encounter and load them.
+    var esLibrary = Map<int, EnemySkill>();
+    for (var e in fullEncountersList) {
+      for (var esId in extractSkillIds(e.levelBehaviors)) {
+        if (esLibrary.containsKey(esId)) {
+          continue;
+        }
+        try {
+          esLibrary[esId] = await lookupEnemySkill(esId);
+        } catch (ex) {
+          Fimber.e('Failed to find enemy skill ${esId}');
+        }
+      }
+    }
+
     Fimber.d('subdungeon lookup complete in: ${s.elapsed}');
 
-    return FullSubDungeon(subDungeonItem, fullEncountersList);
+    return FullSubDungeon(subDungeonItem, fullEncountersList, esLibrary);
   }
 
   Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
     var s = new Stopwatch()..start();
     final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
+      leftOuterJoin(enemyData, enemyData.enemyId.equalsExp(encounters.monsterId)),
     ]);
 
     var results = await query.get().then((rows) {
       return Future.wait(rows.map((row) async {
         var encounter = row.readTable(encounters);
         var monster = row.readTable(monsters);
+        var enemyDataItem = row.readTable(enemyData);
         var dropList = await findDrops(encounter.encounterId);
-        return FullEncounter(encounter, monster, dropList);
+        return FullEncounter(encounter, monster, enemyDataItem, dropList);
       }).toList());
     });
 
@@ -673,6 +728,11 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
       ..where((d) => d.encounterId.equals(encounterId))
       ..orderBy([(d) => OrderingTerm(expression: d.monsterId)]);
     return (await query.get()).toList();
+  }
+
+  Future<EnemySkill> lookupEnemySkill(int enemySkillId) async {
+    var query = select(enemySkills)..where((es) => es.enemySkillId.equals(enemySkillId));
+    return await query.getSingle();
   }
 }
 
