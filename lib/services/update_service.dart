@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' show HttpStatus;
 
+import 'package:convert/convert.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
@@ -9,6 +10,7 @@ import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor/moor.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 import 'package:tuple/tuple.dart';
 
 // TODO: convert this to being supplied by getIt.
@@ -125,6 +127,8 @@ class UpdateTask with TaskPublisher {
       // TODO: ughhh this is super gross and must be fixable but dart is complaining about types.
       if (table == _database.activeSkills) {
         await _database.upsertData(_database.activeSkills, _database.activeSkills.map(row));
+      } else if (table == _database.activeSkillTags) {
+        await _database.upsertData(_database.activeSkillTags, _database.activeSkillTags.map(row));
       } else if (table == _database.awakenings) {
         await _database.upsertData(_database.awakenings, _database.awakenings.map(row));
       } else if (table == _database.awokenSkills) {
@@ -135,10 +139,27 @@ class UpdateTask with TaskPublisher {
         await _database.upsertData(_database.dungeons, _database.dungeons.map(row));
       } else if (table == _database.encounters) {
         await _database.upsertData(_database.encounters, _database.encounters.map(row));
+      } else if (table == _database.enemyData) {
+        // EnemyData needs custom deserialization since it has an encoded blob.
+        var enemyId = row['enemy_id'] as int;
+        var encodedBehavior = row['behavior'] as String;
+        var tstamp = row['tstamp'] as int;
+        encodedBehavior = encodedBehavior.substring(2); // Strip the 0x prefix
+        var decodedBehavior = Uint8List.fromList(hex.decode(encodedBehavior));
+        var item = EnemyDataItem(
+          enemyId: enemyId,
+          behavior: decodedBehavior,
+          tstamp: tstamp,
+        );
+        await _database.upsertData(_database.enemyData, item);
+      } else if (table == _database.enemySkills) {
+        await _database.upsertData(_database.enemySkills, _database.enemySkills.map(row));
       } else if (table == _database.evolutions) {
         await _database.upsertData(_database.evolutions, _database.evolutions.map(row));
       } else if (table == _database.leaderSkills) {
         await _database.upsertData(_database.leaderSkills, _database.leaderSkills.map(row));
+      } else if (table == _database.leaderSkillTags) {
+        await _database.upsertData(_database.leaderSkillTags, _database.leaderSkillTags.map(row));
       } else if (table == _database.monsters) {
         await _database.upsertData(_database.monsters, _database.monsters.map(row));
       } else if (table == _database.schedule) {
@@ -179,8 +200,10 @@ class UpdateTask with TaskPublisher {
   List<TableInfo> _updateOrder() {
     return [
       _database.activeSkills,
+      _database.activeSkillTags,
       _database.awokenSkills,
       _database.leaderSkills,
+      _database.leaderSkillTags,
       _database.series,
       _database.monsters,
       _database.evolutions,
@@ -190,6 +213,8 @@ class UpdateTask with TaskPublisher {
       _database.encounters,
       _database.drops,
       _database.schedule,
+      _database.enemySkills,
+      _database.enemyData,
     ];
   }
 }
