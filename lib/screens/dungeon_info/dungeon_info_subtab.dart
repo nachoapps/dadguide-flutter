@@ -15,6 +15,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+
+import 'dungeon_behavior.dart';
 
 class DungeonDetailScreen extends StatefulWidget {
   final DungeonDetailArgs args;
@@ -79,26 +82,29 @@ class DungeonDetailContents extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DungeonHeader(_data),
-                DungeonSubHeader(_data.selectedSubDungeon),
-                for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
-                SizedBox(height: 8),
-                GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
-                SubDungeonList(_data),
-                MailIssues(_data),
-              ],
+    return Provider.value(
+      value: EnemySkillLibrary(_data.selectedSubDungeon.esLibrary),
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DungeonHeader(_data),
+                  DungeonSubHeader(_data.selectedSubDungeon),
+                  for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
+                  SizedBox(height: 8),
+                  GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
+                  SubDungeonList(_data),
+                  MailIssues(_data),
+                ],
+              ),
             ),
           ),
-        ),
-        DungeonDetailOptionsBar(_data),
-      ],
+          DungeonDetailOptionsBar(_data),
+        ],
+      ),
     );
   }
 }
@@ -315,6 +321,8 @@ class DungeonEncounter extends StatelessWidget {
                           ],
                         )),
                   ),
+                  if (_model.levelBehaviors.isNotEmpty)
+                    EncounterBehavior(_model.approved, _model.levelBehaviors)
                 ]),
           ),
           Column(children: [
