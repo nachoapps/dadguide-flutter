@@ -4,6 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Try to launch YT natively, falling back to a browser.
 Future<void> launchYouTubeSearch(String query) async {
+  // Prevent YT from interpreting dashes in monster names as instructions to remove results.
+  query = query.replaceAll(' -', ' ');
+
   var androidUrl = Uri.encodeFull('https://www.youtube.com/results?search_query=$query');
   var iosUrl = Uri.encodeFull('youtube://www.youtube.com/results?search_query=$query');
   if (Platform.isIOS) {
