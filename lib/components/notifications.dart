@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/service_locator.dart';
@@ -27,18 +28,18 @@ class NotificationInit {
     // iOS specific stuff.
     var initializationSettingsIOS = IOSInitializationSettings(
         onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
-          _didReceiveLocalNotificationSink
-              .add(ReceivedNotification(id: id, title: title, body: body, payload: payload));
-        });
+      _didReceiveLocalNotificationSink
+          .add(ReceivedNotification(id: id, title: title, body: body, payload: payload));
+    });
     var initializationSettings =
-    InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+        InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (payload) async {
-          if (payload != null) {
-            Fimber.d("Notification pressed: $payload");
-          }
-          _selectNotificationSink.add(payload);
-        });
+      if (payload != null) {
+        Fimber.d("Notification pressed: $payload");
+      }
+      _selectNotificationSink.add(payload);
+    });
   }
 
   StreamSink<ReceivedNotification> get _didReceiveLocalNotificationSink =>
@@ -73,6 +74,14 @@ class Notifications {
   final _notificationPlugin = getIt<NotificationInit>();
   final Map<int, FullDungeon> _dungeons = {};
   final List<ScheduleEvent> _events = [];
+  final eventArgs = EventSearchArgs.from(
+    [Prefs.eventCountry],
+    Prefs.eventStarters,
+    ScheduleTabKey.all,
+    DateTime.now(),
+    DateTime.now().add(Duration(days: 2)),
+    Prefs.eventHideClosed,
+  );
 
   /// takes the schedule and creates the notifications for each tracked event in the schedule.
   Future<void> checkEvents(List<ListEvent> events) async {
@@ -101,14 +110,13 @@ class Notifications {
       DateTime scheduledTime, NotificationDetails notificationDetails,
       {payload}) async {
     List<int> pendingNotificationRequestIds =
-    (await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests())
-        .map((x) => x.id)
-        .toList();
+        (await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests())
+            .map((x) => x.id)
+            .toList();
 
     if (!pendingNotificationRequestIds.contains(uniqueId)) {
       Fimber.d(
-          "New notification scheduled: ID: $uniqueId, Title: '$title', scheduledTime: '${_formatTime(
-              scheduledTime)}', Body: '$body'");
+          "New notification scheduled: ID: $uniqueId, Title: '$title', scheduledTime: '${_formatTime(scheduledTime)}', Body: '$body'");
       await _notificationPlugin.flutterLocalNotificationsPlugin.schedule(
           uniqueId, title, body, scheduledTime, notificationDetails,
           payload: payload, androidAllowWhileIdle: true);
@@ -136,25 +144,43 @@ class Notifications {
       String datetimeDisplay = _formatTime(_eventDateTime(event.endTimestamp));
 
       List<String> titleComponents = [];
-      titleComponents.add("[${Country
-          .byId(event.serverId)
-          .countryCode}]");
+      titleComponents.add("[${Country.byId(event.serverId).countryCode}]");
       if (event.groupName != null) titleComponents.add("[${event.groupName}]");
       titleComponents.add('${_dungeons[event.dungeonId].name.call().trim()} active');
       String title = titleComponents.join(" ");
       String body = 'Available until $datetimeDisplay';
       DateTime startTime = _eventDateTime(event.startTimestamp);
-
-      _createScheduledNotification(event.eventId, title, body, startTime, notificationDetails);
+      String payload = JsonEncoder().convert(event);
+      _createScheduledNotification(event.eventId, title, body, startTime, notificationDetails,
+          payload: payload);
     }
+  }
+
+  Future<List<PendingNotificationRequest>> get _pendingNotifications async =>
+      await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+  Future<void> _cancelPendingNotification(int eventId) async {
+    await _notificationPlugin.flutterLocalNotificationsPlugin.cancel(eventId);
+  }
+
+  Future<void> cancelPendingNotificationsByDungeonId(int dungeonId) async {
+    var pendingNotifications = await _pendingNotifications;
+    var payloads = pendingNotifications
+        .map((pendingNotification) => JsonDecoder().convert(pendingNotification.payload))
+        .toList();
+    Fimber.d("Old pending notifications: ${pendingNotifications.map((x) => x.id).toList()}");
+    payloads.forEach((payload) async {
+      if (payload['dungeonId'] == dungeonId) {
+        await _cancelPendingNotification(payload['eventId']);
+      }
+    });
+    Fimber.d("New pending notifications: ${pendingNotifications.map((x) => x.id).toList()}");
   }
 
   Future<void> _logScheduledNotifications() async {
     List<PendingNotificationRequest> pendingNotificationRequests =
-    await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    pendingNotificationRequests.forEach((pendingNotification) =>
-        Fimber.d(
-            "Notification #${pendingNotification.id} is pending. Title: '${pendingNotification
-                .title}', Body: '${pendingNotification.body}'"));
+        await _notificationPlugin.flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    pendingNotificationRequests.forEach((pendingNotification) => Fimber.d(
+        "Notification #${pendingNotification.id} is pending. Title: '${pendingNotification.title}', Body: '${pendingNotification.body}'"));
   }
 }

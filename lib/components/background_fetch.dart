@@ -1,5 +1,4 @@
 import 'package:background_fetch/background_fetch.dart';
-import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
@@ -17,7 +16,7 @@ class BackgroundFetchInit {
   Future<void> updateDatabaseTask() async {
     BackgroundFetch.configure(
         BackgroundFetchConfig(
-          // minutes
+            // minutes
             minimumFetchInterval: 1440,
             stopOnTerminate: false,
             forceReload: true,
@@ -35,19 +34,11 @@ class BackgroundFetchInit {
       await updateManager.start();
 
       Fimber.i("User's tracked dungeons: $_trackedDungeons");
-      List<ListEvent> events = await _scheduleDao.findListEvents(EventSearchArgs.from(
-        [Prefs.eventCountry],
-        Prefs.eventStarters,
-        ScheduleTabKey.all,
-        DateTime.now(),
-        DateTime.now().add(Duration(days: 2)),
-        Prefs.eventHideClosed,
-      ));
+      List<ListEvent> events = await _scheduleDao.findListEvents(notifications.eventArgs);
 
       if (Prefs.inDevMode)
         Fimber.d(
-            "Event ids found: ${events.map((listEvent) => listEvent.dungeon.dungeonId).join(
-                ", ")}");
+            "Event ids found: ${events.map((listEvent) => listEvent.dungeon.dungeonId).join(", ")}");
 
       await notifications.checkEvents(events);
 

@@ -3,15 +3,18 @@ import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/notifications.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
-import 'package:fimber/fimber.dart';
 
 /// Parent class for rows in the dungeon list.
 abstract class ListItem {}
@@ -190,22 +193,40 @@ showDungeonMenu(BuildContext context, int dungeonId, DungeonTracked dungeonTrack
       child: Text(addOrRemoveText),
       value: dungeonId,
     )
-  ]).then((value) {
-    if (!dungeonTracked.tracked) {
-      try {
-        Prefs.addTrackedDungeon(dungeonId);
-        dungeonTracked.tracked = true;
-        Fimber.i('Added dungeonId $dungeonId to tracked dungeons');
-      } catch (e, stacktrace) {
-        Fimber.i("Unable to add dungeonId to tracked list.", ex: e, stacktrace: stacktrace);
-      }
-    } else {
-      try {
-        Prefs.removeTrackedDungeon(dungeonId);
-        dungeonTracked.tracked = false;
-        Fimber.i('Removed dungeonId $dungeonId from tracked dungeons');
-      } catch (e, stacktrace) {
-        Fimber.i("Unable to remove dungeonId from tracked list.", ex: e, stacktrace: stacktrace);
+  ]).then((value) async {
+    if (value == dungeonId) {
+      if (!dungeonTracked.tracked) {
+        try {
+          Prefs.addTrackedDungeon(dungeonId);
+          dungeonTracked.tracked = true;
+          Fimber.i('Added dungeonId $dungeonId to tracked dungeons');
+          var _scheduleDao = getIt<ScheduleDao>();
+          var notifications = Notifications();
+          var schedule = await _scheduleDao.findListEvents(notifications.eventArgs);
+          List<ListEvent> newlyTrackedEvents = [];
+          schedule.forEach((listEvent) => {
+                if (schedule
+                    .map((listEvent) => listEvent.dungeon.dungeonId)
+                    .toList()
+                    .contains(dungeonId))
+                  newlyTrackedEvents.add(listEvent)
+              });
+          if (newlyTrackedEvents.length > 0)
+            notifications.checkEvents(newlyTrackedEvents);
+          else
+            Fimber.i("Newly tracked dungeon is not in the current event schedule.");
+        } catch (e, stacktrace) {
+          Fimber.i("Unable to add dungeonId to tracked list.", ex: e, stacktrace: stacktrace);
+        }
+      } else {
+        try {
+          var notifications = Notifications();
+          notifications.cancelPendingNotificationsByDungeonId(dungeonId);
+          dungeonTracked.tracked = false;
+          Fimber.i('Removed dungeonId $dungeonId from tracked dungeons');
+        } catch (e, stacktrace) {
+          Fimber.i("Unable to remove dungeonId from tracked list.", ex: e, stacktrace: stacktrace);
+        }
       }
     }
   });
