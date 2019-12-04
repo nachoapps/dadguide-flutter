@@ -11,7 +11,7 @@ class ResourceHelper {
   /// Controls the logical DB version, stored in a preference key and used to determine if we need
   /// to download the initial data db again. This should probably keep in sync with `dbZipFileName`
   /// but can be adjusted to force a re-download of the data for testing purposes.
-  static const dbVersion = 2;
+  static const dbVersion = 3;
 
   /// Server-side database version name. Should be updated whenever the structure of the DB changes.
   static const dbZipFileName = 'v2_dadguide.sqlite.zip';
