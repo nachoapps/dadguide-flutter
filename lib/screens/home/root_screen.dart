@@ -176,7 +176,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
           ),
           // Reserve room for the banner ad.
           SizedBox(
-              height: getBannerHeight(context),
+              height: getBannerHeight(context) + 8,
               child: Center(
                 child: Text("Failed to load ad",
                     style: Theme.of(context).textTheme.body1.copyWith(color: grey(context, 1000))),
