@@ -5,6 +5,7 @@ import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -321,7 +322,7 @@ class DungeonEncounter extends StatelessWidget {
                           ],
                         )),
                   ),
-                  if (_model.levelBehaviors.isNotEmpty)
+                  if (_model.levelBehaviors.isNotEmpty && Prefs.showEnemySkills)
                     EncounterBehavior(_model.approved, _model.levelBehaviors)
                 ]),
           ),

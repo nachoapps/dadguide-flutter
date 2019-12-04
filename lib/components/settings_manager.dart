@@ -25,6 +25,8 @@ class PrefKeys {
   static const uiDarkMode = 'ui_dark_mode';
 
   static const hideUnreleasedMonsters = 'hide_unreleased_monsters';
+
+  static const showEnemySkills = 'showEnemySkills';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -67,6 +69,7 @@ class Prefs {
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
+      PrefKeys.showEnemySkills: true,
     });
   }
 
@@ -153,4 +156,8 @@ class Prefs {
   static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
   static set hideUnreleasedMonsters(bool val) =>
       PrefService.setBool(PrefKeys.hideUnreleasedMonsters, val);
+
+  // Should we show enemy skills in the dungeon tab; temporary preference while this is being worked
+  // on.
+  static bool get showEnemySkills => PrefService.getBool(PrefKeys.showEnemySkills);
 }
