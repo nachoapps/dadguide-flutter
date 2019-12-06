@@ -81,7 +81,9 @@ String formatCondition(Condition cond) {
     parts.add('If no other skills matched');
   }
 
-  if (![100, 0].contains(cond.hpThreshold)) {
+  if (cond.hpThreshold == 101) {
+    parts.add('When HP is full');
+  } else if (cond.hpThreshold > 0) {
     parts.add('HP <= ${cond.hpThreshold}');
   }
 
