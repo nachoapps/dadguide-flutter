@@ -86,7 +86,7 @@ String formatCondition(Condition cond) {
 
 String formatAttack(EnemySkill skill, Encounter encounter, SubDungeon subDungeon) {
   var atk = encounter.atk * subDungeon.atkMult;
-  var damage = skill.atkMult * atk;
+  var damage = skill.atkMult * atk / 100;
   var minDamage = (damage * skill.minHits).round();
   var maxDamage = (damage * skill.maxHits).round();
 
