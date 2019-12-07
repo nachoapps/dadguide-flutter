@@ -691,7 +691,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
         try {
           esLibrary[esId] = await lookupEnemySkill(esId);
         } catch (ex) {
-          Fimber.e('Failed to find enemy skill ${esId}');
+          Fimber.e('Failed to find enemy skill $esId');
         }
       }
     }

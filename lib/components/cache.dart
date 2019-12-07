@@ -5,6 +5,9 @@ import 'package:archive/archive.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+/// Importing this so I can manually bulk cache files which is not supported by the library.
+/// ignore: implementation_imports
 import 'package:flutter_cache_manager/src/cache_object.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';

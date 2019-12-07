@@ -124,7 +124,6 @@ class DungeonHeader extends StatelessWidget {
     var mp = subDungeon.mpAvg ?? 0;
     var mpPerStam = mp / subDungeon.stamina;
 
-    var bossMonster = m.selectedSubDungeon.bossEncounter?.monster;
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         child: Row(

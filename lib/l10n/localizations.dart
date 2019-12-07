@@ -671,6 +671,7 @@ class LocaleChangedNotifier with ChangeNotifier {
   LocaleChangedNotifier(this._state);
 
   void notify() {
+    // ignore: invalid_use_of_protected_member
     _state.setState(() {});
   }
 }
