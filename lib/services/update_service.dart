@@ -109,6 +109,9 @@ class UpdateTask with TaskPublisher {
               _pub(tablesToUpdate.indexOf(tableAndTstamp) + 1, tablesToUpdate.length, progress: p));
     }
 
+    var deletedRowsTs = timestamps['deleted_rows'] ?? 0;
+    await _processDeletedRows(deletedRowsTs);
+
     Fimber.i('Table update complete');
   }
 
@@ -216,5 +219,44 @@ class UpdateTask with TaskPublisher {
       _database.enemySkills,
       _database.enemyData,
     ];
+  }
+
+  /// Get the table record by name, useful for the delete operation.
+  TableInfo tableByName(String tableName) {
+    for (var table in _updateOrder()) {
+      if (table.actualTableName == tableName) {
+        return table;
+      }
+    }
+    return null;
+  }
+
+  /// If necessary, pull the deleted_rows table and delete the rows it contains.
+  ///
+  /// When complete, update the local timestamp (since we don't keep deleted rows locally).
+  Future<void> _processDeletedRows(int deletedRowsTs) async {
+    var tsLastDeleted = Prefs.tsLastDeleted;
+    if (deletedRowsTs > tsLastDeleted) {
+      var rowsToDelete = await _retrieveTableData('deleted_rows', tstamp: tsLastDeleted);
+      for (var row in rowsToDelete) {
+        print(row);
+        var tableName = row['table_name'] ?? '';
+        var tableRowId = row['table_row_id'] ?? 0;
+        if (tableName == '' || tableRowId == 0) {
+          Fimber.w('Cannot delete table row: $tableName - $tableRowId');
+          continue;
+        }
+        var tableInfo = tableByName(tableName);
+        if (tableInfo == null) {
+          Fimber.w('Cannot not locate table to delete from: $tableName $tableRowId');
+          continue;
+        }
+        var tablePrimaryKey = tableInfo.$primaryKey.first.escapedName;
+        var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey == $tableRowId';
+        _database.customUpdate(deleteSql);
+        Fimber.d('Deleting row: $deleteSql');
+      }
+      Prefs.tsLastDeleted = deletedRowsTs;
+    }
   }
 }

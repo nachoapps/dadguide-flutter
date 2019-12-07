@@ -27,6 +27,8 @@ class PrefKeys {
   static const hideUnreleasedMonsters = 'hide_unreleased_monsters';
 
   static const showEnemySkills = 'showEnemySkills';
+
+  static const tsLastDeleted = 'tsLastDeleted';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -53,6 +55,10 @@ class Prefs {
     var defaultTheme =
         windowBrightness == ui.Brightness.light ? UiTheme.lightBlue : UiTheme.darkBlue;
 
+    // Initialize the deleted timestamp to yesterday, since the zip file can be at most a few
+    // hours old we don't need to pull the full deleted row history.
+    var defaultDeletedTs = DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch;
+
     await PrefService.init();
     PrefService.setDefaultValues({
       PrefKeys.currentDbVersion: 0,
@@ -70,6 +76,7 @@ class Prefs {
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
       PrefKeys.showEnemySkills: true,
+      PrefKeys.tsLastDeleted: defaultDeletedTs,
     });
   }
 
@@ -152,6 +159,9 @@ class Prefs {
         DateTime.fromMillisecondsSinceEpoch(PrefService.getInt(PrefKeys.lastUpdateExecution));
     return DateTime.now().difference(lastUpdate).inMinutes > 10;
   }
+
+  static int get tsLastDeleted => PrefService.getInt(PrefKeys.tsLastDeleted);
+  static void set tsLastDeleted(int ts) => PrefService.setInt(PrefKeys.tsLastDeleted, ts);
 
   static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
   static set hideUnreleasedMonsters(bool val) =>
