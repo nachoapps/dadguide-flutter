@@ -1,3 +1,5 @@
+import 'package:dadguide2/components/formatting.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -5,20 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-/// A collection of the enemy skill data by ID for a dungeon. Needs to be provided above the tree
-/// that contains any encounter behavior widgets.
-class EnemySkillLibrary {
-  final Map<int, EnemySkill> data;
-
-  EnemySkillLibrary(this.data);
-}
-
 String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
   switch (groupType) {
     case BehaviorGroup_GroupType.DEATH:
       return 'On Death';
     case BehaviorGroup_GroupType.DISPEL_PLAYER:
-      return 'When player effect active';
+      return 'When player has buff';
     case BehaviorGroup_GroupType.MONSTER_STATUS:
       return 'When monster delayed/poisoned';
     case BehaviorGroup_GroupType.PASSIVE:
@@ -90,6 +84,21 @@ String formatCondition(Condition cond) {
   return parts.join(', ');
 }
 
+String formatAttack(EnemySkill skill, Encounter encounter, SubDungeon subDungeon) {
+  var atk = encounter.atk * subDungeon.atkMult;
+  var damage = skill.atkMult * atk;
+  var minDamage = (damage * skill.minHits).round();
+  var maxDamage = (damage * skill.maxHits).round();
+
+  var hitsStr =
+      skill.minHits == skill.maxHits ? '${skill.minHits}' : '${skill.minHits}-${skill.maxHits}';
+  var damageStr = skill.minHits == skill.maxHits
+      ? commaFormat(minDamage)
+      : commaFormat(minDamage) + '-' + commaFormat(maxDamage);
+
+  return 'Attack $hitsStr times for $damageStr damage';
+}
+
 /// Top-level container for monster behavior. Displays a red warning sign if monster data has not
 /// been reviewed yet, then a list of BehaviorGroups.
 ///
@@ -127,10 +136,10 @@ class EncounterBehavior extends StatelessWidget {
 
 /// A group of behavior, containing a list of child groups or individual behaviors.
 class BehaviorGroupWidget extends StatelessWidget {
-  final bool showType;
+  final bool forceType;
   final BehaviorGroup group;
 
-  BehaviorGroupWidget(this.showType, this.group);
+  BehaviorGroupWidget(this.forceType, this.group);
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +151,9 @@ class BehaviorGroupWidget extends StatelessWidget {
       ],
     );
 
+    var showType = forceType ||
+        [BehaviorGroup_GroupType.MONSTER_STATUS, BehaviorGroup_GroupType.DISPEL_PLAYER]
+            .contains(group.groupType);
     var conditionText = formatCondition(group.condition);
 
     if (showType) {
@@ -178,8 +190,11 @@ class BehaviorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var library = Provider.of<EnemySkillLibrary>(context);
-    var skill = library.data[behavior.enemySkillId];
+    var dungeon = Provider.of<FullDungeon>(context);
+    var subDungeon = dungeon.selectedSubDungeon;
+    var library = subDungeon.esLibrary;
+    var encounter = Provider.of<FullEncounter>(context);
+    var skill = library[behavior.enemySkillId];
 
     var descText = skill.descNa;
     var conditionText = formatCondition(behavior.condition);
@@ -191,7 +206,10 @@ class BehaviorWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(skill.nameNa, style: subtitle(context)),
-        Text(descText, style: secondary(context)),
+        if (descText.isNotEmpty) Text(descText, style: secondary(context)),
+        if (skill.minHits > 0)
+          Text(formatAttack(skill, encounter.encounter, subDungeon.subDungeon),
+              style: secondary(context)),
       ],
     );
   }

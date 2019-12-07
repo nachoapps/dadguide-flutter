@@ -84,7 +84,7 @@ class DungeonDetailContents extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     return Provider.value(
-      value: EnemySkillLibrary(_data.selectedSubDungeon.esLibrary),
+      value: _data,
       child: Column(
         children: [
           Expanded(
@@ -283,53 +283,56 @@ class DungeonEncounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              PadIcon(_model.monster.monsterId, monsterLink: true),
-              SizedBox(height: 2),
-              MonsterColorBar(_model.monster),
-            ],
-          ),
-          SizedBox(width: 4),
-          Expanded(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(children: [
-                    typeContainer(_model.monster.type1Id, size: 18, leftPadding: 4),
-                    typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
-                    typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
+    return Provider.value(
+      value: _model,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                PadIcon(_model.monster.monsterId, monsterLink: true),
+                SizedBox(height: 2),
+                MonsterColorBar(_model.monster),
+              ],
+            ),
+            SizedBox(width: 4),
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Row(children: [
+                      typeContainer(_model.monster.type1Id, size: 18, leftPadding: 4),
+                      typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
+                      typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
+                    ]),
+                    Text(_model.name()),
+                    IconTheme(
+                      data: new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
+                      child: DefaultTextStyle(
+                          style: Theme.of(context).textTheme.caption,
+                          child: Row(
+                            children: [
+                              item(1, Icons.refresh, _model.encounter.turns, context),
+                              item(3, Feather.getIconData('heart'), _model.encounter.hp, context),
+                              item(3, MaterialCommunityIcons.getIconData('sword'),
+                                  _model.encounter.atk, context),
+                              item(3, Feather.getIconData('shield'), _model.encounter.defence,
+                                  context),
+                            ],
+                          )),
+                    ),
+                    if (_model.levelBehaviors.isNotEmpty && Prefs.showEnemySkills)
+                      EncounterBehavior(_model.approved, _model.levelBehaviors)
                   ]),
-                  Text(_model.name()),
-                  IconTheme(
-                    data: new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
-                    child: DefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption,
-                        child: Row(
-                          children: [
-                            item(1, Icons.refresh, _model.encounter.turns, context),
-                            item(3, Feather.getIconData('heart'), _model.encounter.hp, context),
-                            item(3, MaterialCommunityIcons.getIconData('sword'),
-                                _model.encounter.atk, context),
-                            item(3, Feather.getIconData('shield'), _model.encounter.defence,
-                                context),
-                          ],
-                        )),
-                  ),
-                  if (_model.levelBehaviors.isNotEmpty && Prefs.showEnemySkills)
-                    EncounterBehavior(_model.approved, _model.levelBehaviors)
-                ]),
-          ),
-          Column(children: [
-            for (var drop in _model.drops) PadIcon(drop.monsterId, size: 24, monsterLink: true)
-          ])
-        ],
+            ),
+            Column(children: [
+              for (var drop in _model.drops) PadIcon(drop.monsterId, size: 24, monsterLink: true)
+            ])
+          ],
+        ),
       ),
     );
   }

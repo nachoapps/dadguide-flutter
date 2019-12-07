@@ -216,7 +216,7 @@ class EnemySkills extends Table {
 
   IntColumn get maxHits => integer()();
 
-  IntColumn get atk_mult => integer()();
+  IntColumn get atkMult => integer()();
 
   IntColumn get tstamp => integer()();
 }
