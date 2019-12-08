@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/ads.dart';
+import 'package:dadguide2/components/background_fetch.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -47,6 +48,9 @@ void main() async {
 
   // Try to initialize the DB and register it with getIt; this will fail on first-launch.
   await tryInitializeServiceLocatorDb(false);
+
+  // Schedule the background update task. Deliberately not await'ing this.
+  configureUpdateDatabaseTask();
 
   // Start the app.
   runApp(DadGuideApp());

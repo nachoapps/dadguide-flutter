@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="info.miru.dadguide">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="info.miru.dadguide">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- flutter_local_notifications, permission required to schedule notifications
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    -->
+
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -10,6 +15,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
+        tools:replace="android:label"
         android:name="io.flutter.app.FlutterApplication"
         android:label="DadGuide"
         android:icon="@mipmap/ic_launcher"
@@ -38,6 +44,18 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6128472825595951~4484271468"/>
+
+        <!-- flutter_local_notifications, to make sure scheduled notifications remain scheduled on reboot
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        -->
+
+        <!-- flutter_local_notifications, to be able to display scheduled notifications
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"/>
+        -->
 
     </application>
 
