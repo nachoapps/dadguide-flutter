@@ -6,6 +6,7 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
   switch (groupType) {
@@ -106,6 +107,11 @@ String formatAttack(EnemySkill skill, Encounter encounter, SubDungeon subDungeon
 /// TODO: Top level groups should probably be encased in an outline with the group type called out.
 /// TODO: Make the warning link to an explanation.
 class EncounterBehavior extends StatelessWidget {
+  static const warningText =
+      'This monster\'s behavior not yet reviewed. Rely on it at your own risk.';
+  static const textLink =
+      'https://docs.google.com/document/d/10L1HSYg5ZNZocvTFUarg20rGyTEylJze5GHOEK3YLUA/edit#heading=h.s5qhmnr5fy53';
+
   final bool approved;
   final List<BehaviorGroup> groups;
 
@@ -125,8 +131,16 @@ class EncounterBehavior extends StatelessWidget {
                 color: Colors.red,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: Text(
-                  'Monster data has not been reviewed and approved yet. Rely on this at your own risk.'),
+              child: InkWell(
+                onTap: () => launch(textLink, forceWebView: true),
+                child: Row(
+                  children: [
+                    Icon(Icons.open_in_new),
+                    SizedBox(width: 8),
+                    Flexible(child: Center(child: Text(warningText))),
+                  ],
+                ),
+              ),
             ),
           for (var group in groups) BehaviorGroupWidget(true, group),
         ],
