@@ -581,8 +581,6 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
     Fimber.d('events lookup complete in: ${s.elapsed} with ${results.length} values');
     return results;
   }
-
-  Future<List<ScheduleEvent>> get currentEvents => select(schedule).get();
 }
 
 class DungeonSearchArgs {
