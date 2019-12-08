@@ -20,6 +20,9 @@ class PrefKeys {
   static const eventsShowRed = 'events_show_red';
   static const eventsShowBlue = 'events_show_blue';
   static const eventsShowGreen = 'events_show_green';
+  static const eventsNotifyNA = 'events_notify_na';
+  static const eventsNotifyJP = 'events_notify_jp';
+  static const eventsNotifyKR = 'events_notify_kr';
 
   static const uiTheme = 'ui_theme';
   static const uiDarkMode = 'ui_dark_mode';
@@ -29,6 +32,8 @@ class PrefKeys {
   static const showEnemySkills = 'showEnemySkills';
 
   static const tsLastDeleted = 'tsLastDeleted';
+
+  static const trackedDungeons = 'tracked_dungeons';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -72,11 +77,15 @@ class Prefs {
       PrefKeys.eventsShowRed: true,
       PrefKeys.eventsShowBlue: true,
       PrefKeys.eventsShowGreen: true,
+      PrefKeys.eventsNotifyNA: _defaultLanguageCountry.item2.countryCode == Country.na.countryCode,
+      PrefKeys.eventsNotifyJP: _defaultLanguageCountry.item2.countryCode == Country.jp.countryCode,
+      PrefKeys.eventsNotifyKR: _defaultLanguageCountry.item2.countryCode == Country.kr.countryCode,
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
       PrefKeys.showEnemySkills: true,
       PrefKeys.tsLastDeleted: defaultDeletedTs,
+      PrefKeys.trackedDungeons: <String>[],
     });
   }
 
@@ -148,6 +157,33 @@ class Prefs {
 
   static Country get gameCountry => Country.byId(PrefService.getInt(PrefKeys.gameCountry));
 
+  /// Sorted by insert order. Consider sorting?
+  /// Note the app and database uses dungeonId as an int, but shared_preferences only has a list of strings for storage.
+  static List<int> addTrackedDungeon(int dungeonId) {
+    List<int> trackedDungeons = Prefs.trackedDungeons;
+    trackedDungeons.add(dungeonId);
+    setTrackedDungeons(trackedDungeons);
+    return trackedDungeons;
+  }
+
+  static List<int> removeTrackedDungeon(int dungeonId) {
+    List<int> trackedDungeons = Prefs.trackedDungeons;
+    trackedDungeons.remove(dungeonId);
+    setTrackedDungeons(trackedDungeons);
+    return trackedDungeons;
+  }
+
+  static void setTrackedDungeons(List<int> dungeonIds) {
+    PrefService.setStringList(
+        PrefKeys.trackedDungeons, dungeonIds.map((int x) => x.toString()).toList());
+  }
+
+  static List<int> get trackedDungeons {
+    List<int> trackedDungeons =
+        (PrefService.get(PrefKeys.trackedDungeons) as List).map<int>((s) => int.parse(s)).toList();
+    return trackedDungeons;
+  }
+
   /// Store the current time as the last update time.
   static void updateRan() {
     PrefService.setInt(PrefKeys.lastUpdateExecution, DateTime.now().millisecondsSinceEpoch);
@@ -170,4 +206,18 @@ class Prefs {
   // Should we show enemy skills in the dungeon tab; temporary preference while this is being worked
   // on.
   static bool get showEnemySkills => PrefService.getBool(PrefKeys.showEnemySkills);
+
+  static bool get eventsNotifyNA => PrefService.getBool(PrefKeys.eventsNotifyNA);
+
+  static bool get eventsNotifyJP => PrefService.getBool(PrefKeys.eventsNotifyJP);
+
+  static bool get eventsNotifyKR => PrefService.getBool(PrefKeys.eventsNotifyKR);
+
+  static bool checkCountryNotifyStatusById(int serverId) {
+    Country country = Country.byId(serverId);
+    if (country.countryCode == 'NA') return eventsNotifyNA;
+    if (country.countryCode == 'JP') return eventsNotifyJP;
+    if (country.countryCode == 'KR') return eventsNotifyKR;
+    return false;
+  }
 }
