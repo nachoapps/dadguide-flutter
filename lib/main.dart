@@ -135,6 +135,9 @@ class SetupRequiredCheckerState extends State<SetupRequiredChecker> {
     return Container();
   }
 
+  // TODO: This should be restructured. We should spawn the onboarding task in main and then use
+  // something that listens to the stream updates to determine what screen to display. This current
+  // code is a clusterfuck.
   Future<void> _checkSetupRequired() async {
     Fimber.i('Checking if setup is required');
     if (await onboardingManager.mustRun()) {
