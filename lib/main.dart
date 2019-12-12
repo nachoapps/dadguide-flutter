@@ -26,6 +26,10 @@ bool inDevMode = false;
 bool useDevEndpoints = false;
 
 void main() async {
+  // This works around the fact that we're using an async main, which implies that maybe we should
+  // not be using an async main.
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Dont report errors from dev mode to crashlytics.
   Crashlytics.instance.enableInDevMode = false;
 

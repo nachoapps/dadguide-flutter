@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/services/endpoints.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -22,6 +23,9 @@ class ResourceHelper {
   /// Local file name for database. Should be stored in the sqlite database dir.
   static const dbFileName = 'dadguide.sqlite';
 
+  /// Database should be at least 10MB.
+  static const minExpectedDbSize = 1024 * 1024 * 10;
+
   static String remoteDbFile() {
     return getIt<Endpoints>().db(dbZipFileName);
   }
@@ -32,13 +36,25 @@ class ResourceHelper {
 
   static Future<bool> checkDbExists() async {
     var dbFile = File(await dbFilePath());
-    var exists = await dbFile.exists();
-    if (Prefs.currentDbVersion != dbVersion && exists) {
-      dbFile.deleteSync();
+    var dbStat = await dbFile.stat();
+
+    Fimber.i('Database file type: ${dbStat.type} - size: ${dbStat.size}');
+    var fileExists = dbStat.type != FileSystemEntityType.notFound;
+
+    if (!fileExists) {
+      Fimber.w('Database not found, probably initial install');
+      return false;
+    } else if (dbStat.size < minExpectedDbSize) {
+      Fimber.e('Database too small, got ${dbStat.size} wanted at least ${minExpectedDbSize}');
+      return false;
+    } else if (Prefs.currentDbVersion != dbVersion && fileExists) {
+      Fimber.w('Database requires version update, got ${Prefs.currentDbVersion} wanted $dbVersion');
+      await dbFile.delete();
       Prefs.currentDbVersion = dbVersion;
       return false;
     }
-    return exists;
+    Fimber.i('Database ready to use');
+    return true;
   }
 
   static Future<File> newTmpFile(String name) async {
