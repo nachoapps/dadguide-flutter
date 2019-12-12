@@ -23,11 +23,11 @@ dependencies:
   #firebase_remote_config: ^0.2.0+5
   #cloud_firestore: ^0.12.9
 
-  sqflite: ^1.1.7+1
-  path_provider: ^1.4.0
+  sqflite: ^1.1.8
+  path_provider: ^1.5.1
 
   stack_trace: ^1.9.3
-  cached_network_image: 2.0.0-rc
+  cached_network_image: ^2.0.0-rc
   # If updating this, need to verify cache.dart
   flutter_cache_manager: 1.1.3
   protobuf: any
@@ -41,24 +41,24 @@ dependencies:
   flutter_local_notifications: ^0.8.4+3
 
   # Injection
-  provider: ^3.1.0+1
+  provider: ^3.2.0
 
   # Settings page
   # TODO: review new 5.0 features for use in settings dialog
-  preferences: ^5.0.0
+  preferences: ^5.0.2
 
   # Date/internationalization stuff
   intl: ^0.16.0
 
   # Http downloads
-  dio: ^3.0.3
+  dio: ^3.0.7
 
   # Logging
   flutter_fimber: ^0.3.2
 
   # More icons
-  cupertino_icons: ^0.1.2
-  flutter_icons: ^0.3.1
+  cupertino_icons: ^0.1.3
+  flutter_icons: ^1.0.0
 
   # Dependency injection
   # TODO: look into upgrading to 3.0.3
@@ -72,12 +72,12 @@ dependencies:
   flutter_datetime_picker: ^1.2.8
 
   # Send bad data email
-  flutter_email_sender: ^2.1.0
+  flutter_email_sender: ^2.2.1
   get_version: ^0.2.0+1
   device_info: ^0.4.1
 
   # Open YouTube app
-  url_launcher: ^5.2.4
+  url_launcher: ^5.4.0
 
 dev_dependencies:
   flutter_test:
@@ -87,7 +87,7 @@ dev_dependencies:
   moor_generator: ^1.7.0
   build_runner:
 
-  flutter_launcher_icons: ^0.7.3
+  flutter_launcher_icons: ^0.7.4
 
   # i10n utilities
   intl_translation: ^0.17.7
