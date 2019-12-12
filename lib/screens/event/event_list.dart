@@ -149,7 +149,7 @@ class EventListRow extends StatelessWidget {
                           if (_model.isOpen()) Icon(Icons.check, color: Colors.green, size: 12),
                           if (_model.isPending())
                             Icon(
-                              FontAwesome.getIconData('calendar-check-o'),
+                              FontAwesome.calendar_check_o,
                               color: Colors.orange,
                               size: 12,
                             ),

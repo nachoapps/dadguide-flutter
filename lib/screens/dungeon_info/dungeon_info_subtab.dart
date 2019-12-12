@@ -315,11 +315,9 @@ class DungeonEncounter extends StatelessWidget {
                           child: Row(
                             children: [
                               item(1, Icons.refresh, _model.encounter.turns, context),
-                              item(3, Feather.getIconData('heart'), _model.encounter.hp, context),
-                              item(3, MaterialCommunityIcons.getIconData('sword'),
-                                  _model.encounter.atk, context),
-                              item(3, Feather.getIconData('shield'), _model.encounter.defence,
-                                  context),
+                              item(3, Feather.heart, _model.encounter.hp, context),
+                              item(3, MaterialCommunityIcons.sword, _model.encounter.atk, context),
+                              item(3, Feather.shield, _model.encounter.defence, context),
                             ],
                           )),
                     ),

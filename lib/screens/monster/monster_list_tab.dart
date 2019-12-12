@@ -79,10 +79,7 @@ class MonsterSearchBar extends StatelessWidget {
       searchText,
       'Search: Monster Name/No.',
       InkWell(
-        child: Icon(
-            controller.filterSet
-                ? FontAwesome.getIconData('filter')
-                : Feather.getIconData('filter'),
+        child: Icon(controller.filterSet ? FontAwesome.filter : Feather.filter,
             color: controller.filterSet ? Colors.black : Colors.white),
         onTap: () async {
           await goToFilterMonstersFn(context, controller)();
@@ -119,12 +116,12 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
 //            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
 //          ),
           IconButton(
-            icon: Icon(Foundation.getIconData('burst-new')),
+            icon: Icon(Foundation.burst_new),
             color: controller.sortNew ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.sortNew = !controller.sortNew,
           ),
           IconButton(
-            icon: Icon(SimpleLineIcons.getIconData('picture')),
+            icon: Icon(SimpleLineIcons.picture),
             color: controller.pictureMode ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.pictureMode = !controller.pictureMode,
           ),
@@ -134,7 +131,7 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
             onPressed: () => showMonsterSortDialog(context),
           ),
           IconButton(
-            icon: Icon(MaterialCommunityIcons.getIconData('star-box-outline')),
+            icon: Icon(MaterialCommunityIcons.star_box_outline),
             color: controller.showAwakenings ? Colors.blue : grey(context, 1000),
             onPressed: () => controller.showAwakenings = !controller.showAwakenings,
           ),
