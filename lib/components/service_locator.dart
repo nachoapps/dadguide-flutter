@@ -1,6 +1,7 @@
 import 'dart:io' show HttpHeaders;
 
 import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/notifications.dart';
 import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
@@ -36,6 +37,11 @@ Future<void> initializeServiceLocator(
     HttpHeaders.userAgentHeader:
         'DadGuide v${versionInfo.projectCode} - ${versionInfo.platformVersion}',
   };
+
+  // Does the appropriate registration; not actually using the object yet though.
+  NotificationSingleton();
+  var notificationManager = NotificationManager();
+  getIt.registerSingleton(notificationManager);
 }
 
 /// Try to initialize DB dependencies and register them with getIt.
