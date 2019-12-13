@@ -1,6 +1,8 @@
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/notifications/tracking.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/event_search_bloc.dart';
@@ -115,87 +117,111 @@ class EventListContents extends StatelessWidget {
 
 /// An individual event row.
 class EventListRow extends StatelessWidget {
+  final ListEvent model;
+  const EventListRow(this.model, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ChangeNotifier>(create: (context) => ChangeNotifier()),
+        Consumer<ChangeNotifier>(
+          builder: (context, trackedNotifier, __) => InkWell(
+            onLongPress: () async {
+              var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
+              await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
+              trackedNotifier.notifyListeners();
+            },
+            onTap: goToDungeonFn(context, model.dungeon?.dungeonId),
+            child: EventListRowContents(model, key: ValueKey(model.event.eventId)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class EventListRowContents extends StatelessWidget {
   static final DateFormat longFormat = DateFormat.MMMd().add_jm();
   static final DateFormat shortFormat = DateFormat.jm();
 
-  final ListEvent _model;
-  const EventListRow(this._model, {Key key}) : super(key: key);
+  final ListEvent model;
+
+  const EventListRowContents(this.model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
+    var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
 
-    var se = _model;
-    return InkWell(
-      onTap: goToDungeonFn(context, _model.dungeon?.dungeonId),
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-          child: Row(
-            children: [
-              PadIcon(se.iconId, size: 36),
-              SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(alignment: Alignment.centerLeft, child: Text(headerText())),
-                    DefaultTextStyle(
-                      style: Theme.of(context).textTheme.caption,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (_model.isClosed()) Icon(Icons.close, color: Colors.red, size: 12),
-                          if (_model.isOpen()) Icon(Icons.check, color: Colors.green, size: 12),
-                          if (_model.isPending())
-                            Icon(
-                              FontAwesome.calendar_check_o,
-                              color: Colors.orange,
-                              size: 12,
-                            ),
-                          SizedBox(width: 4),
-                          Text(underlineText(loc, DateTime.now())),
-                          SizedBox(width: 4),
-                          if (!_model.isClosed()) Text(stamRcvText()),
-                        ],
-                      ),
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        child: Row(
+          children: [
+            PadIcon(model.iconId, size: 36),
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (isTracked) TrackedChip(),
+                  FittedBox(alignment: Alignment.centerLeft, child: Text(headerText())),
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.caption,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (model.isClosed()) Icon(Icons.close, color: Colors.red, size: 12),
+                        if (model.isOpen()) Icon(Icons.check, color: Colors.green, size: 12),
+                        if (model.isPending())
+                          Icon(
+                            FontAwesome.calendar_check_o,
+                            color: Colors.orange,
+                            size: 12,
+                          ),
+                        SizedBox(width: 4),
+                        Text(underlineText(loc, DateTime.now())),
+                        SizedBox(width: 4),
+                        if (!model.isClosed()) Text(stamRcvText()),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          )),
-    );
+            ),
+          ],
+        ));
   }
 
   String headerText() {
-    String text = _model.dungeonName() ?? _model.eventInfo();
-    if (_model.event.groupName != null) {
-      text = '[${_model.event.groupName}] $text';
+    String text = model.dungeonName() ?? model.eventInfo();
+    if (model.event.groupName != null) {
+      text = '[${model.event.groupName}] $text';
     }
     return text ?? 'error';
   }
 
   String stamRcvText() {
-    var timeTo = _model.isOpen() ? _model.endTime : _model.startTime;
+    var timeTo = model.isOpen() ? model.endTime : model.startTime;
     var stamRcv = timeTo.difference(DateTime.now()).inMinutes ~/ 3;
     var stamRcvStr = NumberFormat.decimalPattern().format(stamRcv);
     return '[Stam.Recovered $stamRcvStr]';
   }
 
   String underlineText(DadGuideLocalizations loc, DateTime displayedDate) {
-    if (_model.isClosed()) {
+    if (model.isClosed()) {
       return loc.eventClosed;
     }
 
     String text = '';
-    if (!_model.isOpen()) {
-      text = _adjDate(displayedDate, _model.startTime);
+    if (!model.isOpen()) {
+      text = _adjDate(displayedDate, model.startTime);
     }
     text += ' ~ ';
-    text += _adjDate(displayedDate, _model.endTime);
+    text += _adjDate(displayedDate, model.endTime);
 
-    int deltaDays = _model.daysUntilClose();
+    int deltaDays = model.daysUntilClose();
     if (deltaDays > 0) {
       var dayText = loc.eventDays(deltaDays);
       text += ' [$dayText]';

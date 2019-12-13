@@ -56,13 +56,17 @@ class NotificationManager {
     IOSNotificationDetails(presentAlert: true),
   );
 
+  final _cachedNotificationIds = <int>[];
+
   /// Takes the schedule and ensures notifications exist for each tracked dungeon.
   Future<void> ensureEventsScheduled() async {
+    await _plugin.cancelAll();
     var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
-
-    var eventsToSchedule = events.where((le) =>
-        Prefs.trackedDungeons.contains(le.dungeon.dungeonId) &&
-        Prefs.checkCountryNotifyStatusById(le.event.serverId));
+    var eventsToSchedule = events
+        .where((le) =>
+            Prefs.trackedDungeons.contains(le.dungeon.dungeonId) &&
+            Prefs.checkCountryNotifyStatusById(le.event.serverId))
+        .toList();
 
     for (var listEvent in eventsToSchedule) {
       var event = listEvent.event;
@@ -81,10 +85,10 @@ class NotificationManager {
       DateTime startTime = _eventDateTime(event.startTimestamp);
       String payload = JsonEncoder().convert(event);
 
-      _scheduleNotification(event.eventId, title, body, startTime, payload);
+      await _scheduleNotification(event.eventId, title, body, startTime, payload);
     }
 
-    await _logScheduledNotifications();
+    await _logAndStoreNotifications();
   }
 
   /// Schedules the actual notification in the OS.
@@ -103,24 +107,34 @@ class NotificationManager {
 
     for (var payload in payloads) {
       if (payload['dungeonId'] == dungeonId) {
-        await cancelByEventId(payload['eventId']);
+        await cancelByEventId(payload['eventId'], update: false);
       }
     }
+    await _logAndStoreNotifications();
+  }
+
+  // This is deliberately synchronous; it needs to be called from build().
+  bool isEventTracked(int eventId) {
+    return _cachedNotificationIds.contains(eventId);
   }
 
   /// Cancels a single event by event id.
-  Future<void> cancelByEventId(int eventId) async {
+  Future<void> cancelByEventId(int eventId, {bool update: true}) async {
     Fimber.d('Canceling notification: $eventId');
     await _plugin.cancel(eventId);
+    if (update) await _logAndStoreNotifications();
   }
 
   Future<List<PendingNotificationRequest>> get _pendingNotifications async =>
       await _plugin.pendingNotificationRequests();
 
-  Future<void> _logScheduledNotifications() async {
+  // This does double-duty for caching the notifications so it should be called
+  // whenever a modification is made.
+  Future<void> _logAndStoreNotifications() async {
     var notifications = await _plugin.pendingNotificationRequests();
-    notifications.forEach((n) =>
-        Fimber.v("Notification #${n.id} is pending. Title: '${n.title}', Body: '${n.body}'"));
+    Fimber.i('There are ${notifications.length} notifications pending');
+    _cachedNotificationIds.clear();
+    _cachedNotificationIds.addAll(notifications.map((n) => n.id));
   }
 }
 
@@ -130,7 +144,7 @@ DateTime _eventDateTime(int secondsFromEpoch) =>
 String _formatTime(DateTime dateTime) => DateFormat.MMMd().add_jm().format(dateTime.toLocal());
 
 EventSearchArgs _upcomingEventArgs() => EventSearchArgs.from(
-      [Prefs.eventCountry],
+      [Country.jp, Country.na, Country.kr],
       Prefs.eventStarters,
       ScheduleTabKey.all,
       DateTime.now(),

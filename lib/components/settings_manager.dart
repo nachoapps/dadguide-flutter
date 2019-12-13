@@ -215,9 +215,9 @@ class Prefs {
 
   static bool checkCountryNotifyStatusById(int serverId) {
     Country country = Country.byId(serverId);
-    if (country.countryCode == 'NA') return eventsNotifyNA;
-    if (country.countryCode == 'JP') return eventsNotifyJP;
-    if (country.countryCode == 'KR') return eventsNotifyKR;
+    if (country == Country.na) return eventsNotifyNA;
+    if (country == Country.jp) return eventsNotifyJP;
+    if (country == Country.kr) return eventsNotifyKR;
     return false;
   }
 }

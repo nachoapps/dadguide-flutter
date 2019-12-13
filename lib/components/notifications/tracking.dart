@@ -11,7 +11,11 @@ class TrackedChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(3),
-      child: Text("Tracking", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+      child: Text("Tracking",
+          style: Theme.of(context)
+              .textTheme
+              .caption
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.white)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Theme.of(context).primaryColor,
@@ -60,7 +64,7 @@ void _startTracking(int dungeonId) async {
 
 void _stopTracking(int dungeonId) async {
   Prefs.removeTrackedDungeon(dungeonId);
-  getIt<NotificationManager>().cancelByDungeonId(dungeonId);
+  getIt<NotificationManager>().ensureEventsScheduled();
 }
 
 /// showMenu() needs to be given the menu position as a parameter.
