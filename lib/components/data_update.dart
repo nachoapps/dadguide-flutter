@@ -57,7 +57,7 @@ class DataUpdaterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DataUpdater>(
-      builder: (context) => DataUpdater(context)..subscribe(),
+      create: (context) => DataUpdater(context)..subscribe(),
       child: _child,
     );
   }

@@ -23,7 +23,7 @@ class EventTab extends StatelessWidget {
       length: 3,
       initialIndex: 0,
       child: ChangeNotifierProvider(
-        builder: (context) => ScheduleDisplayState(),
+        create: (context) => ScheduleDisplayState(),
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(40),
@@ -92,7 +92,7 @@ class EventList extends StatelessWidget {
 
     return ChangeNotifierProvider(
         key: UniqueKey(),
-        builder: (context) => ScheduleTabState(displayState.servers, displayState.starters, _tabKey,
+        create: (context) => ScheduleTabState(displayState.servers, displayState.starters, _tabKey,
             displayState.currentEventDate, displayState.hideClosed),
         child: EventListContents());
   }

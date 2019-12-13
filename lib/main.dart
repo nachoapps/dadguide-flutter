@@ -81,7 +81,7 @@ class _DadGuideAppState extends State<DadGuideApp> {
     ]);
 
     return ChangeNotifierProvider<LocaleChangedNotifier>(
-        builder: (_) => LocaleChangedNotifier(this),
+        create: (_) => LocaleChangedNotifier(this),
         child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: themeFromPrefs(),

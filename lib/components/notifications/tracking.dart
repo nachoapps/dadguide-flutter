@@ -57,14 +57,14 @@ Future<bool> showDungeonMenu(BuildContext context, int dungeonId, bool currently
   return !currentlyTracked;
 }
 
-void _startTracking(int dungeonId) async {
+Future<void> _startTracking(int dungeonId) async {
   Prefs.addTrackedDungeon(dungeonId);
-  getIt<NotificationManager>().ensureEventsScheduled();
+  await getIt<NotificationManager>().ensureEventsScheduled();
 }
 
-void _stopTracking(int dungeonId) async {
+Future<void> _stopTracking(int dungeonId) async {
   Prefs.removeTrackedDungeon(dungeonId);
-  getIt<NotificationManager>().ensureEventsScheduled();
+  await getIt<NotificationManager>().ensureEventsScheduled();
 }
 
 /// showMenu() needs to be given the menu position as a parameter.

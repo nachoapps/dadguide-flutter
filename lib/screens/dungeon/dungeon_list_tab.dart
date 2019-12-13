@@ -16,7 +16,7 @@ class DungeonTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       key: UniqueKey(),
-      builder: (context) => DungeonDisplayState(DungeonTabKey.special),
+      create: (context) => DungeonDisplayState(DungeonTabKey.special),
       child: Column(children: [
         DungeonSearchBar(),
         Expanded(child: DungeonList(key: UniqueKey())),

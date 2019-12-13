@@ -19,7 +19,7 @@ class MonsterTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MonsterDisplayState>(
-      builder: (_) => MonsterDisplayState(),
+      create: (_) => MonsterDisplayState(),
       child: Column(children: [
         MonsterSearchBar(),
         Expanded(child: MonsterList()),
