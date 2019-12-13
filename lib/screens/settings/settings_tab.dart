@@ -55,6 +55,7 @@ class SettingsScreen extends StatelessWidget {
           defaultVal: Prefs.defaultGameCountryValue,
           values: Prefs.countryValues,
           displayValues: Prefs.countryDisplayValues,
+          onChange: () => getIt<NotificationManager>().ensureEventsScheduled(),
         ),
         CheckboxPreference(
           loc.settingsHideUnreleasedMonsters,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io' show HttpStatus;
 
 import 'package:convert/convert.dart';
+import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
@@ -177,6 +178,9 @@ class UpdateTask with TaskPublisher {
       complete++;
       progressFn(complete * 100 ~/ data.length);
     }
+
+    // In case new scheduled events were inserted, reschedule all alarms.
+    getIt<NotificationManager>().ensureEventsScheduled();
   }
 
   /// Gets the server-side max timestamp for each table.
