@@ -62,8 +62,9 @@ class NotificationManager {
   Future<void> ensureEventsScheduled() async {
     await _plugin.cancelAll();
     var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
-    var eventsToSchedule =
-        events.where((le) => Prefs.trackedDungeons.contains(le.dungeon.dungeonId)).toList();
+    var eventsToSchedule = events
+        .where((le) => Prefs.trackedDungeons.contains(le.dungeon.dungeonId) && le.isPending())
+        .toList();
 
     for (var listEvent in eventsToSchedule) {
       var event = listEvent.event;
@@ -146,5 +147,5 @@ EventSearchArgs _upcomingEventArgs() => EventSearchArgs.from(
       ScheduleTabKey.all,
       DateTime.now(),
       DateTime.now().add(Duration(days: 2)),
-      Prefs.eventHideClosed,
+      true, // hide closed
     );
