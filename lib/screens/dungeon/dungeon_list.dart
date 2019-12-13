@@ -3,6 +3,8 @@ import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
 import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/notifications/tracking.dart';
+import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
@@ -90,56 +92,84 @@ class DungeonList extends StatelessWidget {
 
 /// A row representing a dungeon.
 class DungeonListRow extends StatelessWidget {
-  final ListDungeon _model;
+  final ListDungeon model;
 
-  const DungeonListRow(this._model, {Key key}) : super(key: key);
+  const DungeonListRow(this.model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var d = _model.dungeon;
-    var m = _model.iconMonster;
-    return InkWell(
-      onTap: goToDungeonFn(context, d.dungeonId, null),
-      child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-          child: Row(
-            children: <Widget>[
-              PadIcon(d.iconId),
-              SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption,
-                        child: Row(children: [
-                          Spacer(),
-                          typeContainer(m?.type1Id, size: 18, leftPadding: 4),
-                          typeContainer(m?.type2Id, size: 18, leftPadding: 4),
-                          typeContainer(m?.type3Id, size: 18, leftPadding: 4),
-                        ])),
-                    FittedBox(alignment: Alignment.centerLeft, child: Text(_model.name())),
-                    DefaultTextStyle(
-                      style: Theme.of(context).textTheme.caption,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconAndText(DadGuideIcons.mp,
-                              _model.maxAvgMp != null ? commaFormat(_model.maxAvgMp) : null),
-                          SizedBox(width: 8),
-                          IconAndText(DadGuideIcons.srank,
-                              _model.maxScore != null ? commaFormat(_model.maxScore) : null),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
+    var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ChangeNotifier>(create: (context) => ChangeNotifier()),
+        Consumer<ChangeNotifier>(
+          builder: (context, trackedNotifier, __) => InkWell(
+            onLongPress: () async {
+              isTracked = await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
+              trackedNotifier.notifyListeners();
+            },
+            onTap: goToDungeonFn(context, model.dungeon.dungeonId, null),
+            child: DungeonListRowContents(model, isTracked),
+          ),
+        ),
+      ],
     );
+  }
+}
+
+/// The contents of a row representing a dungeon.
+class DungeonListRowContents extends StatelessWidget {
+  final ListDungeon model;
+  final bool isTracked;
+
+  const DungeonListRowContents(this.model, this.isTracked, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var d = model.dungeon;
+    var m = model.iconMonster;
+
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        child: Row(
+          children: <Widget>[
+            PadIcon(d.iconId),
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DefaultTextStyle(
+                      style: Theme.of(context).textTheme.caption,
+                      child: Row(children: [
+                        if (isTracked) TrackedChip(),
+                        Spacer(),
+                        typeContainer(m?.type1Id, size: 18, leftPadding: 4),
+                        typeContainer(m?.type2Id, size: 18, leftPadding: 4),
+                        typeContainer(m?.type3Id, size: 18, leftPadding: 4),
+                      ])),
+                  FittedBox(alignment: Alignment.centerLeft, child: Text(model.name())),
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.caption,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconAndText(DadGuideIcons.mp,
+                            model.maxAvgMp != null ? commaFormat(model.maxAvgMp) : null),
+                        SizedBox(width: 8),
+                        IconAndText(DadGuideIcons.srank,
+                            model.maxScore != null ? commaFormat(model.maxScore) : null),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
 

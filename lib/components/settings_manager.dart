@@ -179,9 +179,9 @@ class Prefs {
   }
 
   static List<int> get trackedDungeons {
-    List<int> trackedDungeons =
-        (PrefService.get(PrefKeys.trackedDungeons) as List).map<int>((s) => int.parse(s)).toList();
-    return trackedDungeons;
+    return PrefService.getStringList(PrefKeys.trackedDungeons)
+        .map<int>((s) => int.parse(s))
+        .toList();
   }
 
   /// Store the current time as the last update time.

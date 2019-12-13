@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
-import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
@@ -56,7 +57,9 @@ class NotificationManager {
   );
 
   /// Takes the schedule and ensures notifications exist for each tracked dungeon.
-  Future<void> ensureEventsScheduled(List<ListEvent> events) async {
+  Future<void> ensureEventsScheduled() async {
+    var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
+
     var eventsToSchedule = events.where((le) =>
         Prefs.trackedDungeons.contains(le.dungeon.dungeonId) &&
         Prefs.checkCountryNotifyStatusById(le.event.serverId));
@@ -125,3 +128,12 @@ DateTime _eventDateTime(int secondsFromEpoch) =>
     DateTime.fromMillisecondsSinceEpoch(secondsFromEpoch * 1000, isUtc: true);
 
 String _formatTime(DateTime dateTime) => DateFormat.MMMd().add_jm().format(dateTime.toLocal());
+
+EventSearchArgs _upcomingEventArgs() => EventSearchArgs.from(
+      [Prefs.eventCountry],
+      Prefs.eventStarters,
+      ScheduleTabKey.all,
+      DateTime.now(),
+      DateTime.now().add(Duration(days: 2)),
+      Prefs.eventHideClosed,
+    );
