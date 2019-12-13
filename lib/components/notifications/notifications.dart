@@ -62,11 +62,8 @@ class NotificationManager {
   Future<void> ensureEventsScheduled() async {
     await _plugin.cancelAll();
     var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
-    var eventsToSchedule = events
-        .where((le) =>
-            Prefs.trackedDungeons.contains(le.dungeon.dungeonId) &&
-            Prefs.checkCountryNotifyStatusById(le.event.serverId))
-        .toList();
+    var eventsToSchedule =
+        events.where((le) => Prefs.trackedDungeons.contains(le.dungeon.dungeonId)).toList();
 
     for (var listEvent in eventsToSchedule) {
       var event = listEvent.event;
@@ -144,7 +141,7 @@ DateTime _eventDateTime(int secondsFromEpoch) =>
 String _formatTime(DateTime dateTime) => DateFormat.MMMd().add_jm().format(dateTime.toLocal());
 
 EventSearchArgs _upcomingEventArgs() => EventSearchArgs.from(
-      [Country.jp, Country.na, Country.kr],
+      [Prefs.gameCountry],
       Prefs.eventStarters,
       ScheduleTabKey.all,
       DateTime.now(),

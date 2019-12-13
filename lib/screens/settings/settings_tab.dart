@@ -1,4 +1,6 @@
 import 'package:dadguide2/components/email.dart';
+import 'package:dadguide2/components/notifications/notifications.dart';
+import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
@@ -85,9 +87,11 @@ class SettingsScreen extends StatelessWidget {
         CheckboxPreference(loc.settingsEventsStarterGreen, PrefKeys.eventsShowGreen),
         PreferenceTitle(loc.settingsNotificationsSection),
         PreferenceTitleSubtitle(loc.settingsNotificationsDesc),
-        CheckboxPreference(loc.settingsEventsNotifyNA, PrefKeys.eventsNotifyNA),
-        CheckboxPreference(loc.settingsEventsNotifyJP, PrefKeys.eventsNotifyJP),
-        CheckboxPreference(loc.settingsEventsNotifyKR, PrefKeys.eventsNotifyKR),
+        CheckboxPreference(
+          loc.settingsNotificationsEnabled,
+          PrefKeys.notificationsAlertsEnabled,
+          onChange: () => getIt<NotificationManager>().ensureEventsScheduled(),
+        ),
         PreferenceTitle(loc.settingsInfoSection),
         ListTile(
           title: Text(loc.settingsContactUs),

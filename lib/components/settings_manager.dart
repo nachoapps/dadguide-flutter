@@ -20,9 +20,7 @@ class PrefKeys {
   static const eventsShowRed = 'events_show_red';
   static const eventsShowBlue = 'events_show_blue';
   static const eventsShowGreen = 'events_show_green';
-  static const eventsNotifyNA = 'events_notify_na';
-  static const eventsNotifyJP = 'events_notify_jp';
-  static const eventsNotifyKR = 'events_notify_kr';
+  static const notificationsAlertsEnabled = 'notifications_alerts_enabled';
 
   static const uiTheme = 'ui_theme';
   static const uiDarkMode = 'ui_dark_mode';
@@ -77,9 +75,7 @@ class Prefs {
       PrefKeys.eventsShowRed: true,
       PrefKeys.eventsShowBlue: true,
       PrefKeys.eventsShowGreen: true,
-      PrefKeys.eventsNotifyNA: _defaultLanguageCountry.item2.countryCode == Country.na.countryCode,
-      PrefKeys.eventsNotifyJP: _defaultLanguageCountry.item2.countryCode == Country.jp.countryCode,
-      PrefKeys.eventsNotifyKR: _defaultLanguageCountry.item2.countryCode == Country.kr.countryCode,
+      PrefKeys.notificationsAlertsEnabled: true,
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
@@ -207,17 +203,6 @@ class Prefs {
   // on.
   static bool get showEnemySkills => PrefService.getBool(PrefKeys.showEnemySkills);
 
-  static bool get eventsNotifyNA => PrefService.getBool(PrefKeys.eventsNotifyNA);
-
-  static bool get eventsNotifyJP => PrefService.getBool(PrefKeys.eventsNotifyJP);
-
-  static bool get eventsNotifyKR => PrefService.getBool(PrefKeys.eventsNotifyKR);
-
-  static bool checkCountryNotifyStatusById(int serverId) {
-    Country country = Country.byId(serverId);
-    if (country == Country.na) return eventsNotifyNA;
-    if (country == Country.jp) return eventsNotifyJP;
-    if (country == Country.kr) return eventsNotifyKR;
-    return false;
-  }
+  // Should alerts be displayed for tracked dungeons.
+  static bool get alertsEnabled => PrefService.getBool(PrefKeys.notificationsAlertsEnabled);
 }
