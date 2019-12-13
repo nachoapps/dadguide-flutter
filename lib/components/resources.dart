@@ -45,7 +45,7 @@ class ResourceHelper {
       Fimber.w('Database not found, probably initial install');
       return false;
     } else if (dbStat.size < minExpectedDbSize) {
-      Fimber.e('Database too small, got ${dbStat.size} wanted at least ${minExpectedDbSize}');
+      Fimber.e('Database too small, got ${dbStat.size} wanted at least $minExpectedDbSize');
       return false;
     } else if (Prefs.currentDbVersion != dbVersion && fileExists) {
       Fimber.w('Database requires version update, got ${Prefs.currentDbVersion} wanted $dbVersion');

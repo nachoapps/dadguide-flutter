@@ -193,7 +193,7 @@ class Prefs {
   }
 
   static int get tsLastDeleted => PrefService.getInt(PrefKeys.tsLastDeleted);
-  static void set tsLastDeleted(int ts) => PrefService.setInt(PrefKeys.tsLastDeleted, ts);
+  static set tsLastDeleted(int ts) => PrefService.setInt(PrefKeys.tsLastDeleted, ts);
 
   static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
   static set hideUnreleasedMonsters(bool val) =>
