@@ -98,19 +98,18 @@ class DungeonListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
-
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ChangeNotifier>(create: (context) => ChangeNotifier()),
-        Consumer<ChangeNotifier>(
+        ChangeNotifierProvider<TrackingNotifier>(create: (context) => TrackingNotifier()),
+        Consumer<TrackingNotifier>(
           builder: (context, trackedNotifier, __) => InkWell(
             onLongPress: () async {
-              isTracked = await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
-              trackedNotifier.notifyListeners();
+              var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
+              await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
+              trackedNotifier.trackingChanged();
             },
             onTap: goToDungeonFn(context, model.dungeon.dungeonId, null),
-            child: DungeonListRowContents(model, isTracked),
+            child: DungeonListRowContents(model),
           ),
         ),
       ],
@@ -121,12 +120,12 @@ class DungeonListRow extends StatelessWidget {
 /// The contents of a row representing a dungeon.
 class DungeonListRowContents extends StatelessWidget {
   final ListDungeon model;
-  final bool isTracked;
 
-  const DungeonListRowContents(this.model, this.isTracked, {Key key}) : super(key: key);
+  const DungeonListRowContents(this.model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
     var d = model.dungeon;
     var m = model.iconMonster;
 

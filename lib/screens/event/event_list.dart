@@ -124,13 +124,13 @@ class EventListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ChangeNotifier>(create: (context) => ChangeNotifier()),
-        Consumer<ChangeNotifier>(
+        ChangeNotifierProvider<TrackingNotifier>(create: (context) => TrackingNotifier()),
+        Consumer<TrackingNotifier>(
           builder: (context, trackedNotifier, __) => InkWell(
             onLongPress: () async {
               var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
               await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
-              trackedNotifier.notifyListeners();
+              trackedNotifier.trackingChanged();
             },
             onTap: goToDungeonFn(context, model.dungeon?.dungeonId),
             child: EventListRowContents(model, key: ValueKey(model.event.eventId)),

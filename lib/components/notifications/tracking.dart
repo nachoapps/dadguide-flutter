@@ -5,6 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
+// Can be used by ChangeNotifierProviders to trigger updates to the TrackedChip.
+class TrackingNotifier with ChangeNotifier {
+  void trackingChanged() {
+    notifyListeners();
+  }
+}
+
 /// This is the area on the left in the line above the dungeon name
 class TrackedChip extends StatelessWidget {
   @override
