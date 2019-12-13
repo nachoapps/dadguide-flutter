@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
@@ -82,6 +83,8 @@ class SettingsScreen extends StatelessWidget {
         CheckboxPreference(loc.settingsEventsStarterRed, PrefKeys.eventsShowRed),
         CheckboxPreference(loc.settingsEventsStarterBlue, PrefKeys.eventsShowBlue),
         CheckboxPreference(loc.settingsEventsStarterGreen, PrefKeys.eventsShowGreen),
+        PreferenceTitle(loc.settingsNotificationsSection),
+        PreferenceTitleSubtitle(loc.settingsNotificationsDesc),
         CheckboxPreference(loc.settingsEventsNotifyNA, PrefKeys.eventsNotifyNA),
         CheckboxPreference(loc.settingsEventsNotifyJP, PrefKeys.eventsNotifyJP),
         CheckboxPreference(loc.settingsEventsNotifyKR, PrefKeys.eventsNotifyKR),

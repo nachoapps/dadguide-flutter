@@ -599,14 +599,22 @@ class DadGuideLocalizations {
   String get settingsEventsStarterGreen => Intl.message('Show green starter',
       name: 'settingsEventsStarterGreen', desc: 'Checkbox title');
 
+  String get settingsNotificationsSection =>
+      Intl.message('Notifications', name: 'settingsNotificationsSection', desc: 'Section title');
+
+  String get settingsNotificationsDesc => Intl.message(
+      'Alert when a dungeon opens. Long-press on an event or dungeon to toggle tracking.',
+      name: 'settingsNotificationsDesc',
+      desc: 'Section description');
+
   String get settingsEventsNotifyNA =>
-      Intl.message('Notify for NA events', name: 'settingsEventNotifyNA', desc: 'Checkbox title');
+      Intl.message('Alert for NA events', name: 'settingsEventNotifyNA', desc: 'Checkbox title');
 
   String get settingsEventsNotifyJP =>
-      Intl.message('Notify for JP events', name: 'settingsEventNotifyJP', desc: 'Checkbox title');
+      Intl.message('Alert for JP events', name: 'settingsEventNotifyJP', desc: 'Checkbox title');
 
   String get settingsEventsNotifyKR =>
-      Intl.message('Notify for KR events', name: 'settingsEventNotifyKR', desc: 'Checkbox title');
+      Intl.message('Alert for KR events', name: 'settingsEventNotifyKR', desc: 'Checkbox title');
 
   String get settingsInfoSection =>
       Intl.message('Info', name: 'settingsInfoSection', desc: 'Section header');
