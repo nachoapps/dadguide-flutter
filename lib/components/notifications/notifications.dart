@@ -54,14 +54,6 @@ class NotificationManager {
     ),
     IOSNotificationDetails(presentAlert: true),
   );
-//  final eventArgs = EventSearchArgs.from(
-//    [Prefs.eventCountry],
-//    Prefs.eventStarters,
-//    ScheduleTabKey.all,
-//    DateTime.now(),
-//    DateTime.now().add(Duration(days: 2)),
-//    Prefs.eventHideClosed,
-//  );
 
   /// Takes the schedule and ensures notifications exist for each tracked dungeon.
   Future<void> ensureEventsScheduled(List<ListEvent> events) async {
