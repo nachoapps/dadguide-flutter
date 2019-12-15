@@ -19,7 +19,7 @@ class NotificationSingleton {
 
   NotificationSingleton._internal() {
     // Android specific stuff. app_icon needs to be a added as a drawable resource.
-    var initSettingsAndroid = AndroidInitializationSettings('app_icon');
+    var initSettingsAndroid = AndroidInitializationSettings('ic_stat_access_alarm');
 
     // iOS specific stuff. Not supporting onDidReceiveLocalNotification (iOS <10)
     var initSettingsIOS = IOSInitializationSettings();
@@ -83,6 +83,7 @@ class NotificationManager {
       DateTime startTime = _eventDateTime(event.startTimestamp);
       String payload = JsonEncoder().convert(event);
 
+      // startTime = DateTime.now().add(Duration(seconds: Random().nextInt(30) + 5));
       await _scheduleNotification(event.eventId, title, body, startTime, payload);
     }
 
