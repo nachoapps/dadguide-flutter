@@ -46,7 +46,8 @@ class OnboardingTaskManager {
   /// Start the onboarding flow. Attempting to start this more than once is unexpected.
   Future<void> start() {
     if (instance != null) {
-      throw 'Already started';
+      Fimber.w('Already started onboarding');
+      return null;
     }
     instance = OnboardingTask();
     return instance.start();
