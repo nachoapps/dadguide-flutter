@@ -4,6 +4,7 @@ import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
+import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 class LanguageSelector {
@@ -143,21 +144,7 @@ class FullEncounter {
 
   bool get approved => behavior.approved;
 
-  List<BehaviorGroup> get levelBehaviors {
-    var behaviorGroups = <BehaviorGroup>[];
-
-    // Find all the behavior options where the level is greater or equal then then enecounter level.
-    var possibleLevels = behavior.levels.where((lb) => lb.level <= encounter.level);
-
-    // Assuming we have at least one level...
-    if (possibleLevels.isNotEmpty) {
-      // We take the behavior at the lowest level that qualified.
-      var selectedLevel = possibleLevels.reduce((l, r) => l.level < r.level ? l : r);
-      behaviorGroups.addAll(selectedLevel.groups);
-    }
-
-    return behaviorGroups;
-  }
+  List<BehaviorGroup> get levelBehaviors => pickLevelBehaviors(behavior, encounter.level);
 }
 
 /// A list of encounters for a specific stage in a subdungeon.

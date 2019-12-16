@@ -1,5 +1,4 @@
 import 'package:dadguide2/components/formatting.dart';
-import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -8,101 +7,11 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
-  switch (groupType) {
-    case BehaviorGroup_GroupType.DEATH:
-      return 'On Death';
-    case BehaviorGroup_GroupType.DISPEL_PLAYER:
-      return 'When player has buff';
-    case BehaviorGroup_GroupType.MONSTER_STATUS:
-      return 'When monster delayed/poisoned';
-    case BehaviorGroup_GroupType.PASSIVE:
-      return 'Base abilities';
-    case BehaviorGroup_GroupType.PREEMPT:
-      return 'Preemptive';
-    case BehaviorGroup_GroupType.REMAINING:
-      return 'When ${cond.triggerEnemiesRemaining} enemies remain';
-    case BehaviorGroup_GroupType.STANDARD:
-      return 'Standard';
-  }
-  return 'Unknown';
-}
+class BehaviorWidgetInputs {
+  final int atk;
+  final Map<int, EnemySkill> esLibrary;
 
-String formatCondition(Condition cond) {
-  var parts = <String>[];
-
-  if (![0, 100].contains(cond.useChance)) {
-    parts.add('${cond.useChance}% chance');
-  }
-
-  if (cond.hasRepeatsEvery()) {
-    if (cond.hasTriggerTurn()) {
-      parts.add('Execute repeatedly, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
-    } else {
-      parts.add('Repeats every ${cond.repeatsEvery} turns');
-    }
-  } else if (cond.hasTriggerTurnEnd()) {
-    parts.add('Turns ${cond.triggerTurn}-${cond.triggerTurnEnd}');
-  } else if (cond.hasTriggerTurn()) {
-    parts.add('Turn ${cond.triggerTurn}');
-  }
-
-  if (cond.globalOneTime) {
-    parts.add('One time only');
-  }
-
-  if (cond.hasTriggerEnemiesRemaining()) {
-    parts.add('When ${cond.triggerEnemiesRemaining} enemies remain');
-  }
-
-  if (cond.ifDefeated) {
-    parts.add('When defeated');
-  }
-
-  if (cond.ifAttributesAvailable) {
-    parts.add('When required attributes on board');
-  }
-
-  if (cond.triggerMonsters.isNotEmpty) {
-    var monsterStr = cond.triggerMonsters.map((m) => m.toString()).join(', ');
-    parts.add('When [$monsterStr] on team');
-  }
-
-  if (cond.hasTriggerCombos()) {
-    parts.add('When ${cond.triggerCombos} combos last turn');
-  }
-
-  if (cond.ifNothingMatched) {
-    parts.add('If no other skills matched');
-  }
-
-  if (cond.hpThreshold == 101) {
-    parts.add('When HP is full');
-  } else if (cond.hpThreshold > 0) {
-    if ((cond.hpThreshold + 1) % 5 == 0) {
-      parts.add('HP < ${cond.hpThreshold + 1}');
-    } else {
-      parts.add('HP <= ${cond.hpThreshold}');
-    }
-  }
-
-  return parts.join(', ');
-}
-
-String formatAttack(EnemySkill skill, Encounter encounter, SubDungeon subDungeon) {
-  //  Encounter attack already factors in subdungeon multiplier.
-  var atk = encounter.atk;
-  var damage = skill.atkMult * atk / 100;
-  var minDamage = (damage * skill.minHits).round();
-  var maxDamage = (damage * skill.maxHits).round();
-
-  var hitsStr =
-      skill.minHits == skill.maxHits ? '${skill.minHits}' : '${skill.minHits}-${skill.maxHits}';
-  var damageStr = skill.minHits == skill.maxHits
-      ? commaFormat(minDamage)
-      : commaFormat(minDamage) + '-' + commaFormat(maxDamage);
-
-  return 'Attack $hitsStr times for $damageStr damage';
+  BehaviorWidgetInputs(this.atk, this.esLibrary);
 }
 
 /// Top-level container for monster behavior. Displays a red warning sign if monster data has not
@@ -209,11 +118,8 @@ class BehaviorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dungeon = Provider.of<FullDungeon>(context);
-    var subDungeon = dungeon.selectedSubDungeon;
-    var library = subDungeon.esLibrary;
-    var encounter = Provider.of<FullEncounter>(context);
-    var skill = library[behavior.enemySkillId];
+    var inputs = Provider.of<BehaviorWidgetInputs>(context);
+    var skill = inputs.esLibrary[behavior.enemySkillId];
 
     var descText = skill.descNa;
     var conditionText = formatCondition(behavior.condition);
@@ -226,9 +132,7 @@ class BehaviorWidget extends StatelessWidget {
       children: [
         Text(skill.nameNa, style: subtitle(context)),
         if (descText.isNotEmpty) Text(descText, style: secondary(context)),
-        if (skill.minHits > 0)
-          Text(formatAttack(skill, encounter.encounter, subDungeon.subDungeon),
-              style: secondary(context)),
+        if (skill.minHits > 0) Text(formatAttack(skill, inputs.atk), style: secondary(context)),
       ],
     );
   }
@@ -270,4 +174,99 @@ class TextBorder extends StatelessWidget {
       ],
     );
   }
+}
+
+String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
+  switch (groupType) {
+    case BehaviorGroup_GroupType.DEATH:
+      return 'On Death';
+    case BehaviorGroup_GroupType.DISPEL_PLAYER:
+      return 'When player has buff';
+    case BehaviorGroup_GroupType.MONSTER_STATUS:
+      return 'When monster delayed/poisoned';
+    case BehaviorGroup_GroupType.PASSIVE:
+      return 'Base abilities';
+    case BehaviorGroup_GroupType.PREEMPT:
+      return 'Preemptive';
+    case BehaviorGroup_GroupType.REMAINING:
+      return 'When ${cond.triggerEnemiesRemaining} enemies remain';
+    case BehaviorGroup_GroupType.STANDARD:
+      return 'Standard';
+  }
+  return 'Unknown';
+}
+
+String formatCondition(Condition cond) {
+  var parts = <String>[];
+
+  if (![0, 100].contains(cond.useChance)) {
+    parts.add('${cond.useChance}% chance');
+  }
+
+  if (cond.hasRepeatsEvery()) {
+    if (cond.hasTriggerTurn()) {
+      parts.add('Execute repeatedly, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
+    } else {
+      parts.add('Repeats every ${cond.repeatsEvery} turns');
+    }
+  } else if (cond.hasTriggerTurnEnd()) {
+    parts.add('Turns ${cond.triggerTurn}-${cond.triggerTurnEnd}');
+  } else if (cond.hasTriggerTurn()) {
+    parts.add('Turn ${cond.triggerTurn}');
+  }
+
+  if (cond.globalOneTime) {
+    parts.add('One time only');
+  }
+
+  if (cond.hasTriggerEnemiesRemaining()) {
+    parts.add('When ${cond.triggerEnemiesRemaining} enemies remain');
+  }
+
+  if (cond.ifDefeated) {
+    parts.add('When defeated');
+  }
+
+  if (cond.ifAttributesAvailable) {
+    parts.add('When required attributes on board');
+  }
+
+  if (cond.triggerMonsters.isNotEmpty) {
+    var monsterStr = cond.triggerMonsters.map((m) => m.toString()).join(', ');
+    parts.add('When [$monsterStr] on team');
+  }
+
+  if (cond.hasTriggerCombos()) {
+    parts.add('When ${cond.triggerCombos} combos last turn');
+  }
+
+  if (cond.ifNothingMatched) {
+    parts.add('If no other skills matched');
+  }
+
+  if (cond.hpThreshold == 101) {
+    parts.add('When HP is full');
+  } else if (cond.hpThreshold > 0) {
+    if ((cond.hpThreshold + 1) % 5 == 0) {
+      parts.add('HP < ${cond.hpThreshold + 1}');
+    } else {
+      parts.add('HP <= ${cond.hpThreshold}');
+    }
+  }
+
+  return parts.join(', ');
+}
+
+String formatAttack(EnemySkill skill, int atk) {
+  var damage = skill.atkMult * atk / 100;
+  var minDamage = (damage * skill.minHits).round();
+  var maxDamage = (damage * skill.maxHits).round();
+
+  var hitsStr =
+      skill.minHits == skill.maxHits ? '${skill.minHits}' : '${skill.minHits}-${skill.maxHits}';
+  var damageStr = skill.minHits == skill.maxHits
+      ? commaFormat(minDamage)
+      : commaFormat(minDamage) + '-' + commaFormat(maxDamage);
+
+  return 'Attack $hitsStr times for $damageStr damage';
 }
