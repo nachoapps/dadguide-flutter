@@ -282,8 +282,11 @@ class DungeonEncounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var dungeon = Provider.of<FullDungeon>(context);
+    var inputs = BehaviorWidgetInputs(_model.encounter.atk, dungeon.selectedSubDungeon.esLibrary);
+
     return Provider.value(
-      value: _model,
+      value: inputs,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Row(
