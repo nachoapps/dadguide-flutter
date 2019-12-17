@@ -192,6 +192,8 @@ class Encounters extends Table {
 class EnemyData extends Table {
   IntColumn get enemyId => integer().autoIncrement()();
 
+  IntColumn get status => integer()();
+
   BlobColumn get behavior => blob()();
 
   IntColumn get tstamp => integer()();
