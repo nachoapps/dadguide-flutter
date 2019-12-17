@@ -383,6 +383,7 @@ class Condition extends $pb.GeneratedMessage {
     ..aOB(10, 'ifNothingMatched')
     ..a<$core.int>(11, 'triggerTurn', $pb.PbFieldType.O3)
     ..a<$core.int>(12, 'triggerTurnEnd', $pb.PbFieldType.O3)
+    ..a<$core.int>(13, 'limitedExecution', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   Condition._() : super();
@@ -540,4 +541,16 @@ class Condition extends $pb.GeneratedMessage {
   $core.bool hasTriggerTurnEnd() => $_has(11);
   @$pb.TagNumber(12)
   void clearTriggerTurnEnd() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.int get limitedExecution => $_getIZ(12);
+  @$pb.TagNumber(13)
+  set limitedExecution($core.int v) {
+    $_setSignedInt32(12, v);
+  }
+
+  @$pb.TagNumber(13)
+  $core.bool hasLimitedExecution() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearLimitedExecution() => clearField(13);
 }
