@@ -31,18 +31,21 @@ class TopTextInputBar extends StatelessWidget {
           children: <Widget>[
             SizedBox(width: 32, height: 32, child: _leftWidget),
             Expanded(
-              child: TextFormField(
-                initialValue: _displayText,
-                autocorrect: false,
-                onFieldSubmitted: _onSubmitted,
-                decoration: InputDecoration(
-                  border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
-                  focusedBorder:
-                      new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  hintText: _hintText,
-                  fillColor: grey(context, 200),
-                  filled: true,
+              child: SizedBox(
+                height: 32,
+                child: TextFormField(
+                  initialValue: _displayText,
+                  autocorrect: false,
+                  onFieldSubmitted: _onSubmitted,
+                  decoration: InputDecoration(
+                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
+                    focusedBorder:
+                        new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    hintText: _hintText,
+                    fillColor: grey(context, 200),
+                    filled: true,
+                  ),
                 ),
               ),
             ),
