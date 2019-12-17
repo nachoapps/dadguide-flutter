@@ -206,7 +206,12 @@ String formatCondition(Condition cond) {
 
   if (cond.hasRepeatsEvery()) {
     if (cond.hasTriggerTurn()) {
-      parts.add('Execute repeatedly, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
+      if (cond.hasTriggerTurnEnd()) {
+        parts.add(
+            'Repeating, turns ${cond.triggerTurn}-${cond.triggerTurnEnd} of ${cond.repeatsEvery}');
+      } else {
+        parts.add('Repeating, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
+      }
     } else {
       parts.add('Repeats every ${cond.repeatsEvery} turns');
     }
@@ -216,7 +221,9 @@ String formatCondition(Condition cond) {
     parts.add('Turn ${cond.triggerTurn}');
   }
 
-  if (cond.globalOneTime) {
+  if (cond.hasLimitedExecution()) {
+    parts.add('At most ${cond.limitedExecution} times');
+  } else if (cond.globalOneTime) {
     parts.add('One time only');
   }
 
@@ -229,7 +236,7 @@ String formatCondition(Condition cond) {
   }
 
   if (cond.ifAttributesAvailable) {
-    parts.add('When required attributes on board');
+    parts.add('Requires specific attributes');
   }
 
   if (cond.triggerMonsters.isNotEmpty) {
