@@ -146,12 +146,14 @@ class UpdateTask with TaskPublisher {
       } else if (table == _database.enemyData) {
         // EnemyData needs custom deserialization since it has an encoded blob.
         var enemyId = row['enemy_id'] as int;
+        var status = row['status'] as int;
         var encodedBehavior = row['behavior'] as String;
         var tstamp = row['tstamp'] as int;
         encodedBehavior = encodedBehavior.substring(2); // Strip the 0x prefix
         var decodedBehavior = Uint8List.fromList(hex.decode(encodedBehavior));
         var item = EnemyDataItem(
           enemyId: enemyId,
+          status: status,
           behavior: decodedBehavior,
           tstamp: tstamp,
         );
