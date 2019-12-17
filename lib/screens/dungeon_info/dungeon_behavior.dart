@@ -191,7 +191,8 @@ String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
     case BehaviorGroup_GroupType.REMAINING:
       return 'When ${cond.triggerEnemiesRemaining} enemies remain';
     case BehaviorGroup_GroupType.STANDARD:
-      return 'Standard';
+      var condStr = formatCondition(cond);
+      return condStr.isEmpty ? 'Standard' : condStr;
   }
   return 'Unknown';
 }
