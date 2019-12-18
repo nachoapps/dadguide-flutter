@@ -57,7 +57,10 @@ android {
     }
     buildTypes {
         release {
+            // To enable local release builds, swap these two lines. To correctly build a release
+            // app use the release config but populate the keystore.
             signingConfig signingConfigs.release
+            // signingConfig signingConfigs.debug
         }
     }
 }
