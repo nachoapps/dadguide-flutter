@@ -60,7 +60,9 @@ android {
             // To enable local release builds, swap these two lines. To correctly build a release
             // app use the release config but populate the keystore.
             signingConfig signingConfigs.release
-            // signingConfig signingConfigs.debug
+//             signingConfig signingConfigs.debug
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
