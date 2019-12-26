@@ -253,12 +253,12 @@ String formatCondition(Condition cond) {
   }
 
   if (cond.hpThreshold == 101) {
-    parts.add('When HP is full');
+    parts.insert(0, 'When HP is full');
   } else if (cond.hpThreshold > 0) {
     if ((cond.hpThreshold + 1) % 5 == 0) {
-      parts.add('HP < ${cond.hpThreshold + 1}');
+      parts.insert(0, 'HP < ${cond.hpThreshold + 1}');
     } else {
-      parts.add('HP <= ${cond.hpThreshold}');
+      parts.insert(0, 'HP <= ${cond.hpThreshold}');
     }
   }
 
