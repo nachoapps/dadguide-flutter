@@ -237,6 +237,10 @@ String formatCondition(Condition cond) {
     parts.add('When defeated');
   }
 
+  if (cond.ifAttributesAvailable) {
+    parts.add('Requires specific attributes');
+  }
+
   if (cond.triggerMonsters.isNotEmpty) {
     var monsterStr = cond.triggerMonsters.map((m) => m.toString()).join(', ');
     parts.add('When [$monsterStr] on team');
