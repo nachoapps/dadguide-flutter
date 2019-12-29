@@ -37,6 +37,7 @@ class BehaviorGroup_GroupType extends $pb.ProtobufEnum {
   static const BehaviorGroup_GroupType REMAINING = BehaviorGroup_GroupType._(5, 'REMAINING');
   static const BehaviorGroup_GroupType STANDARD = BehaviorGroup_GroupType._(6, 'STANDARD');
   static const BehaviorGroup_GroupType DEATH = BehaviorGroup_GroupType._(7, 'DEATH');
+  static const BehaviorGroup_GroupType UNKNOWN_USE = BehaviorGroup_GroupType._(8, 'UNKNOWN_USE');
 
   static const $core.List<BehaviorGroup_GroupType> values = <BehaviorGroup_GroupType> [
     UNSPECIFIED,
@@ -47,6 +48,7 @@ class BehaviorGroup_GroupType extends $pb.ProtobufEnum {
     REMAINING,
     STANDARD,
     DEATH,
+    UNKNOWN_USE,
   ];
 
   static final $core.Map<$core.int, BehaviorGroup_GroupType> _byValue = $pb.ProtobufEnum.initByValue(values);

@@ -193,6 +193,8 @@ String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
     case BehaviorGroup_GroupType.STANDARD:
       var condStr = formatCondition(cond);
       return condStr.isEmpty ? 'Standard' : condStr;
+    case BehaviorGroup_GroupType.UNKNOWN_USE:
+      return 'Unknown usage';
   }
   return 'Unknown';
 }
