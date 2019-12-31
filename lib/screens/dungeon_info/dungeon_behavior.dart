@@ -5,6 +5,7 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:strings/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BehaviorWidgetInputs {
@@ -218,9 +219,10 @@ String formatCondition(Condition cond) {
       parts.add('Repeats every ${cond.repeatsEvery} turns');
     }
   } else if (cond.hasTriggerTurnEnd()) {
-    parts.add('Turns ${cond.triggerTurn}-${cond.triggerTurnEnd}');
+    parts.add(formatTurnInfo(
+        cond.alwaysTriggerAbove, 'Turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
   } else if (cond.hasTriggerTurn()) {
-    parts.add('Turn ${cond.triggerTurn}');
+    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'Turn ${cond.triggerTurn}'));
   }
 
   if (cond.hasLimitedExecution()) {
@@ -265,6 +267,16 @@ String formatCondition(Condition cond) {
   }
 
   return parts.join(', ');
+}
+
+String formatTurnInfo(int alwaysTriggerAbove, String turnText) {
+  var text = turnText;
+  if (alwaysTriggerAbove == 1) {
+    text = 'always $turnText';
+  } else if (alwaysTriggerAbove > 1) {
+    text = '$turnText while above $alwaysTriggerAbove HP';
+  }
+  return capitalize(text);
 }
 
 String formatAttack(EnemySkill skill, int atk) {

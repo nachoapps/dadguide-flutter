@@ -311,6 +311,7 @@ class Condition extends $pb.GeneratedMessage {
     ..a<$core.int>(11, 'triggerTurn', $pb.PbFieldType.O3)
     ..a<$core.int>(12, 'triggerTurnEnd', $pb.PbFieldType.O3)
     ..a<$core.int>(13, 'limitedExecution', $pb.PbFieldType.O3)
+    ..a<$core.int>(14, 'alwaysTriggerAbove', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -439,5 +440,14 @@ class Condition extends $pb.GeneratedMessage {
   $core.bool hasLimitedExecution() => $_has(12);
   @$pb.TagNumber(13)
   void clearLimitedExecution() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $core.int get alwaysTriggerAbove => $_getIZ(13);
+  @$pb.TagNumber(14)
+  set alwaysTriggerAbove($core.int v) { $_setSignedInt32(13, v); }
+  @$pb.TagNumber(14)
+  $core.bool hasAlwaysTriggerAbove() => $_has(13);
+  @$pb.TagNumber(14)
+  void clearAlwaysTriggerAbove() => clearField(14);
 }
 
