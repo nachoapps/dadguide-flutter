@@ -71,12 +71,12 @@ class BehaviorGroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contents = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var child in group.children)
-          Padding(padding: EdgeInsets.only(left: 4, right: 4), child: BehaviorItemWidget(child)),
-      ],
+    var contents = ListView.builder(
+      shrinkWrap: true,
+      itemCount: group.children.length,
+      itemBuilder: (ctx, idx) => Padding(
+          padding: EdgeInsets.only(left: 4, right: 4),
+          child: BehaviorItemWidget(group.children[idx])),
     );
 
     var showType = forceType ||
