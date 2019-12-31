@@ -220,9 +220,9 @@ String formatCondition(Condition cond) {
     }
   } else if (cond.hasTriggerTurnEnd()) {
     parts.add(formatTurnInfo(
-        cond.alwaysTriggerAbove, 'Turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
+        cond.alwaysTriggerAbove, 'turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
   } else if (cond.hasTriggerTurn()) {
-    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'Turn ${cond.triggerTurn}'));
+    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'turn ${cond.triggerTurn}'));
   }
 
   if (cond.hasLimitedExecution()) {
@@ -272,7 +272,7 @@ String formatCondition(Condition cond) {
 String formatTurnInfo(int alwaysTriggerAbove, String turnText) {
   var text = turnText;
   if (alwaysTriggerAbove == 1) {
-    text = 'always $turnText';
+    text = 'always on $turnText';
   } else if (alwaysTriggerAbove > 1) {
     text = '$turnText while above $alwaysTriggerAbove HP';
   }
