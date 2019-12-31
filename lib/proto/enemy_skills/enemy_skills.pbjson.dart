@@ -105,6 +105,7 @@ const Condition$json = const {
     const {'1': 'trigger_turn', '3': 11, '4': 1, '5': 5, '10': 'triggerTurn'},
     const {'1': 'trigger_turn_end', '3': 12, '4': 1, '5': 5, '10': 'triggerTurnEnd'},
     const {'1': 'always_trigger_above', '3': 14, '4': 1, '5': 5, '10': 'alwaysTriggerAbove'},
+    const {'1': 'always_after', '3': 15, '4': 1, '5': 5, '10': 'alwaysAfter'},
   ],
 };
 

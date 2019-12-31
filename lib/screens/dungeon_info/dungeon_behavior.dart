@@ -72,6 +72,8 @@ class BehaviorGroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var inputs = Provider.of<BehaviorWidgetInputs>(context);
+
     var contents = ListView.builder(
       shrinkWrap: true,
       itemCount: group.children.length,
@@ -83,7 +85,7 @@ class BehaviorGroupWidget extends StatelessWidget {
     var showType = forceType ||
         [BehaviorGroup_GroupType.MONSTER_STATUS, BehaviorGroup_GroupType.DISPEL_PLAYER]
             .contains(group.groupType);
-    var conditionText = formatCondition(group.condition);
+    var conditionText = formatCondition(group.condition, inputs.esLibrary);
 
     if (showType) {
       return TextBorder(text: convertGroup(group.groupType, group.condition), child: contents);
@@ -123,7 +125,7 @@ class BehaviorWidget extends StatelessWidget {
     var skill = inputs.esLibrary[behavior.enemySkillId];
 
     var descText = skill.descNa;
-    var conditionText = formatCondition(behavior.condition);
+    var conditionText = formatCondition(behavior.condition, inputs.esLibrary);
     if (conditionText.isNotEmpty) {
       descText = '$descText ($conditionText)';
     }
@@ -192,7 +194,7 @@ String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
     case BehaviorGroup_GroupType.REMAINING:
       return 'When ${cond.triggerEnemiesRemaining} enemies remain';
     case BehaviorGroup_GroupType.STANDARD:
-      var condStr = formatCondition(cond);
+      var condStr = formatCondition(cond, {});
       return condStr.isEmpty ? 'Standard' : condStr;
     case BehaviorGroup_GroupType.UNKNOWN_USE:
       return 'Unknown usage';
@@ -200,7 +202,7 @@ String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
   return 'Unknown';
 }
 
-String formatCondition(Condition cond) {
+String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
   var parts = <String>[];
 
   if (![0, 100].contains(cond.useChance)) {
@@ -254,6 +256,11 @@ String formatCondition(Condition cond) {
 
   if (cond.ifNothingMatched) {
     parts.add('If no other skills matched');
+  }
+
+  if (cond.alwaysAfter > 0) {
+    var skill = esLibrary[cond.alwaysAfter];
+    parts.add('Always use after ${skill.nameNa}');
   }
 
   if (cond.hpThreshold == 101) {
