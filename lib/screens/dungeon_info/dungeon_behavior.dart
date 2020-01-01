@@ -192,7 +192,8 @@ String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
     case BehaviorGroup_GroupType.PREEMPT:
       return 'Preemptive';
     case BehaviorGroup_GroupType.REMAINING:
-      return 'When ${cond.triggerEnemiesRemaining} enemies remain';
+      var condStr = formatCondition(cond, {});
+      return condStr.isEmpty ? 'Error' : condStr;
     case BehaviorGroup_GroupType.STANDARD:
       var condStr = formatCondition(cond, {});
       return condStr.isEmpty ? 'Standard' : condStr;
