@@ -233,8 +233,10 @@ String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
     parts.add('One time only');
   }
 
-  if (cond.hasTriggerEnemiesRemaining()) {
-    parts.add('When ${cond.triggerEnemiesRemaining} enemies remain');
+  if (cond.triggerEnemiesRemaining == 1) {
+    parts.add('When only remaining enemy');
+  } else if (cond.triggerEnemiesRemaining > 1) {
+    parts.add('When <=${cond.triggerEnemiesRemaining} enemies remain');
   }
 
   if (cond.ifDefeated) {
