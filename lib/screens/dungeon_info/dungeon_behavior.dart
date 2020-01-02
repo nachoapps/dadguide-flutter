@@ -210,24 +210,6 @@ String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
     parts.add('${cond.useChance}% chance');
   }
 
-  if (cond.hasRepeatsEvery()) {
-    if (cond.hasTriggerTurn()) {
-      if (cond.hasTriggerTurnEnd()) {
-        parts.add(
-            'Repeating, turns ${cond.triggerTurn}-${cond.triggerTurnEnd} of ${cond.repeatsEvery}');
-      } else {
-        parts.add('Repeating, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
-      }
-    } else {
-      parts.add('Repeats every ${cond.repeatsEvery} turns');
-    }
-  } else if (cond.hasTriggerTurnEnd()) {
-    parts.add(formatTurnInfo(
-        cond.alwaysTriggerAbove, 'turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
-  } else if (cond.hasTriggerTurn()) {
-    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'turn ${cond.triggerTurn}'));
-  }
-
   if (cond.hasLimitedExecution()) {
     parts.add('At most ${cond.limitedExecution} times');
   } else if (cond.globalOneTime) {
@@ -264,6 +246,24 @@ String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
   if (cond.alwaysAfter > 0) {
     var skill = esLibrary[cond.alwaysAfter];
     parts.add('Always use after ${skill.nameNa}');
+  }
+
+  if (cond.hasRepeatsEvery()) {
+    if (cond.hasTriggerTurn()) {
+      if (cond.hasTriggerTurnEnd()) {
+        parts.add(
+            'Repeating, turns ${cond.triggerTurn}-${cond.triggerTurnEnd} of ${cond.repeatsEvery}');
+      } else {
+        parts.add('Repeating, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
+      }
+    } else {
+      parts.add('Repeats every ${cond.repeatsEvery} turns');
+    }
+  } else if (cond.hasTriggerTurnEnd()) {
+    parts.add(formatTurnInfo(
+        cond.alwaysTriggerAbove, 'turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
+  } else if (cond.hasTriggerTurn()) {
+    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'turn ${cond.triggerTurn}'));
   }
 
   if (cond.hpThreshold == 101) {
