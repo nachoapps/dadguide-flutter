@@ -285,6 +285,10 @@ class DungeonEncounter extends StatelessWidget {
     var dungeon = Provider.of<FullDungeon>(context);
     var inputs = BehaviorWidgetInputs(_model.encounter.atk, dungeon.selectedSubDungeon.esLibrary);
 
+    var showBehaviors = dungeon.selectedSubDungeon.subDungeon.technical &&
+        _model.levelBehaviors.isNotEmpty &&
+        Prefs.showEnemySkills;
+
     return Provider.value(
       value: inputs,
       child: Padding(
@@ -324,8 +328,7 @@ class DungeonEncounter extends StatelessWidget {
                             ],
                           )),
                     ),
-                    if (_model.levelBehaviors.isNotEmpty && Prefs.showEnemySkills)
-                      EncounterBehavior(_model.approved, _model.levelBehaviors)
+                    if (showBehaviors) EncounterBehavior(_model.approved, _model.levelBehaviors)
                   ]),
             ),
             Column(children: [

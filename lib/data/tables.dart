@@ -466,6 +466,8 @@ class SubDungeons extends Table {
 
   TextColumn get rewards => text().nullable()();
 
+  BoolColumn get technical => boolean()();
+
   IntColumn get tstamp => integer()();
 }
 
