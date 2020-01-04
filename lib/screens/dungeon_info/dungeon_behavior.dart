@@ -133,8 +133,8 @@ class BehaviorWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(skill.nameNa, style: subtitle(context)),
-        if (descText.isNotEmpty) Text(descText, style: secondary(context)),
+        Text(skill.nameNa, style: caption(context)),
+        if (descText.isNotEmpty) Text(descText),
         if (skill.minHits > 0) Text(formatAttack(skill, inputs.atk), style: secondary(context)),
       ],
     );
@@ -217,9 +217,9 @@ String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
   }
 
   if (cond.triggerEnemiesRemaining == 1) {
-    parts.add('When only remaining enemy');
+    parts.add('When alone');
   } else if (cond.triggerEnemiesRemaining > 1) {
-    parts.add('When <=${cond.triggerEnemiesRemaining} enemies remain');
+    parts.add('When <=${cond.triggerEnemiesRemaining} enemies');
   }
 
   if (cond.ifDefeated) {

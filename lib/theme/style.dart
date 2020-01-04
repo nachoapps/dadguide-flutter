@@ -13,6 +13,11 @@ TextStyle subtitle(BuildContext context) {
   return Theme.of(context).textTheme.subhead.copyWith(fontWeight: FontWeight.w500);
 }
 
+/// Slightly more compact than body1 with a bolder weight for headers.
+TextStyle caption(BuildContext context) {
+  return Theme.of(context).textTheme.caption;
+}
+
 /// A slightly smaller, greyer text for supporting info
 TextStyle secondary(BuildContext context) {
   return Theme.of(context).textTheme.body2.copyWith(color: grey(context, 600));
