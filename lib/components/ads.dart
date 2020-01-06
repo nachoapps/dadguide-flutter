@@ -11,15 +11,8 @@ String appId() {
       : 'ca-app-pub-8889612487979093~4833133513';
 }
 
-/// The banner ID for the app ID.
-String bannerId() {
-  return Platform.isIOS
-      ? 'ca-app-pub-8889612487979093/4405526594'
-      : 'ca-app-pub-8889612487979093/5487739634';
-}
-
 /// Create a banner ad with the default
-BannerAd createBannerAd() {
+BannerAd createBannerAd(String bannerId) {
   MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     keywords: <String>['game', 'mobile game', 'puzzles', 'matching', '3-match'],
     childDirected: false,
@@ -27,7 +20,7 @@ BannerAd createBannerAd() {
   );
 
   return BannerAd(
-    adUnitId: bannerId(),
+    adUnitId: bannerId,
     size: AdSize.banner,
     targetingInfo: targetingInfo,
     listener: (MobileAdEvent event) {

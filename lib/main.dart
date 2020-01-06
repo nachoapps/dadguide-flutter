@@ -10,6 +10,7 @@ import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -40,6 +41,9 @@ void main() async {
 
   // Set up logging.
   Fimber.plantTree(FimberTree());
+
+  // Initialize remote config.
+  RemoteConfig.instance.then((v) => Fimber.i('Remote config ready'));
 
   // Initialize ads.
   FirebaseAdMob.instance.initialize(appId: appId(), analyticsEnabled: true);

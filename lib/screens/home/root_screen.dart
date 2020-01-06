@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/data_update.dart';
@@ -15,6 +17,7 @@ import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -128,11 +131,15 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
       Fimber.w('Skipping ad load due to IOS bug');
       return;
     }
-    bannerAd = createBannerAd();
-    bannerAd.load().then((v) {
-      Fimber.i('Ad loaded: $v');
-      bannerAd.show().then((v) {
-        Fimber.i('Ad shown: $v');
+
+    RemoteConfig.instance.then((rc) {
+      var bannerId = Platform.isIOS ? rc.getString('ios_banner') : rc.getString('android_banner');
+      bannerAd = createBannerAd(bannerId);
+      bannerAd.load().then((v) {
+        Fimber.i('Ad loaded: $v');
+        bannerAd.show().then((v) {
+          Fimber.i('Ad shown: $v');
+        });
       });
     });
   }

@@ -20,7 +20,7 @@ dependencies:
   firebase_analytics: ^5.0.9
   firebase_crashlytics: ^0.1.2+3
   firebase_performance: ^0.3.1+5
-  #firebase_remote_config: ^0.2.0+5
+  firebase_remote_config: ^0.3.0+1
   #cloud_firestore: ^0.12.9
 
   sqflite: ^1.1.8
