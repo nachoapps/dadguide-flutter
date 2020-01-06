@@ -21,9 +21,15 @@ final _config = BackgroundFetchConfig(
   // We want to run even if (especially if) the user is not using the device).
   stopOnTerminate: false,
   // We don't use much resources so ignore these requirements.
-  requiresBatteryNotLow: false,
   requiresCharging: false,
   requiresStorageNotLow: false,
+
+  // TODO: this is a bugfix to work around a background_fetch issue; upgrading to 0.4.0 was
+  // problematic so this is a shitty patch.
+  // Bug:
+  //  if (requiresDeviceIdle != null)
+  //    config['requiresDeviceIdle'] = requiresBatteryNotLow;
+  requiresBatteryNotLow: true,
 );
 
 /// Configures the task that runs once a day to update the database.
