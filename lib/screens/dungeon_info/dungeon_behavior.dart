@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,7 @@ class BehaviorWidgetInputs {
 
 /// Top-level container for monster behavior. Displays a red warning sign if monster data has not
 /// been reviewed yet, then a list of BehaviorGroups.
-///
-/// TODO: Top level groups should probably be encased in an outline with the group type called out.
-/// TODO: Make the warning link to an explanation.
 class EncounterBehavior extends StatelessWidget {
-  static const warningText =
-      'This monster\'s behavior not yet reviewed. Rely on it at your own risk.';
   static const textLink =
       'https://docs.google.com/document/d/10L1HSYg5ZNZocvTFUarg20rGyTEylJze5GHOEK3YLUA/edit#heading=h.s5qhmnr5fy53';
 
@@ -34,6 +30,8 @@ class EncounterBehavior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Column(
@@ -52,7 +50,7 @@ class EncounterBehavior extends StatelessWidget {
                   children: [
                     Icon(Icons.open_in_new),
                     SizedBox(width: 8),
-                    Flexible(child: Center(child: Text(warningText))),
+                    Flexible(child: Center(child: Text(loc.esNotReviewedWarning))),
                   ],
                 ),
               ),
@@ -84,12 +82,13 @@ class BehaviorGroupWidget extends StatelessWidget {
     );
 
     var showType = forceType ||
-        [BehaviorGroup_GroupType.MONSTER_STATUS, BehaviorGroup_GroupType.DISPEL_PLAYER]
-            .contains(group.groupType);
-    var conditionText = formatCondition(group.condition, inputs.esLibrary);
+        group.groupType == BehaviorGroup_GroupType.MONSTER_STATUS ||
+        group.groupType == BehaviorGroup_GroupType.DISPEL_PLAYER;
+    var conditionText = formatCondition(context, group.condition, inputs.esLibrary);
 
     if (showType) {
-      return TextBorder(text: convertGroup(group.groupType, group.condition), child: contents);
+      return TextBorder(
+          text: convertGroup(context, group.groupType, group.condition), child: contents);
     } else if (conditionText.isNotEmpty) {
       return TextBorder(text: conditionText, child: contents);
     } else {
@@ -127,7 +126,7 @@ class BehaviorWidget extends StatelessWidget {
 
     var nameText = LanguageSelector.name(skill).call();
     var descText = LanguageSelector.desc(skill).call();
-    var conditionText = formatCondition(behavior.condition, inputs.esLibrary);
+    var conditionText = formatCondition(context, behavior.condition, inputs.esLibrary);
     if (conditionText.isNotEmpty) {
       descText = '$descText ($conditionText)';
     }
@@ -137,7 +136,8 @@ class BehaviorWidget extends StatelessWidget {
       children: [
         Text(nameText, style: caption(context)),
         if (descText.isNotEmpty) Text(descText),
-        if (skill.minHits > 0) Text(formatAttack(skill, inputs.atk), style: secondary(context)),
+        if (skill.minHits > 0)
+          Text(formatAttack(context, skill, inputs.atk), style: secondary(context)),
       ],
     );
   }
@@ -181,118 +181,125 @@ class TextBorder extends StatelessWidget {
   }
 }
 
-String convertGroup(BehaviorGroup_GroupType groupType, Condition cond) {
+String convertGroup(BuildContext context, BehaviorGroup_GroupType groupType, Condition cond) {
+  var loc = DadGuideLocalizations.of(context);
+
   switch (groupType) {
     case BehaviorGroup_GroupType.DEATH:
-      return 'On Death';
+      return loc.esGroupOnDeath;
     case BehaviorGroup_GroupType.DISPEL_PLAYER:
-      return 'When player has buff';
+      return loc.esGroupPlayerBuff;
     case BehaviorGroup_GroupType.MONSTER_STATUS:
-      return 'When monster delayed/poisoned';
+      return loc.esGroupEnemyDebuff;
     case BehaviorGroup_GroupType.PASSIVE:
-      return 'Base abilities';
+      return loc.esGroupAbilities;
     case BehaviorGroup_GroupType.PREEMPT:
-      return 'Preemptive';
+      return loc.esGroupPreemptive;
     case BehaviorGroup_GroupType.REMAINING:
-      var condStr = formatCondition(cond, {});
-      return condStr.isEmpty ? 'Error' : condStr;
+      var condStr = formatCondition(context, cond, {});
+      return condStr.isEmpty ? loc.esGroupError : condStr;
     case BehaviorGroup_GroupType.STANDARD:
-      var condStr = formatCondition(cond, {});
-      return condStr.isEmpty ? 'Standard' : condStr;
+      var condStr = formatCondition(context, cond, {});
+      return condStr.isEmpty ? loc.esGroupStandard : condStr;
     case BehaviorGroup_GroupType.UNKNOWN_USE:
-      return 'Unknown usage';
+      return loc.esGroupUnknownUse;
   }
-  return 'Unknown';
+  return loc.esGroupUnknown;
 }
 
-String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
+String formatCondition(BuildContext context, Condition cond, Map<int, EnemySkill> esLibrary) {
+  var loc = DadGuideLocalizations.of(context);
   var parts = <String>[];
 
   if (![0, 100].contains(cond.useChance)) {
-    parts.add('${cond.useChance}% chance');
+    parts.add(loc.esCondUseChance(cond.useChance));
   }
 
   if (cond.hasLimitedExecution()) {
-    parts.add('At most ${cond.limitedExecution} times');
+    parts.add(loc.esCondLimitedExecution(cond.limitedExecution));
   } else if (cond.globalOneTime) {
-    parts.add('One time only');
+    parts.add(loc.esCondOneTimeOnly);
   }
 
   if (cond.triggerEnemiesRemaining == 1) {
-    parts.add('When alone');
+    parts.add(loc.esCondOneEnemiesRemaining);
   } else if (cond.triggerEnemiesRemaining > 1) {
-    parts.add('When <=${cond.triggerEnemiesRemaining} enemies');
+    parts.add(loc.esCondMultipleEnemiesRemaining(cond.triggerEnemiesRemaining));
   }
 
   if (cond.ifDefeated) {
-    parts.add('When defeated');
+    parts.add(loc.esCondDefeated);
   }
 
   if (cond.ifAttributesAvailable) {
-    parts.add('Requires specific attributes');
+    parts.add(loc.esCondAttributesAvailable);
   }
 
   if (cond.triggerMonsters.isNotEmpty) {
     var monsterStr = cond.triggerMonsters.map((m) => m.toString()).join(', ');
-    parts.add('When [$monsterStr] on team');
+    parts.add(loc.esCondTriggerMonsters(monsterStr));
   }
 
   if (cond.hasTriggerCombos()) {
-    parts.add('When ${cond.triggerCombos} combos last turn');
+    parts.add(loc.esCondTriggerCombos(cond.triggerCombos));
   }
 
   if (cond.ifNothingMatched) {
-    parts.add('If no other skills matched');
+    parts.add(loc.esCondNothingMatched);
   }
 
   if (cond.alwaysAfter > 0) {
     var skill = esLibrary[cond.alwaysAfter];
     var nameText = LanguageSelector.name(skill).call();
-    parts.add('Always use after $nameText');
+    parts.add(loc.esCondTriggerAfter(nameText));
   }
 
   if (cond.hasRepeatsEvery()) {
     if (cond.hasTriggerTurn()) {
       if (cond.hasTriggerTurnEnd()) {
-        parts.add(
-            'Repeating, turns ${cond.triggerTurn}-${cond.triggerTurnEnd} of ${cond.repeatsEvery}');
+        parts.add(loc.esCondRepeating3(cond.triggerTurn, cond.triggerTurnEnd, cond.repeatsEvery));
       } else {
-        parts.add('Repeating, turn ${cond.triggerTurn} of ${cond.repeatsEvery}');
+        parts.add(loc.esCondRepeating2(cond.triggerTurn, cond.repeatsEvery));
       }
     } else {
-      parts.add('Repeats every ${cond.repeatsEvery} turns');
+      parts.add(loc.esCondRepeating1(cond.repeatsEvery));
     }
   } else if (cond.hasTriggerTurnEnd()) {
-    parts.add(formatTurnInfo(
-        cond.alwaysTriggerAbove, 'turns ${cond.triggerTurn}-${cond.triggerTurnEnd}'));
+    parts.add(formatTurnInfo(context, cond.alwaysTriggerAbove,
+        loc.esCondTurnsRange(cond.triggerTurn, cond.triggerTurnEnd)));
   } else if (cond.hasTriggerTurn()) {
-    parts.add(formatTurnInfo(cond.alwaysTriggerAbove, 'turn ${cond.triggerTurn}'));
+    parts.add(
+        formatTurnInfo(context, cond.alwaysTriggerAbove, loc.esCondTurnsExact(cond.triggerTurn)));
   }
 
   if (cond.hpThreshold == 101) {
-    parts.insert(0, 'When HP is full');
+    parts.insert(0, loc.esCondHpFull);
   } else if (cond.hpThreshold > 0) {
     if ((cond.hpThreshold + 1) % 5 == 0) {
-      parts.insert(0, 'HP < ${cond.hpThreshold + 1}');
+      parts.insert(0, loc.esCondHpLt(cond.hpThreshold + 1));
     } else {
-      parts.insert(0, 'HP <= ${cond.hpThreshold}');
+      parts.insert(0, loc.esCondHpLtEq(cond.hpThreshold));
     }
   }
 
-  return parts.join(', ');
+  return parts.join(loc.esCondPartJoin);
 }
 
-String formatTurnInfo(int alwaysTriggerAbove, String turnText) {
+String formatTurnInfo(BuildContext context, int alwaysTriggerAbove, String turnText) {
+  var loc = DadGuideLocalizations.of(context);
+
   var text = turnText;
   if (alwaysTriggerAbove == 1) {
-    text = 'always on $turnText';
+    text = loc.esCondAlwaysOnTurn(turnText);
   } else if (alwaysTriggerAbove > 1) {
-    text = '$turnText while above $alwaysTriggerAbove HP';
+    text = loc.esCondWhileAboveHp(turnText, alwaysTriggerAbove);
   }
   return capitalize(text);
 }
 
-String formatAttack(EnemySkill skill, int atk) {
+String formatAttack(BuildContext context, EnemySkill skill, int atk) {
+  var loc = DadGuideLocalizations.of(context);
+
   var damage = skill.atkMult * atk / 100;
   var minDamage = (damage * skill.minHits).round();
   var maxDamage = (damage * skill.maxHits).round();
@@ -303,5 +310,5 @@ String formatAttack(EnemySkill skill, int atk) {
       ? commaFormat(minDamage)
       : commaFormat(minDamage) + '-' + commaFormat(maxDamage);
 
-  return 'Attack $hitsStr times for $damageStr damage';
+  return loc.esAttackText(hitsStr, damageStr);
 }

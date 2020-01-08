@@ -635,6 +635,170 @@ class DadGuideLocalizations {
   String get typeAwoken => Intl.message('Awoken', name: 'typeAwoken', desc: 'Monster type');
   String get typeVendor => Intl.message('Vendor', name: 'typeVendor', desc: 'Monster type');
 
+  // ---- Enemy behavior ----
+
+  // ---- Group types ----
+  String get esGroupOnDeath =>
+      Intl.message('On death', name: 'esGroupOnDeath', desc: 'Enemy behavior group title');
+  String get esGroupPlayerBuff => Intl.message('When player has buff',
+      name: 'esGroupPlayerBuff', desc: 'Enemy behavior group title');
+  String get esGroupEnemyDebuff => Intl.message('When monster delayed/poisoned',
+      name: 'esGroupEnemyDebuff', desc: 'Enemy behavior group title');
+  String get esGroupAbilities =>
+      Intl.message('Abilities', name: 'esGroupAbilities', desc: 'Enemy behavior group title');
+  String get esGroupPreemptive =>
+      Intl.message('Preemptive', name: 'esGroupPreemptive', desc: 'Enemy behavior group title');
+  String get esGroupStandard =>
+      Intl.message('Standard', name: 'esGroupStandard', desc: 'Enemy behavior group title');
+  String get esGroupUnknownUse =>
+      Intl.message('Unknown usage', name: 'esGroupUnknownUse', desc: 'Enemy behavior group title');
+  String get esGroupUnknown =>
+      Intl.message('Unknown', name: 'esGroupUnknown', desc: 'Enemy behavior group title');
+  String get esGroupError =>
+      Intl.message('<error>', name: 'esGroupError', desc: 'Enemy behavior group title');
+
+  // ---- Conditions ----
+  String esCondUseChance(int number) => Intl.message(
+        '$number% chance',
+        name: 'esCondUseChance',
+        args: [number],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondLimitedExecution(int number) => Intl.message(
+        'At most $number times',
+        name: 'esCondLimitedExecution',
+        args: [number],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String get esCondOneTimeOnly => Intl.message('One time only',
+      name: 'esCondOneTimeOnly', desc: 'Condition text (group or behavior)');
+
+  String get esCondOneEnemiesRemaining => Intl.message('When alone',
+      name: 'esCondOneEnemiesRemaining', desc: 'Condition text (group or behavior)');
+
+  String esCondMultipleEnemiesRemaining(int number) => Intl.message(
+        'When <=$number enemies',
+        name: 'esCondMultipleEnemiesRemaining',
+        args: [number],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String get esCondDefeated => Intl.message('When defeated',
+      name: 'esCondDefeated', desc: 'Condition text (group or behavior)');
+
+  String get esCondAttributesAvailable => Intl.message('Requires specific attributes',
+      name: 'esCondAttributesAvailable', desc: 'Condition text (group or behavior)');
+
+  String esCondTriggerMonsters(String monsters) => Intl.message(
+        'When [$monsters] on team',
+        name: 'esCondTriggerMonsters',
+        args: [monsters],
+        examples: {'monsters': '245, 1113'},
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondTriggerCombos(int number) => Intl.message(
+        'When $number combos last turn',
+        name: 'esCondTriggerCombos',
+        args: [number],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String get esCondNothingMatched => Intl.message('If no other skills matched',
+      name: 'esCondNothingMatched', desc: 'Condition text (group or behavior)');
+
+  String esCondTriggerAfter(String skillName) => Intl.message(
+        'Always use after $skillName',
+        name: 'esCondTriggerAfter',
+        args: [skillName],
+        examples: {'skillName': 'Some Monster Skill'},
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondRepeating3(int start, int end, int total) => Intl.message(
+        'Repeating, turns $start-$end of $total',
+        name: 'esCondRepeating3',
+        args: [start, end, total],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondRepeating2(int start, int total) => Intl.message(
+        'Repeating, turns $start of $total',
+        name: 'esCondRepeating2',
+        args: [start, total],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondRepeating1(int total) => Intl.message(
+        'Repeats every $total turns',
+        name: 'esCondRepeating1',
+        args: [total],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondTurnsRange(int start, int end) => Intl.message(
+        'turns $start-$end',
+        name: 'esCondTurnsRange',
+        args: [start, end],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondTurnsExact(int start) => Intl.message(
+        'turn $start',
+        name: 'esCondTurnsExact',
+        args: [start],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondAlwaysOnTurn(String turnText) => Intl.message(
+        'always on $turnText',
+        name: 'esCondAlwaysOnTurn',
+        args: [turnText],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondWhileAboveHp(String turnText, int alwaysTriggerAbove) => Intl.message(
+        '$turnText while above $alwaysTriggerAbove HP',
+        name: 'esCondWhileAboveHp',
+        args: [turnText, alwaysTriggerAbove],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String get esCondHpFull => Intl.message('When HP is full',
+      name: 'esCondHpFull', desc: 'Condition text (group or behavior)');
+
+  String esCondHpLt(int threshold) => Intl.message(
+        'HP < $threshold',
+        name: 'esCondHpLt',
+        args: [threshold],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String esCondHpLtEq(int threshold) => Intl.message(
+        'HP <= $threshold',
+        name: 'esCondHpLtEq',
+        args: [threshold],
+        desc: 'Condition text (group or behavior)',
+      );
+
+  String get esCondPartJoin =>
+      Intl.message(', ', name: 'esCondPartJoin', desc: 'Token used to join condition text');
+
+  // ---- Other ----
+  String get esNotReviewedWarning =>
+      Intl.message("This monster's behavior not yet reviewed. Rely on it at your own risk.",
+          name: 'esNotReviewedWarning', desc: 'Error text');
+
+  String esAttackText(String hits, String damage) => Intl.message(
+        'Attack $hits times for $damage damage',
+        name: 'esAttackText',
+        args: [hits, damage],
+        examples: {'hits': '1-5', 'damage': '200-5,100'},
+        desc: 'Text below a skill that describes the attack',
+      );
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {
