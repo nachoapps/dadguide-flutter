@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/formatting.dart';
+import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -124,7 +125,8 @@ class BehaviorWidget extends StatelessWidget {
     var inputs = Provider.of<BehaviorWidgetInputs>(context);
     var skill = inputs.esLibrary[behavior.enemySkillId];
 
-    var descText = skill.descNa;
+    var nameText = LanguageSelector.name(skill).call();
+    var descText = LanguageSelector.desc(skill).call();
     var conditionText = formatCondition(behavior.condition, inputs.esLibrary);
     if (conditionText.isNotEmpty) {
       descText = '$descText ($conditionText)';
@@ -133,7 +135,7 @@ class BehaviorWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(skill.nameNa, style: caption(context)),
+        Text(nameText, style: caption(context)),
         if (descText.isNotEmpty) Text(descText),
         if (skill.minHits > 0) Text(formatAttack(skill, inputs.atk), style: secondary(context)),
       ],
@@ -245,7 +247,8 @@ String formatCondition(Condition cond, Map<int, EnemySkill> esLibrary) {
 
   if (cond.alwaysAfter > 0) {
     var skill = esLibrary[cond.alwaysAfter];
-    parts.add('Always use after ${skill.nameNa}');
+    var nameText = LanguageSelector.name(skill).call();
+    parts.add('Always use after $nameText');
   }
 
   if (cond.hasRepeatsEvery()) {
