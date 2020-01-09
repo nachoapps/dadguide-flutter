@@ -20,9 +20,6 @@ class BehaviorWidgetInputs {
 /// Top-level container for monster behavior. Displays a red warning sign if monster data has not
 /// been reviewed yet, then a list of BehaviorGroups.
 class EncounterBehavior extends StatelessWidget {
-  static const textLink =
-      'https://docs.google.com/document/d/10L1HSYg5ZNZocvTFUarg20rGyTEylJze5GHOEK3YLUA/edit#heading=h.s5qhmnr5fy53';
-
   final bool approved;
   final List<BehaviorGroup> groups;
 
@@ -32,31 +29,43 @@ class EncounterBehavior extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!approved)
-            Container(
-              padding: EdgeInsets.all(4),
-              decoration: ShapeDecoration(
-                color: Colors.red,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
-              child: InkWell(
-                onTap: () => launch(textLink, forceWebView: true),
-                child: Row(
-                  children: [
-                    Icon(Icons.open_in_new),
-                    SizedBox(width: 8),
-                    Flexible(child: Center(child: Text(loc.esNotReviewedWarning))),
-                  ],
-                ),
-              ),
-            ),
-          for (var group in groups) BehaviorGroupWidget(true, group),
-        ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (!approved)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: BehaviorWarningWidget(),
+          ),
+        for (var group in groups) BehaviorGroupWidget(true, group),
+      ],
+    );
+  }
+}
+
+class BehaviorWarningWidget extends StatelessWidget {
+  static const textLink =
+      'https://docs.google.com/document/d/10L1HSYg5ZNZocvTFUarg20rGyTEylJze5GHOEK3YLUA/edit#heading=h.s5qhmnr5fy53';
+
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
+    return Container(
+      padding: EdgeInsets.all(4),
+      decoration: ShapeDecoration(
+        color: Colors.red,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      child: InkWell(
+        onTap: () => launch(textLink, forceWebView: true),
+        child: Row(
+          children: [
+            Icon(Icons.open_in_new),
+            SizedBox(width: 8),
+            Flexible(child: Center(child: Text(loc.esNotReviewedWarning))),
+          ],
+        ),
       ),
     );
   }
@@ -74,10 +83,11 @@ class BehaviorGroupWidget extends StatelessWidget {
     var inputs = Provider.of<BehaviorWidgetInputs>(context);
 
     var contents = ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: group.children.length,
       itemBuilder: (ctx, idx) => Padding(
-          padding: EdgeInsets.only(left: 4, right: 4),
+          padding: EdgeInsets.only(left: 4, right: 4, top: 4),
           child: BehaviorItemWidget(group.children[idx])),
     );
 

@@ -293,47 +293,58 @@ class DungeonEncounter extends StatelessWidget {
       value: inputs,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PadIcon(_model.monster.monsterId, monsterLink: true),
-                SizedBox(height: 2),
-                MonsterColorBar(_model.monster),
+                Column(
+                  children: [
+                    PadIcon(_model.monster.monsterId, monsterLink: true),
+                    SizedBox(height: 2),
+                    MonsterColorBar(_model.monster),
+                  ],
+                ),
+                SizedBox(width: 4),
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(children: [
+                          typeContainer(_model.monster.type1Id, size: 18, leftPadding: 4),
+                          typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
+                          typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
+                        ]),
+                        Text(_model.name()),
+                        IconTheme(
+                          data:
+                              new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
+                          child: DefaultTextStyle(
+                              style: Theme.of(context).textTheme.caption,
+                              child: Row(
+                                children: [
+                                  item(1, Icons.refresh, _model.encounter.turns, context),
+                                  item(3, Feather.heart, _model.encounter.hp, context),
+                                  item(3, MaterialCommunityIcons.sword, _model.encounter.atk,
+                                      context),
+                                  item(3, Feather.shield, _model.encounter.defence, context),
+                                ],
+                              )),
+                        ),
+                      ]),
+                ),
+                Column(children: [
+                  for (var drop in _model.drops)
+                    PadIcon(drop.monsterId, size: 24, monsterLink: true)
+                ])
               ],
             ),
-            SizedBox(width: 4),
-            Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Row(children: [
-                      typeContainer(_model.monster.type1Id, size: 18, leftPadding: 4),
-                      typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
-                      typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
-                    ]),
-                    Text(_model.name()),
-                    IconTheme(
-                      data: new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
-                      child: DefaultTextStyle(
-                          style: Theme.of(context).textTheme.caption,
-                          child: Row(
-                            children: [
-                              item(1, Icons.refresh, _model.encounter.turns, context),
-                              item(3, Feather.heart, _model.encounter.hp, context),
-                              item(3, MaterialCommunityIcons.sword, _model.encounter.atk, context),
-                              item(3, Feather.shield, _model.encounter.defence, context),
-                            ],
-                          )),
-                    ),
-                    if (showBehaviors) EncounterBehavior(_model.approved, _model.levelBehaviors)
-                  ]),
-            ),
-            Column(children: [
-              for (var drop in _model.drops) PadIcon(drop.monsterId, size: 24, monsterLink: true)
-            ])
+            if (showBehaviors)
+              Padding(
+                padding: const EdgeInsets.only(top: 4, left: 2, right: 2),
+                child: EncounterBehavior(_model.approved, _model.levelBehaviors),
+              )
           ],
         ),
       ),
