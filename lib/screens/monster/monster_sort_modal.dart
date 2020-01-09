@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'monster_search_bloc.dart';
 
-/// Displays a dialog that lets the user toggle their event server, or kick off the update.
+/// Displays a dialog that lets the user sort the monsters in the list view.
 Future<void> showMonsterSortDialog(BuildContext context) async {
   var loc = DadGuideLocalizations.of(context);
 

@@ -284,16 +284,19 @@ class BoxedInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: _textInputType,
-      initialValue: _text,
-      onChanged: _onChanged,
-      decoration: InputDecoration(
-        border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
-        focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        fillColor: grey(context, 200),
-        filled: true,
+    return SizedBox(
+      height: 24,
+      child: TextFormField(
+        keyboardType: _textInputType,
+        initialValue: _text,
+        onChanged: _onChanged,
+        decoration: InputDecoration(
+          border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
+          focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          fillColor: grey(context, 200),
+          filled: true,
+        ),
       ),
     );
   }
@@ -305,13 +308,9 @@ class TypeSeriesFilterRow extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(
-            child: TypeFilterSection()
-          ),
+          Expanded(child: TypeFilterSection()),
           VerticalDivider(thickness: 1, color: grey(context, 300)),
-          Expanded(
-            child: SeriesFilterSection()
-          ),
+          Expanded(child: SeriesFilterSection()),
         ],
       ),
     );
@@ -324,12 +323,11 @@ class SeriesFilterSection extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
 
-    return Column(
-      children: [
-        Text(loc.monsterFilterModalSeries),
-        BoxedInput(TextInputType.text, displayState.filterArgs.series, (v) => displayState.filterArgs.series = v)
-      ]
-    );
+    return Column(children: [
+      Text(loc.monsterFilterModalSeries),
+      BoxedInput(TextInputType.text, displayState.filterArgs.series,
+          (v) => displayState.filterArgs.series = v)
+    ]);
   }
 }
 
@@ -346,7 +344,7 @@ class TypeFilterSection extends StatelessWidget {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          alignment:WrapAlignment.center,
+          alignment: WrapAlignment.center,
           children: [
             for (var monsterType in MonsterType.all)
               TypeButton(monsterType.id, displayState.filterArgs.types,
