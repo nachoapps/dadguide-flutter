@@ -31,6 +31,7 @@ class _SubTask {
   String get text => _text();
 
   static List<_SubTask> all = [downloadDb, unpackDb, downloadImages, unpackImages];
+  static List<_SubTask> update = [downloadDb, unpackDb];
 }
 
 /// Singleton that manages the onboarding workflow.
@@ -147,8 +148,12 @@ class OnboardingTask with TaskPublisher {
   }
 
   void pub(_SubTask curTask, TaskStatus status, {int progress, String message}) {
-    publish(TaskProgress(curTask.text, curTask.id, _SubTask.all.length, status,
+    publish(TaskProgress(curTask.text, curTask.id, taskCount(), status,
         progress: progress, message: message));
+  }
+
+  int taskCount() {
+    return PrefService.getBool('icons_downloaded') ? _SubTask.update.length : _SubTask.all.length;
   }
 }
 

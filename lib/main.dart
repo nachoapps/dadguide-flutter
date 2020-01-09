@@ -5,7 +5,8 @@ import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
-import 'package:dadguide2/services/onboarding_task.dart';
+import 'package:dadguide2/screens/onboarding/onboarding_task.dart';
+import 'package:dadguide2/screens/onboarding/upgrading_screen.dart';
 import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -97,7 +98,8 @@ class _DadGuideAppState extends State<DadGuideApp> {
             if (settings.name == '/home') {
               return MaterialPageRoute(builder: (_) => StatefulHomeScreen());
             } else if (settings.name == '/onboarding') {
-              return MaterialPageRoute(builder: (_) => OnboardingScreen());
+              return MaterialPageRoute(
+                  builder: (_) => Prefs.iconsDownloaded ? UpgradingScreen() : OnboardingScreen());
             }
             throw 'Route not implemented: ${settings.name}';
           },

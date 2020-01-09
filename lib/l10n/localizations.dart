@@ -542,6 +542,20 @@ class DadGuideLocalizations {
       Intl.message('Sets your default events, news, and data alerts',
           name: 'onboardingGameCountryDesc', desc: 'Dropdown option subtext');
 
+  // ---- Upgrading database strings ----
+  String get upgradingDbTitle => Intl.message('Database upgrade',
+      name: 'upgradingDbTitle', desc: 'Header for post-update database upgrade');
+
+  String get upgradingInfoTitle => Intl.message('Downloading and installing a database update',
+      name: 'upgradingInfoTitle', desc: 'Title above the upgrade explanation');
+
+  String get upgradingInfoText => Intl.message(
+      'Some updates introduce incompatible database changes.'
+      ' When this occurs, you need to download a replacement with the new data.'
+      ' This contains about 20MB of data; sorry for the inconvenience.',
+      name: 'upgradingInfoTitle',
+      desc: 'Title above the upgrade explanation');
+
   // ---- Settings strings ----
   String get settingsTitle =>
       Intl.message('Settings', name: 'settingsTitle', desc: 'Title of settings page');
