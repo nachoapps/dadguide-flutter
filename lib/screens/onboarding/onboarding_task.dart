@@ -116,7 +116,7 @@ class OnboardingTask with TaskPublisher {
       pub(_SubTask.unpackDb, TaskStatus.started);
       await compute(_decompressLargeFile, _UnzipArgs(archiveDbFile, dbFile));
       pub(_SubTask.unpackDb, TaskStatus.finished);
-      tmpFile.delete();
+      await tmpFile.delete();
     } catch (e) {
       pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
@@ -134,7 +134,7 @@ class OnboardingTask with TaskPublisher {
       await cacheManager.storeImageArchive(archive,
           (progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
       pub(_SubTask.unpackImages, TaskStatus.finished);
-      tmpFile.delete();
+      await tmpFile.delete();
     } catch (e) {
       pub(_SubTask.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
