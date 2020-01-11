@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:dadguide2/components/config/service_locator.dart';
-import 'package:dadguide2/components/enums.dart';
-import 'package:dadguide2/data/data_objects.dart';
+import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 

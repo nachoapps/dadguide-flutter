@@ -1,11 +1,11 @@
-import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
-import 'data_objects.dart';
+import '../components/models/data_objects.dart';
 
 part 'tables.g.dart';
 

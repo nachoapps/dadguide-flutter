@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
-import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';

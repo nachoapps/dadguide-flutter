@@ -1,5 +1,5 @@
-import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images/icons.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:dadguide2/theme/style.dart';

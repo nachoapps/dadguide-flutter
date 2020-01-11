@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
-import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
