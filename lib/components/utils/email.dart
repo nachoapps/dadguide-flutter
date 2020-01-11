@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/version_info.dart';
+import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
