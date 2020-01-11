@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// Displays the post-update database upgrading page.
 ///
 /// Similar to the onboarding screen, fewer tasks, fewer options, more explanation.
-class OnboardingScreen extends StatelessWidget {
+class UpgradingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
