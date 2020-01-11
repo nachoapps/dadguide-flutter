@@ -137,6 +137,7 @@ class Prefs {
   static set currentDbVersion(int version) =>
       PrefService.setInt(PrefKeys.currentDbVersion, version);
 
+  static bool get iconsDownloaded => PrefService.getBool(PrefKeys.iconsDownloaded);
   static void setIconsDownloaded(bool val) {
     PrefService.setBool(PrefKeys.iconsDownloaded, val);
   }
