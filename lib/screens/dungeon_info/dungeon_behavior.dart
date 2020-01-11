@@ -27,8 +27,6 @@ class EncounterBehavior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
