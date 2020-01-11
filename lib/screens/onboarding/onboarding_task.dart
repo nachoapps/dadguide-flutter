@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
-import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';

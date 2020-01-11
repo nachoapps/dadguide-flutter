@@ -1,5 +1,5 @@
 import 'package:dadguide2/components/enums.dart';
-import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/notifications/tracking.dart';
 import 'package:dadguide2/components/settings_manager.dart';

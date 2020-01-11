@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/text_input.dart';
 import 'package:dadguide2/data/data_objects.dart';

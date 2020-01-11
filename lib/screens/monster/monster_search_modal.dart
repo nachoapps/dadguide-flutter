@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/enums.dart';
-import 'package:dadguide2/components/icons.dart';
-import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/images/icons.dart';
+import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/database.dart';

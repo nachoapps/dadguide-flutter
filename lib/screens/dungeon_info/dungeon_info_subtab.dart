@@ -1,8 +1,8 @@
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/formatting.dart';
-import 'package:dadguide2/components/icons.dart';
-import 'package:dadguide2/components/images.dart';
+import 'package:dadguide2/components/images/icons.dart';
+import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';

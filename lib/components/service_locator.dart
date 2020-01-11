@@ -1,6 +1,6 @@
 import 'dart:io' show HttpHeaders;
 
-import 'package:dadguide2/components/cache.dart';
+import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';

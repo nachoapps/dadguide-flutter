@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dadguide2/components/cache.dart';
-import 'package:dadguide2/components/icons.dart';
+import 'package:dadguide2/components/images/cache.dart';
+import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:flutter/material.dart';
