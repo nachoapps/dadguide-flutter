@@ -135,8 +135,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     RemoteConfig.instance.then((rc) {
       var bannerId = Platform.isIOS ? rc.getString('ios_banner') : rc.getString('android_banner');
       if (bannerId == null || bannerId.isEmpty) {
-        Fimber.e('Could not find banner id');
+        Fimber.e('Remote config: could not find banner id');
         return;
+      } else {
+        Fimber.i('Remote config: banner id loaded');
       }
       bannerAd = createBannerAd(bannerId);
       bannerAd.load().then((v) {

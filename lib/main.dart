@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/background_fetch.dart';
+import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -11,7 +12,6 @@ import 'package:dadguide2/theme/theme.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -43,8 +43,8 @@ void main() async {
   // Set up logging.
   Fimber.plantTree(FimberTree());
 
-  // Initialize remote config.
-  RemoteConfig.instance.then((v) => Fimber.i('Remote config ready'));
+  // Start initializing remote config.
+  RemoteConfigWrapper.instance.then((rc) => Fimber.i('Remote config ready'));
 
   // Initialize ads.
   FirebaseAdMob.instance.initialize(appId: appId(), analyticsEnabled: true);
