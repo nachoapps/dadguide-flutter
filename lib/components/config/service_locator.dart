@@ -2,9 +2,9 @@ import 'dart:io' show HttpHeaders;
 
 import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
-import 'package:dadguide2/components/resources.dart';
 import 'package:dadguide2/components/version_info.dart';
 import 'package:dadguide2/data/database.dart';
+import 'package:dadguide2/data/resources.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';
