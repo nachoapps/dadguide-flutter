@@ -1,7 +1,7 @@
+import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
-import 'package:dadguide2/components/service_locator.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
 import 'package:dadguide2/theme/style.dart';

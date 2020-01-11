@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:flutter/widgets.dart';
 
 /// Commonly used icons with their standard sizes.

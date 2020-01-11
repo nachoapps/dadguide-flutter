@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:dadguide2/components/service_locator.dart';
-import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';

@@ -1,6 +1,6 @@
+import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
-import 'package:dadguide2/components/service_locator.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';

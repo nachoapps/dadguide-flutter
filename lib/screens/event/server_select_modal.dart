@@ -1,5 +1,5 @@
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/enums.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/event_search_bloc.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';

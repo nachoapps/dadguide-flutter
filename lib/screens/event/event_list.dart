@@ -1,8 +1,8 @@
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
 import 'package:dadguide2/components/notifications/tracking.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/event_search_bloc.dart';

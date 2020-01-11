@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/service_locator.dart';
+import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/version_info.dart';
 
 /// Returns URLs configured properly for the given arguments.

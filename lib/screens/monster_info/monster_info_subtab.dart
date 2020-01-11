@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/enums.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
@@ -8,7 +9,6 @@ import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/navigation.dart';
-import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/data_objects.dart';
 import 'package:dadguide2/data/tables.dart';

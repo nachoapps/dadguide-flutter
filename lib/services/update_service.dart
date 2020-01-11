@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io' show HttpStatus;
 
 import 'package:convert/convert.dart';
+import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
-import 'package:dadguide2/components/service_locator.dart';
-import 'package:dadguide2/components/settings_manager.dart';
 import 'package:dadguide2/components/task_progress.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';

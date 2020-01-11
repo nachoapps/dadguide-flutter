@@ -1,5 +1,5 @@
 import 'package:dadguide2/components/enums.dart';
-import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';

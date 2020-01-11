@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dadguide2/components/settings_manager.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/foundation.dart';
