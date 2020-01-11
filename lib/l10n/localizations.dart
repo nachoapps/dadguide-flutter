@@ -849,18 +849,3 @@ class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocali
   @override
   bool shouldReload(LocalizationsDelegate<DadGuideLocalizations> old) => false;
 }
-
-/// Helper class that triggers a state change.
-///
-/// This uses a hacky workaround; I couldn't get the MaterialApp to rebuild via
-/// a ChangeNotifierProvider and I'm not sure why.
-class LocaleChangedNotifier with ChangeNotifier {
-  State _state;
-
-  LocaleChangedNotifier(this._state);
-
-  void notify() {
-    // ignore: invalid_use_of_protected_member
-    _state.setState(() {});
-  }
-}

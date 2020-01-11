@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
+import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
@@ -38,7 +39,7 @@ class SettingsScreen extends StatelessWidget {
           defaultVal: Prefs.defaultUiLanguageValue,
           values: Prefs.languageValues,
           displayValues: Prefs.languageDisplayValues,
-          onChange: (v) => Provider.of<LocaleChangedNotifier>(context).notify(),
+          onChange: (v) => Provider.of<ReloadAppChangeNotifier>(context).notify(),
         ),
         DropdownPreference(
           loc.settingsInfoLanguage,
@@ -66,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
           loc.settingsDarkMode,
           PrefKeys.uiDarkMode,
           // This is a hack to refresh the app when dark mode changes.
-          onChange: () => Provider.of<LocaleChangedNotifier>(context).notify(),
+          onChange: () => Provider.of<ReloadAppChangeNotifier>(context).notify(),
         ),
         CheckboxPreference(
           'Show enemy skills',

@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/ui/task_progress.dart';
+import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_task.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class OnboardingScreen extends StatelessWidget {
                   displayValues: Prefs.languageDisplayValues,
                   onChange: (v) {
                     Prefs.setAllLanguage(v);
-                    Provider.of<LocaleChangedNotifier>(context).notify();
+                    Provider.of<ReloadAppChangeNotifier>(context).notify();
                   },
                 ),
                 DropdownPreference(

@@ -3,6 +3,7 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/updates/background_fetch.dart';
+import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
@@ -85,8 +86,8 @@ class _DadGuideAppState extends State<DadGuideApp> {
       DeviceOrientation.portraitDown,
     ]);
 
-    return ChangeNotifierProvider<LocaleChangedNotifier>(
-        create: (_) => LocaleChangedNotifier(this),
+    return ChangeNotifierProvider<ReloadAppChangeNotifier>(
+        create: (_) => ReloadAppChangeNotifier(this),
         child: MaterialApp(
           onGenerateTitle: (BuildContext context) => DadGuideLocalizations.of(context).title,
           theme: themeFromPrefs(),
