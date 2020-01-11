@@ -74,3 +74,5 @@ post_install do |installer|
 end
 
 pod 'GoogleMobileAdsMediationFacebook'
+pod 'GoogleMobileAdsMediationInMobi'
+
