@@ -82,6 +82,9 @@ dependencies:
   # String formatting
   strings: ^0.1.2
 
+  # Better stream patterns
+  rxdart: ^0.23.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
