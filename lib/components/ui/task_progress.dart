@@ -123,8 +123,6 @@ class _TaskListProgressState extends State<TaskListProgress> {
   Widget buildFinished(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    // TODO: this is shitty, need a better way of handling this.
-    Future.delayed(Duration(seconds: 1), () => Navigator.pushReplacementNamed(context, '/'));
     return Card(
       child: ListTile(
         leading: SizedBox(width: 36, height: 36, child: Icon(Icons.check, color: Colors.green)),

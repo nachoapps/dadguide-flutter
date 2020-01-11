@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:dadguide2/components/config/app_state.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/ui/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
-import 'package:dadguide2/data/resources.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
 
 // TODO: convert to being supplied by getIt
@@ -36,12 +39,26 @@ class _SubTask {
 
 /// Singleton that manages the onboarding workflow.
 class OnboardingTaskManager {
+  /// Server-side database version name. Should be updated whenever the structure of the DB changes.
+  static String remoteDbFile() {
+    return getIt<Endpoints>().db('v2_dadguide.sqlite.zip');
+  }
+
+  /// Server-side icon/awakening/latent zip file name. Probably never changes.
+  static String remoteIconsFile() {
+    return getIt<Endpoints>().db('icons.zip');
+  }
+
   OnboardingTask instance;
 
   OnboardingTaskManager._();
 
-  Future<bool> mustRun() async {
-    return !await ResourceHelper.checkDbExists() || !PrefService.getBool('icons_downloaded');
+  Future<bool> onboardingMustRun() async {
+    return await DatabaseHelper.instance.database == null || !Prefs.iconsDownloaded;
+  }
+
+  Future<bool> upgradingMustRun() async {
+    return await DatabaseHelper.instance.database == null && Prefs.iconsDownloaded;
   }
 
   /// Start the onboarding flow. Attempting to start this more than once is unexpected.
@@ -59,7 +76,7 @@ class OnboardingTaskManager {
 class OnboardingTask with TaskPublisher {
   Future<void> start() async {
     // Keep trying to download and update the database until it exists (accounts for failures).
-    while (!await ResourceHelper.checkDbExists()) {
+    while (await DatabaseHelper.instance.database == null) {
       try {
         await _downloadDb();
         Prefs.updateRan();
@@ -70,10 +87,10 @@ class OnboardingTask with TaskPublisher {
     }
 
     // Keep trying to download and unpack the icons until it succeeds (accounts for failures).
-    while (!PrefService.getBool('icons_downloaded')) {
+    while (!Prefs.iconsDownloaded) {
       try {
         await _downloadIcons();
-        PrefService.setBool('icons_downloaded', true);
+        Prefs.setIconsDownloaded(true);
       } catch (e) {
         Fimber.w('Downloading icons failed', ex: e);
         await Future.delayed(Duration(seconds: 5));
@@ -81,21 +98,21 @@ class OnboardingTask with TaskPublisher {
     }
 
     // Now that the database has downloaded successfully, redo initialization.
-    await DatabaseHelper.instance.reloadDb();
-    await tryInitializeServiceLocatorDb(true);
+    await tryInitializeServiceLocatorDb();
+    appStatusSubject.add(AppStatus.ready);
 
     finishStream();
   }
 
   Future<void> _downloadDb() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadDb, ResourceHelper.remoteDbFile(), 'db.zip');
+        _SubTask.downloadDb, OnboardingTaskManager.remoteDbFile(), 'db.zip');
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
       final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
-      var archiveDbFile = archive.firstWhere((e) => e.name == ResourceHelper.dbFileName);
-      var dbFile = File(await ResourceHelper.dbFilePath());
+      var archiveDbFile = archive.firstWhere((e) => e.name == DatabaseHelper.dbName);
+      var dbFile = File(await DatabaseHelper.dbFilePath());
       pub(_SubTask.unpackDb, TaskStatus.started);
       await compute(_decompressLargeFile, _UnzipArgs(archiveDbFile, dbFile));
       pub(_SubTask.unpackDb, TaskStatus.finished);
@@ -108,7 +125,7 @@ class OnboardingTask with TaskPublisher {
 
   Future<void> _downloadIcons() async {
     File tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadImages, ResourceHelper.remoteIconsFile(), 'icons.zip');
+        _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile(), 'icons.zip');
 
     pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
@@ -128,7 +145,7 @@ class OnboardingTask with TaskPublisher {
       _SubTask task, String remoteZipFile, String tmpFileName) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
-      File tmpFile = await ResourceHelper.newTmpFile(tmpFileName);
+      File tmpFile = await _newTmpFile(tmpFileName);
       await getIt<Dio>().download(
         remoteZipFile,
         tmpFile.path,
@@ -168,4 +185,13 @@ class _UnzipArgs {
   final File destFile;
 
   _UnzipArgs(this.archiveFile, this.destFile);
+}
+
+Future<File> _newTmpFile(String name) async {
+  var tmpDir = await getTemporaryDirectory();
+  var tmpFile = File(join(tmpDir.path, name));
+  if (await tmpFile.exists()) {
+    await tmpFile.delete();
+  }
+  return tmpFile;
 }
