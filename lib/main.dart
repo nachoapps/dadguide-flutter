@@ -1,5 +1,5 @@
-import 'package:dadguide2/components/ads.dart';
 import 'package:dadguide2/components/background_fetch.dart';
+import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/service_locator.dart';
 import 'package:dadguide2/components/settings_manager.dart';

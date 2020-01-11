@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'dart:math';
 
-import 'package:dadguide2/components/analytics.dart';
 import 'package:dadguide2/components/email.dart';
 import 'package:dadguide2/components/enums.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/icons.dart';
 import 'package:dadguide2/components/images.dart';
