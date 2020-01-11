@@ -1,8 +1,8 @@
-import 'package:dadguide2/components/background_fetch.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
+import 'package:dadguide2/components/updates/background_fetch.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
