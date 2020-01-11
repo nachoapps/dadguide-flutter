@@ -125,14 +125,15 @@ class SettingsScreen extends StatelessWidget {
 
 var _codeContributors = <String>[
   'tactical_retreat',
+  'droon',
   'Ardeaf',
+  'davenger',
   'ケート (cate)',
   'chu',
   'Watonii',
   'jbills',
   'PGGB',
   'ChalupaPapa',
-  'davenger',
   'Raijinili',
 ];
 
@@ -141,6 +142,11 @@ var _dataContributors = <String>[
   'fether',
   'LucinaFanBoy',
   '코카트리스',
+  'Digity',
+  'Estina',
+  'fluff',
+  'kevynn',
+  'SenseiRock',
 ];
 
 var _artContributors = <String>[
