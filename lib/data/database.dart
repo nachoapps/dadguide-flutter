@@ -17,7 +17,7 @@ class DatabaseHelper {
   /// Controls the logical DB version, stored in a preference key and used to determine if we need
   /// to download the initial data db again. This should probably keep in sync with `dbZipFileName`
   /// but can be adjusted to force a re-download of the data for testing purposes.
-  static const dbVersion = 4;
+  static const dbVersion = 5;
 
   /// Statically loaded AwokenSkills loaded when the database is opened (for performance).
   static var allAwokenSkills = <AwokenSkill>[];
@@ -49,7 +49,7 @@ class DatabaseHelper {
     try {
       await _ensureDb();
     } catch (ex, st) {
-      Fimber.e('Failed to ensure DB exists, oops', ex:ex, stacktrace: st);
+      Fimber.e('Failed to ensure DB exists, oops', ex: ex, stacktrace: st);
     }
     return _database;
   }
