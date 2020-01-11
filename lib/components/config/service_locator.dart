@@ -4,11 +4,11 @@ import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/data/database.dart';
-import 'package:dadguide2/data/resources.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get_it/get_it.dart';
 
 /// Global service locator singleton.
@@ -47,19 +47,18 @@ Future<void> initializeServiceLocator(
 /// Try to initialize DB dependencies and register them with getIt.
 ///
 /// This may fail if the database has not been downloaded.
-Future<void> tryInitializeServiceLocatorDb(bool throwOnFailure) async {
-  if (!await ResourceHelper.checkDbExists()) {
-    return;
-  }
+Future<void> tryInitializeServiceLocatorDb() async {
   try {
     var db = await DatabaseHelper.instance.database;
+    if (db == null) {
+      Fimber.e('Could not register db, as it was null');
+      return;
+    }
     getIt.registerSingleton<DadGuideDatabase>(db);
     getIt.registerSingleton<MonstersDao>(db.monstersDao);
     getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
     getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
-  } catch (e) {
-    if (throwOnFailure) {
-      throw e;
-    }
+  } catch (ex) {
+    Fimber.e('Failed to initialize db inside service locator', ex: ex);
   }
 }
