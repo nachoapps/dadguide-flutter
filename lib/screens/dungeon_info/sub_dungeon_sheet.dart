@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_items.dart';
 import 'package:flutter/material.dart';

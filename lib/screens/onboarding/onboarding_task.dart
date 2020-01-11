@@ -4,7 +4,7 @@ import 'package:archive/archive.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/cache.dart';
-import 'package:dadguide2/components/task_progress.dart';
+import 'package:dadguide2/components/ui/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/resources.dart';
 import 'package:dadguide2/l10n/localizations.dart';

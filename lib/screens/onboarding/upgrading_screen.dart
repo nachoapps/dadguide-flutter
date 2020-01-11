@@ -1,4 +1,4 @@
-import 'package:dadguide2/components/task_progress.dart';
+import 'package:dadguide2/components/ui/task_progress.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_task.dart';
 import 'package:flutter/material.dart';

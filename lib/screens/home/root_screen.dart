@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
-import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/data_update.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';

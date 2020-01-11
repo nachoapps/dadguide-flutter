@@ -1,5 +1,5 @@
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/components/ui/text_input.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';

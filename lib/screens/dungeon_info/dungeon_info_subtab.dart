@@ -6,7 +6,7 @@ import 'package:dadguide2/components/formatting.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
-import 'package:dadguide2/components/navigation.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/youtube.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';

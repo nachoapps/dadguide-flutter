@@ -1,7 +1,7 @@
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
-import 'package:dadguide2/components/navigation.dart';
-import 'package:dadguide2/components/text_input.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/components/ui/text_input.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_sort_modal.dart';
 import 'package:dadguide2/theme/style.dart';
