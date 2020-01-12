@@ -243,26 +243,34 @@ class UpdateTask with TaskPublisher {
   Future<void> _processDeletedRows(int deletedRowsTs) async {
     var tsLastDeleted = Prefs.tsLastDeleted;
     if (deletedRowsTs > tsLastDeleted) {
-      var rowsToDelete = await _retrieveTableData('deleted_rows', tstamp: tsLastDeleted);
-      for (var row in rowsToDelete) {
-        print(row);
-        var tableName = row['table_name'] ?? '';
-        var tableRowId = row['table_row_id'] ?? 0;
-        if (tableName == '' || tableRowId == 0) {
-          Fimber.w('Cannot delete table row: $tableName - $tableRowId');
-          continue;
+      try {
+        var rowsToDelete = await _retrieveTableData('deleted_rows', tstamp: tsLastDeleted);
+        for (var row in rowsToDelete) {
+          try {
+            var tableName = row['table_name'] ?? '';
+            var tableRowId = row['table_row_id'] ?? 0;
+            if (tableName == '' || tableRowId == 0) {
+              Fimber.w('Cannot delete table row: $tableName - $tableRowId');
+              continue;
+            }
+            var tableInfo = tableByName(tableName);
+            if (tableInfo == null) {
+              Fimber.w('Cannot not locate table to delete from: $tableName $tableRowId');
+              continue;
+            }
+            var tablePrimaryKey = tableInfo.$primaryKey.first.escapedName;
+            var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey == $tableRowId';
+            _database.customUpdate(deleteSql);
+            Fimber.d('Deleting row: $deleteSql');
+          } catch (ex) {
+            Fimber.e('Failed to delete row', ex: ex);
+          }
         }
-        var tableInfo = tableByName(tableName);
-        if (tableInfo == null) {
-          Fimber.w('Cannot not locate table to delete from: $tableName $tableRowId');
-          continue;
-        }
-        var tablePrimaryKey = tableInfo.$primaryKey.first.escapedName;
-        var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey == $tableRowId';
-        _database.customUpdate(deleteSql);
-        Fimber.d('Deleting row: $deleteSql');
+      } catch (ex) {
+          Fimber.e('Failed to process deleted rows', ex: ex);
+      } finally {
+        Prefs.tsLastDeleted = deletedRowsTs;
       }
-      Prefs.tsLastDeleted = deletedRowsTs;
     }
   }
 }
