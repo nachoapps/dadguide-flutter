@@ -553,8 +553,8 @@ class DadGuideLocalizations {
       'Some updates introduce incompatible database changes.'
       ' When this occurs, you need to download a replacement with the new data.'
       ' This contains about 20MB of data; sorry for the inconvenience.',
-      name: 'upgradingInfoTitle',
-      desc: 'Title above the upgrade explanation');
+      name: 'upgradingInfoText',
+      desc: 'Body text of the upgrade screen');
 
   // ---- Settings strings ----
   String get settingsTitle =>
@@ -709,7 +709,7 @@ class DadGuideLocalizations {
         'When [$monsters] on team',
         name: 'esCondTriggerMonsters',
         args: [monsters],
-        examples: {'monsters': '245, 1113'},
+        examples: const {'monsters': '245, 1113'},
         desc: 'Condition text (group or behavior)',
       );
 
@@ -727,7 +727,7 @@ class DadGuideLocalizations {
         'Always use after $skillName',
         name: 'esCondTriggerAfter',
         args: [skillName],
-        examples: {'skillName': 'Some Monster Skill'},
+        examples: const {'skillName': 'Some Monster Skill'},
         desc: 'Condition text (group or behavior)',
       );
 
@@ -809,7 +809,7 @@ class DadGuideLocalizations {
         'Attack $hits times for $damage damage',
         name: 'esAttackText',
         args: [hits, damage],
-        examples: {'hits': '1-5', 'damage': '200-5,100'},
+        examples: const {'hits': '1-5', 'damage': '200-5,100'},
         desc: 'Text below a skill that describes the attack',
       );
 
