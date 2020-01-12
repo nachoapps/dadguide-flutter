@@ -1,5 +1,5 @@
-import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -564,6 +564,10 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
       leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
     ]));
 
+    if (args.serverIds.isNotEmpty) {
+      query.where(isIn(schedule.serverId, args.serverIds));
+    }
+
     int dateStartTimestamp = args.dateStart.millisecondsSinceEpoch ~/ 1000;
     int dateEndTimestamp = args.dateEnd.millisecondsSinceEpoch ~/ 1000;
     var inDateRangePredicate = and(schedule.startTimestamp.isSmallerThanValue(dateEndTimestamp),
@@ -581,6 +585,21 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
         return ListEvent(row.readTable(schedule), row.readTable(dungeons));
       }).toList();
     });
+
+    results = results.where((e) {
+      var groupName = e.event.groupName;
+      var isSpecial = groupName == null;
+      var passesGroupFilter = isSpecial || args.starterNames.contains(groupName);
+      if (args.tab == ScheduleTabKey.all) {
+        return passesGroupFilter;
+      } else if (args.tab == ScheduleTabKey.special) {
+        return isSpecial;
+      } else if (args.tab == ScheduleTabKey.guerrilla) {
+        return !isSpecial && passesGroupFilter;
+      } else {
+        return false;
+      }
+    }).toList();
 
     Fimber.d('events lookup complete in: ${s.elapsed} with ${results.length} values');
     return results;

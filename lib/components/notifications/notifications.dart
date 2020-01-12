@@ -62,11 +62,11 @@ class NotificationManager {
   Future<void> ensureEventsScheduled() async {
     await _plugin.cancelAll();
     var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
-    var eventsToSchedule = events
+    events = events
         .where((le) => Prefs.trackedDungeons.contains(le.dungeon.dungeonId) && le.isPending())
         .toList();
 
-    for (var listEvent in eventsToSchedule) {
+    for (var listEvent in events) {
       var event = listEvent.event;
       var dungeonName = listEvent.dungeonName.call().trim();
       var country = Country.byId(event.serverId);

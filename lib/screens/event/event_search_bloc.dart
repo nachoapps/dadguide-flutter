@@ -73,24 +73,6 @@ class EventSearchBloc {
   void search(EventSearchArgs args) async {
     _resultSink.add(null);
     var events = await _dao.findListEvents(args);
-
-    // This probably needs to move into the DAO.
-    events = events.where((e) => args.serverIds.contains(e.event.serverId)).toList();
-    events = events.where((e) {
-      var groupName = e.event.groupName;
-      var isSpecial = groupName == null;
-      var passesGroupFilter = isSpecial || args.starterNames.contains(groupName);
-      if (args.tab == ScheduleTabKey.all) {
-        return passesGroupFilter;
-      } else if (args.tab == ScheduleTabKey.special) {
-        return isSpecial;
-      } else if (args.tab == ScheduleTabKey.guerrilla) {
-        return !isSpecial && passesGroupFilter;
-      } else {
-        return false;
-      }
-    }).toList();
-
     _resultSink.add(events);
   }
 
