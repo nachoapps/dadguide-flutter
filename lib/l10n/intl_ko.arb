@@ -77,6 +77,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "updateFailedTooOld": "DadGuide needs to update",
+    "@updateFailedTooOld": {
+        "description": "Snackbar displayed when the app is out of date",
+        "type": "text",
+        "placeholders": {}
+    },
     "taskExecutingWithCount": "실행 작업 ({index} / {taskCount})",
     "@taskExecutingWithCount": {
         "description": "Indicates task progress",
@@ -482,6 +488,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterFilterModalSeries": "Series",
+    "@monsterFilterModalSeries": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterFilterModalActiveSkills": "액티브 스킬",
     "@monsterFilterModalActiveSkills": {
         "description": "Section header",
@@ -752,6 +764,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterInfoSkillupDungeonTitleNone": "Skill Up - Dungeon: None",
+    "@monsterInfoSkillupDungeonTitleNone": {
+        "description": "Header for skill up dungeon section when there are no drops",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterInfoTableInfoMaxLevel": "최대 수준에서",
     "@monsterInfoTableInfoMaxLevel": {
         "description": "Header column with buy/sell/feed data",
@@ -898,6 +916,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "upgradingDbTitle": "Database upgrade",
+    "@upgradingDbTitle": {
+        "description": "Header for post-update database upgrade",
+        "type": "text",
+        "placeholders": {}
+    },
+    "upgradingInfoTitle": "Downloading and installing a database update",
+    "@upgradingInfoTitle": {
+        "description": "Title above the upgrade explanation",
+        "type": "text",
+        "placeholders": {}
+    },
+    "upgradingInfoText": "Some updates introduce incompatible database changes. When this occurs, you need to download a replacement with the new data. This contains about 20MB of data; sorry for the inconvenience.",
+    "@upgradingInfoText": {
+        "description": "Body text of the upgrade screen",
+        "type": "text",
+        "placeholders": {}
+    },
     "settingsTitle": "설정",
     "@settingsTitle": {
         "description": "Title of settings page",
@@ -1006,6 +1042,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "settingsNotificationsSection": "Notifications",
+    "@settingsNotificationsSection": {
+        "description": "Section title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsNotificationsDesc": "Alert when a dungeon opens. Long-press on an event or dungeon to toggle tracking.",
+    "@settingsNotificationsDesc": {
+        "description": "Section description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsNotificationsEnabled": "Enable alerts",
+    "@settingsNotificationsEnabled": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
     "settingsInfoSection": "정보",
     "@settingsInfoSection": {
         "description": "Section header",
@@ -1101,5 +1155,249 @@
         "description": "Monster type",
         "type": "text",
         "placeholders": {}
+    },
+    "esGroupOnDeath": "On death",
+    "@esGroupOnDeath": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupPlayerBuff": "When player has buff",
+    "@esGroupPlayerBuff": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupEnemyDebuff": "When monster delayed/poisoned",
+    "@esGroupEnemyDebuff": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupAbilities": "Abilities",
+    "@esGroupAbilities": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupPreemptive": "선제",
+    "@esGroupPreemptive": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupStandard": "Standard",
+    "@esGroupStandard": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupUnknownUse": "Unknown usage",
+    "@esGroupUnknownUse": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupUnknown": "Unknown",
+    "@esGroupUnknown": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupError": "<error>",
+    "@esGroupError": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondUseChance": "{number}% chance",
+    "@esCondUseChance": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondLimitedExecution": "At most {number} times",
+    "@esCondLimitedExecution": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondOneTimeOnly": "One time only",
+    "@esCondOneTimeOnly": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondOneEnemiesRemaining": "When alone",
+    "@esCondOneEnemiesRemaining": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondMultipleEnemiesRemaining": "When <={number} enemies",
+    "@esCondMultipleEnemiesRemaining": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondDefeated": "When defeated",
+    "@esCondDefeated": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondAttributesAvailable": "Requires specific attributes",
+    "@esCondAttributesAvailable": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondTriggerMonsters": "When [{monsters}] on team",
+    "@esCondTriggerMonsters": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "monsters": {
+                "example": "245, 1113"
+            }
+        }
+    },
+    "esCondTriggerCombos": "When {number} combos last turn",
+    "@esCondTriggerCombos": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondNothingMatched": "If no other skills matched",
+    "@esCondNothingMatched": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondTriggerAfter": "Always use after {skillName}",
+    "@esCondTriggerAfter": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "skillName": {
+                "example": "Some Monster Skill"
+            }
+        }
+    },
+    "esCondRepeating3": "Repeating, turns {start}-{end} of {total}",
+    "@esCondRepeating3": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "end": {},
+            "total": {}
+        }
+    },
+    "esCondRepeating2": "Repeating, turns {start} of {total}",
+    "@esCondRepeating2": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "total": {}
+        }
+    },
+    "esCondRepeating1": "Repeats every {total} turns",
+    "@esCondRepeating1": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "total": {}
+        }
+    },
+    "esCondTurnsRange": "turns {start}-{end}",
+    "@esCondTurnsRange": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "end": {}
+        }
+    },
+    "esCondTurnsExact": "turn {start}",
+    "@esCondTurnsExact": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {}
+        }
+    },
+    "esCondAlwaysOnTurn": "always on {turnText}",
+    "@esCondAlwaysOnTurn": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "turnText": {}
+        }
+    },
+    "esCondWhileAboveHp": "{turnText} while above {alwaysTriggerAbove} HP",
+    "@esCondWhileAboveHp": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "turnText": {},
+            "alwaysTriggerAbove": {}
+        }
+    },
+    "esCondHpFull": "When HP is full",
+    "@esCondHpFull": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondHpLt": "HP < {threshold}",
+    "@esCondHpLt": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "esCondHpLtEq": "HP <= {threshold}",
+    "@esCondHpLtEq": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "esCondPartJoin": ", ",
+    "@esCondPartJoin": {
+        "description": "Token used to join condition text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esNotReviewedWarning": "This monster's behavior not yet reviewed. Rely on it at your own risk.",
+    "@esNotReviewedWarning": {
+        "description": "Error text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esAttackText": "Attack {hits} times for {damage} damage",
+    "@esAttackText": {
+        "description": "Text below a skill that describes the attack",
+        "type": "text",
+        "placeholders": {
+            "hits": {
+                "example": "1-5"
+            },
+            "damage": {
+                "example": "200-5,100"
+            }
+        }
     }
 }

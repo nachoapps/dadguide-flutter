@@ -77,6 +77,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "updateFailedTooOld": "DadGuideは更新する必要があります",
+    "@updateFailedTooOld": {
+        "description": "Snackbar displayed when the app is out of date",
+        "type": "text",
+        "placeholders": {}
+    },
     "taskExecutingWithCount": "タスク({index} / {taskCount})実行中",
     "@taskExecutingWithCount": {
         "description": "Indicates task progress",
@@ -482,13 +488,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterFilterModalActiveSkills": "Active Skills",
+    "monsterFilterModalSeries": "シリーズ",
+    "@monsterFilterModalSeries": {
+        "description": "Section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterFilterModalActiveSkills": "スキル",
     "@monsterFilterModalActiveSkills": {
         "description": "Section header",
         "type": "text",
         "placeholders": {}
     },
-    "monsterFilterModalLeaderSkills": "Leader Skills",
+    "monsterFilterModalLeaderSkills": "リーダースキル",
     "@monsterFilterModalLeaderSkills": {
         "description": "Section header",
         "type": "text",
@@ -560,7 +572,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterSortTypeLimitBrokenWeighted": "LB Total",
+    "monsterSortTypeLimitBrokenWeighted": "限界突破後",
     "@monsterSortTypeLimitBrokenWeighted": {
         "description": "Grid button",
         "type": "text",
@@ -752,6 +764,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterInfoSkillupDungeonTitleNone": "スキルアップダンジョン：なし",
+    "@monsterInfoSkillupDungeonTitleNone": {
+        "description": "Header for skill up dungeon section when there are no drops",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterInfoTableInfoMaxLevel": "最大レベル",
     "@monsterInfoTableInfoMaxLevel": {
         "description": "Header column with buy/sell/feed data",
@@ -796,7 +814,7 @@
             "seriesName": {}
         }
     },
-    "monsterInfoMaterialForHeader": "Material for",
+    "monsterInfoMaterialForHeader": "進化素材",
     "@monsterInfoMaterialForHeader": {
         "description": "Material for icons section header",
         "type": "text",
@@ -898,6 +916,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "upgradingDbTitle": "データベースのアップデート",
+    "@upgradingDbTitle": {
+        "description": "Header for post-update database upgrade",
+        "type": "text",
+        "placeholders": {}
+    },
+    "upgradingInfoTitle": "データベースの更新をダウンロードし、インストールしています",
+    "@upgradingInfoTitle": {
+        "description": "Title above the upgrade explanation",
+        "type": "text",
+        "placeholders": {}
+    },
+    "upgradingInfoText": "一部の更新では、非互換性データベースの変更が導入されます。\nこれが発生した場合は、新しいデータを置換し、ダウンロードする必要があります\nこれには約20MBのデータがダウンロードします。\n ご不便おかけしてすみません。",
+    "@upgradingInfoText": {
+        "description": "Body text of the upgrade screen",
+        "type": "text",
+        "placeholders": {}
+    },
     "settingsTitle": "設定",
     "@settingsTitle": {
         "description": "Title of settings page",
@@ -970,13 +1006,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsHideUnreleasedMonsters": "Hide unreleased monsters",
+    "settingsHideUnreleasedMonsters": "未リリースのモンスターを隠せる",
     "@settingsHideUnreleasedMonsters": {
         "description": "Checkbox title",
         "type": "text",
         "placeholders": {}
     },
-    "settingsHideUnreleasedMonstersDesc": "Hides monsters that are not released for the selected Game Country",
+    "settingsHideUnreleasedMonstersDesc": "選ぶ地域の未リリースのモンスターを隠せる",
     "@settingsHideUnreleasedMonstersDesc": {
         "description": "Setting description",
         "type": "text",
@@ -1002,6 +1038,24 @@
     },
     "settingsEventsStarterGreen": "初期ﾊﾟｰﾄﾅｰ：ブラッキィ",
     "@settingsEventsStarterGreen": {
+        "description": "Checkbox title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsNotificationsSection": "通知",
+    "@settingsNotificationsSection": {
+        "description": "Section title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsNotificationsDesc": "ゲリラダンジョンが潜入可能と通知します。\nイベントまたはダンジョンを長押しして、通知を切り替えます。",
+    "@settingsNotificationsDesc": {
+        "description": "Section description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsNotificationsEnabled": "通知を有効する",
+    "@settingsNotificationsEnabled": {
         "description": "Checkbox title",
         "type": "text",
         "placeholders": {}
@@ -1101,5 +1155,249 @@
         "description": "Monster type",
         "type": "text",
         "placeholders": {}
+    },
+    "esGroupOnDeath": "死亡のとき",
+    "@esGroupOnDeath": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupPlayerBuff": "プレイヤーにかかっているスキル効果がありの場合",
+    "@esGroupPlayerBuff": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupEnemyDebuff": "遅延・毒の効果をかかっているの場合",
+    "@esGroupEnemyDebuff": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupAbilities": "アビリティ",
+    "@esGroupAbilities": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupPreemptive": "先制",
+    "@esGroupPreemptive": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupStandard": "一般",
+    "@esGroupStandard": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupUnknownUse": "使用条件は不明",
+    "@esGroupUnknownUse": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupUnknown": "不明",
+    "@esGroupUnknown": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esGroupError": "<エラー>",
+    "@esGroupError": {
+        "description": "Enemy behavior group title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondUseChance": "{number}%の確率で",
+    "@esCondUseChance": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondLimitedExecution": "最大 {number} 回",
+    "@esCondLimitedExecution": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondOneTimeOnly": "一度だけ",
+    "@esCondOneTimeOnly": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondOneEnemiesRemaining": "1体だけになる",
+    "@esCondOneEnemiesRemaining": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondMultipleEnemiesRemaining": "残り {number} 体以下になる",
+    "@esCondMultipleEnemiesRemaining": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondDefeated": "死亡のとき",
+    "@esCondDefeated": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondAttributesAvailable": "特定の属性が必要",
+    "@esCondAttributesAvailable": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondTriggerMonsters": "[{monsters}] がチームにいると",
+    "@esCondTriggerMonsters": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "monsters": {
+                "example": "245, 1113"
+            }
+        }
+    },
+    "esCondTriggerCombos": "直前が {number} コンボの場合",
+    "@esCondTriggerCombos": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "number": {}
+        }
+    },
+    "esCondNothingMatched": "条件一致する行動がない場合",
+    "@esCondNothingMatched": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondTriggerAfter": "{skillName} 使用した後に必ず使用する",
+    "@esCondTriggerAfter": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "skillName": {
+                "example": "Some Monster Skill"
+            }
+        }
+    },
+    "esCondRepeating3": "繰り返し、{total}の{start}-{end}番目のターン",
+    "@esCondRepeating3": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "end": {},
+            "total": {}
+        }
+    },
+    "esCondRepeating2": "繰り返し、{total}ターン目の{start}",
+    "@esCondRepeating2": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "total": {}
+        }
+    },
+    "esCondRepeating1": "{total}ターンごとに繰り返す",
+    "@esCondRepeating1": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "total": {}
+        }
+    },
+    "esCondTurnsRange": "{start}-{end}ターン目",
+    "@esCondTurnsRange": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {},
+            "end": {}
+        }
+    },
+    "esCondTurnsExact": "{start}ターン目",
+    "@esCondTurnsExact": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "start": {}
+        }
+    },
+    "esCondAlwaysOnTurn": "{turnText}に必ず使用",
+    "@esCondAlwaysOnTurn": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "turnText": {}
+        }
+    },
+    "esCondWhileAboveHp": "HPが{alwaysTriggerAbove}超える、{turnText}",
+    "@esCondWhileAboveHp": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "turnText": {},
+            "alwaysTriggerAbove": {}
+        }
+    },
+    "esCondHpFull": "HP100%に使用",
+    "@esCondHpFull": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esCondHpLt": "HP{threshold}未満",
+    "@esCondHpLt": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "esCondHpLtEq": "HP{threshold}以下",
+    "@esCondHpLtEq": {
+        "description": "Condition text (group or behavior)",
+        "type": "text",
+        "placeholders": {
+            "threshold": {}
+        }
+    },
+    "esCondPartJoin": "、",
+    "@esCondPartJoin": {
+        "description": "Token used to join condition text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esNotReviewedWarning": "このモンスターの行動はまだ確認されていません。\n自己責任において使用してください。",
+    "@esNotReviewedWarning": {
+        "description": "Error text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "esAttackText": "連続攻撃{hits}回、計{damage}ダメージ",
+    "@esAttackText": {
+        "description": "Text below a skill that describes the attack",
+        "type": "text",
+        "placeholders": {
+            "hits": {
+                "example": "1-5"
+            },
+            "damage": {
+                "example": "200-5,100"
+            }
+        }
     }
 }
