@@ -85,7 +85,7 @@ class BehaviorGroupWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: group.children.length,
       itemBuilder: (ctx, idx) => Padding(
-          padding: EdgeInsets.only(left: 4, right: 4, top: 4),
+          padding: EdgeInsets.only(left: 4, right: 4, top: 2),
           child: BehaviorItemWidget(group.children[idx])),
     );
 
@@ -143,9 +143,9 @@ class BehaviorWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(nameText, style: caption(context)),
-        if (descText.isNotEmpty) Text(descText),
+        if (descText.isNotEmpty) Text(descText, style: esDescription(context)),
         if (skill.minHits > 0)
-          Text(formatAttack(context, skill, inputs.atk), style: secondary(context)),
+          Text(formatAttack(context, skill, inputs.atk), style: esDescription(context)),
       ],
     );
   }
@@ -165,10 +165,10 @@ class TextBorder extends StatelessWidget {
           width: double.infinity,
           child: child,
           // This margin forces the border down so the text can overlay it.
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 8),
           // Force the contents down so the title doesn't overlap it. Pad the bottom by the same
           // amount to make it symmetric.
-          padding: EdgeInsets.only(top: 10, bottom: 10),
+          padding: EdgeInsets.only(top: 8, bottom: 8),
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.4), width: 1),
             borderRadius: BorderRadius.circular(4),
@@ -182,7 +182,7 @@ class TextBorder extends StatelessWidget {
               padding: EdgeInsets.only(left: 10, right: 10),
               // Make the text container hide the border.
               color: Theme.of(context).scaffoldBackgroundColor,
-              child: Text(text),
+              child: Text(text, style: esDescription(context)),
             )),
       ],
     );

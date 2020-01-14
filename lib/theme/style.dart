@@ -22,3 +22,8 @@ TextStyle caption(BuildContext context) {
 TextStyle secondary(BuildContext context) {
   return Theme.of(context).textTheme.body2.copyWith(color: grey(context, 600));
 }
+
+/// A slightly smaller but still obvious text for ES descriptions.
+TextStyle esDescription(BuildContext context) {
+  return Theme.of(context).textTheme.body2.copyWith(fontSize: 14);
+}
