@@ -16,6 +16,10 @@ class LanguageSelector {
     return LanguageSelector(v.nameJp, v.nameNa, v.nameKr);
   }
 
+  static LanguageSelector nameWithNaOverride(dynamic v) {
+    return LanguageSelector(v.nameJp, v.nameNaOverride ?? v.nameNa, v.nameKr);
+  }
+
   static LanguageSelector desc(dynamic v) {
     return LanguageSelector(v.descJp, v.descNa, v.descKr);
   }
@@ -140,7 +144,7 @@ class FullEncounter {
 
   FullEncounter(this.encounter, this.monster, EnemyDataItem enemyDataItem, this.drops)
       : behavior = parseBehavior(enemyDataItem),
-        name = LanguageSelector.name(monster);
+        name = LanguageSelector.nameWithNaOverride(monster);
 
   bool get approved => behavior.approved;
 
@@ -185,7 +189,7 @@ class FullMonster {
       this.evolutions,
       this.dropLocations,
       this.materialForMonsters)
-      : name = LanguageSelector.name(monster);
+      : name = LanguageSelector.nameWithNaOverride(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
   List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
@@ -215,7 +219,7 @@ class ListMonster {
   final LanguageSelector name;
 
   ListMonster(this.monster, this._awakenings, this.activeSkill)
-      : name = LanguageSelector.name(monster);
+      : name = LanguageSelector.nameWithNaOverride(monster);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();

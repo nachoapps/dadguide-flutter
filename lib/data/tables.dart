@@ -1,11 +1,11 @@
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
+import 'package:moor/src/runtime/expressions/expression.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-
-import '../components/models/data_objects.dart';
 
 part 'tables.g.dart';
 
@@ -369,6 +369,18 @@ class Monsters extends Table {
   BoolColumn get remEgg => boolean()();
 
   IntColumn get seriesId => integer()();
+
+  BoolColumn get hasAnimation => boolean()();
+
+  BoolColumn get hasHqimage => boolean()();
+
+  IntColumn get orbSkinId => integer().nullable()();
+
+  IntColumn get voiceIdJp => integer().nullable()();
+
+  IntColumn get voiceIdNa => integer().nullable()();
+
+  IntColumn get linkedMonsterId => integer().nullable()();
 
   TextColumn get nameNaOverride => text().nullable()();
 
@@ -959,12 +971,13 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       query.where(monsters.cost.isSmallerOrEqualValue(filter.cost.max));
     }
     if (filter.types.isNotEmpty) {
-      query.where(or(
+      query.where(orList(
+        [
           isIn(monsters.type1Id, filter.types),
-          or(
-            isIn(monsters.type2Id, filter.types),
-            isIn(monsters.type3Id, filter.types),
-          )));
+          isIn(monsters.type2Id, filter.types),
+          isIn(monsters.type3Id, filter.types),
+        ],
+      ));
     }
 
     if (args.text.isNotEmpty) {
@@ -976,12 +989,14 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         ));
       } else {
         var searchText = '%${args.text}%';
-        query.where(or(
-            or(
-              monsters.nameJp.like(searchText),
-              monsters.nameNa.like(searchText),
-            ),
-            monsters.nameKr.like(searchText)));
+        query.where(orList(
+          [
+            monsters.nameJp.like(searchText),
+            monsters.nameNa.like(searchText),
+            monsters.nameNaOverride.like(searchText),
+            monsters.nameKr.like(searchText),
+          ],
+        ));
       }
     }
 
@@ -1015,13 +1030,13 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     if (args.filter.series != '') {
       var seriesText = '%${args.filter.series}%';
-      var expr = or(
+      query.where(orList(
+        [
           series.nameJp.like(seriesText),
-          or(
-            series.nameNa.like(seriesText),
-            series.nameKr.like(seriesText),
-          ));
-      query.where(expr);
+          series.nameNa.like(seriesText),
+          series.nameKr.like(seriesText),
+        ],
+      ));
     }
 
     if (Prefs.hideUnreleasedMonsters) {
@@ -1250,5 +1265,16 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<List<int>> materialFor(int materialMonsterId) async {
     var x = await materialForIds(materialMonsterId);
     return x.map((e) => e.monsterId).toList();
+  }
+}
+
+Expression<bool, BoolType> orList(List<Expression<bool, BoolType>> parts) {
+  if (parts.isEmpty) {
+    Fimber.e('Critical error; tried to OR an empty list');
+    return null;
+  } else if (parts.length == 1) {
+    return parts.first;
+  } else {
+    return or(parts[0], orList(parts.sublist(1)));
   }
 }
