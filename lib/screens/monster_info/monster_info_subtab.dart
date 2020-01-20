@@ -683,8 +683,8 @@ class MonsterActiveSkillSection extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
     var skill = _model.skill;
 
-    var skillLevels = skill.turnMax - skill.turnMin;
-    var lvlText = skillLevels == 0
+    var skillLevels = skill.turnMax - skill.turnMin + 1;
+    var lvlText = skillLevels == 1
         ? loc.monsterInfoSkillMaxed(skill.turnMax)
         : loc.monsterInfoSkillTurns(skill.turnMax, skill.turnMin, skillLevels);
 
