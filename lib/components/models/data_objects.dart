@@ -348,3 +348,33 @@ class EggMachineMonster {
 
   EggMachineMonster(this.monster, this.rate);
 }
+
+class FullExchange {
+  final Exchange exchange;
+  final TimedEvent timedEvent;
+
+  FullExchange(this.exchange)
+      : timedEvent = TimedEvent(exchange.startTimestamp, exchange.endTimestamp);
+
+  Country get server => Country.byId(exchange.serverId);
+
+  bool get isEvent => exchange.menuIdx == 1;
+  bool get isCollab => exchange.menuIdx == 2;
+  bool get isGem => exchange.menuIdx == 3;
+  bool get isEnhance => exchange.menuIdx == 4;
+
+  List<int> get fodderIds {
+    try {
+      return exchange.requiredMonsterIds
+          .replaceAll(RegExp('[()]'), '')
+          .split(',')
+          .map((v) => v.trim())
+          .where((v) => v.isNotEmpty)
+          .map((v) => int.parse(v))
+          .toList();
+    } catch (ex) {
+      Fimber.e('Failed to parse fodder IDs: ${exchange.requiredMonsterIds}', ex: ex);
+      return [];
+    }
+  }
+}
