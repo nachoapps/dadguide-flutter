@@ -51,7 +51,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
       child: Column(
         children: [
           MonsterDetailBar(),
-          Expanded(child: SingleChildScrollView(child: _retrieveMonster())),
+          Expanded(child: _retrieveMonster()),
 //          Disabled for now; nothing here is implemented
 //          MonsterDetailOptionsBar(),
         ],
@@ -71,7 +71,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
             return Center(child: CircularProgressIndicator());
           }
 
-          return MonsterDetailContents(snapshot.data);
+          return SingleChildScrollView(child: MonsterDetailContents(snapshot.data));
         });
   }
 }
