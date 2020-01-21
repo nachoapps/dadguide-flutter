@@ -142,9 +142,6 @@ class EventListRow extends StatelessWidget {
 }
 
 class EventListRowContents extends StatelessWidget {
-  static final DateFormat longFormat = DateFormat.MMMd().add_jm();
-  static final DateFormat shortFormat = DateFormat.jm();
-
   final ListEvent model;
 
   const EventListRowContents(this.model, {Key key}) : super(key: key);
@@ -172,9 +169,11 @@ class EventListRowContents extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (model.isClosed()) Icon(Icons.close, color: Colors.red, size: 12),
-                        if (model.isOpen()) Icon(Icons.check, color: Colors.green, size: 12),
-                        if (model.isPending())
+                        if (model.timedEvent.isClosed())
+                          Icon(Icons.close, color: Colors.red, size: 12),
+                        if (model.timedEvent.isOpen())
+                          Icon(Icons.check, color: Colors.green, size: 12),
+                        if (model.timedEvent.isPending())
                           Icon(
                             FontAwesome.calendar_check_o,
                             color: Colors.orange,
@@ -183,7 +182,7 @@ class EventListRowContents extends StatelessWidget {
                         SizedBox(width: 4),
                         Text(underlineText(loc, DateTime.now())),
                         SizedBox(width: 4),
-                        if (!model.isClosed()) Text(stamRcvText()),
+                        if (!model.timedEvent.isClosed()) Text(stamRcvText()),
                       ],
                     ),
                   ),
@@ -203,39 +202,14 @@ class EventListRowContents extends StatelessWidget {
   }
 
   String stamRcvText() {
-    var timeTo = model.isOpen() ? model.endTime : model.startTime;
+    var timedEvent = model.timedEvent;
+    var timeTo = timedEvent.isOpen() ? timedEvent.endTime : timedEvent.startTime;
     var stamRcv = timeTo.difference(DateTime.now()).inMinutes ~/ 3;
     var stamRcvStr = NumberFormat.decimalPattern().format(stamRcv);
     return '[Stam.Recovered $stamRcvStr]';
   }
 
   String underlineText(DadGuideLocalizations loc, DateTime displayedDate) {
-    if (model.isClosed()) {
-      return loc.eventClosed;
-    }
-
-    String text = '';
-    if (!model.isOpen()) {
-      text = _adjDate(displayedDate, model.startTime);
-    }
-    text += ' ~ ';
-    text += _adjDate(displayedDate, model.endTime);
-
-    int deltaDays = model.daysUntilClose();
-    if (deltaDays > 0) {
-      var dayText = loc.eventDays(deltaDays);
-      text += ' [$dayText]';
-    }
-    return text.trim();
-  }
-
-  String _adjDate(DateTime displayedDate, DateTime timeToDisplay) {
-    displayedDate = displayedDate.toLocal();
-    timeToDisplay = timeToDisplay.toLocal();
-    if (displayedDate.day != timeToDisplay.day) {
-      return longFormat.format(timeToDisplay);
-    } else {
-      return shortFormat.format(timeToDisplay);
-    }
+    return model.timedEvent.durationText(loc, displayedDate);
   }
 }

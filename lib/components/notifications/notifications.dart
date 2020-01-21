@@ -63,7 +63,8 @@ class NotificationManager {
     await _plugin.cancelAll();
     var events = await getIt<ScheduleDao>().findListEvents(_upcomingEventArgs());
     events = events
-        .where((le) => Prefs.trackedDungeons.contains(le.dungeon.dungeonId) && le.isPending())
+        .where((le) =>
+            Prefs.trackedDungeons.contains(le.dungeon.dungeonId) && le.timedEvent.isPending())
         .toList();
 
     for (var listEvent in events) {

@@ -273,35 +273,14 @@ class ListEvent {
   final LanguageSelector dungeonName;
   final LanguageSelector eventInfo;
 
-  final DateTime startTime;
-  final DateTime endTime;
+  final TimedEvent timedEvent;
 
   ListEvent(this.event, this.dungeon)
       : dungeonName = dungeon == null ? LanguageSelector.empty() : LanguageSelector.name(dungeon),
         eventInfo = LanguageSelector(event.infoJp, event.infoNa, event.infoKr),
-        startTime = DateTime.fromMillisecondsSinceEpoch(event.startTimestamp * 1000, isUtc: true),
-        endTime = DateTime.fromMillisecondsSinceEpoch(event.endTimestamp * 1000, isUtc: true);
+        timedEvent = TimedEvent(event.startTimestamp, event.endTimestamp);
 
   int get iconId => dungeon?.iconId ?? event.iconId ?? 0;
-
-  bool isOpen() {
-    var now = DateTime.now();
-    return startTime.isBefore(now) && endTime.isAfter(now);
-  }
-
-  bool isClosed() {
-    var now = DateTime.now();
-    return endTime.isBefore(now);
-  }
-
-  bool isPending() {
-    return !isOpen() && !isClosed();
-  }
-
-  int daysUntilClose() {
-    var now = DateTime.now();
-    return now.difference(endTime).inDays;
-  }
 }
 
 class FullActiveSkill {
