@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/utils/time.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
@@ -317,4 +318,33 @@ class FullLeaderSkill {
       for (var tag in tagItems) lsMap[int.tryParse(tag)],
     ]..removeWhere((v) => v == null);
   }
+}
+
+class FullEggMachine {
+  final EggMachine machine;
+  final TimedEvent timedEvent;
+  final List<EggMachineMonster> data;
+
+  FullEggMachine(this.machine, this.data)
+      : timedEvent = TimedEvent(machine.startTimestamp, machine.endTimestamp);
+
+  Country get server => Country.byId(machine.serverId);
+
+  bool get isPem => machine.machineType == 1;
+  bool get isRem => machine.machineType == 2;
+  bool get isCollab => !isPem && !isRem;
+}
+
+class EggMachineRow {
+  final String title;
+  final List<EggMachineMonster> monsters;
+
+  EggMachineRow(this.title, this.monsters);
+}
+
+class EggMachineMonster {
+  final Monster monster;
+  final double rate;
+
+  EggMachineMonster(this.monster, this.rate);
 }

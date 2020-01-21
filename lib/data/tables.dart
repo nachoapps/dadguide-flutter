@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
@@ -152,6 +154,30 @@ class Drops extends Table {
   IntColumn get tstamp => integer()();
 }
 
+class EggMachines extends Table {
+  IntColumn get eggMachineId => integer().autoIncrement()();
+
+  IntColumn get serverId => integer()();
+
+  IntColumn get eggMachineTypeId => integer()();
+
+  IntColumn get startTimestamp => integer()();
+
+  IntColumn get endTimestamp => integer()();
+
+  IntColumn get machineRow => integer()();
+
+  IntColumn get machineType => integer()();
+
+  TextColumn get name => text()();
+
+  IntColumn get cost => integer()();
+
+  TextColumn get contents => text()();
+
+  IntColumn get tstamp => integer()();
+}
+
 class Encounters extends Table {
   IntColumn get encounterId => integer().autoIncrement()();
 
@@ -241,6 +267,34 @@ class Evolutions extends Table {
   IntColumn get mat4Id => integer().named('mat_4_id').nullable()();
 
   IntColumn get mat5Id => integer().named('mat_5_id').nullable()();
+
+  IntColumn get tstamp => integer()();
+}
+
+class Exchanges extends Table {
+  IntColumn get exchangeId => integer().autoIncrement()();
+
+  IntColumn get tradeId => integer()();
+
+  IntColumn get serverId => integer()();
+
+  IntColumn get targetMonsterId => integer()();
+
+  TextColumn get requiredMonsterIds => text()();
+
+  IntColumn get requiredCount => integer()();
+
+  IntColumn get startTimestamp => integer()();
+
+  IntColumn get endTimestamp => integer()();
+
+  BoolColumn get permanent => boolean()();
+
+  IntColumn get menuIdx => integer()();
+
+  IntColumn get orderIdx => integer()();
+
+  IntColumn get flags => integer()();
 
   IntColumn get tstamp => integer()();
 }
@@ -495,6 +549,8 @@ class Timestamps extends Table {
 @UseMoor(
   daos: [
     DungeonsDao,
+    EggMachinesDao,
+    ExchangesDao,
     MonstersDao,
     ScheduleDao,
   ],
@@ -506,9 +562,11 @@ class Timestamps extends Table {
     AwokenSkills,
     Drops,
     Dungeons,
+    EggMachines,
     Encounters,
     EnemyData,
     EnemySkills,
+    Exchanges,
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
@@ -1265,6 +1323,74 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<List<int>> materialFor(int materialMonsterId) async {
     var x = await materialForIds(materialMonsterId);
     return x.map((e) => e.monsterId).toList();
+  }
+}
+
+@UseDao(
+  tables: [
+    EggMachines,
+    Monsters,
+  ],
+)
+class EggMachinesDao extends DatabaseAccessor<DadGuideDatabase> with _$EggMachinesDaoMixin {
+  EggMachinesDao(DadGuideDatabase db) : super(db);
+
+  Future<List<FullEggMachine>> findEggMachines() async {
+    var s = new Stopwatch()..start();
+    final query = select(eggMachines);
+
+    var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    query.where((em) => em.endTimestamp.isBiggerThanValue(nowTimestamp));
+
+    var results = <FullEggMachine>[];
+    var queryResults = await query.get();
+    for (var em in queryResults) {
+      var eggMonsters = <EggMachineMonster>[];
+      try {
+        var contents = json.decode(em.contents);
+        for (var entry in contents.entries) {
+          try {
+            var monsterIdStr = entry.key as String;
+            var rate = entry.value as num;
+            var monsterId = int.parse(monsterIdStr.replaceAll(new RegExp(r'\(|\)'), ''));
+            var monsterQuery = select(monsters)..where((m) => m.monsterId.equals(monsterId));
+            var loadedMonster = await monsterQuery.getSingle();
+            eggMonsters.add(EggMachineMonster(loadedMonster, rate.toDouble()));
+          } catch (ex) {
+            Fimber.e('Failed to parse monster in egg machine $entry', ex: ex);
+          }
+        }
+        results.add(FullEggMachine(em, eggMonsters));
+      } catch (ex) {
+        Fimber.e('Could not decode egg machine json', ex: ex);
+      }
+    }
+
+    Fimber.d('egg machine lookup complete in: ${s.elapsed}');
+    return results;
+  }
+}
+
+@UseDao(
+  tables: [
+    Exchanges,
+    Monsters,
+  ],
+)
+class ExchangesDao extends DatabaseAccessor<DadGuideDatabase> with _$ExchangesDaoMixin {
+  ExchangesDao(DadGuideDatabase db) : super(db);
+
+  Future<List<Exchange>> findExchanges() async {
+    var s = new Stopwatch()..start();
+    final query = select(exchanges);
+
+    var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    query.where(
+        (ex) => or(ex.endTimestamp.isBiggerThanValue(nowTimestamp), ex.permanent.equals(true)));
+
+    var results = await query.get();
+    Fimber.d('egg machine lookup complete in: ${s.elapsed}');
+    return results;
   }
 }
 

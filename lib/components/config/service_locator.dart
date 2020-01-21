@@ -55,8 +55,10 @@ Future<void> tryInitializeServiceLocatorDb() async {
       return;
     }
     getIt.registerSingleton<DadGuideDatabase>(db);
-    getIt.registerSingleton<MonstersDao>(db.monstersDao);
     getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
+    getIt.registerSingleton<EggMachinesDao>(db.eggMachinesDao);
+    getIt.registerSingleton<ExchangesDao>(db.exchangesDao);
+    getIt.registerSingleton<MonstersDao>(db.monstersDao);
     getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
   } catch (ex) {
     Fimber.e('Failed to initialize db inside service locator', ex: ex);
