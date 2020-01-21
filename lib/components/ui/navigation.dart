@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -99,5 +100,37 @@ Function goToFilterMonstersFn(BuildContext context, MonsterDisplayState displayS
   return () async {
     return Navigator.pushNamed(context, FilterMonstersArgs.routeName,
         arguments: FilterMonstersArgs(displayState));
+  };
+}
+
+/// Arguments to the egg machines route.
+class EggMachineArgs {
+  static const routeName = '/eggMachines';
+  final Country server;
+
+  EggMachineArgs(this.server);
+}
+
+/// Returns a Function which when executed, sends the user to the egg machines display.
+Function goToEggMachineArgs(BuildContext context, Country server) {
+  return () async {
+    return Navigator.pushNamed(context, EggMachineArgs.routeName,
+        arguments: EggMachineArgs(server));
+  };
+}
+
+/// Arguments to the exchange route.
+class ExchangeArgs {
+  static const routeName = '/exchanges';
+  final Country server;
+
+  ExchangeArgs(this.server);
+}
+
+/// Returns a Function which when executed, sends the user to the exchange display.
+Function goToExchangeArgs(BuildContext context, Country server) {
+  return () async {
+    return Navigator.pushNamed(context, EggMachineArgs.routeName,
+        arguments: EggMachineArgs(server));
   };
 }

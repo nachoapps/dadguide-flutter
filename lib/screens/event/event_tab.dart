@@ -1,10 +1,13 @@
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -102,9 +105,6 @@ class EventList extends StatelessWidget {
 class DateSelectBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var displayState = Provider.of<ScheduleDisplayState>(context);
-    var currentEventDate = displayState.currentEventDate;
-
     return Container(
       color: grey(context, 400),
       child: Padding(
@@ -112,43 +112,42 @@ class DateSelectBar extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 20, child: DateSelectButton()),
+            Spacer(),
             SizedBox(
               height: 20,
               child: FlatButton(
-                onPressed: () => DatePicker.showDatePicker(
-                  context,
-                  currentTime: currentEventDate,
-                  minTime: DateTime.now().subtract(Duration(days: 1)),
-                  maxTime: currentEventDate.add(Duration(days: 30)),
-                  onConfirm: (d) => displayState.currentEventDate = d,
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.event),
-                    SizedBox(width: 4),
-                    Text(_dateFormatter.format(currentEventDate)),
-                  ],
-                ),
+                onPressed: goToEggMachineArgs(context, Prefs.eventCountry),
+                child: Icon(MaterialCommunityIcons.egg_easter),
               ),
             ),
-            Spacer(),
-//            Disabling schedule view and egg machine view
-//            SizedBox(
-//              height: 20,
-//              child: FlatButton(
-//                onPressed: null,
-//                child: Icon(MaterialCommunityIcons.getIconData('file-document-box-outline')),
-//              ),
-//            ),
-//            SizedBox(
-//              height: 20,
-//              child: FlatButton(
-//                onPressed: null,
-//                child: Icon(MaterialCommunityIcons.getIconData('egg')),
-//              ),
-//            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DateSelectButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<ScheduleDisplayState>(context);
+    var currentEventDate = displayState.currentEventDate;
+
+    return FlatButton(
+      onPressed: () => DatePicker.showDatePicker(
+        context,
+        currentTime: currentEventDate,
+        minTime: DateTime.now().subtract(Duration(days: 1)),
+        maxTime: currentEventDate.add(Duration(days: 30)),
+        onConfirm: (d) => displayState.currentEventDate = d,
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.event),
+          SizedBox(width: 4),
+          Text(_dateFormatter.format(currentEventDate)),
+        ],
       ),
     );
   }

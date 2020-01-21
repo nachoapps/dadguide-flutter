@@ -9,6 +9,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';
+import 'package:dadguide2/screens/egg_machine/egg_machine_subtab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/monster/monster_search_modal.dart';
@@ -34,6 +35,8 @@ class TabNavigatorRoutes {
   static const String dungeonDetail = DungeonDetailArgs.routeName;
   static const String subDungeonSelection = SubDungeonSelectionArgs.routeName;
   static const String filterMonsters = FilterMonstersArgs.routeName;
+  static const String eggMachines = EggMachineArgs.routeName;
+  static const String exchanges = ExchangeArgs.routeName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -70,6 +73,12 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.filterMonsters:
               var args = routeSettings.arguments as FilterMonstersArgs;
               return MaterialPageRoute(builder: (context) => FilterMonstersScreen(args));
+            case TabNavigatorRoutes.eggMachines:
+              var args = routeSettings.arguments as EggMachineArgs;
+              return MaterialPageRoute(builder: (context) => EggMachineScreen(args));
+//            case TabNavigatorRoutes.exchanges:
+//              var args = routeSettings.arguments as ExchangeArgs;
+//              return MaterialPageRoute(builder: (context) => EggMachineScreen(args));
             default:
               throw 'Unexpected route';
           }
