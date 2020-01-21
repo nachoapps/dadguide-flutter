@@ -36,17 +36,12 @@ class EggMachineHeaderWidget extends StatelessWidget {
     return AppBar(
       flexibleSpace: Row(
         children: [
-//          InkWell(
-//              onTap: () => showServerSelectDialog(context),
-//              child: SizedBox(width: 60, height: 40, child: DadGuideIcons.currentCountryOn)),
+          SizedBox(width: 48),
           Flexible(
             child: TabBar(tabs: [
               Tab(text: 'Collab'),
               Tab(text: 'Rare Egg'),
               Tab(text: 'Pal Egg'),
-//              Tab(text: loc.eventTabAll),
-//              Tab(text: loc.eventTabGuerrilla),
-//              Tab(text: loc.eventTabSpecial),
             ]),
           ),
         ],
