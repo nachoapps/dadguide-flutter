@@ -141,6 +141,8 @@ class UpdateTask with TaskPublisher {
         await _database.upsertData(_database.drops, _database.drops.map(row));
       } else if (table == _database.dungeons) {
         await _database.upsertData(_database.dungeons, _database.dungeons.map(row));
+      } else if (table == _database.eggMachines) {
+        await _database.upsertData(_database.eggMachines, _database.eggMachines.map(row));
       } else if (table == _database.encounters) {
         await _database.upsertData(_database.encounters, _database.encounters.map(row));
       } else if (table == _database.enemyData) {
@@ -162,6 +164,8 @@ class UpdateTask with TaskPublisher {
         await _database.upsertData(_database.enemySkills, _database.enemySkills.map(row));
       } else if (table == _database.evolutions) {
         await _database.upsertData(_database.evolutions, _database.evolutions.map(row));
+      } else if (table == _database.exchanges) {
+        await _database.upsertData(_database.exchanges, _database.exchanges.map(row));
       } else if (table == _database.leaderSkills) {
         await _database.upsertData(_database.leaderSkills, _database.leaderSkills.map(row));
       } else if (table == _database.leaderSkillTags) {
@@ -215,6 +219,8 @@ class UpdateTask with TaskPublisher {
       _database.leaderSkillTags,
       _database.series,
       _database.monsters,
+      _database.eggMachines,
+      _database.exchanges,
       _database.evolutions,
       _database.awakenings,
       _database.dungeons,
@@ -267,7 +273,7 @@ class UpdateTask with TaskPublisher {
           }
         }
       } catch (ex) {
-          Fimber.e('Failed to process deleted rows', ex: ex);
+        Fimber.e('Failed to process deleted rows', ex: ex);
       } finally {
         Prefs.tsLastDeleted = deletedRowsTs;
       }
