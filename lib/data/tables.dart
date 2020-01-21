@@ -4,7 +4,7 @@ import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
-import 'package:moor/src/runtime/expressions/expression.dart';
+import 'package:moor/src/runtime/expressions/expression.dart'; // ignore: implementation_imports
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'tables.g.dart';
