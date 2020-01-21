@@ -11,6 +11,7 @@ import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';
 import 'package:dadguide2/screens/egg_machine/egg_machine_subtab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
+import 'package:dadguide2/screens/exchange/exchange_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/monster/monster_search_modal.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
@@ -76,9 +77,9 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.eggMachines:
               var args = routeSettings.arguments as EggMachineArgs;
               return MaterialPageRoute(builder: (context) => EggMachineScreen(args));
-//            case TabNavigatorRoutes.exchanges:
-//              var args = routeSettings.arguments as ExchangeArgs;
-//              return MaterialPageRoute(builder: (context) => EggMachineScreen(args));
+            case TabNavigatorRoutes.exchanges:
+              var args = routeSettings.arguments as ExchangeArgs;
+              return MaterialPageRoute(builder: (context) => ExchangeScreen(args));
             default:
               throw 'Unexpected route';
           }

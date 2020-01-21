@@ -112,7 +112,7 @@ class EggMachineArgs {
 }
 
 /// Returns a Function which when executed, sends the user to the egg machines display.
-Function goToEggMachineArgs(BuildContext context, Country server) {
+Function goToEggMachineFn(BuildContext context, Country server) {
   return () async {
     return Navigator.pushNamed(context, EggMachineArgs.routeName,
         arguments: EggMachineArgs(server));
@@ -128,9 +128,8 @@ class ExchangeArgs {
 }
 
 /// Returns a Function which when executed, sends the user to the exchange display.
-Function goToExchangeArgs(BuildContext context, Country server) {
+Function goToExchangeFn(BuildContext context, Country server) {
   return () async {
-    return Navigator.pushNamed(context, EggMachineArgs.routeName,
-        arguments: EggMachineArgs(server));
+    return Navigator.pushNamed(context, ExchangeArgs.routeName, arguments: ExchangeArgs(server));
   };
 }

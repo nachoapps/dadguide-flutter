@@ -115,10 +115,19 @@ class DateSelectBar extends StatelessWidget {
             SizedBox(height: 20, child: DateSelectButton()),
             Spacer(),
             SizedBox(
-              height: 20,
+              height: 24,
+              width: 64,
               child: FlatButton(
-                onPressed: goToEggMachineArgs(context, Prefs.eventCountry),
+                onPressed: goToEggMachineFn(context, Prefs.eventCountry),
                 child: Icon(MaterialCommunityIcons.egg_easter),
+              ),
+            ),
+            SizedBox(
+              height: 24,
+              width: 64,
+              child: FlatButton(
+                onPressed: goToExchangeFn(context, Prefs.eventCountry),
+                child: Icon(FontAwesome.exchange),
               ),
             ),
           ],
