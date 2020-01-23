@@ -796,7 +796,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     var s = new Stopwatch()..start();
     final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
-      leftOuterJoin(enemyData, enemyData.enemyId.equalsExp(encounters.monsterId)),
+      leftOuterJoin(enemyData, enemyData.enemyId.equalsExp(encounters.enemyId)),
     ]);
 
     var results = await query.get().then((rows) {
