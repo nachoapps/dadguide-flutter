@@ -20,6 +20,16 @@ class RemoteConfigWrapper {
     var instance = await RemoteConfig.instance;
     await instance.fetch(expiration: const Duration(hours: 6));
     await instance.activateFetched();
+
+    disableMedia = instance.getBool('disable_media');
+    disableEggMachine = instance.getBool('disable_egg_machine');
+    disableExchange = instance.getBool('disable_exchange');
+
     return instance;
   }
+
+  // Toggles for new features.
+  static bool disableMedia = false;
+  static bool disableEggMachine = false;
+  static bool disableExchange = false;
 }
