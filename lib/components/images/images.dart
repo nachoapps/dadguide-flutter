@@ -19,6 +19,12 @@ Widget portraitImage(int portraitId) {
   return _loadingImage(url);
 }
 
+/// Returns a widget with a loading indicator until the image loads from the cache.
+Widget hqPortraitImage(int portraitId) {
+  var url = _imageUrl('hq_portraits', portraitId, 5);
+  return _loadingImage(url);
+}
+
 /// Widget containing an icon for a monster or dungeon. When clicked it may optionally redirect
 /// to the underlying data. This makes sense for a monster or dungeon, but not as much for an icon
 /// representing an event or attached to a list.
@@ -87,10 +93,31 @@ Widget typeContainer(int typeId, {double size: 16, double leftPadding: 0}) {
       : container;
 }
 
+///
+Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
+    {double size: 32, String server: 'jp'}) {
+  var fileName = orbSkinId.toString().padLeft(3, '0');
+  if (colorBlind) fileName += 'cb';
+  fileName += '_';
+  fileName += orbId.toString().padLeft(2, '0');
+  var url = 'https://f002.backblazeb2.com/file/dadguide-data/media/orb_skins/$server/$fileName.png';
+  return _sizedContainer(_loadingImage(url), size);
+}
+
 // TODO: convert to using Endpoints
 String _imageUrl(String category, int value, int length) {
   var paddedNo = value.toString().padLeft(length, '0');
   return 'https://f002.backblazeb2.com/file/dadguide-data/media/$category/$paddedNo.png';
+}
+
+String animationUrl(int monsterId) {
+  var fileName = monsterId.toString().padLeft(5, '0');
+  return 'https://f002.backblazeb2.com/file/dadguide-data/media/animated_portraits/$fileName.mp4';
+}
+
+String voiceUrl(String server, int monsterId) {
+  var fileName = monsterId.toString().padLeft(3, '0');
+  return 'https://f002.backblazeb2.com/file/dadguide-data/media/voices/$server/$fileName.wav';
 }
 
 Widget _sizedContainer(Widget child, double size) {
