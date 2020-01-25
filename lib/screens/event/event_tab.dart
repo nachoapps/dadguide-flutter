@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
@@ -114,22 +115,24 @@ class DateSelectBar extends StatelessWidget {
           children: [
             SizedBox(height: 20, child: DateSelectButton()),
             Spacer(),
-            SizedBox(
-              height: 24,
-              width: 64,
-              child: FlatButton(
-                onPressed: goToEggMachineFn(context, Prefs.eventCountry),
-                child: Icon(MaterialCommunityIcons.egg_easter),
+            if (!RemoteConfigWrapper.disableExchange)
+              SizedBox(
+                height: 24,
+                width: 64,
+                child: FlatButton(
+                  onPressed: goToExchangeFn(context, Prefs.eventCountry),
+                  child: Icon(FontAwesome.exchange),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 24,
-              width: 64,
-              child: FlatButton(
-                onPressed: goToExchangeFn(context, Prefs.eventCountry),
-                child: Icon(FontAwesome.exchange),
+            if (!RemoteConfigWrapper.disableEggMachine)
+              SizedBox(
+                height: 24,
+                width: 64,
+                child: FlatButton(
+                  onPressed: goToEggMachineFn(context, Prefs.eventCountry),
+                  child: Icon(MaterialCommunityIcons.egg_easter),
+                ),
               ),
-            ),
           ],
         ),
       ),
