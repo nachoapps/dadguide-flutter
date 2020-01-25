@@ -1235,7 +1235,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<List<FullEvolution>> allEvolutionsForTree(int monsterId) async {
     var ancestorId = monsterId;
     while (true) {
-      print(ancestorId);
       var possibleAncestor = await ancestorMonsterId(ancestorId);
       if (possibleAncestor.isNotEmpty) {
         ancestorId = possibleAncestor.first.fromMonsterId;
