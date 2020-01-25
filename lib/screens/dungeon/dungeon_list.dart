@@ -10,6 +10,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 
 /// Parent class for rows in the dungeon list.
@@ -54,7 +55,7 @@ class DungeonList extends StatelessWidget {
         stream: displayState.searchBloc.searchResults,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            print(snapshot.error);
+            Fimber.e('Error listing dungeons', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData || snapshot.data == null) {

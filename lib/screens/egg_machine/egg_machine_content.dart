@@ -160,7 +160,6 @@ class EggMachineSection {
   }
 
   String _pctFmt(double rate) {
-    print('$rate - ${(rate * 1000).toInt() % 10}');
     if ((rate * 1000).round() % 10 == 0) {
       return simplePercentFormat.format(rate);
     } else {

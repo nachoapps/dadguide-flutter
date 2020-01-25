@@ -77,7 +77,6 @@ class DungeonSearchBloc {
 
     // Probably move this into DAO.
     dungeons = dungeons.where((d) => args.dungeonTypeIds.contains(d.dungeon.dungeonType)).toList();
-    print(dungeons.length);
 
     _resultSink.add(dungeons);
   }

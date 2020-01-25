@@ -52,7 +52,6 @@ class _EggMachineScreenState extends State<EggMachineScreen> {
           }
 
           var data = snapshot.data;
-          print(data.length);
           var selectedCountry = Prefs.eventCountry;
           var serverData = data.where((fem) => fem.server == selectedCountry).toList();
           return EggMachineTabbedViewWidget(serverData, key: ValueKey(selectedCountry));

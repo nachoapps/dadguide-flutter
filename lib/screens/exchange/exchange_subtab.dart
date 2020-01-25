@@ -52,7 +52,6 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
           }
 
           var data = snapshot.data;
-          print(data.length);
           var selectedCountry = Prefs.eventCountry;
           var serverData = data.where((fem) => fem.server == selectedCountry).toList();
           return ExchangeTabbedViewWidget(serverData, key: ValueKey(selectedCountry));
