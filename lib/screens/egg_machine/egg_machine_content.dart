@@ -112,6 +112,8 @@ class EggMachineWidget extends StatelessWidget {
         Text(em.machine.name),
         Text(em.timedEvent.durationText(loc, DateTime.now())),
         Divider(),
+        if (sortedSections.isEmpty)
+          Flexible(child: Text("Rates and monsters only available after the machine opens")),
         Flexible(
           child: ListView.separated(
               physics: NeverScrollableScrollPhysics(),
@@ -139,7 +141,7 @@ class EggMachineSection {
 
   String get rateText {
     if (rate == 0) {
-      return 'Unknown';
+      return 'Unknown\nRate';
     }
     var totalRateStr = _pctFmt(totalRate);
     var text = '$totalRateStr total';
