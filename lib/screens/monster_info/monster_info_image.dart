@@ -99,11 +99,14 @@ class MediaViewWidget extends StatelessWidget {
         return hqPortraitImage(data.monster.monsterId);
         break;
       case ImageState.animation:
-        return VideoOnlyVideoPlayerWidget(data.monster.monsterId);
+        String url = animationUrl(data.monster.monsterId);
+        return CachedMediaPlayerWidget(url, key: ValueKey(url), video: true);
       case ImageState.jpVoice:
-        return AudioOnlyVideoPlayerWidget('jp', data.monster.voiceIdJp);
+        String url = voiceUrl('jp', data.monster.voiceIdJp);
+        return CachedMediaPlayerWidget(url, key: ValueKey(url), video: false);
       case ImageState.naVoice:
-        return AudioOnlyVideoPlayerWidget('na', data.monster.voiceIdNa);
+        String url = voiceUrl('na', data.monster.voiceIdJp);
+        return CachedMediaPlayerWidget(url, key: ValueKey(url), video: false);
       case ImageState.orbSkin:
         return OrbMediaWidget(data.monster.orbSkinId);
     }
