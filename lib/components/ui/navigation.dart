@@ -24,14 +24,19 @@ Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool 
 }
 
 /// Returns a Function which when executed, sends the user to a specific monster.
-Function goToMonsterFn(BuildContext context, int monsterId) {
+Function goToMonsterFn(BuildContext context, int monsterId, {bool replace: false}) {
   return () async {
     if ((monsterId ?? 0) == 0) {
       return null;
     }
     Fimber.i('Navigating to monster $monsterId');
-    return Navigator.pushNamed(context, MonsterDetailArgs.routeName,
-        arguments: MonsterDetailArgs(monsterId));
+    if (replace) {
+      return Navigator.pushReplacementNamed(context, MonsterDetailArgs.routeName,
+          arguments: MonsterDetailArgs(monsterId));
+    } else {
+      return Navigator.pushNamed(context, MonsterDetailArgs.routeName,
+          arguments: MonsterDetailArgs(monsterId));
+    }
   };
 }
 
