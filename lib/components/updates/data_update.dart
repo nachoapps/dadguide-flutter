@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +21,7 @@ class DataUpdater with ChangeNotifier {
     var loc = localized;
     var scaffold = Scaffold.of(_context);
     _subscription = updateManager.updateStream.listen((_) {
+      recordEvent('update_on_ui_open_succeded');
       scaffold
         ..removeCurrentSnackBar()
         ..showSnackBar((SnackBar(content: Text(loc.updateComplete))));
@@ -31,11 +33,13 @@ class DataUpdater with ChangeNotifier {
         scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailedTooOld))));
       } else {
         Fimber.e('Update failed', ex: error);
+        recordEvent('update_on_ui_open_failed');
         scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailed))));
       }
     });
     if (Prefs.updateRequired()) {
       Fimber.w('Update is required, triggering');
+      recordEvent('update_on_ui_open');
       updateManager.start();
     }
   }

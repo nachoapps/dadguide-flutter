@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -66,6 +67,10 @@ class NotificationManager {
         .where((le) =>
             Prefs.trackedDungeons.contains(le.dungeon.dungeonId) && le.timedEvent.isPending())
         .toList();
+
+    if (events.isNotEmpty) {
+      recordEvent('ensure_events_scheduled');
+    }
 
     for (var listEvent in events) {
       var event = listEvent.event;

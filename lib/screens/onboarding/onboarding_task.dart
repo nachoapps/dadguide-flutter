@@ -4,6 +4,7 @@ import 'package:archive/archive.dart';
 import 'package:dadguide2/components/config/app_state.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/ui/task_progress.dart';
 import 'package:dadguide2/data/database.dart';
@@ -88,6 +89,7 @@ class OnboardingTask with TaskPublisher {
         Prefs.updateRan();
       } catch (e) {
         Fimber.w('Downloading DB failed', ex: e);
+        recordEvent('onboarding_failure_db');
         await Future.delayed(Duration(seconds: 5));
       }
     }
@@ -99,6 +101,7 @@ class OnboardingTask with TaskPublisher {
         Prefs.setIconsDownloaded(true);
       } catch (e) {
         Fimber.w('Downloading icons failed', ex: e);
+        recordEvent('onboarding_failure_icons');
         await Future.delayed(Duration(seconds: 5));
       }
     }
@@ -124,6 +127,7 @@ class OnboardingTask with TaskPublisher {
       pub(_SubTask.unpackDb, TaskStatus.finished);
       await tmpFile.delete();
     } catch (e) {
+      recordEvent('onboarding_failure_db_unpack');
       pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
     }
@@ -142,6 +146,7 @@ class OnboardingTask with TaskPublisher {
       pub(_SubTask.unpackImages, TaskStatus.finished);
       await tmpFile.delete();
     } catch (e) {
+      recordEvent('onboarding_failure_icons_unpack');
       pub(_SubTask.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
       throw e;
     }

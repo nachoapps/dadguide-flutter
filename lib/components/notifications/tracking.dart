@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,11 +66,13 @@ Future<bool> showDungeonMenu(BuildContext context, int dungeonId, bool currently
 }
 
 Future<void> _startTracking(int dungeonId) async {
+  recordEvent('start_tracking_dungeon');
   Prefs.addTrackedDungeon(dungeonId);
   await getIt<NotificationManager>().ensureEventsScheduled();
 }
 
 Future<void> _stopTracking(int dungeonId) async {
+  recordEvent('stop_tracking_dungeon');
   Prefs.removeTrackedDungeon(dungeonId);
   await getIt<NotificationManager>().ensureEventsScheduled();
 }

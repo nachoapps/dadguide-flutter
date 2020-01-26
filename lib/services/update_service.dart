@@ -4,6 +4,7 @@ import 'dart:io' show HttpStatus;
 import 'package:convert/convert.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/ui/task_progress.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -49,6 +50,7 @@ class UpdateManager with TaskPublisher {
       return false;
     }
 
+    recordEvent('update_starting');
     var instance = UpdateTask(getIt<DadGuideDatabase>(), getIt<Dio>(), getIt<Endpoints>());
     // Proxy task updates to listeners.
     instance.pipeTo(this);
@@ -57,8 +59,10 @@ class UpdateManager with TaskPublisher {
       runningTask = instance.start();
       await runningTask;
       _updateSink.add(null);
+      recordEvent('update_succeeded');
       return true;
     } catch (ex, st) {
+      recordEvent('update_failed');
       Fimber.e('Update failed', ex: ex, stacktrace: st);
       _updateSink.addError(ex, st);
       throw ex;
@@ -247,6 +251,7 @@ class UpdateTask with TaskPublisher {
   ///
   /// When complete, update the local timestamp (since we don't keep deleted rows locally).
   Future<void> _processDeletedRows(int deletedRowsTs) async {
+    var deleteFailed = false;
     var tsLastDeleted = Prefs.tsLastDeleted;
     if (deletedRowsTs > tsLastDeleted) {
       try {
@@ -256,19 +261,22 @@ class UpdateTask with TaskPublisher {
             var tableName = row['table_name'] ?? '';
             var tableRowId = row['table_row_id'] ?? 0;
             if (tableName == '' || tableRowId == 0) {
+              recordEvent('delete_bad_row');
               Fimber.w('Cannot delete table row: $tableName - $tableRowId');
               continue;
             }
             var tableInfo = tableByName(tableName);
             if (tableInfo == null) {
+              recordEvent('delete_missing_table');
               Fimber.w('Cannot not locate table to delete from: $tableName $tableRowId');
               continue;
             }
             var tablePrimaryKey = tableInfo.$primaryKey.first.escapedName;
             var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey == $tableRowId';
+            Fimber.v('Deleting row: $deleteSql');
             _database.customUpdate(deleteSql);
-            Fimber.d('Deleting row: $deleteSql');
           } catch (ex) {
+            deleteFailed = true;
             Fimber.e('Failed to delete row', ex: ex);
           }
         }
@@ -278,5 +286,6 @@ class UpdateTask with TaskPublisher {
         Prefs.tsLastDeleted = deletedRowsTs;
       }
     }
+    recordEvent(deleteFailed ? 'delete_failed' : 'delete_succeded');
   }
 }

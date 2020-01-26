@@ -1,4 +1,5 @@
 import 'package:background_fetch/background_fetch.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
@@ -44,6 +45,7 @@ Future<void> configureUpdateDatabaseTask() async {
 }
 
 Future<void> triggerUpdate() async {
+  recordEvent('background_fetch_triggered');
   Fimber.i('Background fetch triggered');
   try {
     await updateManager.start();

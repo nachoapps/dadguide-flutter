@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Try to launch YT natively, falling back to a browser.
 Future<void> launchYouTubeSearch(String query) async {
+  recordEvent('yt_launched');
+
   // Prevent YT from interpreting dashes in monster names as instructions to remove results.
   query = query.replaceAll(' -', ' ');
 
