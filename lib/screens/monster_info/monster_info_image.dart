@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
@@ -127,13 +128,13 @@ class ImageActionsWidget extends StatelessWidget {
         if (data.prevMonsterId != null)
           InkWell(
             child: Icon(Icons.chevron_left),
-            onTap: goToMonsterFn(context, data.prevMonsterId),
+            onTap: goToMonsterFn(context, data.prevMonsterId, replace: true),
           ),
         Spacer(),
         if (data.nextMonsterId != null)
           InkWell(
             child: Icon(Icons.chevron_right),
-            onTap: goToMonsterFn(context, data.nextMonsterId),
+            onTap: goToMonsterFn(context, data.nextMonsterId, replace: true),
           ),
       ],
     );
@@ -168,7 +169,22 @@ class MediaSelectionWidget extends StatelessWidget {
           ChoiceChip(
             label: Text('Video'),
             selected: state.selected == ImageState.animation,
-            onSelected: (v) => state.newState = ImageState.animation,
+            onSelected: (v) async {
+              if (!Prefs.mediaWarningDisplayed) {
+                Prefs.mediaWarningDisplayed = true;
+                showDialog(
+                    context: context,
+                    child: AlertDialog(
+                      title: Text('Warning'),
+                      content: Text('Animations are large (> 5MB). Viewing 10 animations takes'
+                          ' more data than the rest of the app combined. If you are concerned about'
+                          ' data usage, make sure you are on WiFi.'),
+                    ));
+                return false;
+              }
+              state.newState = ImageState.animation;
+              return true;
+            },
           ),
         if (m.orbSkinId != null)
           ChoiceChip(

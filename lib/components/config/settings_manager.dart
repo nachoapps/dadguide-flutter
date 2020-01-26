@@ -32,6 +32,8 @@ class PrefKeys {
   static const tsLastDeleted = 'tsLastDeleted';
 
   static const trackedDungeons = 'tracked_dungeons';
+
+  static const mediaWarningDisplayed = 'media_warning_displayed';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -82,6 +84,7 @@ class Prefs {
       PrefKeys.showEnemySkills: true,
       PrefKeys.tsLastDeleted: defaultDeletedTs,
       PrefKeys.trackedDungeons: <String>[],
+      PrefKeys.mediaWarningDisplayed: false,
     });
   }
 
@@ -206,4 +209,9 @@ class Prefs {
 
   // Should alerts be displayed for tracked dungeons.
   static bool get alertsEnabled => PrefService.getBool(PrefKeys.notificationsAlertsEnabled);
+
+  // If we've displayed the media size warning at least once.
+  static bool get mediaWarningDisplayed => PrefService.getBool(PrefKeys.mediaWarningDisplayed);
+  static set mediaWarningDisplayed(bool value) =>
+      PrefService.setBool(PrefKeys.mediaWarningDisplayed, value);
 }
