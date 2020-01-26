@@ -1,5 +1,8 @@
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -78,12 +81,15 @@ class ExchangeViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (ctx, idx) => ExchangeWidget(data[idx]),
-        separatorBuilder: (ctx, idx) => Divider(),
-        itemCount: data.length);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (ctx, idx) => Container(child: ExchangeWidget(data[idx])),
+          separatorBuilder: (ctx, idx) => Divider(),
+          itemCount: data.length),
+    );
   }
 }
 
@@ -94,23 +100,79 @@ class ExchangeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    var loc = DadGuideLocalizations.of(context);
+    var displayExtra = em.fodderIds.length > 5;
+    var monsterLink = !displayExtra;
+    var takeAmount = displayExtra ? 5 : 4;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        PadIcon(em.exchange.targetMonsterId, monsterLink: true),
-        VerticalDivider(),
-        Text('${em.exchange.requiredCount} of'),
-        SizedBox(width: 8),
-        for (var fodderId in em.fodderIds.take(4))
-          Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: PadIcon(fodderId, monsterLink: true),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            showMonstersDialog(context, em.exchange.requiredCount, em.fodderIds);
+          },
+          child: Row(
+            children: <Widget>[
+              PadIcon(em.exchange.targetMonsterId, monsterLink: true),
+              Row(
+                children: <Widget>[
+                  SizedBox(width: 8),
+                  Text('${em.exchange.requiredCount} of'),
+                  SizedBox(width: 8),
+                  for (var fodderId in em.fodderIds.take(takeAmount))
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                      child: PadIcon(fodderId, monsterLink: monsterLink),
+                    ),
+                  if (em.fodderIds.length > 5)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Icon(Feather.plus),
+                    ),
+                ],
+              ),
+            ],
           ),
-        if (em.fodderIds.length > 4)
+        ),
+        if (!em.exchange.permanent)
           Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Icon(Feather.plus),
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              em.timedEvent.durationText(loc, DateTime.now()),
+              style: secondary(context),
+            ),
           ),
       ],
     );
   }
+}
+
+Future<void> showMonstersDialog(
+    BuildContext context, int requiredCount, List<int> monsterIds) async {
+  var clickedMonsterId = await showDialog<int>(
+    context: context,
+    builder: (innerContext) {
+      return AlertDialog(
+        title: Text('Requires $requiredCount for trade'),
+        content: SingleChildScrollView(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            runSpacing: 4,
+            spacing: 4,
+            children: <Widget>[
+              for (var fodderId in monsterIds)
+                GestureDetector(
+                    onTap: () => Navigator.of(innerContext).pop(fodderId),
+                    child: PadIcon(fodderId)),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+  if (clickedMonsterId == null) return;
+
+  goToMonsterFn(context, clickedMonsterId)();
 }
