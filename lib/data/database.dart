@@ -95,7 +95,12 @@ class DatabaseHelper {
       } catch (ex) {
         Fimber.e('Failed to close corrupt database', ex: ex);
       }
-      return;
+      try {
+        await dbFile.delete();
+      } catch (ex) {
+        Fimber.e('Failed to delete corrupt database, fatal error', ex: ex);
+        return;
+      }
     }
 
     // Database seems not corrupt, activate it.

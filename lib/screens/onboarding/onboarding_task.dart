@@ -26,10 +26,16 @@ class _SubTask {
 
   const _SubTask._(this.id, this._text);
 
-  static _SubTask downloadDb = _SubTask._(1, () => localized.onboardingDownloadDb);
-  static _SubTask unpackDb = _SubTask._(2, () => localized.onboardingUnpackDb);
-  static _SubTask downloadImages = _SubTask._(3, () => localized.onboardingDownloadImages);
-  static _SubTask unpackImages = _SubTask._(4, () => localized.onboardingUnpackImages);
+  // Adding default text if localized is null. Strangely enough this can happen during the
+  // onboarding process, which might kick off before the widget tree has finished rendering.
+  static _SubTask downloadDb =
+      _SubTask._(1, () => localized?.onboardingDownloadDb ?? 'Downloading initial data');
+  static _SubTask unpackDb =
+      _SubTask._(2, () => localized?.onboardingUnpackDb ?? 'Unpacking initial data');
+  static _SubTask downloadImages =
+      _SubTask._(3, () => localized?.onboardingDownloadImages ?? 'Downloading icon set');
+  static _SubTask unpackImages =
+      _SubTask._(4, () => localized?.onboardingUnpackImages ?? 'Unpacking icon set');
 
   String get text => _text();
 
