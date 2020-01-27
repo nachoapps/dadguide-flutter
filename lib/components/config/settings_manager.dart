@@ -62,7 +62,8 @@ class Prefs {
 
     // Initialize the deleted timestamp to yesterday, since the zip file can be at most a few
     // hours old we don't need to pull the full deleted row history.
-    var defaultDeletedTs = DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch;
+    var defaultDeletedTs =
+        DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch ~/ 1000;
 
     await PrefService.init();
     PrefService.setDefaultValues({
@@ -86,6 +87,12 @@ class Prefs {
       PrefKeys.trackedDungeons: <String>[],
       PrefKeys.mediaWarningDisplayed: false,
     });
+
+    // This is a bugfix; I accidentally borked the default TS as millis, this resets it to the
+    // default value.
+    if (Prefs.tsLastDeleted > 1500000000000) {
+      Prefs.tsLastDeleted = defaultDeletedTs;
+    }
   }
 
   /// Try to determine which country/language to use for the current locale.
