@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -17,9 +18,11 @@ class TrackingNotifier with ChangeNotifier {
 class TrackedChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
     return Container(
       padding: EdgeInsets.all(3),
-      child: Text("Tracking",
+      child: Text(loc.trackingTrackedItemText,
           style: Theme.of(context)
               .textTheme
               .caption
@@ -34,8 +37,9 @@ class TrackedChip extends StatelessWidget {
 
 /// Displays the menu, trigger by a long press of the dungeon row.
 Future<bool> showDungeonMenu(BuildContext context, int dungeonId, bool currentlyTracked) async {
+  var loc = DadGuideLocalizations.of(context);
   String addOrRemoveText =
-      currentlyTracked ? "Stop tracking this dungeon" : "Alert when dungeon is available.";
+      currentlyTracked ? loc.trackingPopupStopTrackingText : loc.trackingPopupStartTrackingText;
 
   var value = await showMenu(
     position: _buttonMenuPosition(context),

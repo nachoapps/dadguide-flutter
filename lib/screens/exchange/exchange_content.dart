@@ -119,7 +119,7 @@ class ExchangeWidget extends StatelessWidget {
               Row(
                 children: <Widget>[
                   SizedBox(width: 8),
-                  Text('${em.exchange.requiredCount} of'),
+                  Text(loc.exchangeNumberOf(em.exchange.requiredCount)),
                   SizedBox(width: 8),
                   for (var fodderId in em.fodderIds.take(takeAmount))
                     Padding(
@@ -154,8 +154,16 @@ Future<void> showMonstersDialog(
   var clickedMonsterId = await showDialog<int>(
     context: context,
     builder: (innerContext) {
+      var loc = DadGuideLocalizations.of(innerContext);
+
       return AlertDialog(
-        title: Text('Requires $requiredCount for trade'),
+        title: Text(loc.exchangeRequires(requiredCount)),
+        actions: [
+          RaisedButton(
+            child: Text(loc.close),
+            onPressed: () => Navigator.of(innerContext).pop(),
+          ),
+        ],
         content: SingleChildScrollView(
           child: Wrap(
             alignment: WrapAlignment.center,

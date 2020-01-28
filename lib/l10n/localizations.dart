@@ -157,6 +157,8 @@ class DadGuideLocalizations {
 
   String get close => Intl.message('Close', name: 'close', desc: 'Close button text for subviews');
 
+  String get warning => Intl.message('Warning', name: 'warning', desc: 'Title for alert dialogs');
+
   // ---- Dungeon list strings ----
   String get dungeonSearchHint => Intl.message('Search: Dungeon name',
       name: 'dungeonSearchHint', desc: 'Grey hint text in dungeon search field');
@@ -518,6 +520,28 @@ class DadGuideLocalizations {
   String get monsterInfoSuperAwokenSkillSection => Intl.message('Super Awoken Skills',
       name: 'monsterInfoSuperAwokenSkillSection', desc: 'Header for super awoken skills');
 
+  String get monsterMediaWarningBody => Intl.message(
+      'Animations are large (> 5MB). Viewing 10 animations takes'
+      ' more data than the rest of the app combined. If you are concerned about'
+      ' data usage, make sure you are on WiFi.',
+      name: 'monsterMediaWarningBody',
+      desc: 'Body text for the warning popup about data usage');
+
+  String get monsterMediaImage => Intl.message('Image',
+      name: 'monsterMediaImage', desc: 'Toggle text below monster image for media selection');
+
+  String get monsterMediaVideo => Intl.message('Video',
+      name: 'monsterMediaVideo', desc: 'Toggle text below monster image for media selection');
+
+  String get monsterMediaOrbs => Intl.message('Orbs',
+      name: 'monsterMediaOrbs', desc: 'Toggle text below monster image for media selection');
+
+  String get monsterMediaJPVoice => Intl.message('JP Voice',
+      name: 'monsterMediaJPVoice', desc: 'Toggle text below monster image for media selection');
+
+  String get monsterMediaNAVoice => Intl.message('NA Voice',
+      name: 'monsterMediaNAVoice', desc: 'Toggle text below monster image for media selection');
+
   // ---- Onboarding strings ----
   String get onboardingTitle => Intl.message('First-launch setup',
       name: 'onboardingTitle', desc: 'Header for onboarding page');
@@ -812,6 +836,40 @@ class DadGuideLocalizations {
         examples: const {'hits': '1-5', 'damage': '200-5,100'},
         desc: 'Text below a skill that describes the attack',
       );
+
+  // ---- Exchange view ----
+  String exchangeNumberOf(int requiredCount) => Intl.message(
+        '$requiredCount of',
+        name: 'exchangeNumberOf',
+        args: [requiredCount],
+        desc: 'Exchange view, required for trade text',
+      );
+
+  String exchangeRequires(int requiredCount) => Intl.message(
+        'Requires $requiredCount for trade',
+        name: 'exchangeRequires',
+        args: [requiredCount],
+        desc: 'Exchange view popup title',
+      );
+
+  // ---- Egg machine view ----
+  String get eggMachineNoInfo =>
+      Intl.message('Rates and monsters only available after the machine opens',
+          name: 'eggMachineNoInfo',
+          desc: 'Displayed in place of the rates/contents before a machine opens');
+
+  // ---- Tracking widgets ----
+  String get trackingTrackedItemText => Intl.message('Tracking',
+      name: 'trackingTrackedItemText',
+      desc: 'Text used to identify dungeons that are being tracked for notifications');
+
+  String get trackingPopupStartTrackingText => Intl.message('Alert when dungeon is available.',
+      name: 'trackingPopupStartTrackingText',
+      desc: 'Popup text when long-pressing a dungeon that can be tracked');
+
+  String get trackingPopupStopTrackingText => Intl.message('Stop tracking this dungeon',
+      name: 'trackingPopupStopTrackingText',
+      desc: 'Popup text when long-pressing a dungeon that is already tracked');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 

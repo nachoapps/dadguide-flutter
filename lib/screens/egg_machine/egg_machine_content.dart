@@ -112,8 +112,7 @@ class EggMachineWidget extends StatelessWidget {
         Text(em.machine.name),
         Text(em.timedEvent.durationText(loc, DateTime.now())),
         Divider(),
-        if (sortedSections.isEmpty)
-          Flexible(child: Text("Rates and monsters only available after the machine opens")),
+        if (sortedSections.isEmpty) Flexible(child: Text(loc.eggMachineNoInfo)),
         Flexible(
           child: ListView.separated(
               physics: NeverScrollableScrollPhysics(),

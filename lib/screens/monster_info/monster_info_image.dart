@@ -3,6 +3,7 @@ import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
@@ -148,14 +149,16 @@ class MediaSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var state = Provider.of<ImageDisplayState>(context);
+
     var m = data.monster;
     return Wrap(
       spacing: 8,
       runSpacing: 4,
       children: [
         ChoiceChip(
-          label: Text('Image'),
+          label: Text(loc.monsterMediaImage),
           selected: state.selected == ImageState.portrait,
           onSelected: (v) => state.newState = ImageState.portrait,
         ),
@@ -167,7 +170,7 @@ class MediaSelectionWidget extends StatelessWidget {
 //          ),
         if (m.hasAnimation)
           ChoiceChip(
-            label: Text('Video'),
+            label: Text(loc.monsterMediaVideo),
             selected: state.selected == ImageState.animation,
             onSelected: (v) async {
               if (!Prefs.mediaWarningDisplayed) {
@@ -175,10 +178,14 @@ class MediaSelectionWidget extends StatelessWidget {
                 showDialog(
                     context: context,
                     child: AlertDialog(
-                      title: Text('Warning'),
-                      content: Text('Animations are large (> 5MB). Viewing 10 animations takes'
-                          ' more data than the rest of the app combined. If you are concerned about'
-                          ' data usage, make sure you are on WiFi.'),
+                      title: Text(loc.warning),
+                      content: Text(loc.monsterMediaWarningBody),
+                      actions: [
+                        RaisedButton(
+                          child: Text(loc.close),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
                     ));
                 return false;
               }
@@ -188,19 +195,19 @@ class MediaSelectionWidget extends StatelessWidget {
           ),
         if (m.orbSkinId != null)
           ChoiceChip(
-            label: Text('Orbs'),
+            label: Text(loc.monsterMediaOrbs),
             selected: state.selected == ImageState.orbSkin,
             onSelected: (v) => state.newState = ImageState.orbSkin,
           ),
         if (m.voiceIdJp != null)
           ChoiceChip(
-            label: Text('JP Voice'),
+            label: Text(loc.monsterMediaJPVoice),
             selected: state.selected == ImageState.jpVoice,
             onSelected: (v) => state.newState = ImageState.jpVoice,
           ),
         if (m.voiceIdNa != null)
           ChoiceChip(
-            label: Text('NA Voice'),
+            label: Text(loc.monsterMediaNAVoice),
             selected: state.selected == ImageState.naVoice,
             onSelected: (v) => state.newState = ImageState.naVoice,
           ),
