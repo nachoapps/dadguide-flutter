@@ -6,6 +6,7 @@ import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -83,6 +84,7 @@ class _CachedMediaPlayerWidgetState extends State<CachedMediaPlayerWidget> {
         future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
+            Fimber.e('Failed to load media to cache', ex: snapshot.error);
             return Icon(Icons.error_outline, size: 48);
           } else if (snapshot.hasData) {
             if (widget.video) {
@@ -129,6 +131,7 @@ class MediaPlayerWidget extends StatelessWidget {
       child: Consumer<VideoPlayerController>(
         builder: (context, controller, widget) {
           if (controller.value.hasError) {
+            Fimber.e('Failed to load cached media: ${controller.value.errorDescription}');
             return Icon(Icons.error_outline, size: 48);
           } else if (!controller.value.initialized) {
             return Icon(Icons.cloud_download, size: 48);
