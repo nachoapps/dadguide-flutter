@@ -4,6 +4,7 @@ import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/updates/background_fetch.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
+import 'package:dadguide2/components/utils/logging.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
@@ -48,11 +49,14 @@ void _syncInit() {
   }
 
   // Set up logging.
-  Fimber.plantTree(FimberTree());
+  initLogging();
 }
 
 /// Long running actions that we expect to complete before starting the app.
 Future<bool> _asyncInit() async {
+  // Set up file logger.
+  await initAsyncLogging();
+
   // Ensure the preference defaults are set.
   await Prefs.init();
 
