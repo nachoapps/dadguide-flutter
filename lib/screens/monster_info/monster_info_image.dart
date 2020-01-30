@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/images.dart';
@@ -199,13 +201,13 @@ class MediaSelectionWidget extends StatelessWidget {
             selected: state.selected == ImageState.orbSkin,
             onSelected: (v) => state.newState = ImageState.orbSkin,
           ),
-        if (m.voiceIdJp != null)
+        if (m.voiceIdJp != null && Platform.isAndroid)
           ChoiceChip(
             label: Text(loc.monsterMediaJPVoice),
             selected: state.selected == ImageState.jpVoice,
             onSelected: (v) => state.newState = ImageState.jpVoice,
           ),
-        if (m.voiceIdNa != null)
+        if (m.voiceIdNa != null && Platform.isAndroid)
           ChoiceChip(
             label: Text(loc.monsterMediaNAVoice),
             selected: state.selected == ImageState.naVoice,

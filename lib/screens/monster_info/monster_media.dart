@@ -122,10 +122,11 @@ class MediaPlayerWidget extends StatelessWidget {
         var player = VideoPlayerController.file(file);
         player.setLooping(looping);
         player.initialize().then((_) {
+          Fimber.i('Loaded $file');
           if (autoPlay) {
             player.play();
           }
-        });
+        }, onError: (e) => Fimber.e('Failed to load $file'));
         return player;
       },
       child: Consumer<VideoPlayerController>(
