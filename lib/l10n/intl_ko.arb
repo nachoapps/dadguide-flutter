@@ -280,6 +280,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "warning": "Warning",
+    "@warning": {
+        "description": "Title for alert dialogs",
+        "type": "text",
+        "placeholders": {}
+    },
     "dungeonSearchHint": "검색 : 던전 이름",
     "@dungeonSearchHint": {
         "description": "Grey hint text in dungeon search field",
@@ -874,6 +880,42 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterMediaWarningBody": "Animations are large (> 5MB). Viewing 10 animations takes more data than the rest of the app combined. If you are concerned about data usage, make sure you are on WiFi.",
+    "@monsterMediaWarningBody": {
+        "description": "Body text for the warning popup about data usage",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaImage": "Image",
+    "@monsterMediaImage": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaVideo": "Video",
+    "@monsterMediaVideo": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaOrbs": "Orbs",
+    "@monsterMediaOrbs": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaJPVoice": "JP Voice",
+    "@monsterMediaJPVoice": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaNAVoice": "NA Voice",
+    "@monsterMediaNAVoice": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
     "onboardingTitle": "최초 실행 설정",
     "@onboardingTitle": {
         "description": "Header for onboarding page",
@@ -1399,5 +1441,45 @@
                 "example": "200-5,100"
             }
         }
+    },
+    "exchangeNumberOf": "{requiredCount} of",
+    "@exchangeNumberOf": {
+        "description": "Exchange view, required for trade text",
+        "type": "text",
+        "placeholders": {
+            "requiredCount": {}
+        }
+    },
+    "exchangeRequires": "Requires {requiredCount} for trade",
+    "@exchangeRequires": {
+        "description": "Exchange view popup title",
+        "type": "text",
+        "placeholders": {
+            "requiredCount": {}
+        }
+    },
+    "eggMachineNoInfo": "Rates and monsters only available after the machine opens",
+    "@eggMachineNoInfo": {
+        "description": "Displayed in place of the rates/contents before a machine opens",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingTrackedItemText": "Tracking",
+    "@trackingTrackedItemText": {
+        "description": "Text used to identify dungeons that are being tracked for notifications",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingPopupStartTrackingText": "Alert when dungeon is available.",
+    "@trackingPopupStartTrackingText": {
+        "description": "Popup text when long-pressing a dungeon that can be tracked",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingPopupStopTrackingText": "Stop tracking this dungeon",
+    "@trackingPopupStopTrackingText": {
+        "description": "Popup text when long-pressing a dungeon that is already tracked",
+        "type": "text",
+        "placeholders": {}
     }
 }

@@ -29,49 +29,85 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m4(stamina) => "스태미너 : ${stamina}";
 
-  static m5(days) => "${days} 일";
+  static m5(hits, damage) => "Attack ${hits} times for ${damage} damage";
 
-  static m6(number) => "코스트 ${number}";
+  static m6(turnText) => "always on ${turnText}";
 
-  static m7(number) => "공격력 ${number}";
+  static m7(threshold) => "HP < ${threshold}";
 
-  static m8(number) => "HP ${number}";
+  static m8(threshold) => "HP <= ${threshold}";
 
-  static m9(number) => "회복 ${number}";
+  static m9(number) => "At most ${number} times";
 
-  static m10(date) => "[${date}] 추가";
+  static m10(number) => "When <=${number} enemies";
 
-  static m11(number) => "No. ${number}";
+  static m11(total) => "Repeats every ${total} turns";
 
-  static m12(seriesName) => "시리즈- ${seriesName}";
+  static m12(start, total) => "Repeating, turns ${start} of ${total}";
 
-  static m13(max) => "Lv.MAX 턴 : ${max}";
+  static m13(start, end, total) => "Repeating, turns ${start}-${end} of ${total}";
 
-  static m14(max, min, levels) => "Lv.1 회전 : ${max} (Lv. ${levels} 회전 : ${min} )";
+  static m14(skillName) => "Always use after ${skillName}";
 
-  static m15(number) => "공격 ${number}";
+  static m15(number) => "When ${number} combos last turn";
 
-  static m16(number) => "HP ${number}";
+  static m16(monsters) => "When [${monsters}] on team";
 
-  static m17(number) => "Lv. ${number}";
+  static m17(start) => "turn ${start}";
 
-  static m18(number) => "한도 휴식 : ${number} %";
+  static m18(start, end) => "turns ${start}-${end}";
 
-  static m19(number) => "몬스터 포인트 ${number}";
+  static m19(number) => "${number}% chance";
 
-  static m20(number) => "No. ${number}";
+  static m20(turnText, alwaysTriggerAbove) => "${turnText} while above ${alwaysTriggerAbove} HP";
 
-  static m21(number) => "회복 ${number}";
+  static m21(days) => "${days} 일";
 
-  static m22(number) => "환산치 ${number}";
+  static m22(requiredCount) => "${requiredCount} of";
 
-  static m23(mp, mpPerStam) => "${mp} (${mpPerStam} / 스태미나)";
+  static m23(requiredCount) => "Requires ${requiredCount} for trade";
 
-  static m24(index, taskCount) => "실행 작업 (${index} / ${taskCount})";
+  static m24(number) => "코스트 ${number}";
 
-  static m25(index, taskCount) => "${taskCount} 의 작업 ${index} 에 실패했습니다";
+  static m25(number) => "공격력 ${number}";
 
-  static m26(percent) => "${percent} %";
+  static m26(number) => "HP ${number}";
+
+  static m27(number) => "회복 ${number}";
+
+  static m28(date) => "[${date}] 추가";
+
+  static m29(number) => "No. ${number}";
+
+  static m30(seriesName) => "시리즈- ${seriesName}";
+
+  static m31(max) => "Lv.MAX 턴 : ${max}";
+
+  static m32(max, min, levels) => "Lv.1 회전 : ${max} (Lv. ${levels} 회전 : ${min} )";
+
+  static m33(number) => "공격 ${number}";
+
+  static m34(number) => "HP ${number}";
+
+  static m35(number) => "Lv. ${number}";
+
+  static m36(number) => "한도 휴식 : ${number} %";
+
+  static m37(number) => "몬스터 포인트 ${number}";
+
+  static m38(number) => "No. ${number}";
+
+  static m39(number) => "회복 ${number}";
+
+  static m40(number) => "환산치 ${number}";
+
+  static m41(mp, mpPerStam) => "${mp} (${mpPerStam} / 스태미나)";
+
+  static m42(index, taskCount) => "실행 작업 (${index} / ${taskCount})";
+
+  static m43(index, taskCount) => "${taskCount} 의 작업 ${index} 에 실패했습니다";
+
+  static m44(percent) => "${percent} %";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -96,13 +132,49 @@ class MessageLookup extends MessageLookupByLibrary {
     "dungeonTabNormal" : MessageLookupByLibrary.simpleMessage("노멀"),
     "dungeonTabSpecial" : MessageLookupByLibrary.simpleMessage("스페셜"),
     "dungeonTabTechnical" : MessageLookupByLibrary.simpleMessage("테크니컬"),
+    "eggMachineNoInfo" : MessageLookupByLibrary.simpleMessage("Rates and monsters only available after the machine opens"),
+    "esAttackText" : m5,
+    "esCondAlwaysOnTurn" : m6,
+    "esCondAttributesAvailable" : MessageLookupByLibrary.simpleMessage("Requires specific attributes"),
+    "esCondDefeated" : MessageLookupByLibrary.simpleMessage("When defeated"),
+    "esCondHpFull" : MessageLookupByLibrary.simpleMessage("When HP is full"),
+    "esCondHpLt" : m7,
+    "esCondHpLtEq" : m8,
+    "esCondLimitedExecution" : m9,
+    "esCondMultipleEnemiesRemaining" : m10,
+    "esCondNothingMatched" : MessageLookupByLibrary.simpleMessage("If no other skills matched"),
+    "esCondOneEnemiesRemaining" : MessageLookupByLibrary.simpleMessage("When alone"),
+    "esCondOneTimeOnly" : MessageLookupByLibrary.simpleMessage("One time only"),
+    "esCondPartJoin" : MessageLookupByLibrary.simpleMessage(", "),
+    "esCondRepeating1" : m11,
+    "esCondRepeating2" : m12,
+    "esCondRepeating3" : m13,
+    "esCondTriggerAfter" : m14,
+    "esCondTriggerCombos" : m15,
+    "esCondTriggerMonsters" : m16,
+    "esCondTurnsExact" : m17,
+    "esCondTurnsRange" : m18,
+    "esCondUseChance" : m19,
+    "esCondWhileAboveHp" : m20,
+    "esGroupAbilities" : MessageLookupByLibrary.simpleMessage("Abilities"),
+    "esGroupEnemyDebuff" : MessageLookupByLibrary.simpleMessage("When monster delayed/poisoned"),
+    "esGroupError" : MessageLookupByLibrary.simpleMessage("<error>"),
+    "esGroupOnDeath" : MessageLookupByLibrary.simpleMessage("On death"),
+    "esGroupPlayerBuff" : MessageLookupByLibrary.simpleMessage("When player has buff"),
+    "esGroupPreemptive" : MessageLookupByLibrary.simpleMessage("선제"),
+    "esGroupStandard" : MessageLookupByLibrary.simpleMessage("Standard"),
+    "esGroupUnknown" : MessageLookupByLibrary.simpleMessage("Unknown"),
+    "esGroupUnknownUse" : MessageLookupByLibrary.simpleMessage("Unknown usage"),
+    "esNotReviewedWarning" : MessageLookupByLibrary.simpleMessage("This monster\'s behavior not yet reviewed. Rely on it at your own risk."),
     "eventClosed" : MessageLookupByLibrary.simpleMessage("종료된 이벤트"),
-    "eventDays" : m5,
+    "eventDays" : m21,
     "eventTabAll" : MessageLookupByLibrary.simpleMessage("전체"),
     "eventTabGuerrilla" : MessageLookupByLibrary.simpleMessage("게릴라"),
     "eventTabNews" : MessageLookupByLibrary.simpleMessage("뉴스"),
     "eventTabSpecial" : MessageLookupByLibrary.simpleMessage("스페셜"),
     "exampleYtVideos" : MessageLookupByLibrary.simpleMessage("팀과 던전 명확한 예"),
+    "exchangeNumberOf" : m22,
+    "exchangeRequires" : m23,
     "exp" : MessageLookupByLibrary.simpleMessage("경험치"),
     "languageEn" : MessageLookupByLibrary.simpleMessage("영어"),
     "languageJa" : MessageLookupByLibrary.simpleMessage("일본어"),
@@ -117,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterFilterModalMainAttr" : MessageLookupByLibrary.simpleMessage("주속성"),
     "monsterFilterModalRarity" : MessageLookupByLibrary.simpleMessage("레어도"),
     "monsterFilterModalReset" : MessageLookupByLibrary.simpleMessage("초기화"),
+    "monsterFilterModalSeries" : MessageLookupByLibrary.simpleMessage("Series"),
     "monsterFilterModalSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
     "monsterFilterModalTitle" : MessageLookupByLibrary.simpleMessage("상세 검색"),
     "monsterFilterModalType" : MessageLookupByLibrary.simpleMessage("타입"),
@@ -125,28 +198,29 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("공격"),
     "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("사용 가능한 킬러"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("각성스킬"),
-    "monsterInfoCost" : m6,
+    "monsterInfoCost" : m24,
     "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("드롭 던전"),
     "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("드롭 던전 : 없음"),
-    "monsterInfoEvoDiffAtk" : m7,
-    "monsterInfoEvoDiffHp" : m8,
-    "monsterInfoEvoDiffRcv" : m9,
+    "monsterInfoEvoDiffAtk" : m25,
+    "monsterInfoEvoDiffHp" : m26,
+    "monsterInfoEvoDiffRcv" : m27,
     "monsterInfoEvolution" : MessageLookupByLibrary.simpleMessage("진화"),
     "monsterInfoExp" : MessageLookupByLibrary.simpleMessage("경험치"),
-    "monsterInfoHistoryAdded" : m10,
+    "monsterInfoHistoryAdded" : m28,
     "monsterInfoHistoryTitle" : MessageLookupByLibrary.simpleMessage("히스토리"),
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("리더 스킬 :"),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv."),
     "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("사용처"),
-    "monsterInfoNo" : m11,
+    "monsterInfoNo" : m29,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("돌이킬 수없는 진화"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("회복"),
     "monsterInfoReversableEvolution" : MessageLookupByLibrary.simpleMessage("가역적 진화"),
-    "monsterInfoSeriesHeader" : m12,
+    "monsterInfoSeriesHeader" : m30,
     "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("대미지 경감"),
-    "monsterInfoSkillMaxed" : m13,
-    "monsterInfoSkillTurns" : m14,
+    "monsterInfoSkillMaxed" : m31,
+    "monsterInfoSkillTurns" : m32,
+    "monsterInfoSkillupDungeonTitleNone" : MessageLookupByLibrary.simpleMessage("Skill Up - Dungeon: None"),
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-던전"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-몬스터"),
     "monsterInfoStatBonus" : MessageLookupByLibrary.simpleMessage("보조 할 때의 스탯 보너스"),
@@ -158,14 +232,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("금 판매"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MP 판매"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
-    "monsterListAtk" : m15,
-    "monsterListHp" : m16,
-    "monsterListLevel" : m17,
-    "monsterListLimitBreak" : m18,
-    "monsterListMp" : m19,
-    "monsterListNo" : m20,
-    "monsterListRcv" : m21,
-    "monsterListWeighted" : m22,
+    "monsterListAtk" : m33,
+    "monsterListHp" : m34,
+    "monsterListLevel" : m35,
+    "monsterListLimitBreak" : m36,
+    "monsterListMp" : m37,
+    "monsterListNo" : m38,
+    "monsterListRcv" : m39,
+    "monsterListWeighted" : m40,
+    "monsterMediaImage" : MessageLookupByLibrary.simpleMessage("Image"),
+    "monsterMediaJPVoice" : MessageLookupByLibrary.simpleMessage("JP Voice"),
+    "monsterMediaNAVoice" : MessageLookupByLibrary.simpleMessage("NA Voice"),
+    "monsterMediaOrbs" : MessageLookupByLibrary.simpleMessage("Orbs"),
+    "monsterMediaVideo" : MessageLookupByLibrary.simpleMessage("Video"),
+    "monsterMediaWarningBody" : MessageLookupByLibrary.simpleMessage("Animations are large (> 5MB). Viewing 10 animations takes more data than the rest of the app combined. If you are concerned about data usage, make sure you are on WiFi."),
     "monsterSortAsc" : MessageLookupByLibrary.simpleMessage("오름차순"),
     "monsterSortDesc" : MessageLookupByLibrary.simpleMessage("내림차순"),
     "monsterSortModalTitle" : MessageLookupByLibrary.simpleMessage("정렬 순서 변경"),
@@ -182,7 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
     "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("타입"),
     "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
-    "mpAndMpPerStam" : m23,
+    "mpAndMpPerStam" : m41,
     "noData" : MessageLookupByLibrary.simpleMessage("데이터 없음"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("표시 언어"),
     "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UI 요소 및 PAD 데이터에 적용"),
@@ -216,6 +296,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsInfoLanguage" : MessageLookupByLibrary.simpleMessage("정보 언어"),
     "settingsInfoLanguageDesc" : MessageLookupByLibrary.simpleMessage("몬스터/던전 이름, 스킬 등에 적용됩니다."),
     "settingsInfoSection" : MessageLookupByLibrary.simpleMessage("정보"),
+    "settingsNotificationsDesc" : MessageLookupByLibrary.simpleMessage("Alert when a dungeon opens. Long-press on an event or dungeon to toggle tracking."),
+    "settingsNotificationsEnabled" : MessageLookupByLibrary.simpleMessage("Enable alerts"),
+    "settingsNotificationsSection" : MessageLookupByLibrary.simpleMessage("Notifications"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("설정"),
     "settingsUiLanguage" : MessageLookupByLibrary.simpleMessage("언어 설정"),
     "settingsUiLanguageDesc" : MessageLookupByLibrary.simpleMessage("기기에 설정되어 있는 지역의 언어를 불러옵니다."),
@@ -225,14 +308,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabMonster" : MessageLookupByLibrary.simpleMessage("몬스터"),
     "tabSetting" : MessageLookupByLibrary.simpleMessage("설정"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("작업 실행 중"),
-    "taskExecutingWithCount" : m24,
-    "taskFailedWithCount" : m25,
+    "taskExecutingWithCount" : m42,
+    "taskFailedWithCount" : m43,
     "taskFatalError" : MessageLookupByLibrary.simpleMessage("치명적인 오류가 발생했습니다. 앱을 다시 시작해 주세요."),
     "taskFinished" : MessageLookupByLibrary.simpleMessage("모든 작업 완료"),
-    "taskProgress" : m26,
+    "taskProgress" : m44,
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("인터넷 연결을 확인하십시오. 자동 재시작"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("작업 대기 중"),
     "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),
+    "trackingPopupStartTrackingText" : MessageLookupByLibrary.simpleMessage("Alert when dungeon is available."),
+    "trackingPopupStopTrackingText" : MessageLookupByLibrary.simpleMessage("Stop tracking this dungeon"),
+    "trackingTrackedItemText" : MessageLookupByLibrary.simpleMessage("Tracking"),
     "typeAttacker" : MessageLookupByLibrary.simpleMessage("공격"),
     "typeAwoken" : MessageLookupByLibrary.simpleMessage("능력각성용"),
     "typeBalanced" : MessageLookupByLibrary.simpleMessage("밸런스"),
@@ -247,7 +333,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "typeVendor" : MessageLookupByLibrary.simpleMessage("매각용"),
     "updateComplete" : MessageLookupByLibrary.simpleMessage("업데이트 완료"),
     "updateFailed" : MessageLookupByLibrary.simpleMessage("업데이트 실패"),
+    "updateFailedTooOld" : MessageLookupByLibrary.simpleMessage("DadGuide needs to update"),
     "updateModalTitle" : MessageLookupByLibrary.simpleMessage("DadGuide 데이터 업데이트"),
+    "upgradingDbTitle" : MessageLookupByLibrary.simpleMessage("Database upgrade"),
+    "upgradingInfoText" : MessageLookupByLibrary.simpleMessage("Some updates introduce incompatible database changes. When this occurs, you need to download a replacement with the new data. This contains about 20MB of data; sorry for the inconvenience."),
+    "upgradingInfoTitle" : MessageLookupByLibrary.simpleMessage("Downloading and installing a database update"),
+    "warning" : MessageLookupByLibrary.simpleMessage("Warning"),
     "ytLaunchError" : MessageLookupByLibrary.simpleMessage("YouTube를 시작하지 못했습니다")
   };
 }

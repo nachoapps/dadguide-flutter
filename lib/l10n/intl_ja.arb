@@ -280,6 +280,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "warning": "警告",
+    "@warning": {
+        "description": "Title for alert dialogs",
+        "type": "text",
+        "placeholders": {}
+    },
     "dungeonSearchHint": "検索：ダンジョン名",
     "@dungeonSearchHint": {
         "description": "Grey hint text in dungeon search field",
@@ -874,6 +880,42 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterMediaWarningBody": "アニメーションのファイルサイズは大きい (> 5MB)。 10個以上のアニメーションを表示するには、アプリの他の部分を合わせたよりも多くのデータが必要です。\nデータ量の使用に不安がある場合は、WiFiを使用していることを確認してください。",
+    "@monsterMediaWarningBody": {
+        "description": "Body text for the warning popup about data usage",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaImage": "画像",
+    "@monsterMediaImage": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaVideo": "ビデオ",
+    "@monsterMediaVideo": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaOrbs": "ドロップ",
+    "@monsterMediaOrbs": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaJPVoice": "日本版のボイス",
+    "@monsterMediaJPVoice": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterMediaNAVoice": "北米版のボイス",
+    "@monsterMediaNAVoice": {
+        "description": "Toggle text below monster image for media selection",
+        "type": "text",
+        "placeholders": {}
+    },
     "onboardingTitle": "初回起動のセットアップ",
     "@onboardingTitle": {
         "description": "Header for onboarding page",
@@ -1399,5 +1441,45 @@
                 "example": "200-5,100"
             }
         }
+    },
+    "exchangeNumberOf": "{requiredCount}の",
+    "@exchangeNumberOf": {
+        "description": "Exchange view, required for trade text",
+        "type": "text",
+        "placeholders": {
+            "requiredCount": {}
+        }
+    },
+    "exchangeRequires": "交換には{requiredCount}体が必要",
+    "@exchangeRequires": {
+        "description": "Exchange view popup title",
+        "type": "text",
+        "placeholders": {
+            "requiredCount": {}
+        }
+    },
+    "eggMachineNoInfo": "確率とモンスターはイベント開始後にのみ表示可能",
+    "@eggMachineNoInfo": {
+        "description": "Displayed in place of the rates/contents before a machine opens",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingTrackedItemText": "トラック中",
+    "@trackingTrackedItemText": {
+        "description": "Text used to identify dungeons that are being tracked for notifications",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingPopupStartTrackingText": "ダンジョンが利用可能になったときに通知します。",
+    "@trackingPopupStartTrackingText": {
+        "description": "Popup text when long-pressing a dungeon that can be tracked",
+        "type": "text",
+        "placeholders": {}
+    },
+    "trackingPopupStopTrackingText": "このダンジョンをトラックしなくなる",
+    "@trackingPopupStopTrackingText": {
+        "description": "Popup text when long-pressing a dungeon that is already tracked",
+        "type": "text",
+        "placeholders": {}
     }
 }
