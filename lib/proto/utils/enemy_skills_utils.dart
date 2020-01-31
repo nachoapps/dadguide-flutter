@@ -27,13 +27,13 @@ Iterable<int> _extractSkillIdsFromBehaviorItem(BehaviorItem bi) {
 List<BehaviorGroup> pickLevelBehaviors(MonsterBehavior behavior, int atLevel) {
   var behaviorGroups = <BehaviorGroup>[];
 
-  // Find all the behavior options where the level is greater or equal then then enecounter level.
+  // Find all the behavior options where the level is greater or equal then then encounter level.
   var possibleLevels = behavior.levels.where((lb) => lb.level <= atLevel);
 
   // Assuming we have at least one level...
   if (possibleLevels.isNotEmpty) {
-    // We take the behavior at the lowest level that qualified.
-    var selectedLevel = possibleLevels.reduce((l, r) => l.level < r.level ? l : r);
+    // We take the behavior at the highest level that qualified.
+    var selectedLevel = possibleLevels.reduce((l, r) => l.level > r.level ? l : r);
     behaviorGroups.addAll(selectedLevel.groups);
   }
 
