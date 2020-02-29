@@ -174,6 +174,7 @@ class FullMonster {
   final List<FullEvolution> evolutions;
   final Map<int, List<BasicDungeon>> dropLocations;
   final List<int> materialForMonsters;
+  final List<Transformation> transformations;
 
   final LanguageSelector name;
 
@@ -189,7 +190,8 @@ class FullMonster {
       this.skillUpDungeons,
       this.evolutions,
       this.dropLocations,
-      this.materialForMonsters)
+      this.materialForMonsters,
+      this.transformations)
       : name = LanguageSelector.nameWithNaOverride(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
@@ -249,6 +251,14 @@ class FullEvolution {
   }
 
   EvolutionType get type => EvolutionType.byId(evolution.evolutionType);
+}
+
+/// Monster and the monster that it can transform into using an active.
+class Transformation {
+  final Monster fromMonster;
+  final Monster toMonster;
+
+  Transformation(this.fromMonster, this.toMonster);
 }
 
 /// Awakening plus skill info, for the monster detail view.

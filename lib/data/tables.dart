@@ -923,6 +923,8 @@ class MonsterSearchArgs {
         ' OR mat_4_id = :monsterId' +
         ' OR mat_5_id = :monsterId'
             ' GROUP BY 1'),
+    'transformationMonsterId':
+        'SELECT linked_monster_id AS "linkedMonsterId" FROM monsters WHERE monster_id = :monsterId',
   },
 )
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
@@ -1194,6 +1196,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       evoTreeIds.add(e.toMonster.monsterId);
     }
 
+    final transformationList = await allTransformationsForTree(resultMonster);
+
     var dropLocations = Map<int, List<BasicDungeon>>();
     for (var evoTreeId in evoTreeIds) {
       dropLocations[evoTreeId] = await findDropDungeons(evoTreeId);
@@ -1215,6 +1219,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       evolutionList,
       dropLocations,
       materialForMonsters,
+      transformationList,
     );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
@@ -1230,6 +1235,21 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     final result = FullSeries(seriesValue, seriesMonsters);
     Fimber.d('series lookup complete in: ${s.elapsed}');
     return result;
+  }
+
+  Future<List<Transformation>> allTransformationsForTree(Monster base) async {
+    var idsSeen = <int>{};
+    var results = <Transformation>[];
+
+    Monster linked;
+    while (base.monsterId != null && !idsSeen.contains(base.monsterId)) {
+      idsSeen.add(base.monsterId);
+      linked =
+          await (select(monsters)..where((m) => m.monsterId.equals(base.monsterId))).getSingle();
+      results.add(Transformation(base, linked));
+      base = linked;
+    }
+    return results;
   }
 
   Future<List<FullEvolution>> allEvolutionsForTree(int monsterId) async {
