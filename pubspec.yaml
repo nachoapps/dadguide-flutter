@@ -23,11 +23,11 @@ dependencies:
   firebase_remote_config: ^0.3.0+1
   #cloud_firestore: ^0.12.9
 
-  sqflite: ^1.1.8
-  path_provider: ^1.5.1
+  sqflite: ^1.3.0
+  path_provider: ^1.6.5
 
   stack_trace: ^1.9.3
-  cached_network_image: ^2.0.0-rc
+  cached_network_image: ^2.0.0
   # If updating this, need to verify cache.dart
   flutter_cache_manager: 1.1.3
   protobuf: any
@@ -37,47 +37,47 @@ dependencies:
   moor_flutter: ^1.7.0
 
   # Notifications
-  background_fetch: 0.3.2
-  flutter_local_notifications: ^0.8.4+3
+  background_fetch: 0.5.4
+  flutter_local_notifications: ^1.3.0
 
   # Injection
-  provider: ^3.2.0
+  provider: ^4.0.4
 
   # Settings page
   # TODO: review new 5.0 features for use in settings dialog
-  preferences: ^5.0.2
+  preferences: ^5.1.0
 
   # Date/internationalization stuff
   intl: ^0.16.0
 
   # Http downloads
-  dio: ^3.0.7
+  dio: ^3.0.9
 
   # Logging
-  flutter_fimber: ^0.3.2
+  flutter_fimber: ^0.4.0
+  fimber_io: ^0.4.0
 
   # More icons
   cupertino_icons: ^0.1.3
   flutter_icons: ^1.0.0
 
   # Dependency injection
-  # TODO: look into upgrading to 3.0.3
-  get_it: ^1.0.3+2
+  get_it: ^4.0.1
 
   # Utilities
   quiver: '>=2.0.0 <3.0.0'
   tuple: ^1.0.3
 
   # Date picker
-  flutter_datetime_picker: ^1.2.8
+  flutter_datetime_picker: ^1.3.5
 
   # Send bad data email
-  flutter_email_sender: ^2.2.1
-  get_version: ^0.2.0+1
-  device_info: ^0.4.1
+  flutter_email_sender: ^2.2.2
+  get_version: ^0.2.1
+  device_info: ^0.4.2+1
 
   # Open YouTube app
-  url_launcher: ^5.4.0
+  url_launcher: ^5.4.2
 
   # String formatting
   strings: ^0.1.2
@@ -86,7 +86,7 @@ dependencies:
   rxdart: ^0.23.1
 
   # Play animations
-  video_player: ^0.10.5+2
+  video_player: ^0.10.8+1
 
 dev_dependencies:
   flutter_test:

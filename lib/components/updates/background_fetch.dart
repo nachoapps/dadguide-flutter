@@ -7,30 +7,25 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 final _config = BackgroundFetchConfig(
   // Execute once per day.
   minimumFetchInterval: 60 * 24,
-  // Only execute when on WiFi since we're downloading data.
-  requiredNetworkType: BackgroundFetchConfig.NETWORK_TYPE_UNMETERED,
-  // This forces the app to load if it was terminated by the user (it immediately minimizes). We
-  // could work around this by enabling headless mode but that is much more complicated. To prevent
-  // an annoying user experience, also require that the device is idle.
-  forceReload: true,
-  // As described above, only perform updates when the device is idle so users don't see the awkward
-  // launch and minimize.
-  requiresDeviceIdle: true,
-  // It might be nice to support this in the future but it only works on Android and is a more
-  // complicated setup.
-  enableHeadless: false,
-  // We want to run even if (especially if) the user is not using the device).
+  // We want to run even if (especially if) the user is not using the device.
   stopOnTerminate: false,
+  // We want to recieve events even if rebooted.
+  startOnBoot: true,
+  // Support headless mode on Android.
+  enableHeadless: true,
+  // We don't need higher precision.
+  forceAlarmManager: false,
+  // Only execute when on WiFi since we're downloading data.
+  requiredNetworkType: NetworkType.UNMETERED,
+  // We don't use much resources so ignore these requirements.
+  requiresBatteryNotLow: false,
   // We don't use much resources so ignore these requirements.
   requiresCharging: false,
+  // We don't use much resources so ignore these requirements.
   requiresStorageNotLow: false,
-
-  // TODO: this is a bugfix to work around a background_fetch issue; upgrading to 0.4.0 was
-  // problematic so this is a shitty patch.
-  // Bug:
-  //  if (requiresDeviceIdle != null)
-  //    config['requiresDeviceIdle'] = requiresBatteryNotLow;
-  requiresBatteryNotLow: true,
+  // Only perform updates when the device is idle so users don't see the awkward
+  // launch and minimize.
+  requiresDeviceIdle: true,
 );
 
 /// Configures the task that runs once a day to update the database.
@@ -39,19 +34,20 @@ Future<void> configureUpdateDatabaseTask() async {
   try {
     var result = await BackgroundFetch.configure(_config, triggerUpdate);
     Fimber.i('Configuring background fetch completed with status $result');
+    BackgroundFetch.registerHeadlessTask(triggerUpdate);
   } catch (ex, st) {
     Fimber.e('Configuing background fetch failed', ex: ex, stacktrace: st);
   }
 }
 
-Future<void> triggerUpdate() async {
+Future<void> triggerUpdate(String taskId) async {
   recordEvent('background_fetch_triggered');
-  Fimber.i('Background fetch triggered');
+  Fimber.i('Background fetch triggered: $taskId');
   try {
     await updateManager.start();
-    BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
   } catch (ex, st) {
-    Fimber.e('Update task failed', ex: ex, stacktrace: st);
-    BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_FAILED);
+    Fimber.e('Update task failed: $taskId', ex: ex, stacktrace: st);
+  } finally {
+    BackgroundFetch.finish(taskId);
   }
 }
