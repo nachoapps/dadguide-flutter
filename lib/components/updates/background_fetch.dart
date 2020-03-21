@@ -30,14 +30,16 @@ final _config = BackgroundFetchConfig(
 
 /// Configures the task that runs once a day to update the database.
 Future<void> configureUpdateDatabaseTask() async {
-  Fimber.i('Configuring background fetch');
-  try {
-    var result = await BackgroundFetch.configure(_config, triggerUpdate);
-    Fimber.i('Configuring background fetch completed with status $result');
-    BackgroundFetch.registerHeadlessTask(triggerUpdate);
-  } catch (ex, st) {
-    Fimber.e('Configuing background fetch failed', ex: ex, stacktrace: st);
-  }
+  Fimber.i('Background fetch is disabled until I can figure it out =(');
+
+//  Fimber.i('Configuring background fetch');
+//  try {
+//    var result = await BackgroundFetch.configure(_config, triggerUpdate);
+//    Fimber.i('Configuring background fetch completed with status $result');
+//    await BackgroundFetch.registerHeadlessTask(triggerUpdate);
+//  } catch (ex, st) {
+//    Fimber.e('Configuing background fetch failed', ex: ex, stacktrace: st);
+//  }
 }
 
 Future<void> triggerUpdate(String taskId) async {
