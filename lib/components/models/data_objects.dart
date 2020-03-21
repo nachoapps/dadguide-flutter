@@ -257,8 +257,9 @@ class FullEvolution {
 class Transformation {
   final Monster fromMonster;
   final Monster toMonster;
+  final ActiveSkill skill;
 
-  Transformation(this.fromMonster, this.toMonster);
+  Transformation(this.fromMonster, this.toMonster, this.skill);
 }
 
 /// Awakening plus skill info, for the monster detail view.

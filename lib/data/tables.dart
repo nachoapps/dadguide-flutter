@@ -909,6 +909,7 @@ class MonsterSearchArgs {
         'SELECT monster_id AS "monsterId" FROM monsters WHERE series_id = :series LIMIT 300',
     'ancestorMonsterId':
         'SELECT from_id AS "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
+    'childMonsterId': 'SELECT to_id AS "toMonsterId" FROM evolutions WHERE from_id = :monsterId',
     'dropDungeons':
         ('SELECT dungeons.dungeon_id AS "dungeonId", name_jp AS "nameJp", name_na AS "nameNa", name_kr AS "nameKr"' +
             ' FROM dungeons' +
@@ -923,8 +924,10 @@ class MonsterSearchArgs {
         ' OR mat_4_id = :monsterId' +
         ' OR mat_5_id = :monsterId'
             ' GROUP BY 1'),
-    'transformationMonsterId':
-        'SELECT linked_monster_id AS "linkedMonsterId" FROM monsters WHERE monster_id = :monsterId',
+    'baseForTransformation':
+        'SELECT monster_id AS "monsterId" FROM monsters WHERE linked_monster_id = :monsterId',
+    'targetForTransformation':
+        'SELECT linked_monster_id AS "linkedMonsterId" FROM monsters WHERE monster_id = :monsterId AND linked_monster_id IS NOT NULL',
   },
 )
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
@@ -1120,19 +1123,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
         ..sort((a, b) => a.orderIdx - b.orderIdx);
 
-      // Fix for bug in pipeline; duplicate awakenings
-      // TODO: remove me once pipeline is repaired
-      var map = <int, Awakening>{};
-      for (var r in awakeningList) {
-        var item = map[r.orderIdx];
-        if (item == null || r.tstamp > item.tstamp) {
-          item = r;
-        }
-        map[item.orderIdx] = r;
-      }
-
-      awakeningList = map.values.toList()..sort((l, r) => l.orderIdx - r.orderIdx);
-
       // It's too hard to apply this filter during the query, so once we have the awakenings,
       // strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
       // it's a good match, otherwise skip this row.
@@ -1188,7 +1178,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       skillUpDungeons[monsterId] = skillUpMonsterDropLocations;
     }
 
-    final evolutionList = await allEvolutionsForTree(resultMonster.monsterId);
+    final evolutionList = await allEvolutionsForTree(monsterId);
 
     var evoTreeIds = {monsterId};
     for (var e in evolutionList) {
@@ -1196,7 +1186,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       evoTreeIds.add(e.toMonster.monsterId);
     }
 
-    final transformationList = await allTransformationsForTree(resultMonster);
+    final transformationList = await allTransformationsForTree(evoTreeIds);
 
     var dropLocations = Map<int, List<BasicDungeon>>();
     for (var evoTreeId in evoTreeIds) {
@@ -1237,22 +1227,81 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     return result;
   }
 
-  Future<List<Transformation>> allTransformationsForTree(Monster base) async {
-    var idsSeen = <int>{};
+  Future<List<Transformation>> allTransformationsForTree(Set<int> monsterIds) async {
+    var seenIds = <int>{};
+    var idsToSearch = Set.of(monsterIds);
     var results = <Transformation>[];
 
-    Monster linked;
-    while (base.monsterId != null && !idsSeen.contains(base.monsterId)) {
-      idsSeen.add(base.monsterId);
-      linked =
-          await (select(monsters)..where((m) => m.monsterId.equals(base.monsterId))).getSingle();
-      results.add(Transformation(base, linked));
-      base = linked;
+    while (idsToSearch.isNotEmpty) {
+      print(idsToSearch);
+      final nextId = idsToSearch.first;
+      idsToSearch.remove(nextId);
+      final base = await loadMonster(nextId);
+
+      final linkedMonsterId = base.linkedMonsterId;
+      if (linkedMonsterId == null || seenIds.contains(linkedMonsterId)) {
+        // Quit if the monster has no link or we've already seen the link.
+        continue;
+      }
+
+      // Make sure we don't search the link again, but schedule it for sub-searching.
+      seenIds.add(linkedMonsterId);
+      idsToSearch.add(linkedMonsterId);
+
+      // Then load the actual data and save it.
+      final linked = await loadMonster(linkedMonsterId);
+      var skill = await (select(activeSkills)
+            ..where((as) => as.activeSkillId.equals(base.activeSkillId)))
+          .getSingle();
+      results.add(Transformation(base, linked, skill));
+    }
+
+    results.sort((l, r) => l.fromMonster.monsterId - r.fromMonster.monsterId);
+    return results;
+  }
+
+  /// Extracts a list of IDs that the given monster transformation line could contain.
+  ///
+  /// This could go up or down from the monster, and could contain a loop.
+  Future<Set<int>> extractTransformations(int monsterId) async {
+    print('ET: $monsterId');
+    var results = <int>{monsterId};
+    var searchId = monsterId;
+    while (true) {
+      print("1: $searchId $results");
+      var targets = (await targetForTransformation(searchId)).map((v) => v.linkedMonsterId);
+      if (targets.isEmpty || results.contains(targets.first)) {
+        break;
+      }
+      results.add(targets.first);
+      searchId = targets.first;
+    }
+    searchId = monsterId;
+    while (true) {
+      print("2: $searchId $results");
+      var bases = (await baseForTransformation(searchId)).map((v) => v.monsterId);
+      if (bases.isEmpty || results.contains(bases.first)) {
+        break;
+      }
+      results.add(bases.first);
+      searchId = bases.first;
     }
     return results;
   }
 
   Future<List<FullEvolution>> allEvolutionsForTree(int monsterId) async {
+    // The monster could be a transformation. Find all the possible transformations, and see if
+    // any of them contain a child or ancestor evolution.
+    var transformations = await extractTransformations(monsterId);
+    if (transformations.length > 1) {
+      for (var tId in transformations) {
+        if ((await ancestorMonsterId(tId)).isNotEmpty || (await childMonsterId(tId)).isNotEmpty) {
+          monsterId = tId;
+          break;
+        }
+      }
+    }
+
     var ancestorId = monsterId;
     while (true) {
       var possibleAncestor = await ancestorMonsterId(ancestorId);
@@ -1342,6 +1391,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<List<int>> materialFor(int materialMonsterId) async {
     var x = await materialForIds(materialMonsterId);
     return x.map((e) => e.monsterId).toList();
+  }
+
+  Future<Monster> loadMonster(int monsterId) async {
+    return await (select(monsters)..where((m) => m.monsterId.equals(monsterId))).getSingle();
   }
 }
 

@@ -493,6 +493,9 @@ class DadGuideLocalizations {
   String get monsterInfoNonReversableEvolution => Intl.message('Non-Reversable Evolution',
       name: 'monsterInfoNonReversableEvolution', desc: 'Evo section header');
 
+  String get monsterInfoTransformationEvolution => Intl.message('Transformations',
+      name: 'monsterInfoTransformationEvolution', desc: 'Evo section header');
+
   String monsterInfoEvoDiffHp(String number) => Intl.message(
         'HP $number',
         name: 'monsterInfoEvoDiffHp',

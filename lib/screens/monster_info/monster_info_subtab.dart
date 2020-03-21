@@ -9,16 +9,17 @@ import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
-import 'package:dadguide2/components/utils/formatting.dart';
 import 'package:dadguide2/components/utils/youtube.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/monster_info/utils.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
+import 'evolutions.dart';
 import 'monster_info_image.dart';
 
 /// Loads the monster data given by args, and displays it in a MonsterDetailContents.
@@ -64,7 +65,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
         future: loadingFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            Fimber.w('Failed to load monster data', ex: snapshot.error);
+            Fimber.e('Failed to load monster data', ex: snapshot.error);
             return Center(child: Icon(Icons.error));
           }
           if (!snapshot.hasData) {
@@ -185,7 +186,7 @@ class MonsterDetailContents extends StatelessWidget {
               SizedBox(height: 8),
               MonsterBuySellFeedSection(_data.monster),
 
-              if (_data.evolutions.isNotEmpty)
+              if (_data.evolutions.isNotEmpty || _data.transformations.isNotEmpty)
                 Padding(child: MonsterEvolutions(_data), padding: EdgeInsets.only(top: 8)),
 
               if (_data.fullSeries != null)
@@ -581,12 +582,7 @@ class MonsterActiveSkillSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
-    var skill = _model.skill;
-
-    var skillLevels = skill.turnMax - skill.turnMin + 1;
-    var lvlText = skillLevels == 1
-        ? loc.monsterInfoSkillMaxed(skill.turnMax)
-        : loc.monsterInfoSkillTurns(skill.turnMax, skill.turnMin, skillLevels);
+    var lvlText = skillLevelText(loc, _model.skill);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1039,152 +1035,6 @@ class MonsterMaterialFor extends StatelessWidget {
             for (var id in _fullMonster.materialForMonsters) PadIcon(id, monsterLink: true),
           ],
         ),
-      ],
-    );
-  }
-}
-
-/// Wrapper for the multiple possible evolution sections.
-class MonsterEvolutions extends StatelessWidget {
-  final FullMonster _fullMonster;
-
-  const MonsterEvolutions(this._fullMonster, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
-
-    var evos = _fullMonster.evolutions;
-    List<FullEvolution> baseEvos = evos.where((e) => e.type == EvolutionType.evo).toList();
-    List<FullEvolution> reversableEvos =
-        evos.where((e) => e.type == EvolutionType.reversible).toList();
-    List<FullEvolution> nonReversableEvos =
-        evos.where((e) => e.type == EvolutionType.non_reversible).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (baseEvos.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection(loc.monsterInfoEvolution, baseEvos),
-          ),
-        if (reversableEvos.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection(loc.monsterInfoReversableEvolution, reversableEvos),
-          ),
-        if (nonReversableEvos.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: MonsterEvoSection(loc.monsterInfoNonReversableEvolution, nonReversableEvos),
-          ),
-      ],
-    );
-  }
-}
-
-/// An individual evolution section, with a name and list of evos.
-class MonsterEvoSection extends StatelessWidget {
-  final String name;
-  final List<FullEvolution> evos;
-
-  MonsterEvoSection(this.name, this.evos);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(name, style: subtitle(context)),
-        for (var evo in evos)
-          Padding(
-            child: MonsterEvoRow(evo),
-            padding: EdgeInsets.symmetric(vertical: 4),
-          ),
-      ],
-    );
-  }
-}
-
-/// An individual evo row, with from/to monster and mats displayed between.
-class MonsterEvoRow extends StatelessWidget {
-  final FullEvolution _evo;
-
-  const MonsterEvoRow(this._evo, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
-
-    var hpDiff = _evo.toMonster.hpMax - _evo.fromMonster.hpMax;
-    var atkDiff = _evo.toMonster.atkMax - _evo.fromMonster.atkMax;
-    var rcvDiff = _evo.toMonster.rcvMax - _evo.fromMonster.rcvMax;
-    var deltas = [];
-
-    if (hpDiff != 0) deltas.add(loc.monsterInfoEvoDiffHp(plusMinus(hpDiff)));
-    if (atkDiff != 0) deltas.add(loc.monsterInfoEvoDiffAtk(plusMinus(atkDiff)));
-    if (rcvDiff != 0) deltas.add(loc.monsterInfoEvoDiffRcv(plusMinus(rcvDiff)));
-
-    var statText = deltas.join(' / ');
-
-    return Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
-      columnWidths: {
-        0: IntrinsicColumnWidth(),
-        2: IntrinsicColumnWidth(),
-        4: IntrinsicColumnWidth(),
-      },
-      children: [
-        TableRow(
-          children: [
-            PadIcon(_evo.fromMonster.monsterId, monsterLink: true),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Icon(Icons.add),
-            ),
-            Row(children: [
-              for (var matId in _evo.evoMatIds)
-                Padding(
-                  child: PadIcon(matId, size: 38, monsterLink: true),
-                  padding: EdgeInsets.symmetric(horizontal: 2),
-                ),
-              for (int i = 0; i < 5 - _evo.evoMatIds.length; i++)
-                Padding(
-                  child: SizedBox(width: 38),
-                  padding: EdgeInsets.symmetric(horizontal: 2),
-                ),
-            ]),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Icon(Icons.chevron_right),
-            ),
-            PadIcon(_evo.toMonster.monsterId, monsterLink: true),
-          ],
-        ),
-        TableRow(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                typeContainer(_evo.fromMonster.type1Id),
-                typeContainer(_evo.fromMonster.type2Id),
-                typeContainer(_evo.fromMonster.type3Id),
-              ],
-            ),
-            Container(),
-            Center(child: Text(statText, style: Theme.of(context).textTheme.caption)),
-            Container(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                typeContainer(_evo.toMonster.type1Id),
-                typeContainer(_evo.toMonster.type2Id),
-                typeContainer(_evo.toMonster.type3Id),
-              ],
-            ),
-          ],
-        )
       ],
     );
   }
