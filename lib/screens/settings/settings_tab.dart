@@ -69,11 +69,6 @@ class SettingsScreen extends StatelessWidget {
           // This is a hack to refresh the app when dark mode changes.
           onChange: () => Provider.of<ReloadAppChangeNotifier>(context).notify(),
         ),
-        CheckboxPreference(
-          'Show enemy skills',
-          PrefKeys.showEnemySkills,
-          desc: 'Experimental feature',
-        ),
         PreferenceTitle(loc.settingsEventsSection),
         DropdownPreference(
           loc.settingsEventCountry,

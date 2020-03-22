@@ -1,5 +1,4 @@
 import 'package:dadguide2/components/config/service_locator.dart';
-import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
@@ -285,9 +284,8 @@ class DungeonEncounter extends StatelessWidget {
     var dungeon = Provider.of<FullDungeon>(context);
     var inputs = BehaviorWidgetInputs(_model.encounter.atk, dungeon.selectedSubDungeon.esLibrary);
 
-    var showBehaviors = dungeon.selectedSubDungeon.subDungeon.technical &&
-        _model.levelBehaviors.isNotEmpty &&
-        Prefs.showEnemySkills;
+    var showBehaviors =
+        dungeon.selectedSubDungeon.subDungeon.technical && _model.levelBehaviors.isNotEmpty;
 
     return Provider.value(
       value: inputs,

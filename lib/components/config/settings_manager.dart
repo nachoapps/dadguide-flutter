@@ -27,8 +27,6 @@ class PrefKeys {
 
   static const hideUnreleasedMonsters = 'hide_unreleased_monsters';
 
-  static const showEnemySkills = 'showEnemySkills';
-
   static const tsLastDeleted = 'tsLastDeleted';
 
   static const trackedDungeons = 'tracked_dungeons';
@@ -82,7 +80,6 @@ class Prefs {
       PrefKeys.uiTheme: defaultTheme.id,
       PrefKeys.uiDarkMode: defaultTheme.isDark(),
       PrefKeys.hideUnreleasedMonsters: false,
-      PrefKeys.showEnemySkills: true,
       PrefKeys.tsLastDeleted: defaultDeletedTs,
       PrefKeys.trackedDungeons: <String>[],
       PrefKeys.mediaWarningDisplayed: false,
@@ -209,10 +206,6 @@ class Prefs {
   static bool get hideUnreleasedMonsters => PrefService.getBool(PrefKeys.hideUnreleasedMonsters);
   static set hideUnreleasedMonsters(bool val) =>
       PrefService.setBool(PrefKeys.hideUnreleasedMonsters, val);
-
-  // Should we show enemy skills in the dungeon tab; temporary preference while this is being worked
-  // on.
-  static bool get showEnemySkills => PrefService.getBool(PrefKeys.showEnemySkills);
 
   // Should alerts be displayed for tracked dungeons.
   static bool get alertsEnabled => PrefService.getBool(PrefKeys.notificationsAlertsEnabled);
