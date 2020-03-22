@@ -849,6 +849,7 @@ class MonsterFilterArgs {
   Set<ActiveSkillTag> activeTags = {};
   Set<LeaderSkillTag> leaderTags = {};
   String series = '';
+  bool favoritesOnly = false;
 
   bool get modified =>
       mainAttr.isNotEmpty ||
@@ -859,7 +860,8 @@ class MonsterFilterArgs {
       awokenSkills.isNotEmpty ||
       activeTags.isNotEmpty ||
       leaderTags.isNotEmpty ||
-      series != '';
+      series != '' ||
+      favoritesOnly;
 }
 
 class MonsterSearchArgs {
@@ -966,6 +968,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       joins.add(leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)));
     }
     var query = select(monsters).join(joins);
+
+    if (args.filter.favoritesOnly) {
+      query.where(isIn(monsters.monsterId, Prefs.favoriteMonsters));
+    }
 
     var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
     var orderMapping = {

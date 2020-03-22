@@ -109,12 +109,11 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-//          Not supporting favorites yet
-//          IconButton(
-//            icon: Icon(Icons.star_border),
-//            color: controller.favoritesOnly ? Colors.amber : Colors.black,
-//            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
-//          ),
+          IconButton(
+            icon: Icon(Icons.star_border),
+            color: controller.favoritesOnly ? Colors.blue : grey(context, 1000),
+            onPressed: () => controller.favoritesOnly = !controller.favoritesOnly,
+          ),
           IconButton(
             icon: Icon(Foundation.burst_new),
             color: controller.sortNew ? Colors.blue : grey(context, 1000),

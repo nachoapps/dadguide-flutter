@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
@@ -17,6 +18,7 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import 'evolutions.dart';
@@ -51,7 +53,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          MonsterDetailBar(),
+          MonsterDetailBar(widget.args.monsterId),
           Expanded(child: _retrieveMonster()),
 //          Disabled for now; nothing here is implemented
 //          MonsterDetailOptionsBar(),
@@ -304,31 +306,41 @@ class TypeIconText extends StatelessWidget {
 
 /// Bar across the top of the monster view; currently only the back button.
 class MonsterDetailBar extends StatelessWidget {
+  final int monsterId;
+
+  MonsterDetailBar(this.monsterId);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.blue,
-        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 32,
-              height: 32,
-              child: InkWell(
-                child: Icon(Icons.chevron_left),
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ),
-            Spacer(),
-            Container(),
-//            Favorites are disabled for now
-//            SizedBox(
-//              width: 32,
-//              height: 32,
-//              child: Icon(Icons.star_border),
-//            ),
-          ],
-        ));
+    return ChangeNotifierProvider(
+      create: (ctx) => ChangeNotifier(),
+      child: Consumer<ChangeNotifier>(
+        builder: (_, notifier, __) => Container(
+            color: Colors.blue,
+            padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: InkWell(
+                    child: Icon(Icons.chevron_left),
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ),
+                Spacer(),
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: InkWell(
+                    child: Prefs.isFavorite(monsterId) ? Icon(Icons.star_border) : Icon(Icons.star),
+                    onTap: () { Prefs.toggleFavorite(monsterId); notifier.notifyListeners(); },
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
   }
 }
 

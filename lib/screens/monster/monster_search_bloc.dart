@@ -38,7 +38,6 @@ class MonsterDisplayState with ChangeNotifier {
   var filterArgs = MonsterFilterArgs();
   var sortArgs = MonsterSortArgs();
 
-  bool _favoritesOnly = false;
   bool _pictureMode = false;
   bool _showAwakenings = false;
 
@@ -68,7 +67,7 @@ class MonsterDisplayState with ChangeNotifier {
     searchText = '';
   }
 
-  bool get favoritesOnly => _favoritesOnly;
+  bool get favoritesOnly => filterArgs.favoritesOnly;
   bool get pictureMode => _pictureMode;
   bool get showAwakenings => _showAwakenings;
 
@@ -84,7 +83,8 @@ class MonsterDisplayState with ChangeNotifier {
   }
 
   set favoritesOnly(bool value) {
-    _favoritesOnly = value;
+    filterArgs.favoritesOnly = value;
+    doSearch();
     notifyListeners();
   }
 

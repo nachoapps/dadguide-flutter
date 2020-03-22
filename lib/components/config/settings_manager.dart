@@ -32,6 +32,8 @@ class PrefKeys {
   static const trackedDungeons = 'tracked_dungeons';
 
   static const mediaWarningDisplayed = 'media_warning_displayed';
+
+  static const favoriteMonsters = 'favorite_monsters';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -83,13 +85,8 @@ class Prefs {
       PrefKeys.tsLastDeleted: defaultDeletedTs,
       PrefKeys.trackedDungeons: <String>[],
       PrefKeys.mediaWarningDisplayed: false,
+      PrefKeys.favoriteMonsters: '',
     });
-
-    // This is a bugfix; I accidentally borked the default TS as millis, this resets it to the
-    // default value.
-    if (Prefs.tsLastDeleted > 1500000000000) {
-      Prefs.tsLastDeleted = defaultDeletedTs;
-    }
   }
 
   /// Try to determine which country/language to use for the current locale.
@@ -214,4 +211,28 @@ class Prefs {
   static bool get mediaWarningDisplayed => PrefService.getBool(PrefKeys.mediaWarningDisplayed);
   static set mediaWarningDisplayed(bool value) =>
       PrefService.setBool(PrefKeys.mediaWarningDisplayed, value);
+
+  static List<int> get favoriteMonsters =>
+      stringToIntList(PrefService.getString(PrefKeys.favoriteMonsters));
+  static set favoriteMonsters(Iterable<int> monsters) =>
+      PrefService.setString(PrefKeys.favoriteMonsters, monsters.join(','));
+  static void addFavoriteMonster(int monsterId) =>
+      favoriteMonsters = favoriteMonsters..add(monsterId);
+  static void removeFavoriteMonster(int monsterId) =>
+      favoriteMonsters = favoriteMonsters..remove(monsterId);
+  static bool isFavorite(int monsterId) => favoriteMonsters.contains(monsterId);
+  static void toggleFavorite(int monsterId) {
+    var favs = favoriteMonsters;
+    if (favs.contains(monsterId)) {
+      favs.remove(monsterId);
+    } else {
+      favs.add(monsterId);
+    }
+    favoriteMonsters = favs;
+  }
+}
+
+List<int> stringToIntList(String s) {
+  s ??= '';
+  return s.split(',').map(int.tryParse).where((i) => i != null).toList();
 }
