@@ -61,9 +61,22 @@ class _MonsterDetailPortraitState extends State<MonsterDetailPortrait> {
                 Positioned(
                   left: 10,
                   top: 10,
-                  child: InkWell(
-                    child: new Icon(Icons.autorenew),
-                    onTap: _refreshIcon,
+                  child: Column(
+                    children: [
+                      if (m.linkedMonsterId != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: PadIcon(
+                            m.linkedMonsterId,
+                            size: 36,
+                            monsterLink: true,
+                          ),
+                        ),
+                      InkWell(
+                        child: new Icon(Icons.autorenew),
+                        onTap: _refreshIcon,
+                      ),
+                    ],
                   ),
                 ),
                 Positioned.fill(
