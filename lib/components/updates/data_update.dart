@@ -4,44 +4,52 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/update_service.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dadguide2/theme/style.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
-import 'package:provider/provider.dart';
 
-/// Utility which automatically displays a snackbar in the current scaffold when a data update
-/// finishes. Automatically starts an update if necessary.
-class DataUpdater with ChangeNotifier {
-  final BuildContext _context;
+void flash(BuildContext context, String text) async {
+  await showFlash(
+      context: context,
+      duration: Duration(seconds: 3),
+      builder: (_, controller) {
+        return Flash.dialog(
+          controller: controller,
+          backgroundColor: grey(context, 300),
+          borderColor: Colors.black,
+          onTap: () => controller.dismiss(),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(text),
+          ),
+        );
+      });
+}
+
+/// Helper wrapper widget that triggers a UI refresh when an update completes.
+/// Automatically starts an update if necessary.
+class DataUpdaterWidget extends StatefulWidget {
+  final Widget child;
+
+  const DataUpdaterWidget(this.child);
+
+  @override
+  _DataUpdaterWidgetState createState() => _DataUpdaterWidgetState();
+}
+
+class _DataUpdaterWidgetState extends State<DataUpdaterWidget> {
   StreamSubscription<void> _subscription;
 
-  DataUpdater(this._context);
+  @override
+  void initState() {
+    super.initState();
+    subscribe();
+  }
 
-  void subscribe() {
-    var loc = localized;
-    var scaffold = Scaffold.of(_context);
-    _subscription = updateManager.updateStream.listen((_) {
-      recordEvent('update_on_ui_open_succeded');
-      scaffold
-        ..removeCurrentSnackBar()
-        ..showSnackBar((SnackBar(content: Text(loc.updateComplete))));
-      notifyListeners();
-    }, onError: (error) {
-      scaffold.removeCurrentSnackBar();
-      if (error is ApplicationUpdateRequired) {
-        Fimber.w('Application update required');
-        scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailedTooOld))));
-      } else {
-        Fimber.e('Update failed', ex: error);
-        recordEvent('update_on_ui_open_failed');
-        scaffold.showSnackBar((SnackBar(content: Text(loc.updateFailed))));
-      }
-    });
-    if (Prefs.updateRequired()) {
-      Fimber.w('Update is required, triggering');
-      recordEvent('update_on_ui_open');
-      updateManager.start();
-    }
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 
   void dispose() {
@@ -50,19 +58,27 @@ class DataUpdater with ChangeNotifier {
       _subscription.cancel();
     }
   }
-}
 
-/// Helper wrapper widget that triggers a UI refresh when an update completes.
-class DataUpdaterWidget extends StatelessWidget {
-  final Widget _child;
-
-  const DataUpdaterWidget(this._child, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DataUpdater>(
-      create: (context) => DataUpdater(context)..subscribe(),
-      child: _child,
-    );
+  void subscribe() {
+    var loc = localized;
+    _subscription = updateManager.updateStream.listen((_) {
+      recordEvent('update_on_ui_open_succeded');
+      flash(context, loc.updateComplete);
+      setState(() {});
+    }, onError: (error) {
+      if (error is ApplicationUpdateRequired) {
+        Fimber.w('Application update required');
+        flash(context, loc.updateFailedTooOld);
+      } else {
+        Fimber.e('Update failed', ex: error);
+        recordEvent('update_on_ui_open_failed');
+        flash(context, loc.updateFailed);
+      }
+    });
+    if (Prefs.updateRequired()) {
+      Fimber.w('Update is required, triggering');
+      recordEvent('update_on_ui_open');
+      updateManager.start();
+    }
   }
 }

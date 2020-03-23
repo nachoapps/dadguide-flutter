@@ -48,12 +48,13 @@ class EventListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<ScheduleDisplayState>(context);
 
     return AppBar(
       flexibleSpace: Row(
         children: [
           InkWell(
-              onTap: () => showServerSelectDialog(context),
+              onTap: () => showServerSelectDialog(context, displayState),
               child: SizedBox(width: 60, height: 40, child: DadGuideIcons.currentCountryOn)),
           Flexible(
             child: TabBar(tabs: [

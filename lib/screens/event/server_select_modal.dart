@@ -5,14 +5,12 @@ import 'package:dadguide2/screens/event/event_search_bloc.dart';
 import 'package:dadguide2/screens/event/update_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
-import 'package:provider/provider.dart';
 
 /// Displays a dialog that lets the user toggle their event server, or kick off the update.
-Future<void> showServerSelectDialog(BuildContext context) async {
+Future<void> showServerSelectDialog(BuildContext context, ScheduleDisplayState displayState) async {
   var loc = DadGuideLocalizations.of(context);
 
   Fimber.i('Displaying server select dialog');
-  var displayState = Provider.of<ScheduleDisplayState>(context);
   return showDialog(
       context: context,
       builder: (innerContext) {

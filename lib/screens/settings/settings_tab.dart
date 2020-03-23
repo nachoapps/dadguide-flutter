@@ -67,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
           loc.settingsDarkMode,
           PrefKeys.uiDarkMode,
           // This is a hack to refresh the app when dark mode changes.
-          onChange: () => Provider.of<ReloadAppChangeNotifier>(context).notify(),
+          onChange: () => Provider.of<ReloadAppChangeNotifier>(context, listen: false).notify(),
         ),
         PreferenceTitle(loc.settingsEventsSection),
         DropdownPreference(
