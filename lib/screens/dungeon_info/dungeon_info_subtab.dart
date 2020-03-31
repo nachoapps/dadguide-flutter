@@ -3,6 +3,7 @@ import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
@@ -433,34 +434,25 @@ class DungeonDetailOptionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    return Material(
-      color: grey(context, 200),
-      child: SizedBox(
-        height: 36,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(Icons.format_list_bulleted),
-              onPressed: goToSubDungeonSelectionFn(context, _data),
-            ),
-            IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(Icons.live_tv),
-              onPressed: () async {
-                try {
-                  await launchYouTubeSearch(_data.dungeon.nameJp);
-                } catch (ex, st) {
-                  Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.ytLaunchError)));
-                }
-              },
-            )
-          ],
-        ),
+    return TabOptionsBar([
+      IconButton(
+        padding: EdgeInsets.all(0),
+        icon: Icon(Icons.format_list_bulleted),
+        onPressed: goToSubDungeonSelectionFn(context, _data),
       ),
-    );
+      IconButton(
+        padding: EdgeInsets.all(0),
+        icon: Icon(Icons.live_tv),
+        onPressed: () async {
+          try {
+            await launchYouTubeSearch(_data.dungeon.nameJp);
+          } catch (ex, st) {
+            Fimber.w('Failed to launch YT', ex: ex, stacktrace: st);
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.ytLaunchError)));
+          }
+        },
+      ),
+    ]);
   }
 }
 
