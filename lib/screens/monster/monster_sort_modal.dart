@@ -10,7 +10,7 @@ import 'monster_search_bloc.dart';
 Future<void> showMonsterSortDialog(BuildContext context) async {
   var loc = DadGuideLocalizations.of(context);
 
-  var displayState = Provider.of<MonsterDisplayState>(context);
+  var displayState = Provider.of<MonsterDisplayState>(context, listen: false);
   var dialogResults = await showDialog(
       context: context,
       builder: (innerContext) {
