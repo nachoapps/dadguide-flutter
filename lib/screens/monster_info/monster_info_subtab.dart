@@ -7,6 +7,7 @@ import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
@@ -17,6 +18,7 @@ import 'package:dadguide2/screens/monster_info/utils.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -55,8 +57,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
         children: [
           MonsterDetailBar(widget.args.monsterId),
           Expanded(child: _retrieveMonster()),
-//          Disabled for now; nothing here is implemented
-//          MonsterDetailOptionsBar(),
+          MonsterDetailOptionsBar(loadingFuture),
         ],
       ),
     );
@@ -347,22 +348,22 @@ class MonsterDetailBar extends StatelessWidget {
   }
 }
 
-//class MonsterDetailOptionsBar extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Material(
-//      color: Colors.grey[200],
-//      child: Row(
-//        mainAxisAlignment: MainAxisAlignment.spaceAround,
-//        children: [
-//          dummyIconButton(context, Icons.compare_arrows, 'Compare Monster'),
-//          dummyIconButton(context, Icons.live_tv, 'YT Link'),
-//          dummyIconButton(context, Icons.save_alt, 'Save view'),
-//        ],
-//      ),
-//    );
-//  }
-//}
+class MonsterDetailOptionsBar extends StatelessWidget {
+  final Future<FullMonster> loadingFuture;
+  MonsterDetailOptionsBar(this.loadingFuture);
+
+  @override
+  Widget build(BuildContext context) {
+    return TabOptionsBar([
+      IconButton(
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        icon: Icon(FontAwesome.balance_scale),
+        onPressed: () async =>
+            goToMonsterCompareFn(context, left: await loadingFuture, right: await loadingFuture)(),
+      ),
+    ]);
+  }
+}
 
 /// Level 1/99/110 stat table, plus XP required.
 class MonsterLevelStatTable extends StatelessWidget {

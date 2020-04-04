@@ -138,3 +138,22 @@ Function goToExchangeFn(BuildContext context, Country server) {
     return Navigator.pushNamed(context, ExchangeArgs.routeName, arguments: ExchangeArgs(server));
   };
 }
+
+/// Arguments to the monster compare route.
+class MonsterCompareArgs {
+  static const routeName = '/monsterCompare';
+  final FullMonster left;
+  final FullMonster right;
+
+  MonsterCompareArgs(this.left, this.right);
+}
+
+/// Returns a Function which when executed, sends the user to the monster compare screen.
+///
+/// left and right are optional, used to prepopulate the view.
+Function goToMonsterCompareFn(BuildContext context, {FullMonster left, FullMonster right}) {
+  return () async {
+    return Navigator.pushNamed(context, MonsterCompareArgs.routeName,
+        arguments: MonsterCompareArgs(left, right));
+  };
+}

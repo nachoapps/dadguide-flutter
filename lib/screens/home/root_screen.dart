@@ -14,6 +14,7 @@ import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/exchange/exchange_subtab.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/monster/monster_search_modal.dart';
+import 'package:dadguide2/screens/monster_compare/monster_compare.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/services/device_utils.dart';
@@ -38,6 +39,7 @@ class TabNavigatorRoutes {
   static const String filterMonsters = FilterMonstersArgs.routeName;
   static const String eggMachines = EggMachineArgs.routeName;
   static const String exchanges = ExchangeArgs.routeName;
+  static const String monsterCompare = MonsterCompareArgs.routeName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -80,6 +82,9 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.exchanges:
               var args = routeSettings.arguments as ExchangeArgs;
               return MaterialPageRoute(builder: (context) => ExchangeScreen(args));
+            case TabNavigatorRoutes.monsterCompare:
+              var args = routeSettings.arguments as MonsterCompareArgs;
+              return MaterialPageRoute(builder: (context) => MonsterCompareScreen(args));
             default:
               throw 'Unexpected route';
           }
