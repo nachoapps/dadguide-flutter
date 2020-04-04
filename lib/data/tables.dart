@@ -1235,8 +1235,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         rarityForStats));
     var stats = statResult.first;
 
-    print(
-        'query2: ${statResult.length} ${statHolder.weighted} ${stats.weightedGt} ${stats.weightedLt}');
     var statComparison = StatComparison(
       rarityForStats,
       stats.hpGt,
@@ -1288,7 +1286,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var results = <Transformation>[];
 
     while (idsToSearch.isNotEmpty) {
-      print(idsToSearch);
       final nextId = idsToSearch.first;
       idsToSearch.remove(nextId);
       final base = await loadMonster(nextId);
@@ -1319,11 +1316,9 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   ///
   /// This could go up or down from the monster, and could contain a loop.
   Future<Set<int>> extractTransformations(int monsterId) async {
-    print('ET: $monsterId');
     var results = <int>{monsterId};
     var searchId = monsterId;
     while (true) {
-      print("1: $searchId $results");
       var targets = (await targetForTransformation(searchId)).map((v) => v.linkedMonsterId);
       if (targets.isEmpty || results.contains(targets.first)) {
         break;
@@ -1333,7 +1328,6 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     }
     searchId = monsterId;
     while (true) {
-      print("2: $searchId $results");
       var bases = (await baseForTransformation(searchId)).map((v) => v.monsterId);
       if (bases.isEmpty || results.contains(bases.first)) {
         break;
