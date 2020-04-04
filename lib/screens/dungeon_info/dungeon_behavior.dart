@@ -81,6 +81,7 @@ class BehaviorGroupWidget extends StatelessWidget {
     var inputs = Provider.of<BehaviorWidgetInputs>(context);
 
     var contents = ListView.builder(
+      key: PageStorageKey(group),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: group.children.length,

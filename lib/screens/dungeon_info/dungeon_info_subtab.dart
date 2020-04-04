@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:quiver/iterables.dart';
 
 import 'dungeon_behavior.dart';
 
@@ -83,6 +84,11 @@ class DungeonDetailContents extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
+    var battles = _data.selectedSubDungeon.battles;
+    var battleWidgets = <Widget>[]..addAll(battles.length > 11
+        ? partition(battles, 5).map((c) => ExpandableDungeonTile(c))
+        : battles.map((b) => DungeonBattle(b)));
+
     return Provider.value(
       value: _data,
       child: Column(
@@ -94,7 +100,7 @@ class DungeonDetailContents extends StatelessWidget {
                 children: [
                   DungeonHeader(_data),
                   DungeonSubHeader(_data.selectedSubDungeon),
-                  for (var battle in _data.selectedSubDungeon.battles) DungeonBattle(battle),
+                  ...battleWidgets,
                   SizedBox(height: 8),
                   GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
                   SubDungeonList(_data),
@@ -490,6 +496,30 @@ class GreyBar extends StatelessWidget {
       color: grey(context, 400),
       padding: const EdgeInsets.all(4.0),
       child: Row(children: children),
+    );
+  }
+}
+
+class ExpandableDungeonTile extends StatelessWidget {
+  final List<Battle> battles;
+  ExpandableDungeonTile(this.battles);
+
+  @override
+  Widget build(BuildContext context) {
+    var title = battles.length > 1
+        ? 'Floors ${battles.first.stage} - ${battles.last.stage}'
+        : 'Floor ${battles.first.stage}';
+
+    return ExpansionTile(
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+      key: PageStorageKey(title),
+      subtitle: Wrap(
+        children: <Widget>[
+          for (var battle in battles)
+            for (var encounter in battle.encounters.take(3)) PadIcon(encounter.monster.monsterId)
+        ],
+      ),
+      children: <Widget>[for (var battle in battles) DungeonBattle(battle)],
     );
   }
 }
