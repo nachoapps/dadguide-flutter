@@ -1,5 +1,6 @@
 // TODO: needs localization
 
+import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -393,18 +394,19 @@ class MonsterSortType {
 
 /// Enum class for monster typing.
 class OrbType {
-  const OrbType._(this.id, this.name);
+  OrbType._(this.id, this.name, this.icon);
 
   final int id;
   final String name;
+  final Image icon;
 
-  static const OrbType fire = OrbType._(0, 'Fire');
-  static const OrbType water = OrbType._(1, 'Water');
-  static const OrbType wood = OrbType._(2, 'Wood');
-  static const OrbType light = OrbType._(3, 'Light');
-  static const OrbType dark = OrbType._(4, 'Dark');
+  static OrbType fire = OrbType._(0, 'Fire', DadGuideIcons.fire);
+  static OrbType water = OrbType._(1, 'Water', DadGuideIcons.water);
+  static OrbType wood = OrbType._(2, 'Wood', DadGuideIcons.wood);
+  static OrbType light = OrbType._(3, 'Light', DadGuideIcons.light);
+  static OrbType dark = OrbType._(4, 'Dark', DadGuideIcons.dark);
 
-  static const List<OrbType> all = [
+  static List<OrbType> all = [
     fire,
     water,
     wood,
