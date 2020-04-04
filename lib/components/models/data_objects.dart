@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/components/utils/time.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -163,6 +164,7 @@ class Battle {
 /// Full monster info displayed in the monster view
 class FullMonster {
   final Monster monster;
+  final StatHolder stats;
   final ActiveSkill activeSkill;
   final LeaderSkill leaderSkill;
   final FullSeries fullSeries;
@@ -175,11 +177,13 @@ class FullMonster {
   final Map<int, List<BasicDungeon>> dropLocations;
   final List<int> materialForMonsters;
   final List<Transformation> transformations;
+  final StatComparison statComparison;
 
   final LanguageSelector name;
 
   FullMonster(
       this.monster,
+      this.stats,
       this.activeSkill,
       this.leaderSkill,
       this.fullSeries,
@@ -191,7 +195,8 @@ class FullMonster {
       this.evolutions,
       this.dropLocations,
       this.materialForMonsters,
-      this.transformations)
+      this.transformations,
+      this.statComparison)
       : name = LanguageSelector.nameWithNaOverride(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
@@ -200,6 +205,9 @@ class FullMonster {
   MonsterType get type1 => MonsterType.byId(monster.type1Id);
   MonsterType get type2 => MonsterType.byId(monster.type2Id);
   MonsterType get type3 => MonsterType.byId(monster.type3Id);
+
+  OrbType get attr1 => OrbType.byId(monster.attribute1Id);
+  OrbType get attr2 => OrbType.byId(monster.attribute2Id);
 
   Set<KillerLatent> get killers {
     var killers = Set<KillerLatent>();

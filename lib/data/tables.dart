@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -930,6 +932,20 @@ class MonsterSearchArgs {
         'SELECT monster_id AS "monsterId" FROM monsters WHERE linked_monster_id = :monsterId',
     'targetForTransformation':
         'SELECT linked_monster_id AS "linkedMonsterId" FROM monsters WHERE monster_id = :monsterId AND linked_monster_id IS NOT NULL',
+    // Looks like moor has a bug with multiple named params? Swapped to using ? instead.
+    'statsAgainstRarity': '''
+      SELECT
+        SUM(CASE WHEN hp_max > ? THEN 1 ELSE 0 END) AS "hpGt",
+        SUM(CASE WHEN hp_max <= ? THEN 1 ELSE 0 END) AS "hpLt",
+        SUM(CASE WHEN atk_max > ? THEN 1 ELSE 0 END) AS "atkGt",
+        SUM(CASE WHEN atk_max <= ? THEN 1 ELSE 0 END) AS "atkLt",
+        SUM(CASE WHEN rcv_max > ? THEN 1 ELSE 0 END) AS "rcvGt",
+        SUM(CASE WHEN rcv_max <= ? THEN 1 ELSE 0 END) AS "rcvLt",
+        SUM(CASE WHEN (hp_max/10 + atk_max/5 + rcv_max/3) > ? THEN 1 ELSE 0 END) AS "weightedGt",
+        SUM(CASE WHEN (hp_max/10 + atk_max/5 + rcv_max/3) <= ? THEN 1 ELSE 0 END) AS "weightedLt"
+      FROM monsters
+      WHERE rarity >= ?
+      ''',
   },
 )
 class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoMixin {
@@ -1159,7 +1175,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     return results;
   }
 
-  Future<FullMonster> fullMonster(int monsterId) async {
+  Future<FullMonster> fullMonster(int monsterId, {int rarityForStats}) async {
     var s = new Stopwatch()..start();
     final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
@@ -1169,6 +1185,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     final row = await query.getSingle();
     final resultMonster = row.readTable(monsters);
+    final statHolder = StatHolder.monster(resultMonster);
     final resultSeries = await fullSeries(resultMonster.seriesId);
 
     final awakenings = await findAwakenings(monsterId);
@@ -1202,8 +1219,39 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     var materialForMonsters = await materialFor(monsterId);
 
+    // We can optionally specify a rarity to search against, used in compare.
+    rarityForStats ??= resultMonster.rarity;
+    // Cap the rarity at 7, no point in comparing against 10* for example.
+    rarityForStats = min(7, rarityForStats);
+    var statResult = (await statsAgainstRarity(
+        resultMonster.hpMax,
+        resultMonster.hpMax,
+        resultMonster.atkMax,
+        resultMonster.atkMax,
+        resultMonster.rcvMax,
+        resultMonster.rcvMax,
+        statHolder.weighted,
+        statHolder.weighted,
+        rarityForStats));
+    var stats = statResult.first;
+
+    print(
+        'query2: ${statResult.length} ${statHolder.weighted} ${stats.weightedGt} ${stats.weightedLt}');
+    var statComparison = StatComparison(
+      rarityForStats,
+      stats.hpGt,
+      stats.hpLt,
+      stats.atkGt,
+      stats.atkLt,
+      stats.rcvGt,
+      stats.rcvLt,
+      stats.weightedGt,
+      stats.weightedLt,
+    );
+
     var fullMonster = FullMonster(
       resultMonster,
+      statHolder,
       row.readTable(activeSkills),
       row.readTable(leaderSkills),
       resultSeries,
@@ -1216,6 +1264,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       dropLocations,
       materialForMonsters,
       transformationList,
+      statComparison,
     );
 
     Fimber.d('monster lookup complete in: ${s.elapsed}');
