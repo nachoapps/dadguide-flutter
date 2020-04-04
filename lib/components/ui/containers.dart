@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Grey bar suitible for sticking at the bottom of a tab, resting above the tab navigation.
 class TabOptionsBar extends StatelessWidget {
-  final List<IconButton> buttons;
+  final List<Widget> buttons;
 
   const TabOptionsBar(this.buttons);
 
