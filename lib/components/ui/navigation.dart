@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -177,4 +178,12 @@ Function goToMonsterCompareFn(BuildContext context, {FullMonster left, FullMonst
     return Navigator.pushNamed(context, MonsterCompareArgs.routeName,
         arguments: MonsterCompareArgs(left, right));
   };
+}
+
+Future<void> goToMonsterCompare(BuildContext context, int leftMonsterId, int rightMonsterId) async {
+  var dao = getIt<MonstersDao>();
+  var left = await dao.fullMonster(leftMonsterId);
+  var right = await dao.fullMonster(rightMonsterId);
+  Navigator.pushNamed(context, MonsterCompareArgs.routeName,
+      arguments: MonsterCompareArgs(left, right));
 }

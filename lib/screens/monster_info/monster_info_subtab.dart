@@ -7,7 +7,7 @@ import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/components/ui/containers.dart';
+import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
@@ -57,7 +57,6 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
         children: [
           MonsterDetailBar(widget.args.monsterId),
           Expanded(child: _retrieveMonster()),
-          MonsterDetailOptionsBar(loadingFuture),
         ],
       ),
     );
@@ -321,47 +320,34 @@ class MonsterDetailBar extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
             child: Row(
               children: [
-                SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: InkWell(
-                    child: Icon(Icons.chevron_left),
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
-                ),
+                TrimmedMaterialIconButton(
+                    child: IconButton(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  icon: Icon(Icons.chevron_left),
+                  onPressed: () => Navigator.of(context).pop(),
+                )),
                 Spacer(),
-                SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: InkWell(
-                    child: Prefs.isFavorite(monsterId) ? Icon(Icons.star_border) : Icon(Icons.star),
-                    onTap: () {
-                      Prefs.toggleFavorite(monsterId);
-                      notifier.notifyListeners();
-                    },
+                TrimmedMaterialIconButton(
+                  child: IconButton(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    icon: Icon(FontAwesome.balance_scale),
+                    onPressed: () async => await goToMonsterCompare(context, monsterId, monsterId),
                   ),
                 ),
+                TopBarDivider(),
+                TrimmedMaterialIconButton(
+                    child: IconButton(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star_border) : Icon(Icons.star),
+                  onPressed: () {
+                    Prefs.toggleFavorite(monsterId);
+                    notifier.notifyListeners();
+                  },
+                )),
               ],
             )),
       ),
     );
-  }
-}
-
-class MonsterDetailOptionsBar extends StatelessWidget {
-  final Future<FullMonster> loadingFuture;
-  MonsterDetailOptionsBar(this.loadingFuture);
-
-  @override
-  Widget build(BuildContext context) {
-    return TabOptionsBar([
-      IconButton(
-        padding: EdgeInsets.symmetric(horizontal: 30),
-        icon: Icon(FontAwesome.balance_scale),
-        onPressed: () async =>
-            goToMonsterCompareFn(context, left: await loadingFuture, right: await loadingFuture)(),
-      ),
-    ]);
   }
 }
 
