@@ -14,7 +14,9 @@ import 'monster_search_bloc.dart';
 
 /// Displays the search bar, list of monsters, and display options toggles.
 class MonsterTab extends StatelessWidget {
-  MonsterTab({Key key}) : super(key: key);
+  final MonsterListArgs args;
+
+  MonsterTab({this.args, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class MonsterTab extends StatelessWidget {
       create: (_) => MonsterDisplayState(),
       child: Column(children: [
         MonsterSearchBar(),
-        Expanded(child: MonsterList()),
+        Expanded(child: MonsterList(args.action)),
         MonsterDisplayOptionsBar(),
       ]),
     );
@@ -31,6 +33,9 @@ class MonsterTab extends StatelessWidget {
 
 /// Displays the list of monsters retrieved from the database based on the search/sort options.
 class MonsterList extends StatelessWidget {
+  final MonsterListAction action;
+  MonsterList(this.action);
+
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<MonsterDisplayState>(context);
@@ -62,7 +67,7 @@ class MonsterList extends StatelessWidget {
             return ListView.separated(
               itemCount: data.length,
               separatorBuilder: (context, index) => Divider(height: 0),
-              itemBuilder: (context, index) => MonsterListRow(data[index]),
+              itemBuilder: (context, index) => MonsterListRow(data[index], action),
             );
           }
         });
@@ -143,7 +148,8 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
 /// Item representing a monster in the monster list.
 class MonsterListRow extends StatelessWidget {
   final ListMonster _model;
-  const MonsterListRow(this._model, {Key key}) : super(key: key);
+  final MonsterListAction action;
+  const MonsterListRow(this._model, this.action, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +165,7 @@ class MonsterListRow extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: goToMonsterFn(context, m.monsterId),
+      onTap: () => _onClickAction(context),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
@@ -222,6 +228,19 @@ class MonsterListRow extends StatelessWidget {
             ],
           )),
     );
+  }
+
+  void _onClickAction(BuildContext context) {
+    switch (action) {
+      case MonsterListAction.showDetails:
+        goToMonsterFn(context, _model.monster.monsterId)();
+        break;
+      case MonsterListAction.returnResult:
+        Navigator.of(context).pop(_model.monster);
+        break;
+      default:
+        Fimber.e('Unexpected action type: $action');
+    }
   }
 }
 

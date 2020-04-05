@@ -1,23 +1,27 @@
+import 'dart:math';
+
+import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
+import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster_compare/src/state.dart';
 import 'package:dadguide2/screens/monster_info/utils.dart';
 import 'package:dadguide2/theme/style.dart';
+import 'package:fimber_io/fimber_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class CompareFrame extends StatelessWidget {
-  final CompareState state;
-
-  CompareFrame(this.state);
-
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<CompareState>(context);
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
@@ -57,20 +61,46 @@ class TopBar extends StatelessWidget {
 }
 
 class BottomBar extends StatelessWidget {
-  final CompareState state;
+  BottomBar(CompareState state);
 
-  BottomBar(this.state);
+  static Future<Tuple2<FullMonster, FullMonster>> reload(Monster m, FullMonster fm) async {
+    final newRarity = min(m.rarity, fm.monster.rarity);
+    var dao = getIt<MonstersDao>();
+    var newFm = await dao.fullMonster(m.monsterId, rarityForStats: newRarity);
+
+    // We might have to reload the other if the rarity changed.
+    final actualNewRarity = newFm.statComparison.rarity;
+    if (fm.statComparison.rarity != actualNewRarity) {
+      Fimber.i('Reloading alt comparison monster for rarity $actualNewRarity');
+      fm = await dao.fullMonster(fm.monster.monsterId, rarityForStats: actualNewRarity);
+    }
+
+    return Tuple2(newFm, fm);
+  }
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<CompareState>(context);
     return TabOptionsBar([
       RaisedButton(
-        child: Text('Select Monster'),
-        onPressed: () {},
+        child: Text('Select left'),
+        onPressed: () async {
+          final m = await goToMonsterList(context);
+          if (m == null) return;
+
+          var reloaded = await reload(m, state.right);
+          state.update(reloaded.item1, reloaded.item2);
+        },
       ),
       RaisedButton(
-        child: Text('Select Monster'),
-        onPressed: () {},
+        child: Text('Select right'),
+        onPressed: () async {
+          final m = await goToMonsterList(context);
+          if (m == null) return;
+
+          var reloaded = await reload(m, state.left);
+          state.update(reloaded.item2, reloaded.item1);
+        },
       ),
     ]);
   }
@@ -244,7 +274,6 @@ class Stats extends StatelessWidget {
 
 TableRow createStatRow(BuildContext context, String title, int left, int right, double leftPct,
     double rightPct, Color color) {
-  print('$title $leftPct $rightPct');
   return TableRow(
     decoration: BoxDecoration(
         border: Border(

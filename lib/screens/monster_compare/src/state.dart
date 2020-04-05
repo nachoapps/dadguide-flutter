@@ -6,4 +6,10 @@ class CompareState with ChangeNotifier {
   FullMonster right;
 
   CompareState(this.left, this.right);
+
+  void update(FullMonster left, FullMonster right) {
+    this.left = left;
+    this.right = right;
+    notifyListeners();
+  }
 }

@@ -16,7 +16,7 @@ class MonsterCompareScreen extends StatelessWidget {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: ChangeNotifierProvider.value(
         value: state,
-        child: CompareFrame(state),
+        child: CompareFrame(),
       ),
     );
   }

@@ -1,8 +1,29 @@
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+
+/// Describes what should happen when a monster in the list is clicked on.
+enum MonsterListAction {
+  showDetails,
+  returnResult,
+}
+
+/// Arguments to the monster list route.
+class MonsterListArgs {
+  static const routeName = '/monsterList';
+  final MonsterListAction action;
+
+  const MonsterListArgs(this.action);
+}
+
+/// Opens the monster list route, returning a Monster if one is selected.
+Future<Monster> goToMonsterList(BuildContext context) {
+  return Navigator.pushNamed(context, MonsterListArgs.routeName,
+      arguments: MonsterListArgs(MonsterListAction.returnResult));
+}
 
 /// Arguments to the monster detail route.
 class MonsterDetailArgs {

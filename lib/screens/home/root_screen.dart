@@ -5,6 +5,7 @@ import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/data_update.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
@@ -33,6 +34,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 /// root screen.
 class TabNavigatorRoutes {
   static const String root = '/';
+  static const String monsterList = MonsterListArgs.routeName;
   static const String monsterDetail = MonsterDetailArgs.routeName;
   static const String dungeonDetail = DungeonDetailArgs.routeName;
   static const String subDungeonSelection = SubDungeonSelectionArgs.routeName;
@@ -67,6 +69,9 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.monsterDetail:
               MonsterDetailArgs args = routeSettings.arguments;
               return MaterialPageRoute(builder: (context) => MonsterDetailScreen(args));
+            case TabNavigatorRoutes.monsterList:
+              var args = routeSettings.arguments as MonsterListArgs;
+              return MaterialPageRoute<Monster>(builder: (context) => MonsterTab(args: args));
             case TabNavigatorRoutes.dungeonDetail:
               var args = routeSettings.arguments as DungeonDetailArgs;
               return MaterialPageRoute(builder: (context) => DungeonDetailScreen(args));
@@ -115,7 +120,10 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     ),
     TabNavigator(
       navigatorKey: monsterNavKey,
-      rootItem: MonsterTab(key: PageStorageKey('MonsterTab')),
+      rootItem: MonsterTab(
+        args: MonsterListArgs(MonsterListAction.showDetails),
+        key: PageStorageKey('MonsterTab'),
+      ),
     ),
     TabNavigator(
       navigatorKey: dungeonNavKey,
