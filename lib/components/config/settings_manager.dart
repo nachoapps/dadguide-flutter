@@ -34,6 +34,7 @@ class PrefKeys {
   static const mediaWarningDisplayed = 'media_warning_displayed';
 
   static const favoriteMonsters = 'favorite_monsters';
+  static const lastComparedMonster = 'last_compared_monster';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -86,6 +87,7 @@ class Prefs {
       PrefKeys.trackedDungeons: <String>[],
       PrefKeys.mediaWarningDisplayed: false,
       PrefKeys.favoriteMonsters: '',
+      PrefKeys.lastComparedMonster: 1,
     });
   }
 
@@ -230,6 +232,10 @@ class Prefs {
     }
     favoriteMonsters = favs;
   }
+
+  static set lastComparedMonster(int monsterId) =>
+      PrefService.setInt(PrefKeys.lastComparedMonster, monsterId);
+  static get lastComparedMonster => PrefService.getInt(PrefKeys.lastComparedMonster);
 }
 
 List<int> stringToIntList(String s) {

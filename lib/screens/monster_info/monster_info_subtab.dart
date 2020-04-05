@@ -331,7 +331,11 @@ class MonsterDetailBar extends StatelessWidget {
                   child: IconButton(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     icon: Icon(FontAwesome.balance_scale),
-                    onPressed: () async => await goToMonsterCompare(context, monsterId, monsterId),
+                    onPressed: () async {
+                      var otherMonsterId = Prefs.lastComparedMonster;
+                      Prefs.lastComparedMonster = monsterId;
+                      await goToMonsterCompare(context, monsterId, otherMonsterId);
+                    },
                   ),
                 ),
                 TopBarDivider(),
