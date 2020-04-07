@@ -1,4 +1,6 @@
 {
+    "@@locale": "ja",
+    "@@last_modified": "2020-04-07T18:31:49.798478",
     "title": "DadGuide",
     "@title": {
         "description": "The application title",
@@ -844,6 +846,12 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterInfoTransformationEvolution": "Transformations",
+    "@monsterInfoTransformationEvolution": {
+        "description": "Evo section header",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterInfoEvoDiffHp": "HP {number}",
     "@monsterInfoEvoDiffHp": {
         "description": "Evo stat delta text",
@@ -1386,7 +1394,7 @@
             "turnText": {}
         }
     },
-    "esCondWhileAboveHp": "HPが{alwaysTriggerAbove}超える、{turnText}",
+    "esCondWhileAboveHp": "HP > {alwaysTriggerAbove}、{turnText}",
     "@esCondWhileAboveHp": {
         "description": "Condition text (group or behavior)",
         "type": "text",
@@ -1395,13 +1403,13 @@
             "alwaysTriggerAbove": {}
         }
     },
-    "esCondHpFull": "HP100%に使用",
+    "esCondHpFull": "HP 100%",
     "@esCondHpFull": {
         "description": "Condition text (group or behavior)",
         "type": "text",
         "placeholders": {}
     },
-    "esCondHpLt": "HP{threshold}未満",
+    "esCondHpLt": "HP < {threshold}",
     "@esCondHpLt": {
         "description": "Condition text (group or behavior)",
         "type": "text",
@@ -1409,7 +1417,7 @@
             "threshold": {}
         }
     },
-    "esCondHpLtEq": "HP{threshold}以下",
+    "esCondHpLtEq": "HP <= {threshold}",
     "@esCondHpLtEq": {
         "description": "Condition text (group or behavior)",
         "type": "text",

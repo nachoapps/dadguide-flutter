@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2020-01-27T19:57:17.824185",
+  "@@last_modified": "2020-04-07T18:31:49.798478",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -842,6 +842,12 @@
   },
   "monsterInfoNonReversableEvolution": "Non-Reversable Evolution",
   "@monsterInfoNonReversableEvolution": {
+    "description": "Evo section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterInfoTransformationEvolution": "Transformations",
+  "@monsterInfoTransformationEvolution": {
     "description": "Evo section header",
     "type": "text",
     "placeholders": {}

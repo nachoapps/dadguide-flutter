@@ -1,4 +1,6 @@
 {
+    "@@locale": "ko",
+    "@@last_modified": "2020-04-07T18:31:49.798478",
     "title": "DadGuide",
     "@title": {
         "description": "The application title",
@@ -840,6 +842,12 @@
     },
     "monsterInfoNonReversableEvolution": "돌이킬 수없는 진화",
     "@monsterInfoNonReversableEvolution": {
+        "description": "Evo section header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterInfoTransformationEvolution": "Transformations",
+    "@monsterInfoTransformationEvolution": {
         "description": "Evo section header",
         "type": "text",
         "placeholders": {}

@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("최대 수준에서"),
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("금 판매"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MP 판매"),
+    "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
     "monsterListAtk" : m33,
     "monsterListHp" : m34,

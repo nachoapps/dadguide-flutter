@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("At max level"),
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("Sell Gold"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("Sell MP"),
+    "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("Weighted"),
     "monsterListAtk" : m33,
     "monsterListHp" : m34,

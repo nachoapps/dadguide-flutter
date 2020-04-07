@@ -33,9 +33,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m6(turnText) => "${turnText}に必ず使用";
 
-  static m7(threshold) => "HP${threshold}未満";
+  static m7(threshold) => "HP < ${threshold}";
 
-  static m8(threshold) => "HP${threshold}以下";
+  static m8(threshold) => "HP <= ${threshold}";
 
   static m9(number) => "最大 ${number} 回";
 
@@ -59,7 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m19(number) => "${number}%の確率で";
 
-  static m20(turnText, alwaysTriggerAbove) => "HPが${alwaysTriggerAbove}超える、${turnText}";
+  static m20(turnText, alwaysTriggerAbove) => "HP > ${alwaysTriggerAbove}、${turnText}";
 
   static m21(days) => "${days}日";
 
@@ -137,7 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "esCondAlwaysOnTurn" : m6,
     "esCondAttributesAvailable" : MessageLookupByLibrary.simpleMessage("特定の属性が必要"),
     "esCondDefeated" : MessageLookupByLibrary.simpleMessage("死亡のとき"),
-    "esCondHpFull" : MessageLookupByLibrary.simpleMessage("HP100%に使用"),
+    "esCondHpFull" : MessageLookupByLibrary.simpleMessage("HP 100%"),
     "esCondHpLt" : m7,
     "esCondHpLtEq" : m8,
     "esCondLimitedExecution" : m9,
@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("最大レベル"),
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("コインを入手"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MPを入手"),
+    "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("ﾌﾟﾗｽ換算"),
     "monsterListAtk" : m33,
     "monsterListHp" : m34,
