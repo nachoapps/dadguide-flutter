@@ -123,31 +123,43 @@ class CompareContents extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(children: [
-          Overview(left),
-          VerticalDivider(color: grey(context, 1000), thickness: 1),
-          Overview(right),
-        ]),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Overview(left),
+            VerticalDivider(color: grey(context, 1000), thickness: 1),
+            Overview(right),
+          ],
+        ),
         GreyBar(loc.monsterCompareStatsSectionTitle(compareRarity)),
         Stats(left, right),
         GreyBar(loc.monsterCompareAwokenSectionTitle),
-        Row(children: [
-          AwakeningSection(left),
-          VerticalDivider(),
-          AwakeningSection(right),
-        ]),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AwakeningSection(left),
+            VerticalDivider(),
+            AwakeningSection(right),
+          ],
+        ),
         GreyBar(loc.monsterCompareActiveSectionTitle),
-        Row(children: [
-          ActiveSkillSection(left.activeSkill),
-          VerticalDivider(),
-          ActiveSkillSection(right.activeSkill),
-        ]),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ActiveSkillSection(left.activeSkill),
+            VerticalDivider(),
+            ActiveSkillSection(right.activeSkill),
+          ],
+        ),
         GreyBar(loc.monsterCompareLeaderSectionTitle),
-        Row(children: [
-          LeaderSkillSection(left),
-          VerticalDivider(),
-          LeaderSkillSection(right),
-        ]),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LeaderSkillSection(left),
+            VerticalDivider(),
+            LeaderSkillSection(right),
+          ],
+        ),
       ],
     );
   }
@@ -382,11 +394,14 @@ class AwakeningSection extends StatelessWidget {
           children: <Widget>[
             AwakeningWrap(fullMonster.awakenings),
             if (fullMonster.superAwakenings.isNotEmpty)
-              Row(children: <Widget>[
-                Text('SA'),
-                VerticalDivider(),
-                AwakeningWrap(fullMonster.superAwakenings),
-              ])
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(children: <Widget>[
+                  Text('SA'),
+                  VerticalDivider(),
+                  AwakeningWrap(fullMonster.superAwakenings),
+                ]),
+              )
           ],
         ),
       ),
