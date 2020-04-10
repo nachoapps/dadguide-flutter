@@ -38,6 +38,7 @@ class CompareFrame extends StatelessWidget {
 class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     return Container(
         color: Colors.blue,
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
@@ -52,7 +53,7 @@ class TopBar extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Text('Compare Monster'),
+            Text(loc.monsterCompareTitle),
             Spacer(),
             SizedBox(width: 32, height: 32),
           ],
@@ -80,10 +81,12 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     var state = Provider.of<CompareState>(context);
+
     return TabOptionsBar([
       RaisedButton(
-        child: Text('Select left'),
+        child: Text(loc.monsterCompareSelectLeft),
         onPressed: () async {
           final m = await goToMonsterList(context);
           if (m == null) return;
@@ -93,7 +96,7 @@ class BottomBar extends StatelessWidget {
         },
       ),
       RaisedButton(
-        child: Text('Select right'),
+        child: Text(loc.monsterCompareSelectRight),
         onPressed: () async {
           final m = await goToMonsterList(context);
           if (m == null) return;
@@ -114,6 +117,7 @@ class CompareContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
     final compareRarity = left.statComparison.rarity;
 
     return Column(
@@ -124,21 +128,21 @@ class CompareContents extends StatelessWidget {
           VerticalDivider(color: grey(context, 1000), thickness: 1),
           Overview(right),
         ]),
-        GreyBar('Stats (vs > $compareRarity⭐)'),
+        GreyBar(loc.monsterCompareStatsSectionTitle(compareRarity)),
         Stats(left, right),
-        GreyBar('Awoken Skills'),
+        GreyBar(loc.monsterCompareAwokenSectionTitle),
         Row(children: [
           AwakeningSection(left),
           VerticalDivider(),
           AwakeningSection(right),
         ]),
-        GreyBar('Active Skill'),
+        GreyBar(loc.monsterCompareActiveSectionTitle),
         Row(children: [
           ActiveSkillSection(left.activeSkill),
           VerticalDivider(),
           ActiveSkillSection(right.activeSkill),
         ]),
-        GreyBar('Leader Skill'),
+        GreyBar(loc.monsterCompareLeaderSectionTitle),
         Row(children: [
           LeaderSkillSection(left),
           VerticalDivider(),

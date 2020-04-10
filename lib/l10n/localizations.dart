@@ -874,6 +874,28 @@ class DadGuideLocalizations {
       name: 'trackingPopupStopTrackingText',
       desc: 'Popup text when long-pressing a dungeon that is already tracked');
 
+  // ---- Monster compare ----
+  String get monsterCompareTitle => Intl.message('Compare Monster',
+      name: 'monsterCompareTitle', desc: 'Text in the compare screen title bar');
+
+  String monsterCompareStatsSectionTitle(int compareRarity) => Intl.message(
+        'Stats (vs > $compareRarity⭐)',
+        name: 'monsterCompareStatsSectionTitle',
+        args: [compareRarity],
+        desc: 'Exchange view popup title',
+      );
+  String get monsterCompareAwokenSectionTitle => Intl.message('Awoken Skills',
+      name: 'monsterCompareAwokenSectionTitle', desc: 'Grey bar section text in compare screen');
+  String get monsterCompareActiveSectionTitle => Intl.message('Active Skill',
+      name: 'monsterCompareActiveSectionTitle', desc: 'Grey bar section text in compare screen');
+  String get monsterCompareLeaderSectionTitle => Intl.message('Leader Skill',
+      name: 'monsterCompareLeaderSectionTitle', desc: 'Grey bar section text in compare screen');
+
+  String get monsterCompareSelectLeft => Intl.message('Select left',
+      name: 'monsterCompareSelectLeft', desc: 'Button text at bottom of compare screen');
+  String get monsterCompareSelectRight => Intl.message('Select right',
+      name: 'monsterCompareSelectRight', desc: 'Button text at bottom of compare screen');
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {
