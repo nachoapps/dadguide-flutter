@@ -342,7 +342,7 @@ class MonsterDetailBar extends StatelessWidget {
                 TrimmedMaterialIconButton(
                     child: IconButton(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star_border) : Icon(Icons.star),
+                  icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () {
                     Prefs.toggleFavorite(monsterId);
                     notifier.notifyListeners();
