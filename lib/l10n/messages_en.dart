@@ -67,47 +67,49 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m23(requiredCount) => "Requires ${requiredCount} for trade";
 
-  static m24(number) => "Cost ${number}";
+  static m24(compareRarity) => "Stats (vs > ${compareRarity}⭐)";
 
-  static m25(number) => "ATK ${number}";
+  static m25(number) => "Cost ${number}";
 
-  static m26(number) => "HP ${number}";
+  static m26(number) => "ATK ${number}";
 
-  static m27(number) => "RCV ${number}";
+  static m27(number) => "HP ${number}";
 
-  static m28(date) => "[${date}] Added";
+  static m28(number) => "RCV ${number}";
 
-  static m29(number) => "No. ${number}";
+  static m29(date) => "[${date}] Added";
 
-  static m30(seriesName) => "Series - ${seriesName}";
+  static m30(number) => "No. ${number}";
 
-  static m31(max) => "Lv.MAX Turn : ${max}";
+  static m31(seriesName) => "Series - ${seriesName}";
 
-  static m32(max, min, levels) => "Lv.1 Turn : ${max} (Lv.${levels} Turn: ${min})";
+  static m32(max) => "Lv.MAX Turn : ${max}";
 
-  static m33(number) => "ATK ${number}";
+  static m33(max, min, levels) => "Lv.1 Turn : ${max} (Lv.${levels} Turn: ${min})";
 
-  static m34(number) => "HP ${number}";
+  static m34(number) => "ATK ${number}";
 
-  static m35(number) => "Lv. ${number}";
+  static m35(number) => "HP ${number}";
 
-  static m36(number) => "Limit Break: ${number}%";
+  static m36(number) => "Lv. ${number}";
 
-  static m37(number) => "MP ${number}";
+  static m37(number) => "Limit Break: ${number}%";
 
-  static m38(number) => "No. ${number}";
+  static m38(number) => "MP ${number}";
 
-  static m39(number) => "RCV ${number}";
+  static m39(number) => "No. ${number}";
 
-  static m40(number) => "WT ${number}";
+  static m40(number) => "RCV ${number}";
 
-  static m41(mp, mpPerStam) => "${mp} (${mpPerStam} / Stamina)";
+  static m41(number) => "WT ${number}";
 
-  static m42(index, taskCount) => "Executing task (${index}/${taskCount})";
+  static m42(mp, mpPerStam) => "${mp} (${mpPerStam} / Stamina)";
 
-  static m43(index, taskCount) => "Task ${index} of ${taskCount} failed";
+  static m43(index, taskCount) => "Executing task (${index}/${taskCount})";
 
-  static m44(percent) => "${percent}%";
+  static m44(index, taskCount) => "Task ${index} of ${taskCount} failed";
+
+  static m45(percent) => "${percent}%";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -181,6 +183,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "languageKo" : MessageLookupByLibrary.simpleMessage("Korean"),
     "max" : MessageLookupByLibrary.simpleMessage("Max"),
     "min" : MessageLookupByLibrary.simpleMessage("Min"),
+    "monsterCompareActiveSectionTitle" : MessageLookupByLibrary.simpleMessage("Active Skill"),
+    "monsterCompareAwokenSectionTitle" : MessageLookupByLibrary.simpleMessage("Awoken Skills"),
+    "monsterCompareLeaderSectionTitle" : MessageLookupByLibrary.simpleMessage("Leader Skill"),
+    "monsterCompareSelectLeft" : MessageLookupByLibrary.simpleMessage("Select left"),
+    "monsterCompareSelectRight" : MessageLookupByLibrary.simpleMessage("Select right"),
+    "monsterCompareStatsSectionTitle" : m24,
+    "monsterCompareTitle" : MessageLookupByLibrary.simpleMessage("Compare Monster"),
     "monsterFilterModalActiveSkills" : MessageLookupByLibrary.simpleMessage("Active Skills"),
     "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("Awoken Skills"),
     "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("Close"),
@@ -198,28 +207,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("ATK"),
     "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("Available Killer Awoken"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("Awoken Skills"),
-    "monsterInfoCost" : m24,
+    "monsterInfoCost" : m25,
     "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("Drop Dungeons"),
     "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("Drop Dungeons: None"),
-    "monsterInfoEvoDiffAtk" : m25,
-    "monsterInfoEvoDiffHp" : m26,
-    "monsterInfoEvoDiffRcv" : m27,
+    "monsterInfoEvoDiffAtk" : m26,
+    "monsterInfoEvoDiffHp" : m27,
+    "monsterInfoEvoDiffRcv" : m28,
     "monsterInfoEvolution" : MessageLookupByLibrary.simpleMessage("Evolution"),
     "monsterInfoExp" : MessageLookupByLibrary.simpleMessage("EXP"),
-    "monsterInfoHistoryAdded" : m28,
+    "monsterInfoHistoryAdded" : m29,
     "monsterInfoHistoryTitle" : MessageLookupByLibrary.simpleMessage("History"),
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("Leader skill:"),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv."),
     "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("Material for"),
-    "monsterInfoNo" : m29,
+    "monsterInfoNo" : m30,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("Non-Reversable Evolution"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("RCV"),
     "monsterInfoReversableEvolution" : MessageLookupByLibrary.simpleMessage("Reversable Evolution"),
-    "monsterInfoSeriesHeader" : m30,
+    "monsterInfoSeriesHeader" : m31,
     "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("Reduce Dmg."),
-    "monsterInfoSkillMaxed" : m31,
-    "monsterInfoSkillTurns" : m32,
+    "monsterInfoSkillMaxed" : m32,
+    "monsterInfoSkillTurns" : m33,
     "monsterInfoSkillupDungeonTitleNone" : MessageLookupByLibrary.simpleMessage("Skill Up - Dungeon: None"),
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("Skill Up - Dungeon"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("Skill Up - Monster"),
@@ -233,14 +242,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("Sell MP"),
     "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("Weighted"),
-    "monsterListAtk" : m33,
-    "monsterListHp" : m34,
-    "monsterListLevel" : m35,
-    "monsterListLimitBreak" : m36,
-    "monsterListMp" : m37,
-    "monsterListNo" : m38,
-    "monsterListRcv" : m39,
-    "monsterListWeighted" : m40,
+    "monsterListAtk" : m34,
+    "monsterListHp" : m35,
+    "monsterListLevel" : m36,
+    "monsterListLimitBreak" : m37,
+    "monsterListMp" : m38,
+    "monsterListNo" : m39,
+    "monsterListRcv" : m40,
+    "monsterListWeighted" : m41,
     "monsterMediaImage" : MessageLookupByLibrary.simpleMessage("Image"),
     "monsterMediaJPVoice" : MessageLookupByLibrary.simpleMessage("JP Voice"),
     "monsterMediaNAVoice" : MessageLookupByLibrary.simpleMessage("NA Voice"),
@@ -263,7 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("Sub Att."),
     "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("Type"),
     "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("Total"),
-    "mpAndMpPerStam" : m41,
+    "mpAndMpPerStam" : m42,
     "noData" : MessageLookupByLibrary.simpleMessage("No Data"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("Display Language"),
     "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("Applies to UI elements and PAD data"),
@@ -309,11 +318,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabMonster" : MessageLookupByLibrary.simpleMessage("Monsters"),
     "tabSetting" : MessageLookupByLibrary.simpleMessage("Settings"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("Executing task"),
-    "taskExecutingWithCount" : m42,
-    "taskFailedWithCount" : m43,
+    "taskExecutingWithCount" : m43,
+    "taskFailedWithCount" : m44,
     "taskFatalError" : MessageLookupByLibrary.simpleMessage("Fatal error occurred; try restarting the app"),
     "taskFinished" : MessageLookupByLibrary.simpleMessage("All tasks complete"),
-    "taskProgress" : m44,
+    "taskProgress" : m45,
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("Check your internet connection.\nAutomatically restarting"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("Waiting to start tasks"),
     "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),

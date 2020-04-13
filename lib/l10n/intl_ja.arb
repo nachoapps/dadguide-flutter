@@ -1,6 +1,6 @@
 {
     "@@locale": "ja",
-    "@@last_modified": "2020-04-07T18:31:49.798478",
+    "@@last_modified": "2020-04-10T14:40:23.338229",
     "title": "DadGuide",
     "@title": {
         "description": "The application title",
@@ -846,7 +846,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "monsterInfoTransformationEvolution": "Transformations",
+    "monsterInfoTransformationEvolution": "変身",
     "@monsterInfoTransformationEvolution": {
         "description": "Evo section header",
         "type": "text",
@@ -1487,6 +1487,50 @@
     "trackingPopupStopTrackingText": "このダンジョンをトラックしなくなる",
     "@trackingPopupStopTrackingText": {
         "description": "Popup text when long-pressing a dungeon that is already tracked",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareTitle": "モンスターを比較",
+    "@monsterCompareTitle": {
+        "description": "Text in the compare screen title bar",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareStatsSectionTitle": "ステータス（{compareRarity} と比較）",
+    "@monsterCompareStatsSectionTitle": {
+        "description": "Exchange view popup title",
+        "type": "text",
+        "placeholders": {
+            "compareRarity": {}
+        }
+    },
+    "monsterCompareAwokenSectionTitle": "覚醒スキル",
+    "@monsterCompareAwokenSectionTitle": {
+        "description": "Grey bar section text in compare screen",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareActiveSectionTitle": "スキル",
+    "@monsterCompareActiveSectionTitle": {
+        "description": "Grey bar section text in compare screen",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareLeaderSectionTitle": "リーダースキル",
+    "@monsterCompareLeaderSectionTitle": {
+        "description": "Grey bar section text in compare screen",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareSelectLeft": "左を選択",
+    "@monsterCompareSelectLeft": {
+        "description": "Button text at bottom of compare screen",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterCompareSelectRight": "右を選択",
+    "@monsterCompareSelectRight": {
+        "description": "Button text at bottom of compare screen",
         "type": "text",
         "placeholders": {}
     }

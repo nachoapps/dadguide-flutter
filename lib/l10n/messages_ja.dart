@@ -67,47 +67,49 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m23(requiredCount) => "交換には${requiredCount}体が必要";
 
-  static m24(number) => "ｺｽﾄ ${number}";
+  static m24(compareRarity) => "ステータス（${compareRarity} と比較）";
 
-  static m25(number) => "攻撃力 ${number}";
+  static m25(number) => "ｺｽﾄ ${number}";
 
-  static m26(number) => "HP ${number}";
+  static m26(number) => "攻撃力 ${number}";
 
-  static m27(number) => "回復力 ${number}";
+  static m27(number) => "HP ${number}";
 
-  static m28(date) => "[ ${date} ]に追加";
+  static m28(number) => "回復力 ${number}";
 
-  static m29(number) => "No. ${number}";
+  static m29(date) => "[ ${date} ]に追加";
 
-  static m30(seriesName) => "シリーズ： ${seriesName}";
+  static m30(number) => "No. ${number}";
 
-  static m31(max) => "ｽｷﾙLv. MAX ターン： ${max}";
+  static m31(seriesName) => "シリーズ： ${seriesName}";
 
-  static m32(max, min, levels) => "Lv.1ターン：${max} (Lv. ${levels}ターン： ${min})";
+  static m32(max) => "ｽｷﾙLv. MAX ターン： ${max}";
 
-  static m33(number) => "攻撃力 ${number}";
+  static m33(max, min, levels) => "Lv.1ターン：${max} (Lv. ${levels}ターン： ${min})";
 
-  static m34(number) => "HP ${number}";
+  static m34(number) => "攻撃力 ${number}";
 
-  static m35(number) => "レベル ${number}";
+  static m35(number) => "HP ${number}";
 
-  static m36(number) => "限界突破： ${number} ％";
+  static m36(number) => "レベル ${number}";
 
-  static m37(number) => "ﾓﾝﾎﾟ ${number}";
+  static m37(number) => "限界突破： ${number} ％";
 
-  static m38(number) => "No. ${number}";
+  static m38(number) => "ﾓﾝﾎﾟ ${number}";
 
-  static m39(number) => "回復力 ${number}";
+  static m39(number) => "No. ${number}";
 
-  static m40(number) => "ﾌﾟﾗｽ ${number}";
+  static m40(number) => "回復力 ${number}";
 
-  static m41(mp, mpPerStam) => "${mp}(${mpPerStam}／スタミナ)";
+  static m41(number) => "ﾌﾟﾗｽ ${number}";
 
-  static m42(index, taskCount) => "タスク(${index} / ${taskCount})実行中";
+  static m42(mp, mpPerStam) => "${mp}(${mpPerStam}／スタミナ)";
 
-  static m43(index, taskCount) => "タスク ${index} / ${taskCount} が失敗しました";
+  static m43(index, taskCount) => "タスク(${index} / ${taskCount})実行中";
 
-  static m44(percent) => "${percent} ％";
+  static m44(index, taskCount) => "タスク ${index} / ${taskCount} が失敗しました";
+
+  static m45(percent) => "${percent} ％";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -181,6 +183,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "languageKo" : MessageLookupByLibrary.simpleMessage("韓国語"),
     "max" : MessageLookupByLibrary.simpleMessage("最高"),
     "min" : MessageLookupByLibrary.simpleMessage("最低"),
+    "monsterCompareActiveSectionTitle" : MessageLookupByLibrary.simpleMessage("スキル"),
+    "monsterCompareAwokenSectionTitle" : MessageLookupByLibrary.simpleMessage("覚醒スキル"),
+    "monsterCompareLeaderSectionTitle" : MessageLookupByLibrary.simpleMessage("リーダースキル"),
+    "monsterCompareSelectLeft" : MessageLookupByLibrary.simpleMessage("左を選択"),
+    "monsterCompareSelectRight" : MessageLookupByLibrary.simpleMessage("右を選択"),
+    "monsterCompareStatsSectionTitle" : m24,
+    "monsterCompareTitle" : MessageLookupByLibrary.simpleMessage("モンスターを比較"),
     "monsterFilterModalActiveSkills" : MessageLookupByLibrary.simpleMessage("スキル"),
     "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("覚醒スキル"),
     "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("終了"),
@@ -198,28 +207,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("攻撃力"),
     "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("利用可能な潜在キラー"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("覚醒スキル"),
-    "monsterInfoCost" : m24,
+    "monsterInfoCost" : m25,
     "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("ドロップしたダンジョン"),
     "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("ドロップしたダンジョン：なし"),
-    "monsterInfoEvoDiffAtk" : m25,
-    "monsterInfoEvoDiffHp" : m26,
-    "monsterInfoEvoDiffRcv" : m27,
+    "monsterInfoEvoDiffAtk" : m26,
+    "monsterInfoEvoDiffHp" : m27,
+    "monsterInfoEvoDiffRcv" : m28,
     "monsterInfoEvolution" : MessageLookupByLibrary.simpleMessage("進化"),
     "monsterInfoExp" : MessageLookupByLibrary.simpleMessage("経験値"),
-    "monsterInfoHistoryAdded" : m28,
+    "monsterInfoHistoryAdded" : m29,
     "monsterInfoHistoryTitle" : MessageLookupByLibrary.simpleMessage("歴史"),
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("リーダースキル："),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("ﾚﾍﾞﾙ"),
     "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("進化素材"),
-    "monsterInfoNo" : m29,
+    "monsterInfoNo" : m30,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("非可逆進化"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("回復力"),
     "monsterInfoReversableEvolution" : MessageLookupByLibrary.simpleMessage("可逆進化"),
-    "monsterInfoSeriesHeader" : m30,
+    "monsterInfoSeriesHeader" : m31,
     "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("ダメージ軽減率"),
-    "monsterInfoSkillMaxed" : m31,
-    "monsterInfoSkillTurns" : m32,
+    "monsterInfoSkillMaxed" : m32,
+    "monsterInfoSkillTurns" : m33,
     "monsterInfoSkillupDungeonTitleNone" : MessageLookupByLibrary.simpleMessage("スキルアップダンジョン：なし"),
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("スキルアップダンジョン"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("スキルアップモンスター"),
@@ -231,16 +240,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableInfoMaxLevel" : MessageLookupByLibrary.simpleMessage("最大レベル"),
     "monsterInfoTableSellGold" : MessageLookupByLibrary.simpleMessage("コインを入手"),
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MPを入手"),
-    "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
+    "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("変身"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("ﾌﾟﾗｽ換算"),
-    "monsterListAtk" : m33,
-    "monsterListHp" : m34,
-    "monsterListLevel" : m35,
-    "monsterListLimitBreak" : m36,
-    "monsterListMp" : m37,
-    "monsterListNo" : m38,
-    "monsterListRcv" : m39,
-    "monsterListWeighted" : m40,
+    "monsterListAtk" : m34,
+    "monsterListHp" : m35,
+    "monsterListLevel" : m36,
+    "monsterListLimitBreak" : m37,
+    "monsterListMp" : m38,
+    "monsterListNo" : m39,
+    "monsterListRcv" : m40,
+    "monsterListWeighted" : m41,
     "monsterMediaImage" : MessageLookupByLibrary.simpleMessage("画像"),
     "monsterMediaJPVoice" : MessageLookupByLibrary.simpleMessage("日本版のボイス"),
     "monsterMediaNAVoice" : MessageLookupByLibrary.simpleMessage("北米版のボイス"),
@@ -263,7 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("副属性"),
     "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("タイプ"),
     "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("プラス換算"),
-    "mpAndMpPerStam" : m41,
+    "mpAndMpPerStam" : m42,
     "noData" : MessageLookupByLibrary.simpleMessage("データなし"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("表示言語"),
     "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UIとパズドラデータに適用"),
@@ -309,11 +318,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabMonster" : MessageLookupByLibrary.simpleMessage("モンスター"),
     "tabSetting" : MessageLookupByLibrary.simpleMessage("設定"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("タスク実行中"),
-    "taskExecutingWithCount" : m42,
-    "taskFailedWithCount" : m43,
+    "taskExecutingWithCount" : m43,
+    "taskFailedWithCount" : m44,
     "taskFatalError" : MessageLookupByLibrary.simpleMessage("致命的なエラーが発生しました。アプリを再起動してみてください。"),
     "taskFinished" : MessageLookupByLibrary.simpleMessage("すべてのタスクが完了しますた"),
-    "taskProgress" : m44,
+    "taskProgress" : m45,
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("インターネット接続を確認してください。自動的に再起動します。"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("タスクの開始を待っています"),
     "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),

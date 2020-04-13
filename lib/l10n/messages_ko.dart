@@ -67,47 +67,49 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m23(requiredCount) => "Requires ${requiredCount} for trade";
 
-  static m24(number) => "코스트 ${number}";
+  static m24(compareRarity) => "Stats (vs > ${compareRarity}⭐)";
 
-  static m25(number) => "공격력 ${number}";
+  static m25(number) => "코스트 ${number}";
 
-  static m26(number) => "HP ${number}";
+  static m26(number) => "공격력 ${number}";
 
-  static m27(number) => "회복 ${number}";
+  static m27(number) => "HP ${number}";
 
-  static m28(date) => "[${date}] 추가";
+  static m28(number) => "회복 ${number}";
 
-  static m29(number) => "No. ${number}";
+  static m29(date) => "[${date}] 추가";
 
-  static m30(seriesName) => "시리즈- ${seriesName}";
+  static m30(number) => "No. ${number}";
 
-  static m31(max) => "Lv.MAX 턴 : ${max}";
+  static m31(seriesName) => "시리즈- ${seriesName}";
 
-  static m32(max, min, levels) => "Lv.1 회전 : ${max} (Lv. ${levels} 회전 : ${min} )";
+  static m32(max) => "Lv.MAX 턴 : ${max}";
 
-  static m33(number) => "공격 ${number}";
+  static m33(max, min, levels) => "Lv.1 회전 : ${max} (Lv. ${levels} 회전 : ${min} )";
 
-  static m34(number) => "HP ${number}";
+  static m34(number) => "공격 ${number}";
 
-  static m35(number) => "Lv. ${number}";
+  static m35(number) => "HP ${number}";
 
-  static m36(number) => "한도 휴식 : ${number} %";
+  static m36(number) => "Lv. ${number}";
 
-  static m37(number) => "몬스터 포인트 ${number}";
+  static m37(number) => "한도 휴식 : ${number} %";
 
-  static m38(number) => "No. ${number}";
+  static m38(number) => "몬스터 포인트 ${number}";
 
-  static m39(number) => "회복 ${number}";
+  static m39(number) => "No. ${number}";
 
-  static m40(number) => "환산치 ${number}";
+  static m40(number) => "회복 ${number}";
 
-  static m41(mp, mpPerStam) => "${mp} (${mpPerStam} / 스태미나)";
+  static m41(number) => "환산치 ${number}";
 
-  static m42(index, taskCount) => "실행 작업 (${index} / ${taskCount})";
+  static m42(mp, mpPerStam) => "${mp} (${mpPerStam} / 스태미나)";
 
-  static m43(index, taskCount) => "${taskCount} 의 작업 ${index} 에 실패했습니다";
+  static m43(index, taskCount) => "실행 작업 (${index} / ${taskCount})";
 
-  static m44(percent) => "${percent} %";
+  static m44(index, taskCount) => "${taskCount} 의 작업 ${index} 에 실패했습니다";
+
+  static m45(percent) => "${percent} %";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -181,6 +183,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "languageKo" : MessageLookupByLibrary.simpleMessage("한국어"),
     "max" : MessageLookupByLibrary.simpleMessage("최대"),
     "min" : MessageLookupByLibrary.simpleMessage("최소"),
+    "monsterCompareActiveSectionTitle" : MessageLookupByLibrary.simpleMessage("Active Skill"),
+    "monsterCompareAwokenSectionTitle" : MessageLookupByLibrary.simpleMessage("Awoken Skills"),
+    "monsterCompareLeaderSectionTitle" : MessageLookupByLibrary.simpleMessage("Leader Skill"),
+    "monsterCompareSelectLeft" : MessageLookupByLibrary.simpleMessage("Select left"),
+    "monsterCompareSelectRight" : MessageLookupByLibrary.simpleMessage("Select right"),
+    "monsterCompareStatsSectionTitle" : m24,
+    "monsterCompareTitle" : MessageLookupByLibrary.simpleMessage("Compare Monster"),
     "monsterFilterModalActiveSkills" : MessageLookupByLibrary.simpleMessage("액티브 스킬"),
     "monsterFilterModalAwokens" : MessageLookupByLibrary.simpleMessage("각성스킬"),
     "monsterFilterModalClose" : MessageLookupByLibrary.simpleMessage("닫기"),
@@ -198,28 +207,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoAtk" : MessageLookupByLibrary.simpleMessage("공격"),
     "monsterInfoAvailableKillers" : MessageLookupByLibrary.simpleMessage("사용 가능한 킬러"),
     "monsterInfoAwokenSkillSection" : MessageLookupByLibrary.simpleMessage("각성스킬"),
-    "monsterInfoCost" : m24,
+    "monsterInfoCost" : m25,
     "monsterInfoDropsTitle" : MessageLookupByLibrary.simpleMessage("드롭 던전"),
     "monsterInfoDropsTitleNone" : MessageLookupByLibrary.simpleMessage("드롭 던전 : 없음"),
-    "monsterInfoEvoDiffAtk" : m25,
-    "monsterInfoEvoDiffHp" : m26,
-    "monsterInfoEvoDiffRcv" : m27,
+    "monsterInfoEvoDiffAtk" : m26,
+    "monsterInfoEvoDiffHp" : m27,
+    "monsterInfoEvoDiffRcv" : m28,
     "monsterInfoEvolution" : MessageLookupByLibrary.simpleMessage("진화"),
     "monsterInfoExp" : MessageLookupByLibrary.simpleMessage("경험치"),
-    "monsterInfoHistoryAdded" : m28,
+    "monsterInfoHistoryAdded" : m29,
     "monsterInfoHistoryTitle" : MessageLookupByLibrary.simpleMessage("히스토리"),
     "monsterInfoHp" : MessageLookupByLibrary.simpleMessage("HP"),
     "monsterInfoLeaderSkillTitle" : MessageLookupByLibrary.simpleMessage("리더 스킬 :"),
     "monsterInfoLevel" : MessageLookupByLibrary.simpleMessage("Lv."),
     "monsterInfoMaterialForHeader" : MessageLookupByLibrary.simpleMessage("사용처"),
-    "monsterInfoNo" : m29,
+    "monsterInfoNo" : m30,
     "monsterInfoNonReversableEvolution" : MessageLookupByLibrary.simpleMessage("돌이킬 수없는 진화"),
     "monsterInfoRcv" : MessageLookupByLibrary.simpleMessage("회복"),
     "monsterInfoReversableEvolution" : MessageLookupByLibrary.simpleMessage("가역적 진화"),
-    "monsterInfoSeriesHeader" : m30,
+    "monsterInfoSeriesHeader" : m31,
     "monsterInfoShield" : MessageLookupByLibrary.simpleMessage("대미지 경감"),
-    "monsterInfoSkillMaxed" : m31,
-    "monsterInfoSkillTurns" : m32,
+    "monsterInfoSkillMaxed" : m32,
+    "monsterInfoSkillTurns" : m33,
     "monsterInfoSkillupDungeonTitleNone" : MessageLookupByLibrary.simpleMessage("Skill Up - Dungeon: None"),
     "monsterInfoSkillupDungeonsTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-던전"),
     "monsterInfoSkillupTitle" : MessageLookupByLibrary.simpleMessage("스킬 업-몬스터"),
@@ -233,14 +242,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterInfoTableSellMp" : MessageLookupByLibrary.simpleMessage("MP 판매"),
     "monsterInfoTransformationEvolution" : MessageLookupByLibrary.simpleMessage("Transformations"),
     "monsterInfoWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
-    "monsterListAtk" : m33,
-    "monsterListHp" : m34,
-    "monsterListLevel" : m35,
-    "monsterListLimitBreak" : m36,
-    "monsterListMp" : m37,
-    "monsterListNo" : m38,
-    "monsterListRcv" : m39,
-    "monsterListWeighted" : m40,
+    "monsterListAtk" : m34,
+    "monsterListHp" : m35,
+    "monsterListLevel" : m36,
+    "monsterListLimitBreak" : m37,
+    "monsterListMp" : m38,
+    "monsterListNo" : m39,
+    "monsterListRcv" : m40,
+    "monsterListWeighted" : m41,
     "monsterMediaImage" : MessageLookupByLibrary.simpleMessage("Image"),
     "monsterMediaJPVoice" : MessageLookupByLibrary.simpleMessage("JP Voice"),
     "monsterMediaNAVoice" : MessageLookupByLibrary.simpleMessage("NA Voice"),
@@ -263,7 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "monsterSortTypeSubAttr" : MessageLookupByLibrary.simpleMessage("부속성"),
     "monsterSortTypeType" : MessageLookupByLibrary.simpleMessage("타입"),
     "monsterSortTypeWeighted" : MessageLookupByLibrary.simpleMessage("환산치"),
-    "mpAndMpPerStam" : m41,
+    "mpAndMpPerStam" : m42,
     "noData" : MessageLookupByLibrary.simpleMessage("데이터 없음"),
     "onboardingDisplayLanguage" : MessageLookupByLibrary.simpleMessage("표시 언어"),
     "onboardingDisplayLanguageDesc" : MessageLookupByLibrary.simpleMessage("UI 요소 및 PAD 데이터에 적용"),
@@ -309,11 +318,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabMonster" : MessageLookupByLibrary.simpleMessage("몬스터"),
     "tabSetting" : MessageLookupByLibrary.simpleMessage("설정"),
     "taskExecuting" : MessageLookupByLibrary.simpleMessage("작업 실행 중"),
-    "taskExecutingWithCount" : m42,
-    "taskFailedWithCount" : m43,
+    "taskExecutingWithCount" : m43,
+    "taskFailedWithCount" : m44,
     "taskFatalError" : MessageLookupByLibrary.simpleMessage("치명적인 오류가 발생했습니다. 앱을 다시 시작해 주세요."),
     "taskFinished" : MessageLookupByLibrary.simpleMessage("모든 작업 완료"),
-    "taskProgress" : m44,
+    "taskProgress" : m45,
     "taskRestarting" : MessageLookupByLibrary.simpleMessage("인터넷 연결을 확인하십시오. 자동 재시작"),
     "taskWaiting" : MessageLookupByLibrary.simpleMessage("작업 대기 중"),
     "title" : MessageLookupByLibrary.simpleMessage("DadGuide"),
