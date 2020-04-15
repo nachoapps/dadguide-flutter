@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Wrapper around Firebase RemoteConfig that makes it a bit easier to use.
 class RemoteConfigWrapper {
@@ -24,6 +25,14 @@ class RemoteConfigWrapper {
     disableMedia = instance.getBool('disable_media');
     disableEggMachine = instance.getBool('disable_egg_machine');
     disableExchange = instance.getBool('disable_exchange');
+    iosBanner = instance.getString('ios_banner');
+    androidBanner = instance.getString('android_banner');
+
+    Fimber.i('disableMedia: $disableMedia'
+        ', disableEggMachine: $disableEggMachine'
+        ', disableExchange: $disableExchange'
+        ', iosBanner: ${iosBanner?.length}'
+        ', androidBanner: ${androidBanner?.length}');
 
     return instance;
   }
@@ -32,4 +41,8 @@ class RemoteConfigWrapper {
   static bool disableMedia = false;
   static bool disableEggMachine = false;
   static bool disableExchange = false;
+
+  // Guaranteed to be set in remoteconfig.
+  static String iosBanner = '';
+  static String androidBanner = '';
 }
