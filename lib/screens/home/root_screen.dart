@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
@@ -18,12 +15,8 @@ import 'package:dadguide2/screens/monster/monster_search_modal.dart';
 import 'package:dadguide2/screens/monster_compare/monster_compare.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
-import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/theme/style.dart';
-import 'package:firebase_admob/firebase_admob.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Paths to the various screens that the user can navigate to.
 ///
@@ -143,41 +136,20 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   int _selectedIndex = 0;
 
   /// Bottom ad to display.
-  BannerAd bannerAd;
+  BannerAdManager adManager = new BannerAdManager();
 
   @override
   void initState() {
     super.initState();
     _recordCurrentScreenEvent();
-    var deviceInfo = getIt<DeviceInfo>();
-    if (deviceInfo.platform == DevicePlatform.IOS && deviceInfo.osVersion.major < 11) {
-      Fimber.w('Skipping ad load due to IOS bug');
-      return;
-    }
-
-    RemoteConfig.instance.then((rc) {
-      var bannerId = Platform.isIOS ? rc.getString('ios_banner') : rc.getString('android_banner');
-      if (bannerId == null || bannerId.isEmpty) {
-        Fimber.e('Remote config: could not find banner id');
-        return;
-      } else {
-        Fimber.i('Remote config: banner id loaded');
-      }
-      bannerAd = createBannerAd(bannerId);
-      bannerAd.load().then((v) {
-        Fimber.i('Ad loaded: $v');
-        bannerAd.show().then((v) {
-          Fimber.i('Ad shown: $v');
-        });
-      });
-    });
+    adManager.init();
   }
 
   @override
   void dispose() {
-    if (bannerAd != null) {
-      bannerAd.dispose();
-      bannerAd = null;
+    if (adManager != null) {
+      adManager.dispose();
+      adManager = null;
     }
     super.dispose();
   }
@@ -211,12 +183,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
             ),
           ),
           // Reserve room for the banner ad.
-          SizedBox(
-              height: getBannerHeight(context) + 12,
-              child: Center(
-                child: Text("Failed to load ad",
-                    style: Theme.of(context).textTheme.body1.copyWith(color: grey(context, 1000))),
-              )),
+          AdAvailabilitySpacerWidget(),
         ],
       ),
     );

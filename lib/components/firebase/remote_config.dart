@@ -5,6 +5,8 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Wrapper around Firebase RemoteConfig that makes it a bit easier to use.
 class RemoteConfigWrapper {
+  RemoteConfigWrapper._internal();
+
   static Completer<RemoteConfig> _initCompleter = Completer<RemoteConfig>();
 
   /// Unlike the regular Firebase instance method, this only completes once
@@ -42,7 +44,7 @@ class RemoteConfigWrapper {
   static bool disableEggMachine = false;
   static bool disableExchange = false;
 
-  // Guaranteed to be set in remoteconfig.
+  // Guaranteed to be set in RemoteConfig.
   static String iosBanner = '';
   static String androidBanner = '';
 }

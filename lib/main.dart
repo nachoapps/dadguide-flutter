@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
+import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/updates/background_fetch.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/logging.dart';
@@ -60,6 +61,9 @@ Future<bool> _asyncInit() async {
   // Ensure the preference defaults are set.
   await Prefs.init();
 
+  // Load data that depends on prefs.
+  AdStatusManager.instance.syncInitFromPrefs();
+
   // Set up services that are guaranteed to start with getIt.
   await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
 
@@ -86,6 +90,10 @@ Future<bool> _asyncInit() async {
   FirebaseAdMob.instance
       .initialize(appId: appId(), analyticsEnabled: true)
       .then((am) => Fimber.i('AdMob ready'));
+
+//  AdStatusManager.instance
+//      .asyncInitFromFirestore()
+//      .then((v) => Fimber.i('Firestore ad status sync complete: $v'));
 
   configureUpdateDatabaseTask();
 
