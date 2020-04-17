@@ -35,6 +35,8 @@ class PrefKeys {
 
   static const favoriteMonsters = 'favorite_monsters';
   static const lastComparedMonster = 'last_compared_monster';
+
+  static const adsEnabled = 'ads_enabled';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -88,6 +90,7 @@ class Prefs {
       PrefKeys.mediaWarningDisplayed: false,
       PrefKeys.favoriteMonsters: '',
       PrefKeys.lastComparedMonster: 1,
+      PrefKeys.adsEnabled: true,
     });
   }
 
@@ -236,6 +239,11 @@ class Prefs {
   static set lastComparedMonster(int monsterId) =>
       PrefService.setInt(PrefKeys.lastComparedMonster, monsterId);
   static get lastComparedMonster => PrefService.getInt(PrefKeys.lastComparedMonster);
+
+  /// Should not be called except by the AdManager. Value needs to be kept in sync with the ad
+  /// enabled status.
+  static set adsEnabled(bool enabled) => PrefService.setBool(PrefKeys.adsEnabled, enabled);
+  static get adsEnabled => PrefService.getBool(PrefKeys.adsEnabled);
 }
 
 List<int> stringToIntList(String s) {
