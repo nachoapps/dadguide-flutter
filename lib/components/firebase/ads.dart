@@ -84,7 +84,7 @@ class BannerAdManager {
   // Subscription to the ad status which can disable the ad, may or may not be null.
   StreamSubscription<AdStatus> _subscription;
 
-  Future<bool> init() async {
+  Future<void> init() async {
     if (_initialized) {
       Fimber.e('Attempted to init BannerAdManager multiple times, BannerAd=$_bannerAd');
       return false;
@@ -105,12 +105,18 @@ class BannerAdManager {
       return false;
     }
 
-    _bannerAd = createBannerAd(bannerId);
     _subscription = AdStatusManager.instance.status.listen((as) {
-      if (as == AdStatus.disabled) {
-        dispose();
+      if (_bannerAd != null && as == AdStatus.disabled) {
+        _disposeAd();
+      }
+      if (_bannerAd == null && as == AdStatus.enabled) {
+        _showAd(bannerId);
       }
     });
+  }
+
+  Future<bool> _showAd(String bannerId) async {
+    _bannerAd = createBannerAd(bannerId);
 
     final loaded = await _bannerAd.load();
 
@@ -124,15 +130,19 @@ class BannerAdManager {
     return shown;
   }
 
+  Future<bool> _disposeAd() async {
+    var result = _bannerAd.dispose();
+    _bannerAd = null;
+    return result;
+  }
+
   Future<bool> dispose() async {
     if (_subscription != null) {
       _subscription.cancel();
       _subscription = null;
     }
     if (_bannerAd != null) {
-      var result = _bannerAd.dispose();
-      _bannerAd = null;
-      return result;
+      return await _disposeAd();
     }
     return true;
   }
