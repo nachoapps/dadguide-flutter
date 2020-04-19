@@ -1,3 +1,5 @@
+import 'package:dadguide2/components/auth/user.dart';
+import 'package:dadguide2/components/config/app_state.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
@@ -19,8 +21,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-
-import 'components/config/app_state.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
 /// handler which seems to swallow some helpful Flutter error reporting. This should never be
@@ -60,6 +60,9 @@ Future<bool> _asyncInit() async {
 
   // Ensure the preference defaults are set.
   await Prefs.init();
+
+  // Start listening to user auth info.
+  UserManager.instance.firebaseInit();
 
   // Load data that depends on prefs.
   AdStatusManager.instance.syncInitFromPrefs();
