@@ -1,8 +1,13 @@
+import 'package:dadguide2/components/auth/src/user.dart';
+import 'package:dadguide2/components/auth/ui.dart';
+import 'package:dadguide2/components/auth/user.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
+import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -25,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Theme(
       data: theme,
-      child: PreferencePage([
+      child: ListView(children: [
         Container(
           color: Colors.blue,
           height: 36,
@@ -39,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
           defaultVal: Prefs.defaultUiLanguageValue,
           values: Prefs.languageValues,
           displayValues: Prefs.languageDisplayValues,
-          onChange: (v) => Provider.of<ReloadAppChangeNotifier>(context).notify(),
+          onChange: (v) => Provider.of<ReloadAppChangeNotifier>(context, listen: false).notify(),
         ),
         DropdownPreference(
           loc.settingsInfoLanguage,
@@ -113,6 +118,32 @@ class SettingsScreen extends StatelessWidget {
             PreferenceText('Copyright © 2019 Miru Apps LLC.\nAll rights reserved'),
           ]),
         ),
+        PreferenceTitle('Sign In'),
+        SimpleRxStreamBuilder<DgUser>(
+          stream: UserManager.instance.stream,
+          builder: (context, user) {
+            return SwitchPreference(
+              'Ads enabled',
+              PrefKeys.adsEnabled,
+              onEnable: () => AdStatusManager.instance.enableAds(),
+              onDisable: () => AdStatusManager.instance.disableAds(),
+              disabled: !user.loggedIn,
+            );
+          },
+        ),
+        PreferenceTitleSubtitle(
+            'If you have donated and are signed in with the same email, ads will be removed from the app. Thanks for your support!'),
+        SimpleRxStreamBuilder<DgUser>(
+          stream: UserManager.instance.stream,
+          builder: (context, user) {
+            if (!user.loggedIn) return Container();
+            return ListTile(
+              trailing: Text(user.userName),
+              leading: Text('Logged in as'),
+            );
+          },
+        ),
+        Center(child: SignInAndOutButton()),
       ]),
     );
   }

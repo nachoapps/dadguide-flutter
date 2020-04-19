@@ -10,6 +10,7 @@ import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 /// Global service locator singleton.
 final getIt = GetIt.instance;
@@ -42,6 +43,9 @@ Future<void> initializeServiceLocator(
   NotificationSingleton();
   var notificationManager = NotificationManager();
   getIt.registerSingleton(notificationManager);
+
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+  getIt.registerSingleton(googleSignIn);
 }
 
 /// Try to initialize DB dependencies and register them with getIt.
