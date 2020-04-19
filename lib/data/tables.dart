@@ -5,6 +5,7 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
+import 'package:dadguide2/components/utils/kana.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -720,14 +721,16 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     }
 
     if (args.text.isNotEmpty) {
-      query.where(
-        or(
-            or(
-              dungeons.nameJp.like('%${args.text}%'),
-              dungeons.nameNa.like('%${args.text}%'),
-            ),
-            dungeons.nameKr.like('%${args.text}%')),
-      );
+      final searchText = '%${args.text}%';
+      query.where(orList(
+        [
+          dungeons.nameJp.like(searchText),
+          if (containsHiragana(searchText)) dungeons.nameJp.like(hiraganaToKatakana(searchText)),
+          if (containsKatakana(searchText)) dungeons.nameJp.like(katakanaToHiragana(searchText)),
+          dungeons.nameNa.like(searchText),
+          dungeons.nameKr.like(searchText),
+        ],
+      ));
     }
 
     var mpAndSrankResults =
@@ -1077,6 +1080,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         query.where(orList(
           [
             monsters.nameJp.like(searchText),
+            if (containsHiragana(searchText)) monsters.nameJp.like(hiraganaToKatakana(searchText)),
+            if (containsKatakana(searchText)) monsters.nameJp.like(katakanaToHiragana(searchText)),
             monsters.nameNa.like(searchText),
             monsters.nameNaOverride.like(searchText),
             monsters.nameKr.like(searchText),
@@ -1114,12 +1119,14 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     }
 
     if (args.filter.series != '') {
-      var seriesText = '%${args.filter.series}%';
+      var searchText = '%${args.filter.series}%';
       query.where(orList(
         [
-          series.nameJp.like(seriesText),
-          series.nameNa.like(seriesText),
-          series.nameKr.like(seriesText),
+          series.nameJp.like(searchText),
+          if (containsHiragana(searchText)) series.nameJp.like(hiraganaToKatakana(searchText)),
+          if (containsKatakana(searchText)) series.nameJp.like(katakanaToHiragana(searchText)),
+          series.nameNa.like(searchText),
+          series.nameKr.like(searchText),
         ],
       ));
     }
