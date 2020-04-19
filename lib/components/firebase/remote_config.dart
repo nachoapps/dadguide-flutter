@@ -13,7 +13,7 @@ class RemoteConfigWrapper {
   /// the values have been fetched and activated.
   static Future<RemoteConfig> get instance async {
     if (!_initCompleter.isCompleted) {
-      _initCompleter.complete(await _getRemoteConfigInstance());
+      _initCompleter.complete(_getRemoteConfigInstance());
     }
     return _initCompleter.future;
   }
