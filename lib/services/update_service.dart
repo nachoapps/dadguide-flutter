@@ -274,7 +274,7 @@ class UpdateTask with TaskPublisher {
             var tablePrimaryKey = tableInfo.$primaryKey.first.escapedName;
             var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey == $tableRowId';
             Fimber.v('Deleting row: $deleteSql');
-            _database.customUpdate(deleteSql);
+            await _database.customUpdate(deleteSql);
           } catch (ex) {
             deleteFailed = true;
             Fimber.e('Failed to delete row', ex: ex);
