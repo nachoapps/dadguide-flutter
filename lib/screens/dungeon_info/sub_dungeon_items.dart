@@ -44,8 +44,8 @@ class SubDungeonRow extends StatelessWidget {
       Fimber.w('Failed to parse rewards', ex: ex);
     }
 
-    var expStam = (data.expAvg ?? 0) ~/ data.stamina;
-    var coinStam = (data.coinAvg ?? 0) ~/ data.stamina;
+    var expStam = data.stamina == 0 ? 0 : (data.expAvg ?? 0) ~/ data.stamina;
+    var coinStam = data.stamina == 0 ? 0 : (data.coinAvg ?? 0) ~/ data.stamina;
 
     var themeData = Theme.of(context);
     var titleStyle = themeData.textTheme.body1;

@@ -237,14 +237,14 @@ class ExpCoinTable extends StatelessWidget {
           intCell(sd.expMin),
           intCell(sd.expMax),
           intCell(sd.expAvg),
-          intCell(((sd.expAvg ?? 0) ~/ sd.stamina)),
+          intCell(sd.stamina == 0 ? 0 : ((sd.expAvg ?? 0) ~/ sd.stamina)),
         ]),
         TableRow(children: [
           cell(loc.coin),
           intCell(sd.coinMin),
           intCell(sd.coinMax),
           intCell(sd.coinAvg),
-          intCell(((sd.coinAvg ?? 0) ~/ sd.stamina)),
+          intCell(sd.stamina == 0 ? 0 : ((sd.coinAvg ?? 0) ~/ sd.stamina)),
         ]),
       ],
     );
