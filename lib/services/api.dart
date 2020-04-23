@@ -17,7 +17,7 @@ class ApiClient {
       throw StateError('Bad response status: ${resp.statusCode}');
     }
 
-    var items = resp.data['items'] as Map<String, dynamic>;
-    return items['is_donor'] as bool;
+    var data = resp.data as Map<String, dynamic>;
+    return data['is_donor'] as bool;
   }
 }

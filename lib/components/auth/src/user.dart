@@ -8,6 +8,9 @@ class DgUser {
   /// The display name for the user, empty string if !loggedIn.
   final String userName;
 
+  /// The email for the user, empty string if !loggedIn.
+  final String email;
+
   /// If the user is logged in vs anonymous.
   final bool loggedIn;
 
@@ -18,12 +21,14 @@ class DgUser {
   final bool verified;
 
   DgUser.anonymous()
-      : userName = "anonymous",
+      : userName = "",
+        email = "",
         loggedIn = false,
         verified = false;
 
   DgUser.fromFirebase(FirebaseUser user)
-      : userName = user.displayName ?? 'fb anonymous',
+      : userName = user.displayName ?? 'no name',
+        email = user.email,
         loggedIn = true,
         verified = user.isEmailVerified;
 }

@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/auth/user.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
@@ -18,8 +19,14 @@ enum AdStatus {
 /// Must call syncInitFromPrefs() after preferences have been initialized, and later on
 /// asyncInitFromFirestore() before launching the app.
 class AdStatusManager {
-  AdStatusManager._internal();
   static final AdStatusManager instance = new AdStatusManager._internal();
+
+  AdStatusManager._internal() {
+    // If the user logs out, we also want to automatically re-enable ads.
+    UserManager.instance.stream.listen((du) {
+      if (!du.verified) enableAds();
+    });
+  }
 
   /// Publishes status events for the app.
   final status = BehaviorSubject.seeded(AdStatus.enabled);

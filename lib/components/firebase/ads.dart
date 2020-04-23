@@ -105,12 +105,12 @@ class BannerAdManager {
       return false;
     }
 
-    _subscription = AdStatusManager.instance.status.listen((as) {
+    _subscription = AdStatusManager.instance.status.listen((as) async {
       if (_bannerAd != null && as == AdStatus.disabled) {
-        _disposeAd();
+        await _disposeAd();
       }
       if (_bannerAd == null && as == AdStatus.enabled) {
-        _showAd(bannerId);
+        await _showAd(bannerId);
       }
     });
   }
@@ -132,6 +132,7 @@ class BannerAdManager {
 
   Future<bool> _disposeAd() async {
     var result = _bannerAd.dispose();
+    Fimber.i('Ad disposed: $result');
     _bannerAd = null;
     return result;
   }

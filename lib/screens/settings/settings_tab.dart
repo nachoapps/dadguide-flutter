@@ -9,9 +9,12 @@ import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/l10n/localizations.dart';
+import 'package:dadguide2/screens/settings/async_switch_preference.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
+import 'package:dadguide2/services/api.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -122,11 +125,32 @@ class SettingsScreen extends StatelessWidget {
         SimpleRxStreamBuilder<DgUser>(
           stream: UserManager.instance.stream,
           builder: (context, user) {
-            return SwitchPreference(
+            return AsyncSwitchPreference(
               'Ads enabled',
               PrefKeys.adsEnabled,
-              onEnable: () => AdStatusManager.instance.enableAds(),
-              onDisable: () => AdStatusManager.instance.disableAds(),
+              onEnable: () async {
+                AdStatusManager.instance.enableAds();
+                // Give the enable a second to propagate to prevent orphaned banners.
+                await Future.delayed(Duration(seconds: 1));
+              },
+              onDisable: () async {
+                var scaffold = Scaffold.of(context);
+                var key = Key('ads_switch');
+                try {
+                  var isDonor =
+                      await getIt<ApiClient>().isDonor(user.email).timeout(Duration(seconds: 5));
+                  scaffold.hideCurrentSnackBar();
+                  if (isDonor) {
+                    AdStatusManager.instance.disableAds();
+                  } else {
+                    scaffold.showSnackBar(SnackBar(key: key, content: Text('Not a donor')));
+                  }
+                } catch (ex, st) {
+                  scaffold.hideCurrentSnackBar();
+                  Fimber.e('Failed to contact server', ex: ex, stacktrace: st);
+                  throw StateError('Failed to contact server');
+                }
+              },
               disabled: !user.loggedIn,
             );
           },
@@ -138,7 +162,7 @@ class SettingsScreen extends StatelessWidget {
           builder: (context, user) {
             if (!user.loggedIn) return Container();
             return ListTile(
-              trailing: Text(user.userName),
+              trailing: Text(user.email),
               leading: Text('Logged in as'),
             );
           },
