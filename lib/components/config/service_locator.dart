@@ -5,6 +5,7 @@ import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/services/api.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
@@ -27,6 +28,9 @@ Future<void> initializeServiceLocator(
 
   var endpoints = useDevEndpoints ? DevEndpoints() : ProdEndpoints();
   getIt.registerSingleton<Endpoints>(endpoints);
+
+  var apiClient = ApiClient(endpoints, dio);
+  getIt.registerSingleton<ApiClient>(apiClient);
 
   var versionInfo = await getVersionInfo();
   getIt.registerSingleton(versionInfo);

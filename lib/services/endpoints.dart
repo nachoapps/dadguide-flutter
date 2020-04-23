@@ -13,6 +13,9 @@ abstract class Endpoints {
 
   /// The update API url for the given table / tstamp.
   String api(String tableName, {int tstamp});
+
+  /// The donor check url;
+  String donor(String email);
 }
 
 /// Right now this points to my personal machine; if you're doing dev work against a local server,
@@ -35,6 +38,10 @@ class DevEndpoints extends Endpoints {
     url += '&v=${versionInfo.projectCode}';
     return url;
   }
+
+  String donor(String email) {
+    return null;
+  }
 }
 
 /// Points to the production server.
@@ -56,5 +63,9 @@ class ProdEndpoints extends Endpoints {
     var versionInfo = getIt<VersionInfo>();
     url += '&v=${versionInfo.projectCode}';
     return url;
+  }
+
+  String donor(String email) {
+    return 'http://miru.info/dadguide/api/serve_donor.php?email=$email';
   }
 }
