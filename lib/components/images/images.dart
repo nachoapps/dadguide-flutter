@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/images/icons.dart';
+import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -73,7 +75,8 @@ bool isMonsterId(int monsterId) {
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
 Widget awakeningContainer(int awakeningId, {double size: 24}) {
-  var url = _imageUrl('awakenings', awakeningId, 3);
+  var useJp = Prefs.gameCountry == Country.jp && [40, 46, 47, 48].contains(awakeningId);
+  var url = _imageUrl('awakenings', awakeningId, 3, useJp: useJp);
   return _sizedContainer(_loadingImage(url), size);
 }
 
@@ -86,7 +89,8 @@ Widget latentContainer(int latentId, {double size: 24}) {
 /// Returns a widget with a loading indicator until the image loads from the cache.
 Widget typeContainer(int typeId, {double size: 16, double leftPadding: 0}) {
   if (typeId == null) return Container(width: 0.0, height: 0.0);
-  var url = _imageUrl('types', typeId, 3);
+  var useJp = Prefs.gameCountry == Country.jp && typeId == 12;
+  var url = _imageUrl('types', typeId, 3, useJp: useJp);
   var container = _sizedContainer(_loadingImage(url), size);
   return leftPadding > 0
       ? Padding(padding: EdgeInsets.only(left: leftPadding), child: container)
@@ -105,8 +109,9 @@ Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
 }
 
 // TODO: convert to using Endpoints
-String _imageUrl(String category, int value, int length) {
+String _imageUrl(String category, int value, int length, {bool useJp: false}) {
   var paddedNo = value.toString().padLeft(length, '0');
+  if (useJp) paddedNo = '${paddedNo}_jp'; // Handle JP-specific assets
   return 'https://f002.backblazeb2.com/file/dadguide-data/media/$category/$paddedNo.png';
 }
 
