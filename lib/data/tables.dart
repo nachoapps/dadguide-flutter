@@ -6,17 +6,17 @@ import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/components/utils/kana.dart';
-import 'package:dadguide2/data/src/db_utils.dart';
+import 'package:dadguide2/data/src/utils.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
-part 'dungeons.dart';
-part 'egg_machines.dart';
-part 'exchanges.dart';
-part 'monsters.dart';
-part 'schedule.dart';
+part 'src/dungeons.dart';
+part 'src/egg_machines.dart';
+part 'src/exchanges.dart';
+part 'src/monsters.dart';
+part 'src/schedule.dart';
 part 'tables.g.dart';
 
 // Classes used for database code generation and the master DadGuideDatabase.

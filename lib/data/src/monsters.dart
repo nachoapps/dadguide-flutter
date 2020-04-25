@@ -1,4 +1,4 @@
-part of 'tables.dart';
+part of '../tables.dart';
 
 // TODO: split out a MonsterSearchDao this is too complicated.
 

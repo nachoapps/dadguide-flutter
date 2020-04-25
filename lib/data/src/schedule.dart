@@ -1,4 +1,4 @@
-part of 'tables.dart';
+part of '../tables.dart';
 
 class EventSearchArgs {
   List<Country> servers = Country.all;
