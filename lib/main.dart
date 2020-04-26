@@ -94,10 +94,6 @@ Future<bool> _asyncInit() async {
       .initialize(appId: appId(), analyticsEnabled: true)
       .then((am) => Fimber.i('AdMob ready'));
 
-//  AdStatusManager.instance
-//      .asyncInitFromFirestore()
-//      .then((v) => Fimber.i('Firestore ad status sync complete: $v'));
-
   configureUpdateDatabaseTask();
 
   return true;
@@ -126,7 +122,7 @@ class _InitAppWidgetState extends State<InitAppWidget> {
         if (snapshot.hasData) {
           return DadGuideApp();
         } else if (snapshot.hasError) {
-          return Container(color: Colors.red);
+          return Container(color: Colors.red, child: Center(child: Icon(Icons.grid_off)));
         }
         return Container();
       },
