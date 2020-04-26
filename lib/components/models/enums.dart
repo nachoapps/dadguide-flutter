@@ -1,5 +1,3 @@
-// TODO: needs localization
-
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
@@ -390,6 +388,8 @@ class MonsterSortType {
   static MonsterSortType byId(int id) {
     return _lookup[id] ?? MonsterSortType.no;
   }
+
+  static int toId(MonsterSortType mst) => mst?.id;
 }
 
 /// Enum class for monster typing.

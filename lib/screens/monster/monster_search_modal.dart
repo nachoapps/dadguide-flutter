@@ -479,10 +479,11 @@ class ActiveSkillTagsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
-    return SkillTagsRow(
+    return SkillTagsRow<ActiveSkillTag>(
       title: loc.monsterFilterModalActiveSkills,
       tagHolder: displayState.filterArgs.activeTags,
       tagOptions: DatabaseHelper.allActiveSkillTags,
+      idGetter: (tag) => tag.activeSkillTagId,
     );
   }
 }
@@ -492,20 +493,28 @@ class LeaderSkillTagsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
-    return SkillTagsRow(
+    return SkillTagsRow<LeaderSkillTag>(
       title: loc.monsterFilterModalLeaderSkills,
       tagHolder: displayState.filterArgs.leaderTags,
       tagOptions: DatabaseHelper.allLeaderSkillTags,
+      idGetter: (tag) => tag.leaderSkillTagId,
     );
   }
 }
 
-class SkillTagsRow extends StatelessWidget {
+class SkillTagsRow<T> extends StatelessWidget {
   final String title;
-  final Set<dynamic> tagHolder;
-  final List<dynamic> tagOptions;
+  final Set<int> tagHolder;
+  final List<T> tagOptions;
+  final int Function(T) idGetter;
 
-  const SkillTagsRow({Key key, this.title, this.tagHolder, this.tagOptions}) : super(key: key);
+  const SkillTagsRow(
+      {Key key,
+      @required this.title,
+      @required this.tagHolder,
+      @required this.tagOptions,
+      @required this.idGetter})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -526,13 +535,13 @@ class SkillTagsRow extends StatelessWidget {
           children: [
             for (var tag in tagOptions)
               ToggleTagButton(
-                tagHolder.contains(tag),
+                tagHolder.contains(idGetter(tag)),
                 LanguageSelector.name(tag).call(),
                 () {
-                  if (tagHolder.contains(tag)) {
-                    tagHolder.remove(tag);
+                  if (tagHolder.contains(idGetter(tag))) {
+                    tagHolder.remove(idGetter(tag));
                   } else {
-                    tagHolder.add(tag);
+                    tagHolder.add(idGetter(tag));
                   }
                   displayState.notify();
                 },

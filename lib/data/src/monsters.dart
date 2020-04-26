@@ -2,29 +2,47 @@ part of '../tables.dart';
 
 // TODO: split out a MonsterSearchDao this is too complicated.
 
+@json_annotation.JsonSerializable(nullable: false)
 class MonsterSortArgs {
-  bool sortAsc = false;
-  MonsterSortType sortType = MonsterSortType.released;
+  bool sortAsc;
+
+  @json_annotation.JsonKey(fromJson: MonsterSortType.byId, toJson: MonsterSortType.toId)
+  MonsterSortType sortType;
+
+  MonsterSortArgs({this.sortAsc = false, MonsterSortType sortType})
+      : this.sortType = sortType ?? MonsterSortType.released;
+  factory MonsterSortArgs.fromJson(Map<String, dynamic> json) => _$MonsterSortArgsFromJson(json);
+  Map<String, dynamic> toJson() => _$MonsterSortArgsToJson(this);
 }
 
+@json_annotation.JsonSerializable(nullable: false)
 class MinMax {
   int min;
   int max;
 
   bool get modified => min != null || max != null;
+
+  MinMax({this.min, this.max});
+  factory MinMax.fromJson(Map<String, dynamic> json) => _$MinMaxFromJson(json);
+  Map<String, dynamic> toJson() => _$MinMaxToJson(this);
 }
 
+@json_annotation.JsonSerializable(nullable: false)
 class MonsterFilterArgs {
-  List<int> mainAttr = [];
-  List<int> subAttr = [];
-  MinMax rarity = MinMax();
-  MinMax cost = MinMax();
-  List<int> types = [];
-  List<int> awokenSkills = [];
-  Set<ActiveSkillTag> activeTags = {};
-  Set<LeaderSkillTag> leaderTags = {};
-  String series = '';
-  bool favoritesOnly = false;
+  List<int> mainAttr;
+  List<int> subAttr;
+  MinMax rarity;
+  MinMax cost;
+  List<int> types;
+  List<int> awokenSkills;
+  String series;
+  bool favoritesOnly;
+
+  /// Must contain active_skill_tag_id's
+  Set<int> activeTags;
+
+  /// Must contain leader_skill_tag_id's
+  Set<int> leaderTags;
 
   bool get modified =>
       mainAttr.isNotEmpty ||
@@ -37,25 +55,65 @@ class MonsterFilterArgs {
       leaderTags.isNotEmpty ||
       series != '' ||
       favoritesOnly;
+
+  MonsterFilterArgs(
+      {this.mainAttr = const [],
+      this.subAttr = const [],
+      MinMax rarity,
+      MinMax cost,
+      this.types = const [],
+      this.awokenSkills = const [],
+      this.series = '',
+      this.favoritesOnly = false,
+      this.activeTags = const {},
+      this.leaderTags = const {}})
+      : this.rarity = rarity ?? MinMax(),
+        this.cost = cost ?? MinMax();
+
+  factory MonsterFilterArgs.fromJson(Map<String, dynamic> json) =>
+      _$MonsterFilterArgsFromJson(json);
+  Map<String, dynamic> toJson() => _$MonsterFilterArgsToJson(this);
 }
 
+@json_annotation.JsonSerializable(explicitToJson: true, nullable: false)
 class MonsterSearchArgs {
   final String text;
   final MonsterSortArgs sort;
   final MonsterFilterArgs filter;
   final bool awakeningsRequired;
 
-  MonsterSearchArgs(
-      {@required this.text,
-      @required this.sort,
-      @required this.filter,
-      @required this.awakeningsRequired});
-
   MonsterSearchArgs.defaults()
       : text = '',
         sort = MonsterSortArgs(),
         filter = MonsterFilterArgs(),
         awakeningsRequired = false;
+
+  MonsterSearchArgs(
+      {@required this.text,
+      @required this.sort,
+      @required this.filter,
+      @required this.awakeningsRequired});
+  factory MonsterSearchArgs.fromJson(Map<String, dynamic> json) =>
+      _$MonsterSearchArgsFromJson(json);
+  Map<String, dynamic> toJson() => _$MonsterSearchArgsToJson(this);
+
+  factory MonsterSearchArgs.fromJsonString(String jsonStr) {
+    try {
+      return MonsterSearchArgs.fromJson(jsonDecode(jsonStr));
+    } catch (ex) {
+      Fimber.e('failed to decode:', ex: ex);
+    }
+    return MonsterSearchArgs.defaults();
+  }
+
+  String toJsonString() {
+    try {
+      return jsonEncode(toJson());
+    } catch (ex) {
+      Fimber.e('failed to encode:', ex: ex);
+    }
+    return "{}";
+  }
 }
 
 @UseDao(
@@ -265,7 +323,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (hasLeaderSkillTagFilter) {
       var expr;
       for (var curTag in args.filter.leaderTags) {
-        var searchText = '%(${curTag.leaderSkillTagId})%';
+        var searchText = '%(${curTag})%';
         var curExpr = leaderSkills.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;
@@ -279,7 +337,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (args.filter.activeTags.isNotEmpty) {
       var expr;
       for (var curTag in args.filter.activeTags) {
-        var searchText = '%(${curTag.activeSkillTagId})%';
+        var searchText = '%(${curTag})%';
         var curExpr = activeSkills.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;

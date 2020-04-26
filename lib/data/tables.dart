@@ -11,6 +11,9 @@ import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:json_annotation/json_annotation.dart' as json_annotation;
+
+
 
 part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
