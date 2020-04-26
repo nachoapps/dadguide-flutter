@@ -192,16 +192,18 @@ class MediaSelectionWidget extends StatelessWidget {
                 Prefs.mediaWarningDisplayed = true;
                 showDialog(
                     context: context,
-                    child: AlertDialog(
-                      title: Text(loc.warning),
-                      content: Text(loc.monsterMediaWarningBody),
-                      actions: [
-                        RaisedButton(
-                          child: Text(loc.close),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ],
-                    ));
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(loc.warning),
+                        content: Text(loc.monsterMediaWarningBody),
+                        actions: [
+                          RaisedButton(
+                            child: Text(loc.close),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      );
+                    });
                 return false;
               }
               state.newState = ImageState.animation;
