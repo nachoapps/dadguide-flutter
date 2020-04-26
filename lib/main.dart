@@ -122,7 +122,9 @@ class _InitAppWidgetState extends State<InitAppWidget> {
         if (snapshot.hasData) {
           return DadGuideApp();
         } else if (snapshot.hasError) {
-          return Container(color: Colors.red, child: Center(child: Icon(Icons.grid_off)));
+          return Container(
+              color: Colors.red,
+              child: Center(child: Text('Failed to initialize', textDirection: TextDirection.ltr)));
         }
         return Container();
       },
