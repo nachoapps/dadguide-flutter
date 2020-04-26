@@ -191,16 +191,18 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       orderingTerms = [
         OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute1Id),
         OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
-        OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp),
       ];
     } else if (args.sort.sortType == MonsterSortType.subAttribute) {
       orderingTerms = [
         OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
-        OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp),
       ];
     } else {
-      orderingTerms = [OrderingTerm(mode: orderingMode, expression: orderExpression)];
+      orderingTerms = [
+        OrderingTerm(mode: orderingMode, expression: orderExpression),
+      ];
     }
+    // Always subsequently sort by monsterNoJp descending.
+    orderingTerms.add(OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp));
 
     query.orderBy(orderingTerms);
 
