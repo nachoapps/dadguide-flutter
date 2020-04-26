@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -14,8 +15,11 @@ class MonsterSearchBloc {
   final MonstersDao _dao;
   final _counterController = StreamController<List<ListMonster>>();
 
+  // This is a trainwreck. Needs serious structural refactoring.
+  var initialValues = MonsterSearchArgs.defaults();
+
   MonsterSearchBloc() : _dao = getIt<MonstersDao>() {
-    _counterController.onListen = () => search(MonsterSearchArgs.defaults());
+    _counterController.onListen = () => search(initialValues);
   }
 
   StreamSink<List<ListMonster>> get _resultSink => _counterController.sink;
@@ -34,24 +38,38 @@ class MonsterSearchBloc {
 /// Intermediary between monster list model and the UI.
 class MonsterDisplayState with ChangeNotifier {
   final searchBloc = MonsterSearchBloc();
-  String _searchText = '';
-  var filterArgs = MonsterFilterArgs();
-  var sortArgs = MonsterSortArgs();
+  String _searchText;
+  MonsterFilterArgs filterArgs;
+  MonsterSortArgs sortArgs;
 
   bool _pictureMode = false;
   bool _showAwakenings = false;
+
+  MonsterDisplayState(MonsterSearchArgs searchArgs)
+      : _searchText = searchArgs.text ?? "",
+        filterArgs = searchArgs.filter ?? MonsterFilterArgs(),
+        sortArgs = searchArgs.sort ?? MonsterSortArgs() {
+    print("search text: $searchText");
+    searchBloc.initialValues = toSearchArgs();
+  }
 
   void notify() {
     notifyListeners();
   }
 
   void doSearch() {
-    searchBloc.search(MonsterSearchArgs(
+    var searchArgs = toSearchArgs();
+    Prefs.monsterSearchArgs = searchArgs;
+    searchBloc.search(searchArgs);
+  }
+
+  MonsterSearchArgs toSearchArgs() {
+    return MonsterSearchArgs(
       text: _searchText.trim(),
       sort: sortArgs,
       filter: filterArgs,
       awakeningsRequired: _showAwakenings,
-    ));
+    );
   }
 
   get searchText => _searchText;

@@ -1,7 +1,9 @@
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/ui/text_input.dart';
+import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_sort_modal.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -20,8 +22,10 @@ class MonsterTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MonsterSearchArgs defaultState =
+        args.useArgsFromPrefs ? Prefs.monsterSearchArgs : MonsterSearchArgs.defaults();
     return ChangeNotifierProvider<MonsterDisplayState>(
-      create: (_) => MonsterDisplayState(),
+      create: (_) => MonsterDisplayState(defaultState),
       child: Column(children: [
         MonsterSearchBar(),
         Expanded(child: MonsterList(args.action)),

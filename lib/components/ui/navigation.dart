@@ -16,8 +16,9 @@ enum MonsterListAction {
 class MonsterListArgs {
   static const routeName = '/monsterList';
   final MonsterListAction action;
+  final bool useArgsFromPrefs;
 
-  const MonsterListArgs(this.action);
+  MonsterListArgs(this.action, {this.useArgsFromPrefs = true});
 }
 
 /// Opens the monster list route, returning a Monster if one is selected.
