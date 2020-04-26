@@ -98,6 +98,9 @@ dependencies:
   # Assets for login buttons
   flutter_auth_buttons: ^0.8.0
 
+  # Serialize data
+  json_serializable: ^3.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
