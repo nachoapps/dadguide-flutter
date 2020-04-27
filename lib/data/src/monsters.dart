@@ -29,11 +29,11 @@ class MinMax {
 
 @json_annotation.JsonSerializable(nullable: false)
 class MonsterFilterArgs {
-  List<int> mainAttr;
-  List<int> subAttr;
+  Set<int> mainAttr;
+  Set<int> subAttr;
   MinMax rarity;
   MinMax cost;
-  List<int> types;
+  Set<int> types;
   List<int> awokenSkills;
   String series;
   bool favoritesOnly;
@@ -57,18 +57,24 @@ class MonsterFilterArgs {
       favoritesOnly;
 
   MonsterFilterArgs(
-      {this.mainAttr = const [],
-      this.subAttr = const [],
+      {Set<int> mainAttr,
+      Set<int> subAttr,
       MinMax rarity,
       MinMax cost,
-      this.types = const [],
-      this.awokenSkills = const [],
+      Set<int> types,
+      List<int> awokenSkills,
       this.series = '',
       this.favoritesOnly = false,
-      this.activeTags = const {},
-      this.leaderTags = const {}})
-      : this.rarity = rarity ?? MinMax(),
-        this.cost = cost ?? MinMax();
+      Set<int> activeTags,
+      Set<int> leaderTags})
+      : this.mainAttr = mainAttr ?? {},
+        this.subAttr = subAttr ?? {},
+        this.rarity = rarity ?? MinMax(),
+        this.cost = cost ?? MinMax(),
+        this.types = types ?? {},
+        this.awokenSkills = awokenSkills ?? [],
+        this.activeTags = activeTags ?? {},
+        this.leaderTags = leaderTags ?? {};
 
   factory MonsterFilterArgs.fromJson(Map<String, dynamic> json) =>
       _$MonsterFilterArgsFromJson(json);
@@ -81,6 +87,8 @@ class MonsterSearchArgs {
   final MonsterSortArgs sort;
   final MonsterFilterArgs filter;
   final bool awakeningsRequired;
+
+  bool get shouldRequestAwakenings => awakeningsRequired || filter.awokenSkills.isNotEmpty;
 
   MonsterSearchArgs.defaults()
       : text = '',
@@ -188,7 +196,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
     var awakeningResults = [];
-    if (args.awakeningsRequired) {
+    if (args.shouldRequestAwakenings) {
       awakeningResults = await select(awakenings).get();
     }
 

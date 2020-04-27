@@ -167,7 +167,7 @@ class AttributeFilterRow extends StatelessWidget {
 
 class AttributeSection extends StatelessWidget {
   final String _title;
-  final List<int> _selectedAttrs;
+  final Set<int> _selectedAttrs;
 
   const AttributeSection(this._title, this._selectedAttrs, {Key key}) : super(key: key);
 
@@ -200,7 +200,7 @@ var greyscaleFilter = ColorFilter.matrix([
 
 class ColorButton extends StatelessWidget {
   final int _attr;
-  final List<int> _selectedAttrs;
+  final Set<int> _selectedAttrs;
   final Image _image;
   const ColorButton(this._attr, this._selectedAttrs, this._image, {Key key}) : super(key: key);
 
@@ -358,7 +358,7 @@ class TypeFilterSection extends StatelessWidget {
 
 class TypeButton extends StatelessWidget {
   final int _type;
-  final List<int> _selectedTypes;
+  final Set<int> _selectedTypes;
   final Widget _image;
   const TypeButton(this._type, this._selectedTypes, this._image, {Key key}) : super(key: key);
 
