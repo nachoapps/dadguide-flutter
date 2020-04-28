@@ -99,7 +99,8 @@ dependencies:
   flutter_auth_buttons: ^0.8.0
 
   # Serialize data
-  json_serializable: ^3.2.3
+  json_annotation: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:
@@ -113,6 +114,9 @@ dev_dependencies:
 
   # i10n utilities
   intl_translation: ^0.17.7
+
+  # Serialize data
+  json_serializable: ^3.2.3
 
 # To rebuild icons, use: flutter pub run flutter_launcher_icons:main
 flutter_icons:
