@@ -128,12 +128,6 @@ PODS:
   - GoogleDataTransportCCTSupport (2.0.1):
     - GoogleDataTransport (~> 5.1)
     - nanopb (~> 0.3.901)
-  - GoogleMobileAdsMediationFacebook (5.8.0.1):
-    - FBAudienceNetwork (= 5.8.0)
-    - Google-Mobile-Ads-SDK (>= 7.57.0)
-  - GoogleMobileAdsMediationInMobi (9.0.4.0):
-    - Google-Mobile-Ads-SDK (>= 7.57.0)
-    - InMobiSDK (= 9.0.4)
   - GoogleToolboxForMac/Defines (2.2.2)
   - GoogleToolboxForMac/Logger (2.2.2):
     - GoogleToolboxForMac/Defines (= 2.2.2)
@@ -215,8 +209,6 @@ DEPENDENCIES:
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - get_version (from `.symlinks/plugins/get_version/ios`)
-  - GoogleMobileAdsMediationFacebook
-  - GoogleMobileAdsMediationInMobi
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -252,8 +244,6 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
-    - GoogleMobileAdsMediationFacebook
-    - GoogleMobileAdsMediationInMobi
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
@@ -351,8 +341,6 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 6e68a94d0eaeb1d73ef6b0ed4f7334e29d63ae29
   GoogleDataTransport: b29a21d813e906014ca16c00897827e40e4a24ab
   GoogleDataTransportCCTSupport: 6f15a89b0ca35d6fa523e1f752ef818588885988
-  GoogleMobileAdsMediationFacebook: 5a0574cd802803e86bed20921d103409d94c959f
-  GoogleMobileAdsMediationInMobi: 91b15f8fed7f7e9c74ecc9cf1726c40d5cf84474
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925

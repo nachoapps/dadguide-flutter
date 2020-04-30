@@ -75,9 +75,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
-    implementation 'com.google.ads.mediation:facebook:5.6.0.0'
-    implementation 'com.google.ads.mediation:inmobi:7.3.0.0'
 }
 
 apply plugin: 'io.fabric' // For Crashlytics
