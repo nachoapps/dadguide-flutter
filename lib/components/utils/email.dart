@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dadguide2/components/utils/logging.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/services/device_utils.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
@@ -23,7 +24,8 @@ Future<void> sendDungeonErrorEmail(Dungeon dungeon, SubDungeon subDungeon) async
 /// Launches the device email client with an error email.
 Future<void> sendErrorEmail(String subject) async {
   var info = await getVersionInfo();
-  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})]';
+  var deviceId = await getDeviceId();
+  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode} - $deviceId)]';
   body += '\n\nPlease describe the issue below:\n';
 
   var logFilePath = await _getLoggingFilePath();

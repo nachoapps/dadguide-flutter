@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/services/device_utils.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -80,9 +81,18 @@ class AdStatusManager {
   }
 
   Future<bool> startPurchaseFlow() async {
-    // TODO: applicationUserName?
+    var deviceId = await getDeviceId();
+    if (deviceId != null) {
+      // If we have a device ID, hash it before sending to google play (per docs).
+      deviceId = deviceId.hashCode.toString();
+    }
+
     var iapResult = await _iap.buyNonConsumable(
-        purchaseParam: PurchaseParam(productDetails: getRemoveAdsProduct()));
+      purchaseParam: PurchaseParam(
+        applicationUserName: deviceId,
+        productDetails: getRemoveAdsProduct(),
+      ),
+    );
     Fimber.i('IAP result: $iapResult');
     return iapResult;
   }
