@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/utils/streams.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,10 @@ class RemoveAdsIapWidget extends StatelessWidget {
 
         return ListTile(
           onTap: () async {
+            iapClicked();
             final result = await AdStatusManager.instance.startPurchaseFlow();
             if (!result) {
+              iapClickFailed();
               Scaffold.of(context)
                   .showSnackBar(SnackBar(content: Text('Failed to start purchase')));
             }

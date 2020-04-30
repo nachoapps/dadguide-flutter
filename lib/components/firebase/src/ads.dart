@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
@@ -61,6 +62,11 @@ class AdStatusManager {
     _iap.purchaseUpdatedStream.listen((purchases) {
       Fimber.i('Streamed ${purchases.length} purchases');
       _addAllPurchases(purchases);
+      if (purchases.any(_isApprovedAdRemoval)) {
+        iapPurchaseOk();
+      } else if (purchases.any(_isErrorAdRemoval)) {
+        iapPurchaseFailure();
+      }
     });
   }
 
@@ -68,7 +74,8 @@ class AdStatusManager {
   Future<void> populateIap() async {
     Fimber.i('Populating IAP');
     _iapAvailable = await _iap.isAvailable();
-    Fimber.i('IAP available: $_iapAvailable');
+    iapInitialized(_iapAvailable);
+
     if (_iapAvailable) {
       await _populateProducts();
       await _populatePurchases();
@@ -167,6 +174,10 @@ class AdStatusManager {
       enableAds();
     }
   }
+
+  bool _isApprovedAdRemoval(PurchaseDetails p) =>
+      p.productID == removeAdsProductId && p.status == PurchaseStatus.purchased;
+  bool _isErrorAdRemoval(PurchaseDetails p) => p.status == PurchaseStatus.error;
 }
 
 MobileAdTargetingInfo createTargetingInfo() {

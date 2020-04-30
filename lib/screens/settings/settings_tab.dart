@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
@@ -10,6 +11,7 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 /// Displays user-configurable settings, and some misc items like copyright/contact etc.
 class SettingsScreen extends StatelessWidget {
@@ -90,10 +92,14 @@ class SettingsScreen extends StatelessWidget {
           PrefKeys.notificationsAlertsEnabled,
           onChange: () => getIt<NotificationManager>().ensureEventsScheduled(),
         ),
-        PreferenceTitle('Pay to remove Ads'),
+        PreferenceTitle('Pay to remove ads'),
         PreferenceTitleSubtitle(
             'If you have donated in the past, contact me for a promo code instead of purchasing this.'),
-        RemoveAdsIapWidget(),
+        VisibilityDetector(
+          key: ValueKey('iap_widget'),
+          onVisibilityChanged: (_) => iapSeen(),
+          child: RemoveAdsIapWidget(),
+        ),
         PreferenceTitle(loc.settingsInfoSection),
         ListTile(
           title: Text(loc.settingsContactUs),
