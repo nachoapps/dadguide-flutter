@@ -26,7 +26,11 @@ class RemoveAdsIapWidget extends StatelessWidget {
 
         return ListTile(
           onTap: () async {
-            await AdStatusManager.instance.startPurchaseFlow();
+            final result = await AdStatusManager.instance.startPurchaseFlow();
+            if (!result) {
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text('Failed to start purchase')));
+            }
           },
           title: Text(product.title),
           trailing: Text(product.price),
