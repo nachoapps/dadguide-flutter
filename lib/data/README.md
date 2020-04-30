@@ -9,7 +9,7 @@ flutter packages pub run build_runner watch
 ### Basic procedures for adding a new table
 
 * Create the table definition here
-* Add the table entry to the UseMore annotation
+* Add the table entry to the UseMoor annotation
 * Modify `update_task.dart` to retrieve updates for the table
 
 ### Deployment of new table
