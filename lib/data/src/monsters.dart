@@ -137,6 +137,7 @@ class MonsterSearchArgs {
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
+    LeaderSkillStatsOnly,
     Monsters,
     Series,
     SubDungeons,
@@ -212,6 +213,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       leftOuterJoin(
           activeSkillsNoText, activeSkillsNoText.activeSkillId.equalsExp(monsters.activeSkillId)),
     ];
+    
+    joins.add(leftOuterJoin(leaderSkillStatsOnly, leaderSkillStatsOnly.leaderSkillId.equalsExp(monsters.leaderSkillId)));
 
     // Optimization to avoid joining leader table if not necessary.
     if (hasLeaderSkillTagFilter) {
@@ -240,6 +243,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.cost: monsters.cost,
       MonsterSortType.mp: monsters.sellMp,
       MonsterSortType.skillTurn: activeSkills.turnMin,
+      MonsterSortType.lsHp: leaderSkills.maxHp,
+      MonsterSortType.lsAtk: leaderSkills.maxAtk,
+      MonsterSortType.lsRcv: leaderSkills.maxRcv,
+      MonsterSortType.lsShield: leaderSkills.maxShield
     };
     var orderExpression = orderMapping[args.sort.sortType];
     if (args.sort.sortType == MonsterSortType.total) {

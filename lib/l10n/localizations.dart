@@ -365,6 +365,18 @@ class DadGuideLocalizations {
   String monsterSortTypeSkillTurn() =>
       Intl.message('Skill Turn', name: 'monsterSortTypeSkillTurn', desc: 'Grid button');
 
+  String monsterSortTypeLeaderSkillHp() =>
+      Intl.message('LS Hp', name: 'monsterSortTypeLeaderSkillHp', desc: 'Grid button');
+
+  String monsterSortTypeLeaderSkillAttack() =>
+      Intl.message('LS Atk', name: 'monsterSortTypeLeaderSkillAttack', desc: 'Grid button');
+
+  String monsterSortTypeLeaderSkillRcv() =>
+      Intl.message('LS Rcv', name: 'monsterSortTypeLeaderSkillRcv', desc: 'Grid button');
+
+  String monsterSortTypeLeaderSkillShield() =>
+      Intl.message('LS Shield', name: 'monsterSortTypeLeaderSkillShield', desc: 'Grid button');
+
   // ---- Monster info strings ----
   String monsterInfoNo(int number) => Intl.message(
         'No. $number',
