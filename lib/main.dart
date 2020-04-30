@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
@@ -66,6 +67,11 @@ Future<bool> _asyncInit() async {
 
   // Load data that depends on prefs.
   AdStatusManager.instance.syncInitFromPrefs();
+
+  // Start listening for 'remove ads' purchases and retrieve IAP info.
+  InAppPurchaseConnection.enablePendingPurchases();
+  AdStatusManager.instance.listenForIap();
+  AdStatusManager.instance.populateIap();
 
   // Set up services that are guaranteed to start with getIt.
   await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
