@@ -212,9 +212,11 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       // Join the limited AS table since we only need id, min/max cd, and tags.
       leftOuterJoin(
           activeSkillsNoText, activeSkillsNoText.activeSkillId.equalsExp(monsters.activeSkillId)),
+      leftOuterJoin( //Join leader skills for sorting purposes
+        leaderSkillStatsOnly, leaderSkillStatsOnly.leaderSkillId.equalsExp(monsters.leaderSkillId))
     ];
     
-    joins.add(leftOuterJoin(leaderSkillStatsOnly, leaderSkillStatsOnly.leaderSkillId.equalsExp(monsters.leaderSkillId)));
+
 
     // Optimization to avoid joining leader table if not necessary.
     if (hasLeaderSkillTagFilter) {
