@@ -131,7 +131,7 @@ class BannerAdManager {
   }
 
   Future<bool> _disposeAd() async {
-    var result = _bannerAd.dispose();
+    var result = await _bannerAd.dispose();
     Fimber.i('Ad disposed: $result');
     _bannerAd = null;
     return result;
