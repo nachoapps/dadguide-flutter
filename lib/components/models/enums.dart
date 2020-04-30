@@ -365,6 +365,10 @@ class MonsterSortType {
   static MonsterSortType cost = MonsterSortType._(10, localized.monsterSortTypeCost);
   static MonsterSortType mp = MonsterSortType._(11, localized.monsterSortTypeMp);
   static MonsterSortType skillTurn = MonsterSortType._(12, localized.monsterSortTypeSkillTurn);
+  static MonsterSortType lsHp = MonsterSortType._(13, localized.monsterSortTypeLeaderSkillHp);
+  static MonsterSortType lsAtk = MonsterSortType._(14, localized.monsterSortTypeLeaderSkillAttack);
+  static MonsterSortType lsRcv = MonsterSortType._(15, localized.monsterSortTypeLeaderSkillRcv);
+  static MonsterSortType lsShield = MonsterSortType._(116, localized.monsterSortTypeLeaderSkillShield);
 
   static List<MonsterSortType> allValues = [
 //    released,
@@ -381,6 +385,10 @@ class MonsterSortType {
     cost,
     mp,
     skillTurn,
+    lsHp,
+    lsAtk,
+    lsRcv,
+    lsShield
   ];
 
   static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);

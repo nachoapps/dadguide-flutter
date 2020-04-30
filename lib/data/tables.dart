@@ -349,6 +349,21 @@ class LeaderSkillTags extends Table {
   IntColumn get tstamp => integer()();
 }
 
+class LeaderSkillStatsOnly extends Table {
+  IntColumn get leaderSkillId => integer().autoIncrement()();
+
+  RealColumn get maxHp => real()();
+
+  RealColumn get maxAtk => real()();
+
+  RealColumn get maxRcv => real()();
+
+  RealColumn get maxShield => real()();
+
+  @override
+  String get tableName => 'leader_skills';
+}
+
 class Monsters extends Table {
   IntColumn get monsterId => integer().autoIncrement()();
 
@@ -578,6 +593,7 @@ class Timestamps extends Table {
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
+    LeaderSkillStatsOnly,
     Monsters,
     Series,
     Schedule,
