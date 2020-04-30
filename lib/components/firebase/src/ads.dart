@@ -79,6 +79,14 @@ class AdStatusManager {
     return _productDetails.firstWhere((pd) => pd.id == removeAdsProductId);
   }
 
+  Future<bool> startPurchaseFlow() async {
+    // TODO: applicationUserName?
+    var iapResult = await _iap.buyNonConsumable(
+        purchaseParam: PurchaseParam(productDetails: getRemoveAdsProduct()));
+    Fimber.i('IAP result: $iapResult');
+    return iapResult;
+  }
+
   Future<void> _populateProducts() async {
     Fimber.i('Populating products');
     final resp = await _iap.queryProductDetails({removeAdsProductId});

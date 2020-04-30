@@ -1,20 +1,13 @@
-import 'package:dadguide2/components/auth/src/user.dart';
-import 'package:dadguide2/components/auth/ui.dart';
-import 'package:dadguide2/components/auth/user.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
-import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
-import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/settings/async_switch_preference.dart';
 import 'package:dadguide2/screens/settings/preference_title_subtitle.dart';
-import 'package:dadguide2/services/api.dart';
+import 'package:dadguide2/screens/settings/src/iap.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:preferences/preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -97,6 +90,10 @@ class SettingsScreen extends StatelessWidget {
           PrefKeys.notificationsAlertsEnabled,
           onChange: () => getIt<NotificationManager>().ensureEventsScheduled(),
         ),
+        PreferenceTitle('Pay to remove Ads'),
+        PreferenceTitleSubtitle(
+            'If you have donated in the past, contact me for a promo code instead of purchasing this.'),
+        RemoveAdsIapWidget(),
         PreferenceTitle(loc.settingsInfoSection),
         ListTile(
           title: Text(loc.settingsContactUs),
@@ -121,53 +118,6 @@ class SettingsScreen extends StatelessWidget {
             PreferenceText('Copyright © 2019 Miru Apps LLC.\nAll rights reserved'),
           ]),
         ),
-        PreferenceTitle('Sign In'),
-        SimpleRxStreamBuilder<DgUser>(
-          stream: UserManager.instance.stream,
-          builder: (context, user) {
-            return AsyncSwitchPreference(
-              'Ads enabled',
-              PrefKeys.adsEnabled,
-              onEnable: () async {
-                AdStatusManager.instance.enableAds();
-                // Give the enable a second to propagate to prevent orphaned banners.
-                await Future.delayed(Duration(seconds: 1));
-              },
-              onDisable: () async {
-                var scaffold = Scaffold.of(context);
-                var key = Key('ads_switch');
-                try {
-                  var isDonor =
-                      await getIt<ApiClient>().isDonor(user.email).timeout(Duration(seconds: 5));
-                  scaffold.hideCurrentSnackBar();
-                  if (isDonor) {
-                    AdStatusManager.instance.disableAds();
-                  } else {
-                    scaffold.showSnackBar(SnackBar(key: key, content: Text('Not a donor')));
-                  }
-                } catch (ex, st) {
-                  scaffold.hideCurrentSnackBar();
-                  Fimber.e('Failed to contact server', ex: ex, stacktrace: st);
-                  throw StateError('Failed to contact server');
-                }
-              },
-              disabled: !user.loggedIn,
-            );
-          },
-        ),
-        PreferenceTitleSubtitle(
-            'If you have donated and are signed in with the same email, ads will be removed from the app. Thanks for your support!'),
-        SimpleRxStreamBuilder<DgUser>(
-          stream: UserManager.instance.stream,
-          builder: (context, user) {
-            if (!user.loggedIn) return Container();
-            return ListTile(
-              trailing: Text(user.email),
-              leading: Text('Logged in as'),
-            );
-          },
-        ),
-        Center(child: SignInAndOutButton()),
       ]),
     );
   }
