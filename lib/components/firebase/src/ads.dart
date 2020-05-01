@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
+import 'package:dadguide2/services/api.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
@@ -113,7 +115,7 @@ class AdStatusManager {
     if (resp.error == null) {
       _setAllProducts(resp.productDetails);
     } else {
-      Fimber.e('No products found: ${resp.error.code} : ${resp.error.details}');
+      Fimber.e('Retreiving products failed: ${resp.error.code} : ${resp.error.details}');
     }
   }
 
@@ -132,7 +134,7 @@ class AdStatusManager {
     if (resp.error == null) {
       _addAllPurchases(resp.pastPurchases);
     } else {
-      Fimber.e('No purchases found: ${resp.error.code} : ${resp.error.details}');
+      Fimber.e('Retreiving purchase records failed: ${resp.error.code} : ${resp.error.details}');
     }
   }
 
@@ -163,13 +165,35 @@ class AdStatusManager {
     }
   }
 
-  void _checkForAdRemovalPurchase() {
+  void _checkForAdRemovalPurchase() async {
     final adsPurchases = _purchaseDetails.values.where((p) => p.productID == removeAdsProductId);
-    final adsDisabled = adsPurchases.any((p) => p.status == PurchaseStatus.purchased);
-    if (adsDisabled) {
+    final adsDisabledPurchase = adsPurchases.isEmpty
+        ? null
+        : adsPurchases.firstWhere((p) => p.status == PurchaseStatus.purchased);
+    final latestPurchase = adsPurchases.isEmpty
+        ? null
+        : adsPurchases.reduce((l, r) => _purchaseDate(l) > _purchaseDate(r) ? l : r);
+
+    if (adsDisabledPurchase != null) {
+      if (Prefs.adsEnabled) {
+        Fimber.i('Recording purchase');
+        try {
+          await getIt<ApiClient>().submitPurchase(adsDisabledPurchase);
+        } catch (ex) {
+          Fimber.e('Failed to submit purchase', ex: ex);
+        }
+      }
       Fimber.i('Disabling ads');
       disableAds();
     } else {
+      if (!Prefs.adsEnabled) {
+        Fimber.i('Recording error or other');
+        try {
+          await getIt<ApiClient>().submitPurchase(latestPurchase);
+        } catch (ex) {
+          Fimber.e('Failed to submit error purchase', ex: ex);
+        }
+      }
       Fimber.e('Enabling ads');
       enableAds();
     }
@@ -178,6 +202,7 @@ class AdStatusManager {
   bool _isApprovedAdRemoval(PurchaseDetails p) =>
       p.productID == removeAdsProductId && p.status == PurchaseStatus.purchased;
   bool _isErrorAdRemoval(PurchaseDetails p) => p.status == PurchaseStatus.error;
+  int _purchaseDate(PurchaseDetails p) => int.tryParse(p.transactionDate) ?? 0;
 }
 
 MobileAdTargetingInfo createTargetingInfo() {

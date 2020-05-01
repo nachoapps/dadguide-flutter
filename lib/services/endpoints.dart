@@ -1,6 +1,9 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
 
+// This IP can be used to connect to the workstation that your emulator is running on.
+final _emulatingMachineId = '10.0.2.2';
+
 /// Returns URLs configured properly for the given arguments.
 ///
 /// This makes switching between local dev and prod easier.
@@ -14,8 +17,11 @@ abstract class Endpoints {
   /// The update API url for the given table / tstamp.
   String api(String tableName, {int tstamp});
 
-  /// The donor check url;
+  /// The donor check url.
   String donor(String email);
+
+  /// The submit purchase info url.
+  String purchase();
 }
 
 /// Right now this points to my personal machine; if you're doing dev work against a local server,
@@ -30,7 +36,7 @@ class DevEndpoints extends Endpoints {
   }
 
   String api(String tableName, {int tstamp}) {
-    var url = 'http://192.168.1.108:8000/dadguide/api/serve?table=$tableName';
+    var url = 'http://$_emulatingMachineId:8000/dadguide/api/serve?table=$tableName';
     if (tstamp != null) {
       url += '&tstamp=$tstamp';
     }
@@ -41,6 +47,10 @@ class DevEndpoints extends Endpoints {
 
   String donor(String email) {
     return null;
+  }
+
+  String purchase() {
+    return 'http://$_emulatingMachineId:8000/dadguide/api/v1/purchases';
   }
 }
 
@@ -67,5 +77,9 @@ class ProdEndpoints extends Endpoints {
 
   String donor(String email) {
     return 'http://miru.info/dadguide/api/serve_donor.php?email=$email';
+  }
+
+  String purchase() {
+    return 'http://api.miru.info/dadguide/api/v1/purchases';
   }
 }
