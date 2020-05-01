@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/utils/logging.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -40,6 +41,11 @@ Future<void> sendErrorEmail(String subject) async {
 
 /// Launches the device email client with an feedback email.
 Future<void> sendFeedback() async {
+  // Log all the purchase details in case this is a complaint about iap.
+  for (var detail in Prefs.purchaseDetails) {
+    Fimber.i(detail);
+  }
+
   var info = await getVersionInfo();
   var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})]\n';
 

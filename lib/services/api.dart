@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' show HttpStatus;
 
+import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber_io/fimber_io.dart';
@@ -29,6 +30,7 @@ class ApiClient {
     var deviceId = await getDeviceId();
     final data = <String, dynamic>{
       'device_id': deviceId ?? 'missing',
+      'time': DateTime.now().toIso8601String(),
     };
     if (pd == null) {
       data['error'] = 'no purchase found';
@@ -47,7 +49,9 @@ class ApiClient {
         'source': vd?.source?.toString() ?? '',
       });
     }
-    Fimber.w('Submitting purchase details: ${jsonEncode(data)}');
+    var details = jsonEncode(data);
+    Prefs.addPurchaseDetails(details);
+    Fimber.w('Submitting purchase details: ${details}');
     var url = _endpoints.purchase();
     await _dio.post(url, data: data);
   }

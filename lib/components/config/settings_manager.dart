@@ -40,6 +40,8 @@ class PrefKeys {
   static const adsEnabled = 'ads_enabled';
 
   static const monsterSearchArgs = 'monster_search_args';
+
+  static const purchaseDetails = 'purchase_details';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -95,6 +97,7 @@ class Prefs {
       PrefKeys.lastComparedMonster: 1,
       PrefKeys.adsEnabled: true,
       PrefKeys.monsterSearchArgs: MonsterSearchArgs.defaults().toJsonString(),
+      PrefKeys.purchaseDetails: [],
     });
   }
 
@@ -253,6 +256,14 @@ class Prefs {
       MonsterSearchArgs.fromJsonString(PrefService.getString(PrefKeys.monsterSearchArgs));
   static set monsterSearchArgs(MonsterSearchArgs args) =>
       PrefService.setString(PrefKeys.monsterSearchArgs, args.toJsonString());
+
+  static List<String> get purchaseDetails => PrefService.getStringList(PrefKeys.purchaseDetails);
+  static set purchaseDetails(List<String> details) =>
+      PrefService.setStringList(PrefKeys.purchaseDetails, details);
+
+  /// Keep the 10 most recent details in case there's a bug.
+  static void addPurchaseDetails(String details) =>
+      purchaseDetails = purchaseDetails.reversed.take(9).toList().reversed.toList()..add(details);
 }
 
 List<int> stringToIntList(String s) {
