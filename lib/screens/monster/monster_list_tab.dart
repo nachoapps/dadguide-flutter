@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/ui/text_input.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'monster_search_bloc.dart';
 
@@ -68,10 +70,15 @@ class MonsterList extends StatelessWidget {
               ),
             );
           } else {
-            return ListView.separated(
-              itemCount: data.length,
-              separatorBuilder: (context, index) => Divider(height: 0),
-              itemBuilder: (context, index) => MonsterListRow(data[index], action),
+            return ScrollableStackWidget(
+              numItems: data.length,
+              builder: (_, controller, listener) => ScrollablePositionedList.separated(
+                itemCount: data.length,
+                itemBuilder: (context, index) => MonsterListRow(data[index], action),
+                itemScrollController: controller,
+                itemPositionsListener: listener,
+                separatorBuilder: (context, index) => Divider(height: 0),
+              ),
             );
           }
         });

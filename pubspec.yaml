@@ -117,6 +117,10 @@ dependencies:
   flutter_whatsnew:
     git: https://github.com/nachoapps/flutter_whatsnew.git
 
+  # Fast list scrolling
+  scrollable_positioned_list: ^0.1.5
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

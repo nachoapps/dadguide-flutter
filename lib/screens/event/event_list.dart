@@ -3,6 +3,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/notifications/tracking.dart';
+import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/event_search_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 /// Parent class for items which can show up in the event list, since they're different types.
 abstract class ListItem {}
@@ -92,24 +94,29 @@ class EventListContents extends StatelessWidget {
             return Center(child: Text(loc.noData));
           }
 
-          return ListView.separated(
-            itemCount: listItems.length,
-            separatorBuilder: (context, index) =>
-                listItems[index] is EventRowItem ? Divider(height: 0) : Container(),
-            itemBuilder: (context, index) {
-              var item = listItems[index];
-              if (item is HeadingItem) {
-                return Container(
-                  color: grey(context, 300),
-                  child: Center(
-                      child: Padding(padding: EdgeInsets.all(4.0), child: Text(item.section.name))),
-                );
-              } else if (item is EventRowItem) {
-                return EventListRow(item.model);
-              } else {
-                throw 'Unexpected item type';
-              }
-            },
+          return ScrollableStackWidget(
+            numItems: data.length,
+            builder: (_, controller, listener) => ScrollablePositionedList.separated(
+              itemCount: listItems.length,
+              separatorBuilder: (context, index) =>
+                  listItems[index] is EventRowItem ? Divider(height: 0) : Container(),
+              itemBuilder: (context, index) {
+                var item = listItems[index];
+                if (item is HeadingItem) {
+                  return Container(
+                    color: grey(context, 300),
+                    child: Center(
+                        child: Padding(padding: EdgeInsets.all(4), child: Text(item.section.name))),
+                  );
+                } else if (item is EventRowItem) {
+                  return EventListRow(item.model);
+                } else {
+                  throw 'Unexpected item type';
+                }
+              },
+              itemScrollController: controller,
+              itemPositionsListener: listener,
+            ),
           );
         });
   }
