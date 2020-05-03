@@ -915,6 +915,13 @@ class DadGuideLocalizations {
   String get changelogTitle =>
       Intl.message("What's New", name: 'changelogTitle', desc: 'Text at top of changelog');
 
+  // ---- Screenshots ----
+  String get screenshotFinished => Intl.message('Screenshot saved to gallery',
+      name: 'screenshotFinished', desc: 'Snackbar after screenshot taken');
+
+  String get screenshotFailed => Intl.message('Failed to save (access denied?)',
+      name: 'screenshotFailed', desc: 'Snackbar after screenshot taken');
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {

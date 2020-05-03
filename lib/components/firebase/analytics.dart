@@ -59,3 +59,12 @@ void iapPurchaseFailure() {
   Fimber.i('Recording iap purchase failure');
   recordEvent('iap_purchase_failure');
 }
+
+void screenshotSuccess() {
+  Fimber.i('Recording iap click');
+  recordEvent('screenshot_success');
+}
+
+void screenshotFailure() {
+  recordEvent('screenshot_failure');
+}

@@ -1,3 +1,5 @@
+import 'package:dadguide2/components/firebase/analytics.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -43,6 +45,8 @@ class ScreenshotButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = DadGuideLocalizations.of(context);
+
     return TrimmedMaterialIconButton(
       child: IconButton(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -54,12 +58,12 @@ class ScreenshotButton extends StatelessWidget {
             Fimber.i('Captured to ${file.path}, saving');
             var saved = await GallerySaver.saveImage(file.path, albumName: 'DadGuide');
             Fimber.i('Saved: $saved');
-            Scaffold.of(context)
-                .showSnackBar(SnackBar(content: Text('Screenshot saved to gallery')));
+            screenshotSuccess();
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.screenshotFinished)));
           } catch (ex) {
             Fimber.e('Failed to save screenshot', ex: ex);
-            Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Failed to save screenshot. Perhaps you have denied access?')));
+            screenshotFailure();
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text(loc.screenshotFailed)));
           }
         },
       ),
