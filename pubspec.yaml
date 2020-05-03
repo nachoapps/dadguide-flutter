@@ -113,6 +113,10 @@ dependencies:
   # Save screenshots in the gallery
   gallery_saver: ^2.0.1
 
+  # Changelog display
+  flutter_whatsnew:
+    git: https://github.com/nachoapps/flutter_whatsnew.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -151,3 +155,4 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - CHANGELOG.md

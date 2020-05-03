@@ -5,9 +5,11 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/firebase/src/ads.dart';
+import 'package:dadguide2/components/ui/whats_new.dart';
 import 'package:dadguide2/components/updates/background_fetch.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/logging.dart';
+import 'package:dadguide2/components/utils/version_info.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/home/root_screen.dart';
 import 'package:dadguide2/screens/onboarding/onboarding_screen.dart';
@@ -207,7 +209,18 @@ class AppOrOnboardingWidget extends StatelessWidget {
             return OnboardingScreen();
           case AppStatus.upgrading:
             return UpgradingScreen();
+          case AppStatus.show_changelog:
+            return DadGuideChangelog(onButtonPressed: () => appStatusSubject.add(AppStatus.ready));
           case AppStatus.ready:
+            final versionInfo = getIt<VersionInfo>();
+            if (Prefs.changelogSeenVersion != versionInfo.projectCode) {
+              // This is a shitty hack; we want to show the full screen changelog without an ad,
+              // but we can only do that before we start the app. Really this should be handled by
+              // the appStatusSubject wrapper deciding to send show_changelog instead of ready.
+              Prefs.changelogSeenVersion = versionInfo.projectCode;
+              appStatusSubject.add(AppStatus.show_changelog);
+              return Container();
+            }
             return StatefulHomeScreen();
           default:
             return Text('Error; unexpected state ${snapshot.data}');

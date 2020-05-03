@@ -8,6 +8,7 @@ import 'package:tuple/tuple.dart';
 
 /// List of keys for preferences.
 class PrefKeys {
+  static const changelogSeenVersion = 'changelog_seen_version';
   static const currentDbVersion = 'current_db_version';
   static const iconsDownloaded = 'icons_downloaded';
   static const lastUpdateExecution = 'last_update_execution';
@@ -75,6 +76,7 @@ class Prefs {
 
     await PrefService.init();
     PrefService.setDefaultValues({
+      PrefKeys.changelogSeenVersion: '',
       PrefKeys.currentDbVersion: 0,
       PrefKeys.iconsDownloaded: false,
       PrefKeys.lastUpdateExecution: 0,
@@ -264,6 +266,10 @@ class Prefs {
   /// Keep the 10 most recent details in case there's a bug.
   static void addPurchaseDetails(String details) =>
       purchaseDetails = purchaseDetails.reversed.take(9).toList().reversed.toList()..add(details);
+
+  static set changelogSeenVersion(String v) =>
+      PrefService.setString(PrefKeys.changelogSeenVersion, v);
+  static String get changelogSeenVersion => PrefService.getString(PrefKeys.changelogSeenVersion);
 }
 
 List<int> stringToIntList(String s) {

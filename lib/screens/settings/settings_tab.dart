@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
+import 'package:dadguide2/components/ui/whats_new.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -102,11 +103,14 @@ class SettingsScreen extends StatelessWidget {
         ),
         PreferenceTitle(loc.settingsInfoSection),
         ListTile(
+          title: Text('Changelog'),
+          trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () => showChangelog(context),
+        ),
+        ListTile(
           title: Text(loc.settingsContactUs),
           trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {
-            sendFeedback();
-          },
+          onTap: () => sendFeedback(),
         ),
         PreferencePageLink(
           loc.settingsAbout,

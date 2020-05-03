@@ -13,7 +13,13 @@ enum AppStatus {
 
   /// The database is loaded and the app is ready to go.
   ready,
+
+  /// We need to show the changelog..
+  show_changelog,
 }
 
 /// Publishes status events for the app.
 final appStatusSubject = BehaviorSubject.seeded(AppStatus.initializing);
+
+// TODO: add a wrapper for this; clients shouldn't force the UI state, they should announce an event
+//       and then the event should trigger a new status.
