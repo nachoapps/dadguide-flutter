@@ -1,5 +1,9 @@
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:screenshot/screenshot.dart';
 
 /// A smaller-than-standard icon button. This is used in top bars mainly.
 ///
@@ -29,5 +33,36 @@ class TopBarDivider extends StatelessWidget {
         child: VerticalDivider(
           color: grey(context, 1000),
         ));
+  }
+}
+
+class ScreenshotButton extends StatelessWidget {
+  final ScreenshotController controller;
+
+  const ScreenshotButton({Key key, this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TrimmedMaterialIconButton(
+      child: IconButton(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        icon: Icon(FontAwesome.camera),
+        onPressed: () async {
+          try {
+            Fimber.i('Capturing screen');
+            var file = await controller.capture();
+            Fimber.i('Captured to ${file.path}, saving');
+            var saved = await GallerySaver.saveImage(file.path, albumName: 'DadGuide');
+            Fimber.i('Saved: $saved');
+            Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text('Screenshot saved to gallery')));
+          } catch (ex) {
+            Fimber.e('Failed to save screenshot', ex: ex);
+            Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('Failed to save screenshot. Perhaps you have denied access?')));
+          }
+        },
+      ),
+    );
   }
 }

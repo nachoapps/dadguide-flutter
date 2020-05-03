@@ -3,6 +3,7 @@ import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/iterables.dart';
+import 'package:screenshot/screenshot.dart';
 
 import 'dungeon_behavior.dart';
 
@@ -36,6 +38,7 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
   final DungeonDetailArgs _args;
 
   Future<FullDungeon> loadingFuture;
+  ScreenshotController screenshotController = ScreenshotController();
 
   _DungeonDetailScreenState(this._args);
 
@@ -51,7 +54,7 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          DungeonDetailActionsBar(),
+          DungeonDetailActionsBar(screenshotController),
           Expanded(child: _retrieveDungeon()),
         ],
       ),
@@ -70,15 +73,16 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
             return Center(child: CircularProgressIndicator());
           }
 
-          return DungeonDetailContents(snapshot.data);
+          return DungeonDetailContents(snapshot.data, screenshotController);
         });
   }
 }
 
 class DungeonDetailContents extends StatelessWidget {
   final FullDungeon _data;
+  final ScreenshotController screenshotController;
 
-  const DungeonDetailContents(this._data, {Key key}) : super(key: key);
+  const DungeonDetailContents(this._data, this.screenshotController, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,17 +99,21 @@ class DungeonDetailContents extends StatelessWidget {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DungeonHeader(_data),
-                  DungeonSubHeader(_data.selectedSubDungeon),
-                  ...battleWidgets,
-                  SizedBox(height: 8),
-                  GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
-                  SubDungeonList(_data),
-                  MailIssues(_data),
-                ],
+              child: Screenshot(
+                controller: screenshotController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DungeonHeader(_data),
+                    DungeonSubHeader(_data.selectedSubDungeon),
+                    ...battleWidgets,
+                    SizedBox(height: 8),
+                    GreyBar(
+                        children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
+                    SubDungeonList(_data),
+                    MailIssues(_data),
+                  ],
+                ),
               ),
             ),
           ),
@@ -410,6 +418,9 @@ class MonsterColorBar extends StatelessWidget {
 
 /// Bar at the top of the view, currently only contains the back button.
 class DungeonDetailActionsBar extends StatelessWidget {
+  final ScreenshotController screenshotController;
+  DungeonDetailActionsBar(this.screenshotController);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -425,6 +436,7 @@ class DungeonDetailActionsBar extends StatelessWidget {
                   onTap: () => Navigator.of(context).pop(),
                 )),
             Spacer(),
+            ScreenshotButton(controller: screenshotController),
           ],
         ));
   }

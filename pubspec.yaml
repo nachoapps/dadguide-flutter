@@ -107,6 +107,12 @@ dependencies:
   # Track widget visibility
   visibility_detector: ^0.1.4
 
+  # Take screenshots of widgets
+  screenshot: ^0.1.1
+
+  # Save screenshots in the gallery
+  gallery_saver: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -19,8 +19,10 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:tuple/tuple.dart';
 
 import 'evolutions.dart';
@@ -40,6 +42,7 @@ class MonsterDetailScreen extends StatefulWidget {
 
 class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   Future<FullMonster> loadingFuture;
+  ScreenshotController screenshotController = ScreenshotController();
 
   _MonsterDetailScreenState();
 
@@ -55,7 +58,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
-          MonsterDetailBar(widget.args.monsterId),
+          // TODO: The possibility to click screenshot before the widget is loaded exists, fix it.
+          MonsterDetailBar(widget.args.monsterId, screenshotController),
           Expanded(child: _retrieveMonster()),
         ],
       ),
@@ -74,7 +78,9 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
             return Center(child: CircularProgressIndicator());
           }
 
-          return SingleChildScrollView(child: MonsterDetailContents(snapshot.data));
+          return SingleChildScrollView(
+              child: Screenshot(
+                  controller: screenshotController, child: MonsterDetailContents(snapshot.data)));
         });
   }
 }
@@ -307,8 +313,9 @@ class TypeIconText extends StatelessWidget {
 /// Bar across the top of the monster view; currently only the back button.
 class MonsterDetailBar extends StatelessWidget {
   final int monsterId;
+  final ScreenshotController screenshotController;
 
-  MonsterDetailBar(this.monsterId);
+  MonsterDetailBar(this.monsterId, this.screenshotController);
 
   @override
   Widget build(BuildContext context) {
@@ -327,6 +334,7 @@ class MonsterDetailBar extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pop(),
                 )),
                 Spacer(),
+                ScreenshotButton(controller: screenshotController),
                 TrimmedMaterialIconButton(
                   child: IconButton(
                     padding: EdgeInsets.symmetric(horizontal: 16),
