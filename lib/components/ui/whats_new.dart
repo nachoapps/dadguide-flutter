@@ -1,3 +1,4 @@
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_whatsnew/flutter_whatsnew.dart';
@@ -15,11 +16,14 @@ class DadGuideChangelog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = DadGuideLocalizations.of(context);
+
     return WhatsNewPage.changelog(
-      title: Text(
-        "What's New",
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headline,
+      title: Center(
+        child: Text(
+          loc.changelogTitle,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       onTapLink: (url) async {
         try {
@@ -29,7 +33,7 @@ class DadGuideChangelog extends StatelessWidget {
         }
       },
       onButtonPressed: onButtonPressed,
-      buttonText: Text('Continue'),
+      buttonText: Text(loc.changelogButton),
     );
   }
 }

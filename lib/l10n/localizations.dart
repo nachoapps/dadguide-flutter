@@ -908,6 +908,13 @@ class DadGuideLocalizations {
   String get monsterCompareSelectRight => Intl.message('Select right',
       name: 'monsterCompareSelectRight', desc: 'Button text at bottom of compare screen');
 
+  // ---- Changelog ----
+  String get changelogButton => Intl.message('Continue',
+      name: 'changelogButton', desc: 'Button text at bottom of changelog that dismisses');
+
+  String get changelogTitle =>
+      Intl.message("What's New", name: 'changelogTitle', desc: 'Text at top of changelog');
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {
