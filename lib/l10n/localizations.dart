@@ -922,6 +922,21 @@ class DadGuideLocalizations {
   String get screenshotFailed => Intl.message('Failed to save (access denied?)',
       name: 'screenshotFailed', desc: 'Snackbar after screenshot taken');
 
+  // ---- IAP ----
+  String get iapTitle =>
+      Intl.message('Purchases', name: 'iapTitle', desc: 'Settings page iap section title');
+  String get iapSubtitle => Intl.message('Click below to purchase permanent ad removal',
+      name: 'iapSubtitle', desc: 'Settings page iap section subtitle');
+
+  String get iapAdsRemoved =>
+      Intl.message('Ads removed', name: 'iapAdsRemoved', desc: 'IAP after purchase text');
+
+  String get iapAdsRemovedSubtitle => Intl.message('Thanks for supporting DadGuide!',
+      name: 'iapAdsRemovedSubtitle', desc: 'IAP after purchase text');
+
+  String get iapLaunchFailed =>
+      Intl.message('Failed to start purchase', name: 'iapLaunchFailed', desc: 'Error snackbar');
+
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {

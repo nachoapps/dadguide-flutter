@@ -93,9 +93,8 @@ class SettingsScreen extends StatelessWidget {
           PrefKeys.notificationsAlertsEnabled,
           onChange: () => getIt<NotificationManager>().ensureEventsScheduled(),
         ),
-        PreferenceTitle('Pay to remove ads'),
-        PreferenceTitleSubtitle(
-            'If you have donated in the past, contact me for a promo code instead of purchasing this.'),
+        PreferenceTitle(loc.iapTitle),
+        PreferenceTitleSubtitle(loc.iapSubtitle),
         VisibilityDetector(
           key: ValueKey('iap_widget'),
           onVisibilityChanged: (_) => iapSeen(),
