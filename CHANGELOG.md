@@ -1,4 +1,4 @@
-## [Version 2.0.9x](TODO)
+## [Version 2.0.96](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.96)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/12?closed=1)
 
