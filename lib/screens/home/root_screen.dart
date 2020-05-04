@@ -27,22 +27,21 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static List<TabNavigator> _widgetOptions = [
     TabNavigator(
       navigatorKey: eventNavKey,
-      rootItem: EventTab(key: PageStorageKey('EventTab')),
+      rootItem: EventTab(),
     ),
     TabNavigator(
       navigatorKey: monsterNavKey,
       rootItem: MonsterTab(
         args: MonsterListArgs(MonsterListAction.showDetails),
-        key: PageStorageKey('MonsterTab'),
       ),
     ),
     TabNavigator(
       navigatorKey: dungeonNavKey,
-      rootItem: DungeonTab(key: PageStorageKey('DungeonTab')),
+      rootItem: DungeonTab(),
     ),
     TabNavigator(
       navigatorKey: settingsNavKey,
-      rootItem: SettingsScreen(key: PageStorageKey('SettingsTab')),
+      rootItem: SettingsScreen(),
     ),
   ];
 
