@@ -628,6 +628,30 @@
         "type": "text",
         "placeholders": {}
     },
+    "monsterSortTypeLeaderSkillHp": "LS HP倍率",
+    "@monsterSortTypeLeaderSkillHp": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeLeaderSkillAttack": "LS攻撃倍率",
+    "@monsterSortTypeLeaderSkillAttack": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeLeaderSkillRcv": "LS回復倍率",
+    "@monsterSortTypeLeaderSkillRcv": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "monsterSortTypeLeaderSkillShield": "LS軽減値",
+    "@monsterSortTypeLeaderSkillShield": {
+        "description": "Grid button",
+        "type": "text",
+        "placeholders": {}
+    },
     "monsterInfoNo": "No. {number}",
     "@monsterInfoNo": {
         "description": "Monster info number text",
@@ -1531,6 +1555,60 @@
     "monsterCompareSelectRight": "右を選択",
     "@monsterCompareSelectRight": {
         "description": "Button text at bottom of compare screen",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changelogButton": "つづく",
+    "@changelogButton": {
+        "description": "Button text at bottom of changelog that dismisses",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changelogTitle": "最新情報",
+    "@changelogTitle": {
+        "description": "Text at top of changelog",
+        "type": "text",
+        "placeholders": {}
+    },
+    "screenshotFinished": "スクリーン ショットをギャラリーに保存しました",
+    "@screenshotFinished": {
+        "description": "Snackbar after screenshot taken",
+        "type": "text",
+        "placeholders": {}
+    },
+    "screenshotFailed": "保存できませんでした（アクセスが拒否されました？）",
+    "@screenshotFailed": {
+        "description": "Snackbar after screenshot taken",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapTitle": "購入できるもの",
+    "@iapTitle": {
+        "description": "Settings page iap section title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapSubtitle": "広告を表示しないには下をクリック",
+    "@iapSubtitle": {
+        "description": "Settings page iap section subtitle",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapAdsRemoved": "広告が削除されます",
+    "@iapAdsRemoved": {
+        "description": "IAP after purchase text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapAdsRemovedSubtitle": "DadGuideのサポートをありがとうございます!",
+    "@iapAdsRemovedSubtitle": {
+        "description": "IAP after purchase text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapLaunchFailed": "購入できませんでした",
+    "@iapLaunchFailed": {
+        "description": "Error snackbar",
         "type": "text",
         "placeholders": {}
     }

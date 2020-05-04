@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2020-04-10T14:40:23.338229",
+  "@@last_modified": "2020-05-03T14:35:52.644442",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -624,6 +624,30 @@
   },
   "monsterSortTypeSkillTurn": "Skill Turn",
   "@monsterSortTypeSkillTurn": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeLeaderSkillHp": "LS Hp",
+  "@monsterSortTypeLeaderSkillHp": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeLeaderSkillAttack": "LS Atk",
+  "@monsterSortTypeLeaderSkillAttack": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeLeaderSkillRcv": "LS Rcv",
+  "@monsterSortTypeLeaderSkillRcv": {
+    "description": "Grid button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterSortTypeLeaderSkillShield": "LS Shield",
+  "@monsterSortTypeLeaderSkillShield": {
     "description": "Grid button",
     "type": "text",
     "placeholders": {}
@@ -1531,6 +1555,60 @@
   "monsterCompareSelectRight": "Select right",
   "@monsterCompareSelectRight": {
     "description": "Button text at bottom of compare screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changelogButton": "Continue",
+  "@changelogButton": {
+    "description": "Button text at bottom of changelog that dismisses",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changelogTitle": "What's New",
+  "@changelogTitle": {
+    "description": "Text at top of changelog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "screenshotFinished": "Screenshot saved to gallery",
+  "@screenshotFinished": {
+    "description": "Snackbar after screenshot taken",
+    "type": "text",
+    "placeholders": {}
+  },
+  "screenshotFailed": "Failed to save (access denied?)",
+  "@screenshotFailed": {
+    "description": "Snackbar after screenshot taken",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapTitle": "Purchases",
+  "@iapTitle": {
+    "description": "Settings page iap section title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapSubtitle": "Click below to purchase permanent ad removal",
+  "@iapSubtitle": {
+    "description": "Settings page iap section subtitle",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapAdsRemoved": "Ads removed",
+  "@iapAdsRemoved": {
+    "description": "IAP after purchase text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapAdsRemovedSubtitle": "Thanks for supporting DadGuide!",
+  "@iapAdsRemovedSubtitle": {
+    "description": "IAP after purchase text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapLaunchFailed": "Failed to start purchase",
+  "@iapLaunchFailed": {
+    "description": "Error snackbar",
     "type": "text",
     "placeholders": {}
   }
