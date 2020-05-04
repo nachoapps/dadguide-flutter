@@ -5,6 +5,7 @@ import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/services/endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -104,25 +105,26 @@ Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
   if (colorBlind) fileName += 'cb';
   fileName += '_';
   fileName += orbId.toString().padLeft(2, '0');
-  var url = 'https://f002.backblazeb2.com/file/dadguide-data/media/orb_skins/$server/$fileName.png';
+  fileName += '.png';
+  var url = getIt<Endpoints>().serverMedia('orb_skins', server, fileName);
   return _sizedContainer(_loadingImage(url), size);
 }
 
-// TODO: convert to using Endpoints
 String _imageUrl(String category, int value, int length, {bool useJp: false}) {
   var paddedNo = value.toString().padLeft(length, '0');
-  if (useJp) paddedNo = '${paddedNo}_jp'; // Handle JP-specific assets
-  return 'https://f002.backblazeb2.com/file/dadguide-data/media/$category/$paddedNo.png';
+  if (useJp) paddedNo += '_jp'; // Handle JP-specific assets
+  paddedNo += '.png';
+  return getIt<Endpoints>().media(category, paddedNo);
 }
 
 String animationUrl(int monsterId) {
-  var fileName = monsterId.toString().padLeft(5, '0');
-  return 'https://f002.backblazeb2.com/file/dadguide-data/media/animated_portraits/$fileName.mp4';
+  var fileName = monsterId.toString().padLeft(5, '0') + '.mp4';
+  return getIt<Endpoints>().media('animated_portraits', fileName);
 }
 
 String voiceUrl(String server, int monsterId) {
-  var fileName = monsterId.toString().padLeft(3, '0');
-  return 'https://f002.backblazeb2.com/file/dadguide-data/media/voices/$server/$fileName.wav';
+  var fileName = monsterId.toString().padLeft(3, '0') + '.wav';
+  return getIt<Endpoints>().serverMedia('voices', server, fileName);
 }
 
 Widget _sizedContainer(Widget child, double size) {

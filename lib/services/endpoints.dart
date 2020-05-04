@@ -9,10 +9,19 @@ final _emulatingMachineId = '10.0.2.2';
 /// This makes switching between local dev and prod easier.
 abstract class Endpoints {
   /// Files in the database directory; icons and sqlite db.
-  String db(String fileName);
+  String db(String fileName) {
+    return 'https://f002.backblazeb2.com/file/dadguide-data/db/$fileName';
+  }
 
   /// Where to find image files.
-  String media(String mediaType, String fileName);
+  String media(String mediaType, String fileName) {
+    return 'https://f002.backblazeb2.com/file/dadguide-data/media/$mediaType/$fileName';
+  }
+
+  /// Where to find image files.
+  String serverMedia(String mediaType, String server, String fileName) {
+    return 'https://f002.backblazeb2.com/file/dadguide-data/media/$mediaType/$server/$fileName';
+  }
 
   /// The update API url for the given table / tstamp.
   String api(String tableName, {int tstamp});
@@ -27,14 +36,6 @@ abstract class Endpoints {
 /// Right now this points to my personal machine; if you're doing dev work against a local server,
 /// update it to point to your own.
 class DevEndpoints extends Endpoints {
-  String db(String fileName) {
-    return 'https://f002.backblazeb2.com/file/dadguide-data/db/$fileName';
-  }
-
-  String media(String mediaType, String fileName) {
-    return null;
-  }
-
   String api(String tableName, {int tstamp}) {
     var url = 'http://$_emulatingMachineId:8000/dadguide/api/serve?table=$tableName';
     if (tstamp != null) {
@@ -56,15 +57,6 @@ class DevEndpoints extends Endpoints {
 
 /// Points to the production server.
 class ProdEndpoints extends Endpoints {
-  String db(String fileName) {
-    return 'https://f002.backblazeb2.com/file/dadguide-data/db/$fileName';
-  }
-
-  // TODO: oops I should start using this.
-  String media(String mediaType, String fileName) {
-    return null;
-  }
-
   String api(String tableName, {int tstamp}) {
     var url = 'http://miru.info/dadguide/api/serve.php?table=$tableName';
     if (tstamp != null) {
