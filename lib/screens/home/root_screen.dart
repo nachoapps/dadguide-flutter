@@ -89,14 +89,23 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
         children: [
           Expanded(
             child: Scaffold(
-              body: SafeArea(child: _widgetOptions[_selectedIndex]),
+              body: SafeArea(
+                // Might be extraneous but we have a SafeArea at the bottom already.
+                bottom: false,
+                child: _widgetOptions[_selectedIndex],
+              ),
               // Prevent the tabs at the bottom from floating above the keyboard.
               resizeToAvoidBottomInset: false,
               bottomNavigationBar: BottomNavOptions(_selectedIndex, _onItemTapped),
             ),
           ),
-          // Reserve room for the banner ad.
-          AdAvailabilitySpacerWidget(),
+          // Fix an issue with iPhone X bottom bar; the spacer is outside the scaffold.
+          SafeArea(
+            // We already have a SafeArea fixing the top.
+            top: false,
+            // Reserve room for the banner ad.
+            child: AdAvailabilitySpacerWidget(),
+          ),
         ],
       ),
     );
