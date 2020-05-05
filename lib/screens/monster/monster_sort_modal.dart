@@ -56,11 +56,11 @@ class SortOrderRow extends StatelessWidget {
 }
 
 class ToggleSortButton extends FlatButton {
-  final bool _selected;
-  final String _text;
-  final VoidCallback _selectedOnPressed;
+  final bool selected;
+  final String text;
+  final VoidCallback selectedOnPressed;
 
-  ToggleSortButton(this._selected, this._text, this._selectedOnPressed);
+  ToggleSortButton(this.selected, this.text, this.selectedOnPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +69,8 @@ class ToggleSortButton extends FlatButton {
       disabledColor: Colors.lightBlueAccent,
       textColor: grey(context, 1000),
       disabledTextColor: grey(context, 0),
-      child: Text(_text),
-      onPressed: _selected ? null : _selectedOnPressed,
+      child: FittedBox(child: Text(text)),
+      onPressed: selected ? null : selectedOnPressed,
     );
   }
 }
