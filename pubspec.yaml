@@ -114,8 +114,9 @@ dependencies:
   gallery_saver: ^2.0.1
 
   # Changelog display
-  flutter_whatsnew:
-    git: https://github.com/nachoapps/flutter_whatsnew.git
+  flutter_markdown: ^0.3.5
+  #  flutter_whatsnew:
+  #    git: https://github.com/nachoapps/flutter_whatsnew.git
 
   # Fast list scrolling
   scrollable_positioned_list: ^0.1.5

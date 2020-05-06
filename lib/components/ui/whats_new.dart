@@ -1,7 +1,7 @@
+import 'package:dadguide2/components/ui/flutter_whatsnew.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
-import 'package:flutter_whatsnew/flutter_whatsnew.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> showChangelog(BuildContext context) {
@@ -19,6 +19,7 @@ class DadGuideChangelog extends StatelessWidget {
     final loc = DadGuideLocalizations.of(context);
 
     return WhatsNewPage.changelog(
+      forceAndroid: true,
       title: Center(
         child: Text(
           loc.changelogTitle,
