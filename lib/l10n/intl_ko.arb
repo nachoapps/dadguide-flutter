@@ -1594,6 +1594,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "iapRestoreTitle": "Restore existing purchase",
+    "@iapRestoreTitle": {
+        "description": "Settings page iap section title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapRestoreSubtitle": "If you have purchased ad removal on a different device, click here to restore it",
+    "@iapRestoreSubtitle": {
+        "description": "Settings page iap section subtitle",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapRestoreError": "No purchase found",
+    "@iapRestoreError": {
+        "description": "Snackbar on restore failure",
+        "type": "text",
+        "placeholders": {}
+    },
     "iapAdsRemoved": "Ads removed",
     "@iapAdsRemoved": {
         "description": "IAP after purchase text",

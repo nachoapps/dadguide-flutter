@@ -1594,6 +1594,24 @@
         "type": "text",
         "placeholders": {}
     },
+    "iapRestoreTitle": "既存の購入を復元",
+    "@iapRestoreTitle": {
+        "description": "Settings page iap section title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapRestoreSubtitle": "別のデバイスで広告削除を購入した場合は、ここをクリックして復元してください",
+    "@iapRestoreSubtitle": {
+        "description": "Settings page iap section subtitle",
+        "type": "text",
+        "placeholders": {}
+    },
+    "iapRestoreError": "購入は見つかりませんでした",
+    "@iapRestoreError": {
+        "description": "Snackbar on restore failure",
+        "type": "text",
+        "placeholders": {}
+    },
     "iapAdsRemoved": "広告が削除されます",
     "@iapAdsRemoved": {
         "description": "IAP after purchase text",

@@ -935,7 +935,7 @@ class DadGuideLocalizations {
       name: 'iapRestoreSubtitle',
       desc: 'Settings page iap section subtitle');
   String get iapRestoreError => Intl.message('No purchase found',
-      name: 'iapRestoreTitle', desc: 'Snackbar on restore failure');
+      name: 'iapRestoreError', desc: 'Snackbar on restore failure');
 
   String get iapAdsRemoved =>
       Intl.message('Ads removed', name: 'iapAdsRemoved', desc: 'IAP after purchase text');

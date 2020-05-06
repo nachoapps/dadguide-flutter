@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2020-05-03T14:35:52.644442",
+  "@@last_modified": "2020-05-06T09:29:19.547198",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -1591,6 +1591,24 @@
   "iapSubtitle": "Click below to purchase permanent ad removal",
   "@iapSubtitle": {
     "description": "Settings page iap section subtitle",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapRestoreTitle": "Restore existing purchase",
+  "@iapRestoreTitle": {
+    "description": "Settings page iap section title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapRestoreSubtitle": "If you have purchased ad removal on a different device, click here to restore it",
+  "@iapRestoreSubtitle": {
+    "description": "Settings page iap section subtitle",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iapRestoreError": "No purchase found",
+  "@iapRestoreError": {
+    "description": "Snackbar on restore failure",
     "type": "text",
     "placeholders": {}
   },
