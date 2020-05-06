@@ -72,21 +72,32 @@ class AdStatusManager {
     });
   }
 
+  bool get iapAvailable => _iapAvailable;
+
   /// Determines if IAP is online, and if so, requests products and purchases.
-  Future<void> populateIap() async {
+  Future<bool> populateIap() async {
     Fimber.i('Populating IAP');
     _iapAvailable = await _iap.isAvailable();
     iapInitialized(_iapAvailable);
 
     if (_iapAvailable) {
       await _populateProducts();
-      await _populatePurchases();
+
+      // If the user seems to have ads disabled, retrieve their purchases to confirm it.
+      // Don't always fetch this because it forces a store login.
+      if (!Prefs.adsEnabled) {
+        await populatePurchases();
+      }
     }
+
+    return _iapAvailable;
   }
 
   /// Return the ProductDetails for the remove ads IAP. Might return null if not available.
   ProductDetails getRemoveAdsProduct() {
-    return _productDetails.firstWhere((pd) => pd.id == removeAdsProductId);
+    return _productDetails.isEmpty
+        ? null
+        : _productDetails.firstWhere((pd) => pd.id == removeAdsProductId);
   }
 
   Future<bool> startPurchaseFlow() async {
@@ -128,7 +139,7 @@ class AdStatusManager {
     _productDetails = products;
   }
 
-  Future<void> _populatePurchases() async {
+  Future<void> populatePurchases() async {
     Fimber.i('Populating purchases');
     final resp = await _iap.queryPastPurchases();
     if (resp.error == null) {
@@ -165,11 +176,19 @@ class AdStatusManager {
     }
   }
 
-  void _checkForAdRemovalPurchase() async {
-    final adsPurchases = _purchaseDetails.values.where((p) => p.productID == removeAdsProductId);
-    final adsDisabledPurchase = adsPurchases.isEmpty
+  List<PurchaseDetails> _getAdsPurchases() =>
+      _purchaseDetails.values.where((p) => p.productID == removeAdsProductId).toList();
+
+  PurchaseDetails getAdRemovalPurchase() {
+    final adsPurchases = _getAdsPurchases();
+    return adsPurchases.isEmpty
         ? null
         : adsPurchases.firstWhere((p) => p.status == PurchaseStatus.purchased);
+  }
+
+  void _checkForAdRemovalPurchase() async {
+    final adsPurchases = _getAdsPurchases();
+    final adsDisabledPurchase = getAdRemovalPurchase();
     final latestPurchase = adsPurchases.isEmpty
         ? null
         : adsPurchases.reduce((l, r) => _purchaseDate(l) > _purchaseDate(r) ? l : r);

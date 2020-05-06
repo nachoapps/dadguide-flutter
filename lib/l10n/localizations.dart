@@ -928,6 +928,15 @@ class DadGuideLocalizations {
   String get iapSubtitle => Intl.message('Click below to purchase permanent ad removal',
       name: 'iapSubtitle', desc: 'Settings page iap section subtitle');
 
+  String get iapRestoreTitle => Intl.message('Restore existing purchase',
+      name: 'iapRestoreTitle', desc: 'Settings page iap section title');
+  String get iapRestoreSubtitle => Intl.message(
+      'If you have purchased ad removal on a different device, click here to restore it',
+      name: 'iapRestoreSubtitle',
+      desc: 'Settings page iap section subtitle');
+  String get iapRestoreError => Intl.message('No purchase found',
+      name: 'iapRestoreTitle', desc: 'Snackbar on restore failure');
+
   String get iapAdsRemoved =>
       Intl.message('Ads removed', name: 'iapAdsRemoved', desc: 'IAP after purchase text');
 

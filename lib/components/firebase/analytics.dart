@@ -40,6 +40,11 @@ void iapSeen() {
   recordEvent('iap_view_seen');
 }
 
+void iapRestoreClicked() {
+  Fimber.i('Recording iap resotre click');
+  recordEvent('iap_restore_click');
+}
+
 void iapClicked() {
   Fimber.i('Recording iap click');
   recordEvent('iap_click');
