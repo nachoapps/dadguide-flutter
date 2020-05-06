@@ -37,7 +37,7 @@ abstract class Endpoints {
 /// update it to point to your own.
 class DevEndpoints extends Endpoints {
   String api(String tableName, {int tstamp}) {
-    var url = 'http://$_emulatingMachineId:8000/dadguide/api/serve?table=$tableName';
+    var url = 'http://$_emulatingMachineId:8001/dadguide/api/serve?table=$tableName';
     if (tstamp != null) {
       url += '&tstamp=$tstamp';
     }
@@ -51,7 +51,7 @@ class DevEndpoints extends Endpoints {
   }
 
   String purchase() {
-    return 'http://$_emulatingMachineId:8000/dadguide/api/v1/purchases';
+    return 'http://$_emulatingMachineId:8001/dadguide/api/v1/purchases';
   }
 }
 
