@@ -99,7 +99,7 @@ class Prefs {
       PrefKeys.lastComparedMonster: 1,
       PrefKeys.adsEnabled: true,
       PrefKeys.monsterSearchArgs: MonsterSearchArgs.defaults().toJsonString(),
-      PrefKeys.purchaseDetails: [],
+      PrefKeys.purchaseDetails: <String>[],
     });
   }
 
