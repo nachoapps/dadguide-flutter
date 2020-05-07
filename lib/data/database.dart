@@ -91,7 +91,7 @@ class DatabaseHelper {
     } catch (ex) {
       Fimber.e('Failed to get static info from db, probably corrupt', ex: ex);
       try {
-        tmpDatabase.close();
+        await tmpDatabase.close();
       } catch (ex) {
         Fimber.e('Failed to close corrupt database', ex: ex);
       }
@@ -99,8 +99,8 @@ class DatabaseHelper {
         await dbFile.delete();
       } catch (ex) {
         Fimber.e('Failed to delete corrupt database, fatal error', ex: ex);
-        return;
       }
+      return;
     }
 
     // Database seems not corrupt, activate it.
