@@ -137,7 +137,7 @@ class MonsterSearchArgs {
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
-    LeaderSkillStatsOnly,
+    LeaderSkillsForSearch,
     Monsters,
     Series,
     SubDungeons,
@@ -207,21 +207,23 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     });
 
     var hasLeaderSkillTagFilter = args.filter.leaderTags.isNotEmpty;
+    var hasLeaderSkillSort = [
+      MonsterSortType.lsAtk,
+      MonsterSortType.lsHp,
+      MonsterSortType.lsRcv,
+      MonsterSortType.lsShield
+    ].contains(args.sort.sortType);
 
     var joins = [
       // Join the limited AS table since we only need id, min/max cd, and tags.
       leftOuterJoin(
           activeSkillsNoText, activeSkillsNoText.activeSkillId.equalsExp(monsters.activeSkillId)),
-      leftOuterJoin( //Join leader skills for sorting purposes
-        leaderSkillStatsOnly, leaderSkillStatsOnly.leaderSkillId.equalsExp(monsters.leaderSkillId))
     ];
-    
-
 
     // Optimization to avoid joining leader table if not necessary.
-    if (hasLeaderSkillTagFilter) {
-      joins.add(leftOuterJoin(
-          leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)));
+    if (hasLeaderSkillTagFilter || hasLeaderSkillSort) {
+      joins.add(leftOuterJoin(leaderSkillsForSearch,
+          leaderSkillsForSearch.leaderSkillId.equalsExp(monsters.leaderSkillId)));
     }
 
     if (args.filter.series != '') {
@@ -245,10 +247,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       MonsterSortType.cost: monsters.cost,
       MonsterSortType.mp: monsters.sellMp,
       MonsterSortType.skillTurn: activeSkills.turnMin,
-      MonsterSortType.lsHp: leaderSkills.maxHp,
-      MonsterSortType.lsAtk: leaderSkills.maxAtk,
-      MonsterSortType.lsRcv: leaderSkills.maxRcv,
-      MonsterSortType.lsShield: leaderSkills.maxShield
+      MonsterSortType.lsHp: leaderSkillsForSearch.maxHp,
+      MonsterSortType.lsAtk: leaderSkillsForSearch.maxAtk,
+      MonsterSortType.lsRcv: leaderSkillsForSearch.maxRcv,
+      MonsterSortType.lsShield: leaderSkillsForSearch.maxShield,
     };
     var orderExpression = orderMapping[args.sort.sortType];
     if (args.sort.sortType == MonsterSortType.total) {
@@ -341,7 +343,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       var expr;
       for (var curTag in args.filter.leaderTags) {
         var searchText = '%(${curTag})%';
-        var curExpr = leaderSkills.tags.like(searchText);
+        var curExpr = leaderSkillsForSearch.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;
         } else {

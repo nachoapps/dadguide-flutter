@@ -10,10 +10,8 @@ import 'package:dadguide2/data/src/utils.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
-import 'package:moor_flutter/moor_flutter.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annotation;
-
-
+import 'package:moor_flutter/moor_flutter.dart';
 
 part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
@@ -349,7 +347,7 @@ class LeaderSkillTags extends Table {
   IntColumn get tstamp => integer()();
 }
 
-class LeaderSkillStatsOnly extends Table {
+class LeaderSkillsForSearch extends Table {
   IntColumn get leaderSkillId => integer().autoIncrement()();
 
   RealColumn get maxHp => real()();
@@ -359,6 +357,8 @@ class LeaderSkillStatsOnly extends Table {
   RealColumn get maxRcv => real()();
 
   RealColumn get maxShield => real()();
+
+  TextColumn get tags => text()();
 
   @override
   String get tableName => 'leader_skills';
@@ -593,7 +593,7 @@ class Timestamps extends Table {
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
-    LeaderSkillStatsOnly,
+    LeaderSkillsForSearch,
     Monsters,
     Series,
     Schedule,
