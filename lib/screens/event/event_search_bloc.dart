@@ -4,8 +4,8 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/updates/update_service.dart';
 import 'package:dadguide2/data/tables.dart';
-import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 
 /// Top level state for the event tab; contains the selected date and server.

@@ -1,6 +1,6 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
-import 'package:dadguide2/services/update_service.dart';
+import 'package:dadguide2/components/updates/update_service.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Configuration for background execution.

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
+import 'package:dadguide2/components/updates/update_service.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/services/update_service.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';

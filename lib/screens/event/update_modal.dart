@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/ui/task_progress.dart';
+import 'package:dadguide2/components/updates/update_service.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/services/update_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
