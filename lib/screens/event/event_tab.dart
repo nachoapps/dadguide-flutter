@@ -3,6 +3,8 @@ import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/components/updates/update_state.dart';
+import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -50,9 +52,7 @@ class EventListHeader extends StatelessWidget {
     return AppBar(
       flexibleSpace: Row(
         children: [
-          InkWell(
-              onTap: () => showServerSelectDialog(context, displayState),
-              child: SizedBox(width: 60, height: 40, child: DadGuideIcons.currentCountryOn)),
+          ServerSelectWidget(),
           Flexible(
             child: TabBar(tabs: [
               Tab(text: loc.eventTabAll),
@@ -64,6 +64,33 @@ class EventListHeader extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ServerSelectWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SimpleRxStreamBuilder<UpdateStatus>(
+      stream: updateStatusSubject,
+      builder: (context, event) {
+        var displayState = Provider.of<ScheduleDisplayState>(context);
+        var icon = DadGuideIcons.currentCountryOn;
+        if (event == UpdateStatus.updating) {
+          icon = Padding(
+            padding: const EdgeInsets.all(8),
+            child: CircularProgressIndicator(
+              backgroundColor: grey(context, 0),
+            ),
+          );
+        }
+        return InkWell(
+            onTap: () => showServerSelectDialog(context, displayState),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SizedBox(width: 40, height: 40, child: icon),
+            ));
+      },
     );
   }
 }
