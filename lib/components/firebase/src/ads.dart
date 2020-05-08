@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
@@ -151,17 +149,24 @@ class AdStatusManager {
 
   void _addAllPurchases(List<PurchaseDetails> purchases) {
     for (var p in purchases) {
-      Fimber.i('Got purchase: id=${p.purchaseID} product=${p.productID} status=${p.status}');
+      Fimber.i(
+          'Got purchase: id=${p.purchaseID} product=${p.productID} status=${p.status} pending=${p.pendingCompletePurchase}');
       _purchaseDetails[p.purchaseID] = p;
+
+      var bcp = p.billingClientPurchase;
+      if (bcp != null) {
+        Fimber.i('ack=${bcp.isAcknowledged} state=${bcp.purchaseState}');
+      }
+      var pt = p.skPaymentTransaction;
+      if (pt != null) {
+        Fimber.i('err=${pt.error} state=${pt.transactionState}');
+      }
     }
     _checkForAdRemovalPurchase();
     _maybeCompletePurchases();
   }
 
   Future<void> _maybeCompletePurchases() async {
-    if (!Platform.isIOS) {
-      return;
-    }
     final pendingCompletes = _purchaseDetails.values.where((p) => p.pendingCompletePurchase);
     for (var purchase in pendingCompletes) {
       try {
