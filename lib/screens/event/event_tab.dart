@@ -9,13 +9,10 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_week/calendar_week.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'event_list.dart';
 import 'event_search_bloc.dart';
-
-final _dateFormatter = DateFormat.MMMMd();
 
 /// A header-tabbed screen displaying events.
 class EventTab extends StatelessWidget {
