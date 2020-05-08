@@ -382,6 +382,97 @@ class TypeButton extends StatelessWidget {
   }
 }
 
+final awakeningLayout = [
+  [
+    AwakeningE.skillBoost,
+    AwakeningE.enhancedMove,
+    AwakeningE.enhancedCombo,
+    AwakeningE.bonusAttack,
+    AwakeningE.resistBind,
+    AwakeningE.resistBlind,
+    AwakeningE.resistJammer,
+    AwakeningE.resistPoison,
+    AwakeningE.awokenAssist,
+  ],
+  [
+    AwakeningE.skillBoostSuper,
+    AwakeningE.enhancedMoveSuper,
+    AwakeningE.enhancedComboSuper,
+    AwakeningE.bonusAttackSuper,
+    AwakeningE.resistBindSuper,
+    AwakeningE.resistBlindSuper,
+    AwakeningE.resistJammerSuper,
+    AwakeningE.resistPoisonSuper,
+    AwakeningE.resistSkillBind,
+  ],
+  [
+    AwakeningE.twoProngedAttack,
+    AwakeningE.damageVoidPiercer,
+    AwakeningE.comboOrb,
+    AwakeningE.enhancedOver80,
+    AwakeningE.enhancedUnder50,
+    AwakeningE.lAttackMatching,
+    AwakeningE.lHealMatching,
+    AwakeningE.resistCloud,
+    AwakeningE.resistTape,
+  ],
+  [
+    AwakeningE.enhancedOrbFire,
+    AwakeningE.enhancedOrbWater,
+    AwakeningE.enhancedOrbWood,
+    AwakeningE.enhancedOrbLight,
+    AwakeningE.enhancedOrbDark,
+    AwakeningE.enhancedOrbHeal,
+    AwakeningE.recoverBind,
+    AwakeningE.guardBreak,
+    AwakeningE.skillCharge,
+  ],
+  [
+    AwakeningE.enhancedRowFire,
+    AwakeningE.enhancedRowWater,
+    AwakeningE.enhancedRowWood,
+    AwakeningE.enhancedRowLight,
+    AwakeningE.enhancedRowDark,
+    AwakeningE.killerGod,
+    AwakeningE.killerDragon,
+    AwakeningE.killerDevil,
+    AwakeningE.killerMachine,
+  ],
+  [
+    AwakeningE.reduceFire,
+    AwakeningE.reduceWater,
+    AwakeningE.reduceWood,
+    AwakeningE.reduceLight,
+    AwakeningE.reduceDark,
+    AwakeningE.killerBalanced,
+    AwakeningE.killerAttacker,
+    AwakeningE.killerPhysical,
+    AwakeningE.killerHealer,
+  ],
+  [
+    AwakeningE.enhancedHp,
+    AwakeningE.enhancedAttack,
+    AwakeningE.enhancedRecovery,
+    AwakeningE.enhancedTeamHp,
+    AwakeningE.enhancedTeamRecovery,
+    AwakeningE.killerEvo,
+    AwakeningE.killerAwaken,
+    AwakeningE.killerEnhance,
+    AwakeningE.killerRedeemable,
+  ],
+  [
+    AwakeningE.reducedHp,
+    AwakeningE.reducedAttack,
+    AwakeningE.reducedRecovery,
+    AwakeningE.autoRecover,
+    AwakeningE.blessingJammer,
+    AwakeningE.blessingPoison,
+    AwakeningE.multiBoost,
+    AwakeningE.dungeonBonus,
+    AwakeningE.skillVoice,
+  ],
+];
+
 class AwokenSkillsFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -431,13 +522,17 @@ class AwokenSkillsFilterRow extends StatelessWidget {
           ],
         ),
         SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
+        Table(
+          defaultColumnWidth: FixedColumnWidth(28),
           children: [
-            for (var skill in awokenSkills)
-              AwakeningButton(
-                  skill.awokenSkillId, selectedSkills, awakeningContainer(skill.awokenSkillId)),
+            for (var row in awakeningLayout)
+              TableRow(children: [
+                for (var col in row)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: AwakeningButton(col.id, selectedSkills, awakeningContainer(col.id)),
+                  ),
+              ])
           ],
         ),
       ],

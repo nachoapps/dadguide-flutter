@@ -368,7 +368,8 @@ class MonsterSortType {
   static MonsterSortType lsHp = MonsterSortType._(13, localized.monsterSortTypeLeaderSkillHp);
   static MonsterSortType lsAtk = MonsterSortType._(14, localized.monsterSortTypeLeaderSkillAttack);
   static MonsterSortType lsRcv = MonsterSortType._(15, localized.monsterSortTypeLeaderSkillRcv);
-  static MonsterSortType lsShield = MonsterSortType._(116, localized.monsterSortTypeLeaderSkillShield);
+  static MonsterSortType lsShield =
+      MonsterSortType._(116, localized.monsterSortTypeLeaderSkillShield);
 
   static List<MonsterSortType> allValues = [
 //    released,
@@ -449,6 +450,101 @@ class UiTheme {
   static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
 
   static UiTheme byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class AwakeningE {
+  AwakeningE._(this.id);
+
+  final int id;
+
+  static final fire = OrbType._(0, 'Fire', DadGuideIcons.fire);
+  static OrbType water = OrbType._(1, 'Water', DadGuideIcons.water);
+  static OrbType wood = OrbType._(2, 'Wood', DadGuideIcons.wood);
+  static OrbType light = OrbType._(3, 'Light', DadGuideIcons.light);
+  static OrbType dark = OrbType._(4, 'Dark', DadGuideIcons.dark);
+
+  static final enhancedHp = AwakeningE._(1);
+  static final enhancedAttack = AwakeningE._(2);
+  static final enhancedRecovery = AwakeningE._(3);
+  static final reduceFire = AwakeningE._(4);
+  static final reduceWater = AwakeningE._(5);
+  static final reduceWood = AwakeningE._(6);
+  static final reduceLight = AwakeningE._(7);
+  static final reduceDark = AwakeningE._(8);
+  static final autoRecover = AwakeningE._(9);
+  static final resistBind = AwakeningE._(10);
+  static final resistBlind = AwakeningE._(11);
+  static final resistJammer = AwakeningE._(12);
+  static final resistPoison = AwakeningE._(13);
+  static final enhancedOrbFire = AwakeningE._(14);
+  static final enhancedOrbWater = AwakeningE._(15);
+  static final enhancedOrbWood = AwakeningE._(16);
+  static final enhancedOrbLight = AwakeningE._(17);
+  static final enhancedOrbDark = AwakeningE._(18);
+  static final enhancedMove = AwakeningE._(19);
+  static final recoverBind = AwakeningE._(20);
+  static final skillBoost = AwakeningE._(21);
+  static final enhancedRowFire = AwakeningE._(22);
+  static final enhancedRowWater = AwakeningE._(23);
+  static final enhancedRowWood = AwakeningE._(24);
+  static final enhancedRowLight = AwakeningE._(25);
+  static final enhancedRowDark = AwakeningE._(26);
+  static final twoProngedAttack = AwakeningE._(27);
+  static final resistSkillBind = AwakeningE._(28);
+  static final enhancedOrbHeal = AwakeningE._(29);
+  static final multiBoost = AwakeningE._(30);
+  static final killerDragon = AwakeningE._(31);
+  static final killerGod = AwakeningE._(32);
+  static final killerDevil = AwakeningE._(33);
+  static final killerMachine = AwakeningE._(34);
+  static final killerBalanced = AwakeningE._(35);
+  static final killerAttacker = AwakeningE._(36);
+  static final killerPhysical = AwakeningE._(37);
+  static final killerHealer = AwakeningE._(38);
+  static final killerEvo = AwakeningE._(39);
+  static final killerAwaken = AwakeningE._(40);
+  static final killerEnhance = AwakeningE._(41);
+  static final killerRedeemable = AwakeningE._(42);
+  static final enhancedCombo = AwakeningE._(43);
+  static final guardBreak = AwakeningE._(44);
+  static final bonusAttack = AwakeningE._(45);
+  static final enhancedTeamHp = AwakeningE._(46);
+  static final enhancedTeamRecovery = AwakeningE._(47);
+  static final damageVoidPiercer = AwakeningE._(48);
+  static final awokenAssist = AwakeningE._(49);
+  static final bonusAttackSuper = AwakeningE._(50);
+  static final skillCharge = AwakeningE._(51);
+  static final resistBindSuper = AwakeningE._(52);
+  static final enhancedMoveSuper = AwakeningE._(53);
+  static final resistCloud = AwakeningE._(54);
+  static final resistTape = AwakeningE._(55);
+  static final skillBoostSuper = AwakeningE._(56);
+  static final enhancedOver80 = AwakeningE._(57);
+  static final enhancedUnder50 = AwakeningE._(58);
+  static final lHealMatching = AwakeningE._(59);
+  static final lAttackMatching = AwakeningE._(60);
+  static final enhancedComboSuper = AwakeningE._(61);
+  static final comboOrb = AwakeningE._(62);
+  static final skillVoice = AwakeningE._(63);
+  static final dungeonBonus = AwakeningE._(64);
+  static final reducedHp = AwakeningE._(65);
+  static final reducedAttack = AwakeningE._(66);
+  static final reducedRecovery = AwakeningE._(67);
+  static final resistBlindSuper = AwakeningE._(68);
+  static final resistJammerSuper = AwakeningE._(69);
+  static final resistPoisonSuper = AwakeningE._(70);
+  static final blessingJammer = AwakeningE._(71);
+  static final blessingPoison = AwakeningE._(72);
+
+  static List<AwakeningE> all = [
+    // TODO: fill out
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+
+  static AwakeningE byId(int id) {
     return _lookup[id];
   }
 }
