@@ -4,7 +4,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/components/updates/update_service.dart';
+import 'package:dadguide2/components/updates/update_state.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,7 @@ class ScheduleTabState with ChangeNotifier {
   StreamSubscription<void> _updateSubscription;
 
   ScheduleTabState(this.servers, this.starters, this.tab, this.dateStart, this.hideClosed) {
-    _updateSubscription = updateManager.updateStream.listen((_) {
+    _updateSubscription = updateStatusSubject.listen((_) {
       search();
     });
     search();

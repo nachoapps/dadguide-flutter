@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/updates/update_service.dart';
+import 'package:dadguide2/components/updates/update_state.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flash/flash.dart';
@@ -61,7 +62,8 @@ class _DataUpdaterWidgetState extends State<DataUpdaterWidget> {
 
   void subscribe() {
     var loc = localized;
-    _subscription = updateManager.updateStream.listen((_) {
+    _subscription = updateStatusSubject.listen((event) {
+      if (event != UpdateStatus.completed) return;
       recordEvent('update_on_ui_open_succeded');
       flash(context, loc.updateComplete);
       setState(() {});

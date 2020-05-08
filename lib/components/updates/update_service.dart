@@ -7,6 +7,7 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/ui/task_progress.dart';
+import 'package:dadguide2/components/updates/update_state.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
@@ -25,14 +26,6 @@ class ApplicationUpdateRequired implements Exception {}
 /// Publishes two streams, one for 'task updates' which can be used to update the user-friendly UI,
 /// and one which declares that an update has completed.
 class UpdateManager with TaskPublisher {
-  // Ignoring this warning because this stays open as long as the app does.
-  // ignore: close_sinks
-  final _controller = StreamController.broadcast();
-  StreamSink<void> get _updateSink => _controller.sink;
-
-  /// This stream will emit a value every time the update completes (as well as any errors).
-  Stream<void> get updateStream => _controller.stream;
-
   /// If an update is currently running, it's in here.
   Future<void> runningTask;
 
@@ -56,17 +49,20 @@ class UpdateManager with TaskPublisher {
     instance.pipeTo(this);
 
     try {
+      updateStatusSubject.add(UpdateStatus.updating);
       runningTask = instance.start();
       await runningTask;
-      _updateSink.add(null);
+      updateStatusSubject.add(UpdateStatus.completed);
       recordEvent('update_succeeded');
       return true;
     } catch (ex, st) {
       recordEvent('update_failed');
       Fimber.e('Update failed', ex: ex, stacktrace: st);
-      _updateSink.addError(ex, st);
+      updateStatusSubject.addError(ex, st);
+      updateStatusSubject.add(UpdateStatus.error);
       throw ex;
     } finally {
+      updateStatusSubject.add(UpdateStatus.idle);
       runningTask = null;
     }
   }
