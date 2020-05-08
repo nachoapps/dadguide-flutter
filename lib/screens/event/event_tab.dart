@@ -7,7 +7,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/event/server_select_modal.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_calendar_week/calendar_week.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -108,17 +108,17 @@ class DateSelectBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: grey(context, 400),
+      color: grey(context, 200),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20, child: DateSelectButton()),
+            SizedBox(width: 240, child: DateSelectWidget()),
             Spacer(),
             if (!RemoteConfigWrapper.disableExchange)
               SizedBox(
-                height: 24,
+                height: 32,
                 width: 64,
                 child: FlatButton(
                   onPressed: goToExchangeFn(context, Prefs.eventCountry),
@@ -127,7 +127,7 @@ class DateSelectBar extends StatelessWidget {
               ),
             if (!RemoteConfigWrapper.disableEggMachine)
               SizedBox(
-                height: 24,
+                height: 32,
                 width: 64,
                 child: FlatButton(
                   onPressed: goToEggMachineFn(context, Prefs.eventCountry),
@@ -141,27 +141,24 @@ class DateSelectBar extends StatelessWidget {
   }
 }
 
-class DateSelectButton extends StatelessWidget {
+class DateSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<ScheduleDisplayState>(context);
-    var currentEventDate = displayState.currentEventDate;
+    // TODO: CalendarWeek doesn't take a default start date. It probably doesn't matter since we
+    //       use the current date by default but it's still weird.
+    //    var currentEventDate = displayState.currentEventDate;
 
-    return FlatButton(
-      onPressed: () => DatePicker.showDatePicker(
-        context,
-        currentTime: currentEventDate,
-        minTime: DateTime.now().subtract(Duration(days: 1)),
-        maxTime: currentEventDate.add(Duration(days: 30)),
-        onConfirm: (d) => displayState.currentEventDate = d,
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.event),
-          SizedBox(width: 4),
-          Text(_dateFormatter.format(currentEventDate)),
-        ],
-      ),
+    return CalendarWeek(
+      height: 32,
+      minDate: DateTime.now().add(Duration(days: -1)),
+      maxDate: DateTime.now().add(Duration(days: 14)),
+      weekSize: 4,
+      onDatePressed: (DateTime datetime) => displayState.currentEventDate = datetime,
+      dayOfWeekStyle: TextStyle(color: grey(context, 1000)),
+      dateStyle: TextStyle(color: grey(context, 1000)),
+      todayDateStyle: TextStyle(color: grey(context, 1000)),
+      backgroundColor: Colors.transparent,
     );
   }
 }

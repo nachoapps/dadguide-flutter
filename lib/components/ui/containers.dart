@@ -21,3 +21,17 @@ class TabOptionsBar extends StatelessWidget {
     );
   }
 }
+
+/// Helper widget for development, wraps a widget with a red outline border.
+class OutlineWidget extends StatelessWidget {
+  final Widget child;
+
+  const OutlineWidget({@required this.child, Key key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: child,
+      decoration: BoxDecoration(color: Colors.red, border: Border.all()),
+    );
+  }
+}

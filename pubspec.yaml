@@ -73,7 +73,10 @@ dependencies:
   tuple: ^1.0.3
 
   # Date picker
-  flutter_datetime_picker: ^1.3.5
+  flutter_calendar_week:
+#    path: ../flutter_calendar_week
+    git:
+      url: https://github.com/nachoapps/flutter_calendar_week
 
   # Send bad data email
   flutter_email_sender: ^2.2.2
