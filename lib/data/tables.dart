@@ -19,6 +19,7 @@ part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
 part 'src/exchanges.dart';
 part 'src/monsters.dart';
+part 'src/monster_search.dart';
 part 'src/schedule.dart';
 part 'tables.g.dart';
 
@@ -577,6 +578,7 @@ class Timestamps extends Table {
     EggMachinesDao,
     ExchangesDao,
     MonstersDao,
+    MonsterSearchDao,
     ScheduleDao,
   ],
   tables: [

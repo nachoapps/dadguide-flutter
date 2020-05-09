@@ -12,13 +12,13 @@ class MonsterSearchBloc {
   // TODO: This is based on a half-ass understanding of how this is supposed to work, should clean
   //       it up.
 
-  final MonstersDao _dao;
+  final MonsterSearchDao _dao;
   final _counterController = StreamController<List<ListMonster>>();
 
   // This is a trainwreck. Needs serious structural refactoring.
   var initialValues = MonsterSearchArgs.defaults();
 
-  MonsterSearchBloc() : _dao = getIt<MonstersDao>() {
+  MonsterSearchBloc() : _dao = getIt<MonsterSearchDao>() {
     _counterController.onListen = () => search(initialValues);
   }
 
