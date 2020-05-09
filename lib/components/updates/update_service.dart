@@ -13,7 +13,6 @@ import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor/moor.dart';
-import 'package:moor_flutter/moor_flutter.dart';
 import 'package:tuple/tuple.dart';
 
 // TODO: convert this to being supplied by getIt.

@@ -15,7 +15,7 @@ class ExchangesDao extends DatabaseAccessor<DadGuideDatabase> with _$ExchangesDa
 
     var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     query.where(
-        (ex) => or(ex.endTimestamp.isBiggerThanValue(nowTimestamp), ex.permanent.equals(true)));
+        (ex) => ex.endTimestamp.isBiggerThanValue(nowTimestamp) | ex.permanent.equals(true));
 
     var results = await query.get();
     Fimber.d('exchange lookup complete in: ${s.elapsed}');

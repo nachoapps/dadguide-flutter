@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
@@ -11,7 +12,8 @@ import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annotation;
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:moor/moor.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 
 part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
@@ -603,7 +605,7 @@ class Timestamps extends Table {
   queries: {},
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
-  DadGuideDatabase(String dbPath) : super(FlutterQueryExecutor(path: dbPath, logStatements: false));
+  DadGuideDatabase(String dbPath) : super(VmDatabase(File(dbPath)));
 
   @override
   int get schemaVersion => 1;
@@ -617,12 +619,13 @@ class DadGuideDatabase extends _$DadGuideDatabase {
   }
 
   Future<int> maxTstamp(TableInfo info) async {
-    var result = await customSelect('SELECT MAX(tstamp) AS tstamp from ${info.actualTableName}');
+    var result =
+        await customSelect('SELECT MAX(tstamp) AS tstamp from ${info.actualTableName}').get();
     return result.first.readInt('tstamp');
   }
 
   Future<void> upsertData<TD extends Table, D extends DataClass>(
       TableInfo<TD, D> info, Insertable<D> entity) async {
-    await into(info).insert(entity, orReplace: true);
+    await into(info).insert(entity, mode: InsertMode.insertOrReplace);
   }
 }

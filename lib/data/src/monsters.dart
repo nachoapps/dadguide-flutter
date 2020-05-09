@@ -232,7 +232,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var query = select(monsters).join(joins);
 
     if (args.filter.favoritesOnly) {
-      query.where(isIn(monsters.monsterId, Prefs.favoriteMonsters));
+      query.where(monsters.monsterId.isIn(Prefs.favoriteMonsters));
     }
 
     var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
@@ -290,10 +290,10 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     var filter = args.filter;
     if (filter.mainAttr.isNotEmpty) {
-      query.where(isIn(monsters.attribute1Id, filter.mainAttr));
+      query.where(monsters.attribute1Id.isIn(filter.mainAttr));
     }
     if (filter.subAttr.isNotEmpty) {
-      query.where(isIn(monsters.attribute2Id, filter.subAttr));
+      query.where(monsters.attribute2Id.isIn(filter.subAttr));
     }
     if (filter.rarity.min != null) {
       query.where(monsters.rarity.isBiggerOrEqualValue(filter.rarity.min));
@@ -310,9 +310,9 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (filter.types.isNotEmpty) {
       query.where(orList(
         [
-          isIn(monsters.type1Id, filter.types),
-          isIn(monsters.type2Id, filter.types),
-          isIn(monsters.type3Id, filter.types),
+          monsters.type1Id.isIn(filter.types),
+          monsters.type2Id.isIn(filter.types),
+          monsters.type3Id.isIn(filter.types),
         ],
       ));
     }
@@ -320,10 +320,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (args.text.isNotEmpty) {
       var intValue = int.tryParse(args.text);
       if (intValue != null) {
-        query.where(or(
-          monsters.monsterNoJp.equals(intValue),
-          monsters.monsterNoNa.equals(intValue),
-        ));
+        query.where(monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue));
       } else {
         var searchText = '%${args.text}%';
         query.where(orList(
@@ -342,12 +339,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (hasLeaderSkillTagFilter) {
       var expr;
       for (var curTag in args.filter.leaderTags) {
-        var searchText = '%(${curTag})%';
+        var searchText = '%($curTag)%';
         var curExpr = leaderSkillsForSearch.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;
         } else {
-          expr = or(expr, curExpr);
+          expr = expr | curExpr;
         }
       }
       query.where(expr);
@@ -356,12 +353,12 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     if (args.filter.activeTags.isNotEmpty) {
       var expr;
       for (var curTag in args.filter.activeTags) {
-        var searchText = '%(${curTag})%';
+        var searchText = '%($curTag)%';
         var curExpr = activeSkills.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;
         } else {
-          expr = or(expr, curExpr);
+          expr = expr | curExpr;
         }
       }
       query.where(expr);
@@ -445,11 +442,11 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     final resultSeries = await fullSeries(resultMonster.seriesId);
 
     final awakenings = await findAwakenings(monsterId);
-    final prevMonsterResult = await prevMonsterId(monsterId);
-    final nextMonsterResult = await nextMonsterId(monsterId);
+    final prevMonsterResult = await prevMonsterId(monsterId).get();
+    final nextMonsterResult = await nextMonsterId(monsterId).get();
     final skillUpMonsterIdsResult = resultMonster.activeSkillId == null
-        ? []
-        : (await skillUpMonsterIds(resultMonster.activeSkillId)).map((x) => x.monsterId).toList();
+        ? <int>[]
+        : await skillUpMonsterIds(resultMonster.activeSkillId).get();
 
     var skillUpDungeons = Map<int, List<BasicDungeon>>();
     for (var monsterId in skillUpMonsterIdsResult) {
@@ -479,16 +476,17 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     rarityForStats ??= resultMonster.rarity;
     // Cap the rarity at 7, no point in comparing against 10* for example.
     rarityForStats = min(7, rarityForStats);
-    var statResult = (await statsAgainstRarity(
-        resultMonster.hpMax,
-        resultMonster.hpMax,
-        resultMonster.atkMax,
-        resultMonster.atkMax,
-        resultMonster.rcvMax,
-        resultMonster.rcvMax,
-        statHolder.weighted,
-        statHolder.weighted,
-        rarityForStats));
+    var statResult = await statsAgainstRarity(
+            resultMonster.hpMax,
+            resultMonster.hpMax,
+            resultMonster.atkMax,
+            resultMonster.atkMax,
+            resultMonster.rcvMax,
+            resultMonster.rcvMax,
+            statHolder.weighted,
+            statHolder.weighted,
+            rarityForStats)
+        .get();
     var stats = statResult.first;
 
     var statComparison = StatComparison(
@@ -510,8 +508,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       row.readTable(leaderSkills),
       resultSeries,
       awakenings,
-      prevMonsterResult.length > 0 ? prevMonsterResult.first.monsterId : null,
-      nextMonsterResult.length > 0 ? nextMonsterResult.first.monsterId : null,
+      prevMonsterResult.length > 0 ? prevMonsterResult.first : null,
+      nextMonsterResult.length > 0 ? nextMonsterResult.first : null,
       skillUpMonsterIdsResult,
       skillUpDungeons,
       evolutionList,
@@ -530,7 +528,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     final s = new Stopwatch()..start();
     final seriesValue =
         await (select(series)..where((s) => s.seriesId.equals(seriesId))).getSingle();
-    final seriesMonsters = (await seriesMonsterIds(seriesId)).map((r) => r.monsterId).toList();
+    final seriesMonsters = (await seriesMonsterIds(seriesId).get());
     final result = FullSeries(seriesValue, seriesMonsters);
     Fimber.d('series lookup complete in: ${s.elapsed}');
     return result;
@@ -575,7 +573,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var results = <int>{monsterId};
     var searchId = monsterId;
     while (true) {
-      var targets = (await targetForTransformation(searchId)).map((v) => v.linkedMonsterId);
+      var targets = await targetForTransformation(searchId).get();
       if (targets.isEmpty || results.contains(targets.first)) {
         break;
       }
@@ -584,7 +582,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     }
     searchId = monsterId;
     while (true) {
-      var bases = (await baseForTransformation(searchId)).map((v) => v.monsterId);
+      var bases = await baseForTransformation(searchId).get();
       if (bases.isEmpty || results.contains(bases.first)) {
         break;
       }
@@ -600,7 +598,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var transformations = await extractTransformations(monsterId);
     if (transformations.length > 1) {
       for (var tId in transformations) {
-        if ((await ancestorMonsterId(tId)).isNotEmpty || (await childMonsterId(tId)).isNotEmpty) {
+        if ((await ancestorMonsterId(tId).get()).isNotEmpty ||
+            (await childMonsterId(tId).get()).isNotEmpty) {
           monsterId = tId;
           break;
         }
@@ -609,9 +608,9 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     var ancestorId = monsterId;
     while (true) {
-      var possibleAncestor = await ancestorMonsterId(ancestorId);
+      var possibleAncestor = await ancestorMonsterId(ancestorId).get();
       if (possibleAncestor.isNotEmpty) {
-        ancestorId = possibleAncestor.first.fromMonsterId;
+        ancestorId = possibleAncestor.first;
       } else {
         break;
       }
@@ -674,7 +673,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   }
 
   Future<List<BasicDungeon>> findDropDungeons(int monsterId) async {
-    var x = await dropDungeons(monsterId);
+    var x = await dropDungeons(monsterId).get();
     return x.map((ddr) => BasicDungeon(ddr.dungeonId, ddr.nameJp, ddr.nameNa, ddr.nameKr)).toList();
   }
 
@@ -694,8 +693,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   }
 
   Future<List<int>> materialFor(int materialMonsterId) async {
-    var x = await materialForIds(materialMonsterId);
-    return x.map((e) => e.monsterId).toList();
+    return await materialForIds(materialMonsterId).get();
   }
 
   Future<Monster> loadMonster(int monsterId) async {
