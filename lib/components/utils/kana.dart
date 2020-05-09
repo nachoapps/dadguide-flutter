@@ -1,9 +1,11 @@
 import 'package:kana/kana.dart';
 
 /// Mapping from Hiragana characters to Katakana ones.
+// ignore: non_constant_identifier_names
 final HIRAGANA_TO_KATAKANA = HIRAGANA_ROMAJI.map((h, r) => MapEntry(h, ROMAJI_KATAKANA[r]));
 
 /// Mapping from Katakana characters to Hiragana ones.
+// ignore: non_constant_identifier_names
 final KATAKANA_TO_HIRAGANA = KATAKANA_ROMAJI.map((k, r) => MapEntry(k, ROMAJI_HIRAGANA[r]));
 
 /// Returns true if the string contains at least one Hiragana character, false otherwise.
