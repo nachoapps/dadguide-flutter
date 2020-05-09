@@ -241,20 +241,18 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
     if (text.isNotEmpty) {
       var intValue = int.tryParse(text);
-      if (intValue != null) {
-        query.where(monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue));
-      } else {
-        query.where(orList(
-          [
-            monsters.nameJp.contains(text),
-            if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
-            if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
-            monsters.nameNa.contains(text),
-            monsters.nameNaOverride.contains(text),
-            monsters.nameKr.contains(text),
-          ],
-        ));
-      }
+      query.where(orList(
+        [
+          monsters.nameJp.contains(text),
+          if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
+          if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
+          monsters.nameNa.contains(text),
+          monsters.nameNaOverride.contains(text),
+          monsters.nameKr.contains(text),
+          if (intValue != null)
+            monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue),
+        ],
+      ));
     }
 
     if (filter.leaderTags.isNotEmpty) {
