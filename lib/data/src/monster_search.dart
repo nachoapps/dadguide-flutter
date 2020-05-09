@@ -33,6 +33,7 @@ class MonsterFilterArgs {
   MinMax cost;
   Set<int> types;
   List<int> awokenSkills;
+  bool searchSuperAwakenings;
   String series;
   bool favoritesOnly;
 
@@ -49,6 +50,7 @@ class MonsterFilterArgs {
       cost.modified ||
       types.isNotEmpty ||
       awokenSkills.isNotEmpty ||
+      searchSuperAwakenings == false ||
       activeTags.isNotEmpty ||
       leaderTags.isNotEmpty ||
       series != '' ||
@@ -61,6 +63,7 @@ class MonsterFilterArgs {
       MinMax cost,
       Set<int> types,
       List<int> awokenSkills,
+      this.searchSuperAwakenings = false,
       this.series = '',
       this.favoritesOnly = false,
       Set<int> activeTags,

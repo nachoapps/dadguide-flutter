@@ -88,6 +88,11 @@ class MonsterDisplayState with ChangeNotifier {
   bool get pictureMode => _pictureMode;
   bool get showAwakenings => _showAwakenings;
 
+  void clearSelectedAwakenings() {
+    filterArgs.awokenSkills.clear();
+    showAwakenings = false;
+  }
+
   set showAwakenings(bool value) {
     _showAwakenings = value;
     doSearch();

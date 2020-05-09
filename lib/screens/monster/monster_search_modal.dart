@@ -2,6 +2,7 @@ import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -382,6 +383,8 @@ class TypeButton extends StatelessWidget {
   }
 }
 
+// Describes how the awakenings should be laid out in a grid.
+// Needs to be updated if new awakenings are added.
 final awakeningLayout = [
   [
     AwakeningE.skillBoost,
@@ -473,68 +476,83 @@ final awakeningLayout = [
   ],
 ];
 
+/// Filter on awakenings section.
 class AwokenSkillsFilterRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SelectedAwakeningsRowWidget(),
+        SizedBox(height: 8),
+        AwakeningSelectionTableWidget(),
+      ],
+    );
+  }
+}
+
+/// Displays some text and the selected awakenings in a row, with a button to clear them.
+class SelectedAwakeningsRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
     var displayState = Provider.of<MonsterDisplayState>(context);
     var selectedSkills = displayState.filterArgs.awokenSkills;
-    var awokenSkills = DatabaseHelper.allAwokenSkills;
 
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            Text(loc.monsterFilterModalAwokens),
-            SizedBox(width: 8),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(2.0),
-                  border: Border.all(),
-                  color: grey(context, 200),
-                ),
-                child: Row(
-                  children: [
-                    for (var skillId in selectedSkills)
-                      Padding(
-                          padding: EdgeInsets.all(1), child: awakeningContainer(skillId, size: 16)),
-                    Spacer(),
-                    Material(
-                      color: Colors.transparent,
-                      child: SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: IconButton(
-                            padding: EdgeInsets.all(0),
-                            onPressed: () {
-                              selectedSkills.clear();
-                              displayState.showAwakenings = false;
-                              displayState.notify();
-                            },
-                            icon: Icon(Icons.clear)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+        Text(loc.monsterFilterModalAwokens),
+        SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: new BorderRadius.circular(2.0),
+              border: Border.all(),
+              color: grey(context, 200),
             ),
-          ],
-        ),
-        SizedBox(height: 8),
-        Table(
-          defaultColumnWidth: FixedColumnWidth(28),
-          children: [
-            for (var row in awakeningLayout)
-              TableRow(children: [
-                for (var col in row)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: AwakeningButton(col.id, selectedSkills, awakeningContainer(col.id)),
+            child: Row(
+              children: [
+                for (var skillId in selectedSkills)
+                  Padding(padding: EdgeInsets.all(1), child: awakeningContainer(skillId, size: 16)),
+                Spacer(),
+                FixInk(
+                  child: SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: IconButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () => displayState.clearSelectedAwakenings(),
+                        icon: Icon(Icons.clear)),
                   ),
-              ])
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
+      ],
+    );
+  }
+}
+
+/// Displays the available awakenings to filter on in a table ordered the way they are in PAD.
+class AwakeningSelectionTableWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var displayState = Provider.of<MonsterDisplayState>(context);
+    var selectedSkills = displayState.filterArgs.awokenSkills;
+    // TODO: Stick leftover skills at the bottom of the table.
+    //    var awokenSkills = DatabaseHelper.allAwokenSkills;
+
+    return Table(
+      defaultColumnWidth: FixedColumnWidth(28),
+      children: [
+        for (var row in awakeningLayout)
+          TableRow(children: [
+            for (var col in row)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: AwakeningButton(col.id, selectedSkills, awakeningContainer(col.id)),
+              ),
+          ])
       ],
     );
   }
