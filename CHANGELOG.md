@@ -1,4 +1,4 @@
-## [Version 2.0.102](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.102)
+## [Version 2.0.103](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.103)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/12?closed=1)
 
