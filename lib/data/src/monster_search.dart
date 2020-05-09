@@ -25,7 +25,7 @@ class MinMax {
   Map<String, dynamic> toJson() => _$MinMaxToJson(this);
 }
 
-@json_annotation.JsonSerializable(nullable: false)
+@json_annotation.JsonSerializable()
 class MonsterFilterArgs {
   Set<int> mainAttr;
   Set<int> subAttr;
@@ -63,7 +63,7 @@ class MonsterFilterArgs {
       MinMax cost,
       Set<int> types,
       List<int> awokenSkills,
-      this.searchSuperAwakenings = false,
+      this.searchSuperAwakenings = true,
       this.series = '',
       this.favoritesOnly = false,
       Set<int> activeTags,
@@ -163,7 +163,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       // Optionally find/compare awakenings.
       var awakeningList = (monsterAwakenings[monster.monsterId] ?? [])
         ..sort((a, b) => a.orderIdx - b.orderIdx);
-      if (!isAwakeningMatch(filter.awokenSkills, awakeningList)) {
+      if (!isAwakeningMatch(filter, awakeningList)) {
         continue;
       }
 
@@ -259,7 +259,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     }
 
     if (filter.leaderTags.isNotEmpty) {
-      var expr = Constant(false);
+      Expression<bool> expr = Constant(false);
       filter.leaderTags.forEach((tag) {
         expr = expr | leaderSkillsForSearch.tags.contains('($tag)');
       });
@@ -267,7 +267,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     }
 
     if (filter.activeTags.isNotEmpty) {
-      var expr = Constant(false);
+      Expression<bool> expr = Constant(false);
       filter.activeTags.forEach((tag) {
         expr = expr | activeSkillsForSearch.tags.contains('($tag)');
       });
@@ -380,7 +380,8 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   /// It's too hard to apply this filter during the query, so once we have the awakenings,
   /// strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
   /// it's a good match, otherwise skip this row.
-  bool isAwakeningMatch(List<int> filterSkills, List<Awakening> monsterSkills) {
+  bool isAwakeningMatch(MonsterFilterArgs filter, List<Awakening> monsterSkills) {
+    var filterSkills = filter.awokenSkills;
     if (filterSkills.isEmpty) {
       return true;
     }
@@ -388,7 +389,8 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     // Copy the filter to avoid mutating it.
     var filterCopy = List.of(filterSkills);
     var regularAwakenings = monsterSkills.where((a) => !a.isSuper).toList();
-    var superAwakenings = monsterSkills.where((a) => a.isSuper).toList();
+    var superAwakenings =
+        filter.searchSuperAwakenings ? monsterSkills.where((a) => a.isSuper).toList() : [];
 
     for (var awakening in regularAwakenings) {
       filterCopy.remove(awakening.awokenSkillId);

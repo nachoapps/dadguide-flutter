@@ -10,6 +10,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -480,11 +481,31 @@ final awakeningLayout = [
 class AwokenSkillsFilterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+    var displayState = Provider.of<MonsterDisplayState>(context);
     return Column(
       children: [
         SelectedAwakeningsRowWidget(),
         SizedBox(height: 8),
-        AwakeningSelectionTableWidget(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AwakeningSelectionTableWidget(),
+            SizedBox(width: 16),
+            Column(
+              children: <Widget>[
+                Text(loc.monsterFilterModalSearchSuper),
+                Switch(
+                  value: displayState.filterArgs.searchSuperAwakenings,
+                  onChanged: (v) {
+                    displayState.filterArgs.searchSuperAwakenings = v;
+                    displayState.notify();
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
       ],
     );
   }

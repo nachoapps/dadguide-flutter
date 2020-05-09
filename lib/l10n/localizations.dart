@@ -315,6 +315,9 @@ class DadGuideLocalizations {
   String get monsterFilterModalAwokens =>
       Intl.message('Awoken Skills', name: 'monsterFilterModalAwokens', desc: 'Section header');
 
+  String get monsterFilterModalSearchSuper => Intl.message('Include Super',
+      name: 'monsterFilterModalSearchSuper', desc: 'Switch widget title');
+
   String get monsterFilterModalClose =>
       Intl.message('Close', name: 'monsterFilterModalClose', desc: 'Bottom button');
 
