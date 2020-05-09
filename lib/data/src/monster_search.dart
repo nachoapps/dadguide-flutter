@@ -139,24 +139,49 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     Fimber.d('doing list monster lookup');
     var s = new Stopwatch()..start();
 
+    var filter = args.filter;
+    var sort = args.sort;
+    var text = args.text;
+
+    var query = select(monsters).join(_computeJoins(filter, sort));
+    applyFilters(query, filter, sort, text);
+    query.orderBy(_computeOrdering(sort));
+
     // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
-    var awakeningResults = [];
-    if (args.shouldRequestAwakenings) {
-      awakeningResults = await select(awakenings).get();
+    var monsterAwakenings = await _maybeLoadAwakenings(args.shouldRequestAwakenings);
+
+    // Read each result, optionally check awakenings, and create a ListMonster result.
+    var results = <ListMonster>[];
+    for (var row in await query.get()) {
+      var monster = row.readTable(monsters);
+      var active = row.readTable(activeSkillsForSearch);
+      // We join against other tables, but they're used for filtering or sorting.
+
+      // Optionally find/compare awakenings.
+      var awakeningList = (monsterAwakenings[monster.monsterId] ?? [])
+        ..sort((a, b) => a.orderIdx - b.orderIdx);
+      if (!isAwakeningMatch(filter.awokenSkills, awakeningList)) {
+        continue;
+      }
+
+      results.add(ListMonster(monster, awakeningList, active));
     }
 
-    var monsterAwakenings = Map<int, List<Awakening>>();
-    awakeningResults.forEach((a) {
-      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
-    });
+    Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
+    return results;
+  }
 
-    var hasLeaderSkillTagFilter = args.filter.leaderTags.isNotEmpty;
+  /// Determines which tables we need to join to monsters in order to compute the results.
+  /// We minimize the number of tables because it improves performance.
+  List<Join> _computeJoins(MonsterFilterArgs filter, MonsterSortArgs sort) {
+    var hasLeaderSkillTagFilter = filter.leaderTags.isNotEmpty;
+
     var hasLeaderSkillSort = [
       MonsterSortType.lsAtk,
       MonsterSortType.lsHp,
       MonsterSortType.lsRcv,
       MonsterSortType.lsShield
-    ].contains(args.sort.sortType);
+    ].contains(sort.sortType);
 
     var joins = [
       // Join the limited AS table since we only need id, min/max cd, and tags.
@@ -170,69 +195,26 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
           leaderSkillsForSearch.leaderSkillId.equalsExp(monsters.leaderSkillId)));
     }
 
-    if (args.filter.series != '') {
+    // Optimization to avoid joining the series table if not necessary.
+    if (filter.series != '') {
       joins.add(leftOuterJoin(series, series.seriesId.equalsExp(monsters.seriesId)));
     }
-    var query = select(monsters).join(joins);
 
-    if (args.filter.favoritesOnly) {
+    return joins;
+  }
+
+  /// Apply a series of where clauses to the query based on the filter, sort, and search text.
+  void applyFilters(
+      JoinedSelectStatement query, MonsterFilterArgs filter, MonsterSortArgs sort, String text) {
+    if (filter.favoritesOnly) {
       query.where(monsters.monsterId.isIn(Prefs.favoriteMonsters));
     }
 
-    var orderingMode = args.sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
-    var orderMapping = {
-      MonsterSortType.released: monsters.regDate,
-      MonsterSortType.no: monsters.monsterNoJp,
-      MonsterSortType.atk: monsters.atkMax,
-      MonsterSortType.hp: monsters.hpMax,
-      MonsterSortType.rcv: monsters.rcvMax,
-      MonsterSortType.type: monsters.type1Id,
-      MonsterSortType.rarity: monsters.rarity,
-      MonsterSortType.cost: monsters.cost,
-      MonsterSortType.mp: monsters.sellMp,
-      MonsterSortType.skillTurn: activeSkillsForSearch.turnMin,
-      MonsterSortType.lsHp: leaderSkillsForSearch.maxHp,
-      MonsterSortType.lsAtk: leaderSkillsForSearch.maxAtk,
-      MonsterSortType.lsRcv: leaderSkillsForSearch.maxRcv,
-      MonsterSortType.lsShield: leaderSkillsForSearch.maxShield,
-    };
-    var orderExpression = orderMapping[args.sort.sortType];
-    if (args.sort.sortType == MonsterSortType.total) {
-      orderExpression = CustomExpression('hp_max/10 + atk_max/5 + rcv_max/3');
-    } else if (args.sort.sortType == MonsterSortType.limitTotal) {
-      orderExpression =
-          CustomExpression('(hp_max/10 + atk_max/5 + rcv_max/3) * (100 + limit_mult)');
-    }
-
-    List<OrderingTerm> orderingTerms;
-
-    // Special handling for attribute and subattribute; append extra sorting terms to improve
-    // quality of display.
-    if (args.sort.sortType == MonsterSortType.attribute) {
-      orderingTerms = [
-        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute1Id),
-        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
-      ];
-    } else if (args.sort.sortType == MonsterSortType.subAttribute) {
-      orderingTerms = [
-        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
-      ];
-    } else {
-      orderingTerms = [
-        OrderingTerm(mode: orderingMode, expression: orderExpression),
-      ];
-    }
-    // Always subsequently sort by monsterNoJp descending.
-    orderingTerms.add(OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp));
-
-    query.orderBy(orderingTerms);
-
-    if (args.sort.sortType == MonsterSortType.skillTurn) {
+    if (sort.sortType == MonsterSortType.skillTurn) {
       // Special handling; we don't want to sort by monsters with no skill
       query.where(monsters.activeSkillId.isBiggerThanValue(0));
     }
 
-    var filter = args.filter;
     if (filter.mainAttr.isNotEmpty) {
       query.where(monsters.attribute1Id.isIn(filter.mainAttr));
     }
@@ -252,71 +234,53 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       query.where(monsters.cost.isSmallerOrEqualValue(filter.cost.max));
     }
     if (filter.types.isNotEmpty) {
-      query.where(orList(
-        [
-          monsters.type1Id.isIn(filter.types),
-          monsters.type2Id.isIn(filter.types),
-          monsters.type3Id.isIn(filter.types),
-        ],
-      ));
+      query.where(monsters.type1Id.isIn(filter.types) |
+          monsters.type2Id.isIn(filter.types) |
+          monsters.type3Id.isIn(filter.types));
     }
 
-    if (args.text.isNotEmpty) {
-      var intValue = int.tryParse(args.text);
+    if (text.isNotEmpty) {
+      var intValue = int.tryParse(text);
       if (intValue != null) {
         query.where(monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue));
       } else {
-        var searchText = '%${args.text}%';
         query.where(orList(
           [
-            monsters.nameJp.like(searchText),
-            if (containsHiragana(searchText)) monsters.nameJp.like(hiraganaToKatakana(searchText)),
-            if (containsKatakana(searchText)) monsters.nameJp.like(katakanaToHiragana(searchText)),
-            monsters.nameNa.like(searchText),
-            monsters.nameNaOverride.like(searchText),
-            monsters.nameKr.like(searchText),
+            monsters.nameJp.contains(text),
+            if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
+            if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
+            monsters.nameNa.contains(text),
+            monsters.nameNaOverride.contains(text),
+            monsters.nameKr.contains(text),
           ],
         ));
       }
     }
 
-    if (hasLeaderSkillTagFilter) {
-      var expr;
-      for (var curTag in args.filter.leaderTags) {
-        var searchText = '%($curTag)%';
-        var curExpr = leaderSkillsForSearch.tags.like(searchText);
-        if (expr == null) {
-          expr = curExpr;
-        } else {
-          expr = expr | curExpr;
-        }
-      }
+    if (filter.leaderTags.isNotEmpty) {
+      var expr = Constant(false);
+      filter.leaderTags.forEach((tag) {
+        expr = expr | leaderSkillsForSearch.tags.contains('($tag)');
+      });
       query.where(expr);
     }
 
-    if (args.filter.activeTags.isNotEmpty) {
-      var expr;
-      for (var curTag in args.filter.activeTags) {
-        var searchText = '%($curTag)%';
-        var curExpr = activeSkillsForSearch.tags.like(searchText);
-        if (expr == null) {
-          expr = curExpr;
-        } else {
-          expr = expr | curExpr;
-        }
-      }
+    if (filter.activeTags.isNotEmpty) {
+      var expr = Constant(false);
+      filter.activeTags.forEach((tag) {
+        expr = expr | activeSkillsForSearch.tags.contains('($tag)');
+      });
       query.where(expr);
     }
 
-    if (args.filter.series != '') {
-      var searchText = '%${args.filter.series}%';
+    if (filter.series != '') {
       query.where(orList(
         [
-          series.nameJp.like(searchText),
-          if (containsHiragana(searchText)) series.nameJp.like(hiraganaToKatakana(searchText)),
-          if (containsKatakana(searchText)) series.nameJp.like(katakanaToHiragana(searchText)),
-          series.nameNa.like(searchText),
-          series.nameKr.like(searchText),
+          series.nameJp.contains(text),
+          if (containsHiragana(text)) series.nameJp.contains(hiraganaToKatakana(text)),
+          if (containsKatakana(text)) series.nameJp.contains(katakanaToHiragana(text)),
+          series.nameNa.contains(text),
+          series.nameKr.contains(text),
         ],
       ));
     }
@@ -333,42 +297,110 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
         Fimber.e('Unexpected country value: $country');
       }
     }
+  }
 
-    var results = <ListMonster>[];
-    for (var row in await query.get()) {
-      var m = row.readTable(monsters);
-      var as = row.readTable(activeSkillsForSearch);
-
-      var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
-        ..sort((a, b) => a.orderIdx - b.orderIdx);
-
-      // It's too hard to apply this filter during the query, so once we have the awakenings,
-      // strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
-      // it's a good match, otherwise skip this row.
-      if (filter.awokenSkills.isNotEmpty) {
-        var copy = List.of(filter.awokenSkills);
-        var regularAwakenings = List.of(awakeningList).where((a) => !a.isSuper);
-        var superAwakenings = List.of(awakeningList).where((a) => a.isSuper);
-
-        for (var awakening in regularAwakenings) {
-          copy.remove(awakening.awokenSkillId);
-        }
-        for (var awakening in superAwakenings) {
-          if (copy.contains(awakening.awokenSkillId)) {
-            copy.remove(awakening.awokenSkillId);
-            // Only match one super awakening.
-            break;
-          }
-        }
-        if (copy.isNotEmpty) {
-          continue;
-        }
-      }
-
-      results.add(ListMonster(m, awakeningList, as));
+  /// Creates the sort Expression necessary for the given MonsterSortType.
+  Expression simpleOrderExpression(MonsterSortType sortType) {
+    // These sorts need special handling.
+    if (sortType == MonsterSortType.total) {
+      return CustomExpression('hp_max/10 + atk_max/5 + rcv_max/3');
+    } else if (sortType == MonsterSortType.limitTotal) {
+      return CustomExpression('(hp_max/10 + atk_max/5 + rcv_max/3) * (100 + limit_mult)');
     }
 
-    Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
-    return results;
+    // These sorts are straight column orderings.
+    final mapping = {
+      MonsterSortType.released: monsters.regDate,
+      MonsterSortType.no: monsters.monsterNoJp,
+      MonsterSortType.atk: monsters.atkMax,
+      MonsterSortType.hp: monsters.hpMax,
+      MonsterSortType.rcv: monsters.rcvMax,
+      MonsterSortType.type: monsters.type1Id,
+      MonsterSortType.rarity: monsters.rarity,
+      MonsterSortType.cost: monsters.cost,
+      MonsterSortType.mp: monsters.sellMp,
+      MonsterSortType.skillTurn: activeSkillsForSearch.turnMin,
+      MonsterSortType.lsHp: leaderSkillsForSearch.maxHp,
+      MonsterSortType.lsAtk: leaderSkillsForSearch.maxAtk,
+      MonsterSortType.lsRcv: leaderSkillsForSearch.maxRcv,
+      MonsterSortType.lsShield: leaderSkillsForSearch.maxShield,
+    };
+    return mapping[sortType];
+  }
+
+  /// Create the list of orderings that should be applied to the results.
+  /// This could also have been done in memory, and possibly should be?
+  List<OrderingTerm> _computeOrdering(MonsterSortArgs sort) {
+    var orderingMode = sort.sortAsc ? OrderingMode.asc : OrderingMode.desc;
+
+    List<OrderingTerm> orderingTerms;
+
+    // Special handling for attribute and subattribute; append extra sorting terms to improve
+    // quality of display.
+    if (sort.sortType == MonsterSortType.attribute) {
+      orderingTerms = [
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute1Id),
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
+      ];
+    } else if (sort.sortType == MonsterSortType.subAttribute) {
+      orderingTerms = [
+        OrderingTerm(mode: OrderingMode.asc, expression: monsters.attribute2Id),
+      ];
+    } else {
+      orderingTerms = [
+        OrderingTerm(mode: orderingMode, expression: simpleOrderExpression(sort.sortType)),
+      ];
+    }
+    // Always subsequently sort by monsterNoJp descending.
+    orderingTerms.add(OrderingTerm(mode: orderingMode, expression: monsters.monsterNoJp));
+
+    return orderingTerms;
+  }
+
+  /// Loads and organizes awakenings for every monster in the DB (if requested), else an empty map.
+  /// This is a performance drain, which is why it is optional. We should add an 'awakenings'
+  /// field to monster to eliminate this join.
+  Future<Map<int, List<Awakening>>> _maybeLoadAwakenings(bool shouldRequestAwakenings) async {
+    var monsterAwakenings = Map<int, List<Awakening>>();
+    if (!shouldRequestAwakenings) return monsterAwakenings;
+
+    var awakeningResults = [];
+    if (shouldRequestAwakenings) {
+      awakeningResults = await select(awakenings).get();
+    }
+
+    awakeningResults.forEach((a) {
+      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
+    });
+
+    return monsterAwakenings;
+  }
+
+  /// It's too hard to apply this filter during the query, so once we have the awakenings,
+  /// strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
+  /// it's a good match, otherwise skip this row.
+  bool isAwakeningMatch(List<int> filterSkills, List<Awakening> monsterSkills) {
+    if (filterSkills.isEmpty) {
+      return true;
+    }
+
+    // Copy the filter to avoid mutating it.
+    var filterCopy = List.of(filterSkills);
+    var regularAwakenings = monsterSkills.where((a) => !a.isSuper).toList();
+    var superAwakenings = monsterSkills.where((a) => a.isSuper).toList();
+
+    for (var awakening in regularAwakenings) {
+      filterCopy.remove(awakening.awokenSkillId);
+    }
+    for (var awakening in superAwakenings) {
+      if (filterCopy.contains(awakening.awokenSkillId)) {
+        filterCopy.remove(awakening.awokenSkillId);
+        // Only match one super awakening.
+        break;
+      }
+    }
+
+    // If the list of filters is empty, this monster is a match.
+    return filterCopy.isEmpty;
   }
 }
