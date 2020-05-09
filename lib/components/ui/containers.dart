@@ -35,3 +35,14 @@ class OutlineWidget extends StatelessWidget {
     );
   }
 }
+
+/// Helper class that fixes a common problem, a Widget with Material Ink that spills out of bounds.
+class FixInk extends StatelessWidget {
+  final Widget child;
+  const FixInk({Key key, this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(color: Colors.transparent, child: child);
+  }
+}

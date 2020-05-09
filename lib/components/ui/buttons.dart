@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/firebase/analytics.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,11 @@ class TrimmedMaterialIconButton extends StatelessWidget {
   const TrimmedMaterialIconButton({Key key, @required this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.transparent,
+    return FixInk(
         child: SizedBox(
-          height: 32,
-          child: child,
-        ));
+      height: 32,
+      child: child,
+    ));
   }
 }
 
