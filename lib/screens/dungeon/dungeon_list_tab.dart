@@ -29,31 +29,35 @@ class DungeonTab extends StatelessWidget {
 /// Top bar in the dungeon tab, contains the search bar and 'clear' widget. Eventually will contain
 /// the dungeon series filter.
 class DungeonSearchBar extends StatelessWidget {
+  final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
+    final loc = DadGuideLocalizations.of(context);
+    final controller = Provider.of<DungeonDisplayState>(context, listen: false);
+    textController.text = controller.searchText;
 
-    final controller = Provider.of<DungeonDisplayState>(context);
-    var searchText = controller.searchText;
     return TopTextInputBar(
-      searchText,
       loc.dungeonSearchHint,
-//    Not supporting filter yet yet
-//      InkWell(
-//        child: Icon(Icons.clear_all),
-//        onTap: () => Navigator.of(context).maybePop(),
-//      ),
       Container(),
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
           controller.clearSearch();
+          textController.text = '';
+          FocusScope.of(context).requestFocus(new FocusNode());
         },
       ),
-      (t) => controller.searchText = t,
+      controller: textController,
+      onSubmitted: (t) => searchIfDifferent(controller, t),
+      onChanged: (t) => searchIfDifferent(controller, t),
       key: UniqueKey(),
     );
+  }
+
+  void searchIfDifferent(DungeonDisplayState controller, String t) {
+    if (t != controller.searchText) {
+      controller.searchText = t;
+    }
   }
 }
 

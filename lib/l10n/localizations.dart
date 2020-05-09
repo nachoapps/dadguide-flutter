@@ -225,6 +225,9 @@ class DadGuideLocalizations {
       name: 'updateModalTitle', desc: 'Title for update data action modal');
 
   // ---- Monster list strings ----
+  String get monsterListSearchText => Intl.message('Search: Monster Name/No.',
+      name: 'monsterListSearchText', desc: 'Hint text inside search box');
+
   String monsterListNo(int number) => Intl.message(
         'No. $number',
         name: 'monsterListNo',

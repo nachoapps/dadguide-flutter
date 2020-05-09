@@ -7,18 +7,21 @@ import 'package:flutter/material.dart';
 /// Bar across the top of a couple of screens. Has a spot for a left-button, a text entry widget,
 /// and a clear text widget.
 class TopTextInputBar extends StatelessWidget {
-  final String _displayText;
-  final String _hintText;
-  final Widget _leftWidget;
-  final Widget _rightWidget;
-  final void Function(String) _onSubmitted;
+  final Widget leftWidget;
+  final Widget rightWidget;
+
+  final String hintText;
+  final TextEditingController controller;
+  final ValueChanged onSubmitted;
+  final ValueChanged onChanged;
 
   const TopTextInputBar(
-    this._displayText,
-    this._hintText,
-    this._leftWidget,
-    this._rightWidget,
-    this._onSubmitted, {
+    this.hintText,
+    this.leftWidget,
+    this.rightWidget, {
+    this.controller,
+    this.onSubmitted,
+    this.onChanged,
     Key key,
   }) : super(key: key);
 
@@ -29,28 +32,47 @@ class TopTextInputBar extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: Row(
           children: <Widget>[
-            SizedBox(width: 32, height: 32, child: _leftWidget),
+            SizedBox(width: 32, height: 32, child: leftWidget),
             Expanded(
               child: SizedBox(
                 height: 32,
-                child: TextFormField(
-                  initialValue: _displayText,
-                  autocorrect: false,
-                  onFieldSubmitted: _onSubmitted,
-                  decoration: InputDecoration(
-                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
-                    focusedBorder:
-                        new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    hintText: _hintText,
-                    fillColor: grey(context, 200),
-                    filled: true,
-                  ),
-                ),
+                child: TextEditWidget(
+                    hintText: hintText,
+                    controller: controller,
+                    onSubmitted: onSubmitted,
+                    onChanged: onChanged),
               ),
             ),
-            SizedBox(width: 32, height: 32, child: _rightWidget),
+            SizedBox(width: 32, height: 32, child: rightWidget),
           ],
         ));
+  }
+}
+
+class TextEditWidget extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  final ValueChanged onSubmitted;
+  final ValueChanged onChanged;
+
+  const TextEditWidget({Key key, this.hintText, this.controller, this.onSubmitted, this.onChanged})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      autocorrect: false,
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      decoration: InputDecoration(
+        border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
+        focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
+        contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        hintText: hintText,
+        fillColor: grey(context, 200),
+        filled: true,
+      ),
+    );
   }
 }

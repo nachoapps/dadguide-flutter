@@ -87,13 +87,16 @@ class MonsterList extends StatelessWidget {
 
 /// Top bar in the monster list view; allows the user to search by name/id.
 class MonsterSearchBar extends StatelessWidget {
+  final textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<MonsterDisplayState>(context);
-    var searchText = controller.searchText;
+    final loc = DadGuideLocalizations.of(context);
+    final controller = Provider.of<MonsterDisplayState>(context, listen: false);
+    textController.text = controller.searchText;
+
     return TopTextInputBar(
-      searchText,
-      'Search: Monster Name/No.',
+      loc.monsterListSearchText,
       InkWell(
         child: Icon(controller.filterSet ? FontAwesome.filter : Feather.filter,
             color: controller.filterSet ? Colors.black : Colors.white),
@@ -105,13 +108,21 @@ class MonsterSearchBar extends StatelessWidget {
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
           controller.clearSearchText();
+          textController.text = '';
+          FocusScope.of(context).requestFocus(new FocusNode());
         },
       ),
-      (t) => controller.searchText = t,
-      key: UniqueKey(),
+      controller: textController,
+      onSubmitted: (t) => searchIfDifferent(controller, t),
+      onChanged: (t) => searchIfDifferent(controller, t),
     );
+  }
+
+  void searchIfDifferent(MonsterDisplayState controller, String t) {
+    if (t != controller.searchText) {
+      controller.searchText = t;
+    }
   }
 }
 
