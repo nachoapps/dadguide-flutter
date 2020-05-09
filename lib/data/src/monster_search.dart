@@ -124,21 +124,11 @@ class MonsterSearchArgs {
 
 @UseDao(
   tables: [
-    ActiveSkills,
-    ActiveSkillsNoText,
-    ActiveSkillTags,
+    ActiveSkillsForSearch,
     Awakenings,
-    AwokenSkills,
-    Drops,
-    Dungeons,
-    Encounters,
-    Evolutions,
-    LeaderSkills,
-    LeaderSkillTags,
     LeaderSkillsForSearch,
     Monsters,
     Series,
-    SubDungeons,
   ],
   queries: {},
 )
@@ -147,8 +137,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
   Future<List<ListMonster>> findListMonsters(MonsterSearchArgs args) async {
     Fimber.d('doing list monster lookup');
-    var s = new Stopwatch()
-      ..start();
+    var s = new Stopwatch()..start();
 
     // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
     var awakeningResults = [];
@@ -171,8 +160,8 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
     var joins = [
       // Join the limited AS table since we only need id, min/max cd, and tags.
-      leftOuterJoin(
-          activeSkillsNoText, activeSkillsNoText.activeSkillId.equalsExp(monsters.activeSkillId)),
+      leftOuterJoin(activeSkillsForSearch,
+          activeSkillsForSearch.activeSkillId.equalsExp(monsters.activeSkillId)),
     ];
 
     // Optimization to avoid joining leader table if not necessary.
@@ -201,7 +190,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       MonsterSortType.rarity: monsters.rarity,
       MonsterSortType.cost: monsters.cost,
       MonsterSortType.mp: monsters.sellMp,
-      MonsterSortType.skillTurn: activeSkills.turnMin,
+      MonsterSortType.skillTurn: activeSkillsForSearch.turnMin,
       MonsterSortType.lsHp: leaderSkillsForSearch.maxHp,
       MonsterSortType.lsAtk: leaderSkillsForSearch.maxAtk,
       MonsterSortType.lsRcv: leaderSkillsForSearch.maxRcv,
@@ -309,7 +298,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       var expr;
       for (var curTag in args.filter.activeTags) {
         var searchText = '%($curTag)%';
-        var curExpr = activeSkills.tags.like(searchText);
+        var curExpr = activeSkillsForSearch.tags.like(searchText);
         if (expr == null) {
           expr = curExpr;
         } else {
@@ -348,7 +337,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     var results = <ListMonster>[];
     for (var row in await query.get()) {
       var m = row.readTable(monsters);
-      var as = row.readTable(activeSkills);
+      var as = row.readTable(activeSkillsForSearch);
 
       var awakeningList = (monsterAwakenings[m.monsterId] ?? [])
         ..sort((a, b) => a.orderIdx - b.orderIdx);

@@ -60,7 +60,8 @@ class ActiveSkills extends Table {
 
 /// This class is a hack; for some queries we only care about a subset of columns (the turn min/max
 /// and tags) so there's no need to retrieve them.
-class ActiveSkillsNoText extends Table {
+@DataClassName("ActiveSkillForSearch")
+class ActiveSkillsForSearch extends Table {
   IntColumn get activeSkillId => integer().autoIncrement()();
 
   IntColumn get turnMax => integer()();
@@ -350,6 +351,7 @@ class LeaderSkillTags extends Table {
   IntColumn get tstamp => integer()();
 }
 
+@DataClassName("LeaderSkillForSearch")
 class LeaderSkillsForSearch extends Table {
   IntColumn get leaderSkillId => integer().autoIncrement()();
 
@@ -583,7 +585,7 @@ class Timestamps extends Table {
   ],
   tables: [
     ActiveSkills,
-    ActiveSkillsNoText,
+    ActiveSkillsForSearch,
     ActiveSkillTags,
     Awakenings,
     AwokenSkills,

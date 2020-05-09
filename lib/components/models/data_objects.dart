@@ -225,7 +225,7 @@ class FullMonster {
 class ListMonster {
   final Monster monster;
   final List<Awakening> _awakenings;
-  final ActiveSkill activeSkill;
+  final ActiveSkillForSearch activeSkill;
 
   final LanguageSelector name;
 

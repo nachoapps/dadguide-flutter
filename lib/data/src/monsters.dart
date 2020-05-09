@@ -3,7 +3,6 @@ part of '../tables.dart';
 @UseDao(
   tables: [
     ActiveSkills,
-    ActiveSkillsNoText,
     ActiveSkillTags,
     Awakenings,
     AwokenSkills,
@@ -13,7 +12,6 @@ part of '../tables.dart';
     Evolutions,
     LeaderSkills,
     LeaderSkillTags,
-    LeaderSkillsForSearch,
     Monsters,
     Series,
     SubDungeons,
