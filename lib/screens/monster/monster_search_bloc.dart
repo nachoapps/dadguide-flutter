@@ -46,10 +46,9 @@ class MonsterDisplayState with ChangeNotifier {
   bool _showAwakenings = false;
 
   MonsterDisplayState(MonsterSearchArgs searchArgs)
-      : _searchText = searchArgs.text ?? "",
+      : _searchText = searchArgs.text ?? '',
         filterArgs = searchArgs.filter ?? MonsterFilterArgs(),
         sortArgs = searchArgs.sort ?? MonsterSortArgs() {
-    print("search text: $searchText");
     searchBloc.initialValues = toSearchArgs();
   }
 
