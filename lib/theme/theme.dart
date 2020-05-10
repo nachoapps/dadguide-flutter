@@ -10,25 +10,19 @@ ThemeData appTheme() {
     brightness: Brightness.light,
     primaryColor: Colors.blue,
     textTheme: TextTheme(caption: TextStyle(fontSize: 10)),
-    typography: Typography(
-      platform: TargetPlatform.android,
-      englishLike: Typography.englishLike2018,
-      dense: Typography.dense2018,
-      tall: Typography.tall2018,
-    ),
+    typography: Typography.material2018(),
   );
 }
 
 ThemeData darkAppTheme() {
   return ThemeData(
+    // TODO: experiment with setting compact density. in general this looks better, except the text
+    // input bars get a bit too small which could be my fault.
+    //    visualDensity: VisualDensity.compact,
+    visualDensity: VisualDensity(),
     brightness: Brightness.dark,
     primaryColor: Colors.blue,
     textTheme: TextTheme(caption: TextStyle(fontSize: 10)),
-    typography: Typography(
-      platform: TargetPlatform.android,
-      englishLike: Typography.englishLike2018,
-      dense: Typography.dense2018,
-      tall: Typography.tall2018,
-    ),
+    typography: Typography.material2018(),
   );
 }

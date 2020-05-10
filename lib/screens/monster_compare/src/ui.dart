@@ -255,7 +255,6 @@ class Stats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
     final leftM = left.monster;
     final rightM = right.monster;
     final leftStat = left.statComparison;
@@ -463,8 +462,6 @@ class LeaderSkillSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (fullMonster.leaderSkill == null) return Expanded(child: Container());
-
-    var loc = DadGuideLocalizations.of(context);
 
     var leaderSkill = FullLeaderSkill(fullMonster.leaderSkill);
     return Expanded(

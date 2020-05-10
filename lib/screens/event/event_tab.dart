@@ -48,8 +48,6 @@ class EventListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
-    var displayState = Provider.of<ScheduleDisplayState>(context);
-
     return AppBar(
       flexibleSpace: Row(
         children: [
@@ -59,8 +57,6 @@ class EventListHeader extends StatelessWidget {
               Tab(text: loc.eventTabAll),
               Tab(text: loc.eventTabGuerrilla),
               Tab(text: loc.eventTabSpecial),
-//              News disabled for now
-//              Tab(text: 'News'),
             ]),
           ),
         ],

@@ -48,7 +48,7 @@ class SubDungeonRow extends StatelessWidget {
     var coinStam = data.stamina == 0 ? 0 : (data.coinAvg ?? 0) ~/ data.stamina;
 
     var themeData = Theme.of(context);
-    var titleStyle = themeData.textTheme.body1;
+    var titleStyle = themeData.textTheme.bodyText2;
     if (selected) {
       titleStyle = titleStyle.copyWith(color: themeData.primaryColor);
     }

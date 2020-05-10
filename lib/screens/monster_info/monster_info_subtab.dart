@@ -19,7 +19,6 @@ import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -27,6 +26,13 @@ import 'package:tuple/tuple.dart';
 
 import 'evolutions.dart';
 import 'monster_info_image.dart';
+
+/// Can be used to rebuild part of the screen.
+class RebuildMonsterScreenNotifier with ChangeNotifier {
+  void rebuild() {
+    notifyListeners();
+  }
+}
 
 /// Loads the monster data given by args, and displays it in a MonsterDetailContents.
 class MonsterDetailScreen extends StatefulWidget {
@@ -268,7 +274,7 @@ class MonsterDetailHeader extends StatelessWidget {
               ),
               FittedBox(
                 alignment: Alignment.centerLeft,
-                child: Text(_data.name(), style: Theme.of(context).textTheme.title),
+                child: Text(_data.name(), style: Theme.of(context).textTheme.headline6),
               ),
               Row(children: [
                 TypeIconText(_data.type1),
@@ -320,8 +326,8 @@ class MonsterDetailBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (ctx) => ChangeNotifier(),
-      child: Consumer<ChangeNotifier>(
+      create: (ctx) => RebuildMonsterScreenNotifier(),
+      child: Consumer<RebuildMonsterScreenNotifier>(
         builder: (_, notifier, __) => Container(
             color: Colors.blue,
             padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
@@ -353,7 +359,7 @@ class MonsterDetailBar extends StatelessWidget {
                   icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () {
                     Prefs.toggleFavorite(monsterId);
-                    notifier.notifyListeners();
+                    notifier.rebuild();
                   },
                 )),
               ],
@@ -881,7 +887,7 @@ class MonsterBuySellFeedSection extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.body2,
+      style: Theme.of(context).textTheme.bodyText1,
       child: Table(
         border: TableBorder.all(width: 1.0, color: grey(context, 800)),
         children: [

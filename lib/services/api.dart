@@ -51,7 +51,7 @@ class ApiClient {
     }
     var details = jsonEncode(data);
     Prefs.addPurchaseDetails(details);
-    Fimber.w('Submitting purchase details: ${details}');
+    Fimber.w('Submitting purchase details: $details');
     var url = _endpoints.purchase();
     await _dio.post(url, data: data);
   }

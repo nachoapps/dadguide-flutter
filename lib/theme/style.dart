@@ -10,7 +10,7 @@ Color grey(BuildContext context, int value) {
 
 /// Slightly more compact than body1 with a bolder weight for headers.
 TextStyle subtitle(BuildContext context) {
-  return Theme.of(context).textTheme.subhead.copyWith(fontWeight: FontWeight.w500);
+  return Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500);
 }
 
 /// Slightly more compact than body1 with a bolder weight for headers.
@@ -20,10 +20,10 @@ TextStyle caption(BuildContext context) {
 
 /// A slightly smaller, greyer text for supporting info
 TextStyle secondary(BuildContext context) {
-  return Theme.of(context).textTheme.body2.copyWith(color: grey(context, 600));
+  return Theme.of(context).textTheme.bodyText1.copyWith(color: grey(context, 600));
 }
 
 /// A slightly smaller but still obvious text for ES descriptions.
 TextStyle esDescription(BuildContext context) {
-  return Theme.of(context).textTheme.body2.copyWith(fontSize: 14);
+  return Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14);
 }

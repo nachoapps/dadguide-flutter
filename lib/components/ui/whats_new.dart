@@ -23,7 +23,7 @@ class DadGuideChangelog extends StatelessWidget {
       title: Center(
         child: Text(
           loc.changelogTitle,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
         ),
       ),
       onTapLink: (url) async {

@@ -29,7 +29,7 @@ class OnboardingScreen extends StatelessWidget {
               children: [
                 Text(
                   loc.onboardingTitle,
-                  style: Theme.of(context).textTheme.headline,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
                 SizedBox(height: 8),
                 Divider(),

@@ -632,4 +632,10 @@ class DadGuideDatabase extends _$DadGuideDatabase {
       TableInfo<TD, D> info, Insertable<D> entity) async {
     await into(info).insert(entity, mode: InsertMode.insertOrReplace);
   }
+
+  Future<int> deleteByPrimaryKey(String tableName, String tablePrimaryKey, int tableRowId) async {
+    var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey = $tableRowId';
+    Fimber.v('Deleting row: $deleteSql');
+    return await customUpdate(deleteSql);
+  }
 }
