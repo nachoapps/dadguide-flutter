@@ -147,7 +147,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     var text = args.text;
 
     var query = select(monsters).join(_computeJoins(filter, sort));
-    applyFilters(query, filter, sort, text);
+    query.where(_computeFilters(filter, sort, text));
     query.orderBy(_computeOrdering(sort));
 
     // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
@@ -207,55 +207,53 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   }
 
   /// Apply a series of where clauses to the query based on the filter, sort, and search text.
-  void applyFilters(
-      JoinedSelectStatement query, MonsterFilterArgs filter, MonsterSortArgs sort, String text) {
+  Expression _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort, String text) {
+    Expression<bool> fullExpr = Constant(true);
     if (filter.favoritesOnly) {
-      query.where(monsters.monsterId.isIn(Prefs.favoriteMonsters));
+      fullExpr &= monsters.monsterId.isIn(Prefs.favoriteMonsters);
     }
 
     if (sort.sortType == MonsterSortType.skillTurn) {
       // Special handling; we don't want to sort by monsters with no skill
-      query.where(monsters.activeSkillId.isBiggerThanValue(0));
+      fullExpr &= monsters.activeSkillId.isBiggerThanValue(0);
     }
 
     if (filter.mainAttr.isNotEmpty) {
-      query.where(monsters.attribute1Id.isIn(filter.mainAttr));
+      fullExpr &= monsters.attribute1Id.isIn(filter.mainAttr);
     }
     if (filter.subAttr.isNotEmpty) {
-      query.where(monsters.attribute2Id.isIn(filter.subAttr));
+      fullExpr &= monsters.attribute2Id.isIn(filter.subAttr);
     }
     if (filter.rarity.min != null) {
-      query.where(monsters.rarity.isBiggerOrEqualValue(filter.rarity.min));
+      fullExpr &= monsters.rarity.isBiggerOrEqualValue(filter.rarity.min);
     }
     if (filter.rarity.max != null) {
-      query.where(monsters.rarity.isSmallerOrEqualValue(filter.rarity.max));
+      fullExpr &= monsters.rarity.isSmallerOrEqualValue(filter.rarity.max);
     }
     if (filter.cost.min != null) {
-      query.where(monsters.cost.isBiggerOrEqualValue(filter.cost.min));
+      fullExpr &= monsters.cost.isBiggerOrEqualValue(filter.cost.min);
     }
     if (filter.cost.max != null) {
-      query.where(monsters.cost.isSmallerOrEqualValue(filter.cost.max));
+      fullExpr &= monsters.cost.isSmallerOrEqualValue(filter.cost.max);
     }
     if (filter.types.isNotEmpty) {
-      query.where(monsters.type1Id.isIn(filter.types) |
+      fullExpr &= monsters.type1Id.isIn(filter.types) |
           monsters.type2Id.isIn(filter.types) |
-          monsters.type3Id.isIn(filter.types));
+          monsters.type3Id.isIn(filter.types);
     }
 
     if (text.isNotEmpty) {
-      var intValue = int.tryParse(text);
-      query.where(orList(
-        [
-          monsters.nameJp.contains(text),
-          if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
-          if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
-          monsters.nameNa.contains(text),
-          monsters.nameNaOverride.contains(text),
-          monsters.nameKr.contains(text),
-          if (intValue != null)
-            monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue),
-        ],
-      ));
+      fullExpr = fullExpr &
+          orList(
+            [
+              monsters.nameJp.contains(text),
+              if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
+              if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
+              monsters.nameNa.contains(text),
+              monsters.nameNaOverride.contains(text),
+              monsters.nameKr.contains(text),
+            ],
+          );
     }
 
     if (filter.leaderTags.isNotEmpty) {
@@ -263,7 +261,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       filter.leaderTags.forEach((tag) {
         expr = expr | leaderSkillsForSearch.tags.contains('($tag)');
       });
-      query.where(expr);
+      fullExpr &= expr;
     }
 
     if (filter.activeTags.isNotEmpty) {
@@ -271,11 +269,11 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       filter.activeTags.forEach((tag) {
         expr = expr | activeSkillsForSearch.tags.contains('($tag)');
       });
-      query.where(expr);
+      fullExpr &= expr;
     }
 
     if (filter.series != '') {
-      query.where(orList(
+      fullExpr &= orList(
         [
           series.nameJp.contains(text),
           if (containsHiragana(text)) series.nameJp.contains(hiraganaToKatakana(text)),
@@ -283,21 +281,32 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
           series.nameNa.contains(text),
           series.nameKr.contains(text),
         ],
-      ));
+      );
     }
 
     if (Prefs.hideUnreleasedMonsters) {
       var country = Prefs.gameCountry;
       if (country == Country.jp) {
-        query.where(monsters.onJp.equals(true));
+        fullExpr &= monsters.onJp.equals(true);
       } else if (country == Country.na) {
-        query.where(monsters.onNa.equals(true));
+        fullExpr &= monsters.onNa.equals(true);
       } else if (country == Country.kr) {
-        query.where(monsters.onKr.equals(true));
+        fullExpr &= monsters.onKr.equals(true);
       } else {
         Fimber.e('Unexpected country value: $country');
       }
     }
+
+    // If the text is an integer, we also want to include a match, even if it doesn't match any
+    // other filters.
+    if (text.isNotEmpty) {
+      var intValue = int.tryParse(text);
+      if (intValue != null) {
+        fullExpr |= monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue);
+      }
+    }
+
+    return fullExpr;
   }
 
   /// Creates the sort Expression necessary for the given MonsterSortType.
