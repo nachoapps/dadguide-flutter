@@ -97,14 +97,16 @@ class MonsterSearchBar extends StatelessWidget {
 
     return TopTextInputBar(
       loc.monsterListSearchText,
-      InkWell(
-        child: Icon(controller.filterSet ? FontAwesome.filter : Feather.filter,
-            color: controller.filterSet ? Colors.black : Colors.white),
-        onTap: () async {
-          await goToFilterMonstersFn(context, controller)();
-          controller.doSearch();
-        },
-      ),
+      // This consumer forces a redraw when the filter is cleared by the x button.
+      Consumer<MonsterDisplayState>(builder: (context, controller, _) {
+        return InkWell(
+            child: Icon(controller.filterSet ? FontAwesome.filter : Feather.filter,
+                color: controller.filterSet ? Colors.black : Colors.white),
+            onTap: () async {
+              await goToFilterMonstersFn(context, controller)();
+              controller.doSearch();
+            });
+      }),
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () {
