@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/notifications/tracking.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/update_state.dart';
 import 'package:dadguide2/components/utils/streams.dart';
@@ -119,10 +120,14 @@ class EventList extends StatelessWidget {
   Widget build(BuildContext context) {
     var displayState = Provider.of<ScheduleDisplayState>(context);
 
-    return ChangeNotifierProvider(
+    return MultiProvider(
         key: UniqueKey(),
-        create: (context) => ScheduleTabState(displayState.servers, displayState.starters, _tabKey,
-            displayState.currentEventDate, displayState.hideClosed),
+        providers: [
+          ChangeNotifierProvider(
+              create: (context) => ScheduleTabState(displayState.servers, displayState.starters,
+                  _tabKey, displayState.currentEventDate, displayState.hideClosed)),
+          ChangeNotifierProvider(create: (_) => TrackingNotifier()),
+        ],
         child: EventListContents());
   }
 }

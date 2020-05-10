@@ -106,21 +106,15 @@ class DungeonListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<TrackingNotifier>(create: (context) => TrackingNotifier()),
-        Consumer<TrackingNotifier>(
-          builder: (context, trackedNotifier, __) => InkWell(
-            onLongPress: () async {
-              var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
-              await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
-              trackedNotifier.trackingChanged();
-            },
-            onTap: goToDungeonFn(context, model.dungeon.dungeonId, null),
-            child: DungeonListRowContents(model),
-          ),
-        ),
-      ],
+    var trackedNotifier = Provider.of<TrackingNotifier>(context);
+    return InkWell(
+      onLongPress: () async {
+        var isTracked = Prefs.trackedDungeons.contains(model.dungeon.dungeonId);
+        await showDungeonMenu(context, model.dungeon.dungeonId, isTracked);
+        trackedNotifier.trackingChanged();
+      },
+      onTap: goToDungeonFn(context, model.dungeon.dungeonId, null),
+      child: DungeonListRowContents(model),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/notifications/tracking.dart';
 import 'package:dadguide2/components/ui/text_input.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
@@ -14,9 +15,12 @@ class DungeonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return MultiProvider(
       key: UniqueKey(),
-      create: (context) => DungeonDisplayState(DungeonTabKey.special),
+      providers: [
+        ChangeNotifierProvider(create: (_) => DungeonDisplayState(DungeonTabKey.special)),
+        ChangeNotifierProvider(create: (_) => TrackingNotifier()),
+      ],
       child: Column(children: [
         DungeonSearchBar(),
         Expanded(child: DungeonList(key: UniqueKey())),
