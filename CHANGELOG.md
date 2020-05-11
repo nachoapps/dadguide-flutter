@@ -1,4 +1,13 @@
-## [Version 2.0.103](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.103)
+## [Version 13](https://github.com/nachoapps/dadguide-flutter/releases)
+
+Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/13?closed=1)
+
+* Instant search
+* Improved monster filter on awakenings + other tweaks
+* Replace date selector with carousel and update UI when syncing
+* Various bugfixes =(
+
+## [Version 12](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.103)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/12?closed=1)
 
@@ -7,7 +16,7 @@ Full release notes [here](https://github.com/nachoapps/dadguide-flutter/mileston
 * IAP to remove ads
 * Screenshotting for monsters and dungeons
 
-## [Version 2.0.87](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.87)
+## [Version 11](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.87)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/11?closed=1)
 
@@ -15,7 +24,7 @@ Full release notes [here](https://github.com/nachoapps/dadguide-flutter/mileston
 * Monster compare tool
 * Favorite monsters
 
-## [Version 2.0.82](https://github.com/nachoapps/dadguide-flutter/releases/tag/v2.0.82)
+## [Version 10](https://github.com/nachoapps/dadguide-flutter/releases/tag/v2.0.82)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/10?closed=1)
 
