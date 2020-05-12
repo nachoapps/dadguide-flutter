@@ -596,13 +596,7 @@ class AwakeningButton extends StatelessWidget {
           return;
         }
 
-        _selectedAwakenings
-          ..add(_awakening)
-          ..sort();
-
-        displayState.showAwakenings = true;
-
-        displayState.notify();
+        displayState.addAwakening(_awakening);
       },
     );
   }

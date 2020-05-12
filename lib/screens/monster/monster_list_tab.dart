@@ -108,7 +108,7 @@ class MonsterSearchBar extends StatelessWidget {
       InkWell(
         child: Icon(Icons.cancel),
         onTap: () {
-          controller.clearSearchText();
+          controller.clearFilter();
           textController.text = '';
           FocusScope.of(context).requestFocus(new FocusNode());
         },

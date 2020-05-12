@@ -50,9 +50,15 @@ class MonsterDisplayState with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearSearchText() {
+  set searchTextQuiet(String text) {
+    _searchText = text?.trim();
+    notifyListeners();
+  }
+
+  void clearFilter() {
     filterArgs = MonsterFilterArgs();
-    searchText = '';
+    searchTextQuiet = '';
+    doSearch();
   }
 
   bool get favoritesOnly => filterArgs.favoritesOnly;
@@ -61,7 +67,20 @@ class MonsterDisplayState with ChangeNotifier {
 
   void clearSelectedAwakenings() {
     filterArgs.awokenSkills.clear();
-    showAwakenings = false;
+    showAwakeningsQuiet = false;
+  }
+
+  void addAwakening(int awakeningId) {
+    filterArgs.awokenSkills
+      ..add(awakeningId)
+      ..sort();
+    showAwakeningsQuiet = true;
+  }
+
+  /// A 'quiet' way of toggling awakening state that doesn't search.
+  set showAwakeningsQuiet(bool value) {
+    _showAwakenings = value;
+    notifyListeners();
   }
 
   set showAwakenings(bool value) {
