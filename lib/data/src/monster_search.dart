@@ -144,10 +144,9 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
     var filter = args.filter;
     var sort = args.sort;
-    var text = args.text;
 
     var query = select(monsters).join(_computeJoins(filter, sort));
-    query.where(_computeFilters(filter, sort, text));
+    query.where(_computeFilters(filter, sort));
     query.orderBy(_computeOrdering(sort));
 
     // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
@@ -207,7 +206,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   }
 
   /// Apply a series of where clauses to the query based on the filter, sort, and search text.
-  Expression _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort, String text) {
+  Expression _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort) {
     Expression<bool> fullExpr = Constant(true);
     if (filter.favoritesOnly) {
       fullExpr &= monsters.monsterId.isIn(Prefs.favoriteMonsters);
@@ -242,20 +241,6 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
           monsters.type3Id.isIn(filter.types);
     }
 
-    if (text.isNotEmpty) {
-      fullExpr = fullExpr &
-          orList(
-            [
-              monsters.nameJp.contains(text),
-              if (containsHiragana(text)) monsters.nameJp.contains(hiraganaToKatakana(text)),
-              if (containsKatakana(text)) monsters.nameJp.contains(katakanaToHiragana(text)),
-              monsters.nameNa.contains(text),
-              monsters.nameNaOverride.contains(text),
-              monsters.nameKr.contains(text),
-            ],
-          );
-    }
-
     if (filter.leaderTags.isNotEmpty) {
       Expression<bool> expr = Constant(false);
       filter.leaderTags.forEach((tag) {
@@ -272,14 +257,15 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       fullExpr &= expr;
     }
 
-    if (filter.series != '') {
+    var seriesText = filter.series;
+    if (seriesText.isNotEmpty) {
       fullExpr &= orList(
         [
-          series.nameJp.contains(text),
-          if (containsHiragana(text)) series.nameJp.contains(hiraganaToKatakana(text)),
-          if (containsKatakana(text)) series.nameJp.contains(katakanaToHiragana(text)),
-          series.nameNa.contains(text),
-          series.nameKr.contains(text),
+          series.nameJp.contains(seriesText),
+          if (containsHiragana(seriesText)) series.nameJp.contains(hiraganaToKatakana(seriesText)),
+          if (containsKatakana(seriesText)) series.nameJp.contains(katakanaToHiragana(seriesText)),
+          series.nameNa.contains(seriesText),
+          series.nameKr.contains(seriesText),
         ],
       );
     }
@@ -294,15 +280,6 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
         fullExpr &= monsters.onKr.equals(true);
       } else {
         Fimber.e('Unexpected country value: $country');
-      }
-    }
-
-    // If the text is an integer, we also want to include a match, even if it doesn't match any
-    // other filters.
-    if (text.isNotEmpty) {
-      var intValue = int.tryParse(text);
-      if (intValue != null) {
-        fullExpr |= monsters.monsterNoJp.equals(intValue) | monsters.monsterNoNa.equals(intValue);
       }
     }
 

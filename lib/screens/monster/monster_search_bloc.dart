@@ -1,43 +1,12 @@
-import 'dart:async';
-
-import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
-import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/screens/monster/src/state.dart';
 import 'package:flutter/widgets.dart';
-
-/// Interface between the monster list data model and the UI.
-class MonsterSearchBloc {
-  // TODO: This is based on a half-ass understanding of how this is supposed to work, should clean
-  //       it up.
-
-  final MonsterSearchDao _dao;
-  final _counterController = StreamController<List<ListMonster>>();
-
-  // This is a trainwreck. Needs serious structural refactoring.
-  var initialValues = MonsterSearchArgs.defaults();
-
-  MonsterSearchBloc() : _dao = getIt<MonsterSearchDao>() {
-    _counterController.onListen = () => search(initialValues);
-  }
-
-  StreamSink<List<ListMonster>> get _resultSink => _counterController.sink;
-  Stream<List<ListMonster>> get searchResults => _counterController.stream;
-
-  void search(MonsterSearchArgs args) {
-    _resultSink.add(null);
-    _dao.findListMonsters(args).then((r) => _resultSink.add(r));
-  }
-
-  void dispose() {
-    _counterController.close();
-  }
-}
 
 /// Intermediary between monster list model and the UI.
 class MonsterDisplayState with ChangeNotifier {
-  final searchBloc = MonsterSearchBloc();
+  final MonsterSearchBloc searchBloc;
   String _searchText;
   MonsterFilterArgs filterArgs;
   MonsterSortArgs sortArgs;
@@ -45,11 +14,13 @@ class MonsterDisplayState with ChangeNotifier {
   bool _pictureMode = false;
   bool _showAwakenings = false;
 
+  /// Create a display state and immediately request search results.
   MonsterDisplayState(MonsterSearchArgs searchArgs)
       : _searchText = searchArgs.text ?? '',
         filterArgs = searchArgs.filter ?? MonsterFilterArgs(),
-        sortArgs = searchArgs.sort ?? MonsterSortArgs() {
-    searchBloc.initialValues = toSearchArgs();
+        sortArgs = searchArgs.sort ?? MonsterSortArgs(),
+        searchBloc = MonsterSearchBloc() {
+    searchBloc.search(toSearchArgs());
   }
 
   void notify() {
@@ -75,7 +46,7 @@ class MonsterDisplayState with ChangeNotifier {
 
   set searchText(String text) {
     _searchText = text?.trim();
-    doSearch();
+    searchBloc.doTextUpdateSearch(_searchText);
     notifyListeners();
   }
 

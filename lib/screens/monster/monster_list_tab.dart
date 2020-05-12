@@ -4,9 +4,11 @@ import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/ui/text_input.dart';
+import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster/monster_sort_modal.dart';
+import 'package:dadguide2/screens/monster/src/state.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -45,18 +47,14 @@ class MonsterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<MonsterDisplayState>(context);
-    return StreamBuilder<List<ListMonster>>(
-        stream: displayState.searchBloc.searchResults,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            Fimber.e('Failed to display monster list', ex: snapshot.error);
-            return Center(child: Icon(Icons.error));
-          }
-          if (!snapshot.hasData || snapshot.data == null) {
+    return SimpleRxStreamBuilder<MonsterSearchResults>(
+        stream: displayState.searchBloc.searchResults.stream,
+        builder: (context, wrapper) {
+          if (wrapper.status == MonsterSearchStatus.loading) {
             return Center(child: CircularProgressIndicator());
           }
+          var data = wrapper.results;
 
-          var data = snapshot.data;
           if (displayState.pictureMode) {
             return GridView.builder(
               itemCount: data.length,
