@@ -10,7 +10,7 @@ class ExchangesDao extends DatabaseAccessor<DadGuideDatabase> with _$ExchangesDa
   ExchangesDao(DadGuideDatabase db) : super(db);
 
   Future<List<FullExchange>> findExchanges() async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = select(exchanges);
 
     var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;

@@ -2,12 +2,18 @@ import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:pedantic/pedantic.dart';
 
 /// Wrapper around Firebase RemoteConfig that makes it a bit easier to use.
 class RemoteConfigWrapper {
   RemoteConfigWrapper._internal();
 
   static Completer<RemoteConfig> _initCompleter = Completer<RemoteConfig>();
+
+  /// Should be called at startup. Triggers the async init without waiting, and logs when complete.
+  static void initialAsyncInit() {
+    unawaited(instance.then((rc) => Fimber.i('Remote config ready')));
+  }
 
   /// Unlike the regular Firebase instance method, this only completes once
   /// the values have been fetched and activated.

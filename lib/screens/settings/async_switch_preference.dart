@@ -40,8 +40,9 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
   @override
   void initState() {
     super.initState();
-    if (PrefService.getBool(widget.localKey) == null)
+    if (PrefService.getBool(widget.localKey) == null) {
       PrefService.setBool(widget.localKey, widget.defaultVal);
+    }
   }
 
   bool _isDisabled() {
@@ -72,12 +73,13 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
     });
     try {
       if (widget.onChange != null) widget.onChange();
-      if (widget.onEnable != null)
+      if (widget.onEnable != null) {
         try {
           await widget.onEnable();
         } catch (e) {
           if (mounted) PrefService.showError(context, e.message);
         }
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -93,12 +95,13 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
     });
     try {
       if (widget.onChange != null) widget.onChange();
-      if (widget.onDisable != null)
+      if (widget.onDisable != null) {
         try {
           await widget.onDisable();
         } catch (e) {
           if (mounted) PrefService.showError(context, e.message ?? 'An error occurred');
         }
+      }
     } finally {
       if (mounted) {
         setState(() {

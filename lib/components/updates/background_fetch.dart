@@ -4,6 +4,8 @@ import 'package:dadguide2/components/updates/update_service.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 
 /// Configuration for background execution.
+/// (feature currently disabled)
+// ignore: unused_element
 final _config = BackgroundFetchConfig(
   // Execute once per day.
   minimumFetchInterval: 60 * 24,

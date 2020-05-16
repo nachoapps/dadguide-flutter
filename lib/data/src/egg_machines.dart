@@ -10,7 +10,7 @@ class EggMachinesDao extends DatabaseAccessor<DadGuideDatabase> with _$EggMachin
   EggMachinesDao(DadGuideDatabase db) : super(db);
 
   Future<List<FullEggMachine>> findEggMachines() async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = select(eggMachines);
 
     var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -26,7 +26,7 @@ class EggMachinesDao extends DatabaseAccessor<DadGuideDatabase> with _$EggMachin
           try {
             var monsterIdStr = entry.key as String;
             var rate = entry.value as num;
-            var monsterId = int.parse(monsterIdStr.replaceAll(new RegExp(r'\(|\)'), ''));
+            var monsterId = int.parse(monsterIdStr.replaceAll(RegExp(r'\(|\)'), ''));
             var monsterQuery = select(monsters)..where((m) => m.monsterId.equals(monsterId));
             var loadedMonster = await monsterQuery.getSingle();
             eggMonsters.add(EggMachineMonster(loadedMonster, rate.toDouble()));

@@ -293,8 +293,8 @@ class BoxedInput extends StatelessWidget {
         initialValue: _text,
         onChanged: _onChanged,
         decoration: InputDecoration(
-          border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
-          focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(2.0)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
           contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           fillColor: grey(context, 200),
           filled: true,
@@ -526,7 +526,7 @@ class SelectedAwakeningsRowWidget extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: new BorderRadius.circular(2.0),
+              borderRadius: BorderRadius.circular(2.0),
               border: Border.all(),
               color: grey(context, 200),
             ),

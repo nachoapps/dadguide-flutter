@@ -32,7 +32,7 @@ class WhatsNewPage extends StatelessWidget {
     this.backgroundColor,
     this.buttonColor,
     this.onTapLink,
-    this.forceAndroid: false,
+    this.forceAndroid = false,
   })  : changelog = false,
         changes = null,
         path = null;
@@ -46,7 +46,7 @@ class WhatsNewPage extends StatelessWidget {
     this.buttonColor,
     this.path,
     this.onTapLink,
-    this.forceAndroid: false,
+    this.forceAndroid = false,
   })  : changelog = true,
         items = null;
 

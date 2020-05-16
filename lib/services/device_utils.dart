@@ -65,7 +65,7 @@ class DeviceOsVersion {
 
     var major, minor, patch = 0;
 
-    if (split.length > 0) {
+    if (split.isNotEmpty) {
       major = int.parse(split.elementAt(0)) ?? 0;
     }
 
@@ -77,7 +77,7 @@ class DeviceOsVersion {
       patch = int.parse(split.elementAt(2)) ?? 0;
     }
 
-    return new DeviceOsVersion(major, minor, patch);
+    return DeviceOsVersion(major, minor, patch);
   }
 
   @override

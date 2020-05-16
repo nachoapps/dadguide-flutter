@@ -37,7 +37,7 @@ class MonsterDetailArgs {
 
 /// Wraps a widget with an onClick that sends them to the monster. If ink is specified, will add a
 /// ripple effect.
-Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool ink: false}) {
+Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool ink = false}) {
   monsterId ??= 0;
   if (monsterId == 0) {
     return child;
@@ -47,7 +47,7 @@ Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool 
 }
 
 /// Returns a Function which when executed, sends the user to a specific monster.
-Function goToMonsterFn(BuildContext context, int monsterId, {bool replace: false}) {
+Function goToMonsterFn(BuildContext context, int monsterId, {bool replace = false}) {
   return () async {
     if ((monsterId ?? 0) == 0) {
       return null;
@@ -76,7 +76,7 @@ class DungeonDetailArgs {
 /// Wraps a widget with an onClick that sends them to the dungeon. If ink is specified, will add a
 /// ripple effect.
 Widget wrapDungeonLink(BuildContext context, Widget child, int dungeonId,
-    {int subDungeonId, bool ink: false}) {
+    {int subDungeonId, bool ink = false}) {
   dungeonId ??= 0;
   if (dungeonId == 0) {
     return child;
@@ -185,6 +185,6 @@ Future<void> goToMonsterCompare(BuildContext context, int leftMonsterId, int rig
   var dao = getIt<MonstersDao>();
   var left = await dao.fullMonster(leftMonsterId);
   var right = await dao.fullMonster(rightMonsterId);
-  Navigator.pushNamed(context, MonsterCompareArgs.routeName,
+  return Navigator.pushNamed(context, MonsterCompareArgs.routeName,
       arguments: MonsterCompareArgs(left, right));
 }

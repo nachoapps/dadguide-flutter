@@ -18,7 +18,7 @@ final getIt = GetIt.instance;
 
 /// Initialize global singleton dependencies and register with getIt.
 Future<void> initializeServiceLocator(
-    {bool useDevEndpoints: false, bool logHttpRequests: false}) async {
+    {bool useDevEndpoints = false, bool logHttpRequests = false}) async {
   getIt.registerSingleton<PermanentCacheManager>(PermanentCacheManager());
   var dio = Dio();
   if (logHttpRequests) {

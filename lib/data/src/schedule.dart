@@ -26,7 +26,7 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
   ScheduleDao(DadGuideDatabase db) : super(db);
 
   Future<List<ListEvent>> findListEvents(EventSearchArgs args) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = (select(schedule).join([
       leftOuterJoin(dungeons, dungeons.dungeonId.equalsExp(schedule.dungeonId)),
     ]));

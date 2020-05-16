@@ -110,7 +110,7 @@ class MonsterSearchBar extends StatelessWidget {
         onTap: () {
           controller.clearFilter();
           textController.text = '';
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
       ),
       controller: textController,
@@ -279,5 +279,5 @@ class TypeIcon extends StatelessWidget {
   }
 }
 
-int _weighted(num hp, num atk, num rcv, {limitMult: 100}) =>
+int _weighted(num hp, num atk, num rcv, {limitMult = 100}) =>
     (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;

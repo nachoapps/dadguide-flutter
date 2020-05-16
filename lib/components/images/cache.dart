@@ -20,7 +20,7 @@ import 'package:uuid/uuid.dart';
 Future<FileFetcherResponse> _loggingHttpGetter(String url, {Map<String, String> headers}) async {
   Fimber.v('Retrieving $url');
   var httpResponse = await http.get(url, headers: headers);
-  return new HttpFileFetcherResponse(httpResponse);
+  return HttpFileFetcherResponse(httpResponse);
 }
 
 /// All images retrieved into the cache are stored forever.
@@ -73,14 +73,14 @@ class PermanentCacheManager extends BaseCacheManager {
 
     for (var archiveFile in archive) {
       var url = urlForImageNamed(archiveFile.name);
-      var relativePath = "${new Uuid().v1()}.file";
+      var relativePath = "${Uuid().v1()}.file";
       var cacheObject = CacheObject(url, relativePath: relativePath);
       cacheObject.validTill = DateTime.now().add(_foreverDuration);
       cacheObject.eTag = null;
       await store.putFile(cacheObject);
 
       var path = join(baseFile.path, cacheObject.relativePath);
-      allArgs.add(_UnzipArgs(archiveFile, new File(path)));
+      allArgs.add(_UnzipArgs(archiveFile, File(path)));
     }
 
     // TODO: maybe move this chunk back into onboarding_task.dart

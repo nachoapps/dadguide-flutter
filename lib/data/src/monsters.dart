@@ -66,7 +66,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   MonstersDao(DadGuideDatabase db) : super(db);
 
   Future<FullMonster> fullMonster(int monsterId, {int rarityForStats}) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
       leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
       leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)),
@@ -145,8 +145,8 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
       row.readTable(leaderSkills),
       resultSeries,
       awakenings,
-      prevMonsterResult.length > 0 ? prevMonsterResult.first : null,
-      nextMonsterResult.length > 0 ? nextMonsterResult.first : null,
+      prevMonsterResult.isNotEmpty ? prevMonsterResult.first : null,
+      nextMonsterResult.isNotEmpty ? nextMonsterResult.first : null,
       skillUpMonsterIdsResult,
       skillUpDungeons,
       evolutionList,
@@ -162,7 +162,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
   Future<FullSeries> fullSeries(int seriesId) async {
     if (seriesId == null) return null;
-    final s = new Stopwatch()..start();
+    final s = Stopwatch()..start();
     final seriesValue =
         await (select(series)..where((s) => s.seriesId.equals(seriesId))).getSingle();
     final seriesMonsters = (await seriesMonsterIds(seriesId).get());

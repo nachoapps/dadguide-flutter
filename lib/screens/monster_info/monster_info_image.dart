@@ -73,7 +73,7 @@ class _MonsterDetailPortraitState extends State<MonsterDetailPortrait> {
                           ),
                         ),
                       InkWell(
-                        child: new Icon(Icons.autorenew),
+                        child: Icon(Icons.autorenew),
                         onTap: _refreshIcon,
                       ),
                     ],
@@ -190,7 +190,7 @@ class MediaSelectionWidget extends StatelessWidget {
             onSelected: (v) async {
               if (!Prefs.mediaWarningDisplayed) {
                 Prefs.mediaWarningDisplayed = true;
-                showDialog(
+                await showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(

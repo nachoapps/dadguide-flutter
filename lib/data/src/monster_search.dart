@@ -140,7 +140,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
   Future<List<ListMonster>> findListMonsters(MonsterSearchArgs args) async {
     Fimber.d('doing list monster lookup');
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
 
     var filter = args.filter;
     var sort = args.sort;

@@ -125,6 +125,9 @@ dependencies:
   # Fast list scrolling
   scrollable_positioned_list: ^0.1.5
 
+  # Linting, included for the 'unawaited' function.
+  pedantic: ^1.4.0
+
 
 dev_dependencies:
   flutter_test:

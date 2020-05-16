@@ -48,7 +48,7 @@ class DungeonSearchBar extends StatelessWidget {
         onTap: () {
           controller.clearSearch();
           textController.text = '';
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
       ),
       controller: textController,

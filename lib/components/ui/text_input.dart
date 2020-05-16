@@ -66,8 +66,8 @@ class TextEditWidget extends StatelessWidget {
       onChanged: onChanged,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
-        border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
-        focusedBorder: new OutlineInputBorder(borderRadius: new BorderRadius.circular(5.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         hintText: hintText,
         fillColor: grey(context, 200),

@@ -124,7 +124,7 @@ class NotificationManager {
   }
 
   /// Cancels a single event by event id.
-  Future<void> cancelByEventId(int eventId, {bool update: true}) async {
+  Future<void> cancelByEventId(int eventId, {bool update = true}) async {
     Fimber.d('Canceling notification: $eventId');
     await _plugin.cancel(eventId);
     if (update) await _logAndStoreNotifications();

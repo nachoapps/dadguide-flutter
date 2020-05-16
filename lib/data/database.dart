@@ -80,7 +80,7 @@ class DatabaseHelper {
 
     // Database seems good; try loading it and reading some data.
     Fimber.d('Creating DB');
-    var tmpDatabase = new DadGuideDatabase(await dbFilePath());
+    var tmpDatabase = DadGuideDatabase(await dbFilePath());
 
     try {
       Fimber.d('Loading static data');

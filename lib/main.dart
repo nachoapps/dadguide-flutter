@@ -23,6 +23,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 
 /// If true, toggles some helpful things like logging of HTTP requests. Also disables Crashlytics
@@ -73,7 +74,7 @@ Future<bool> _asyncInit() async {
   // Start listening for 'remove ads' purchases and retrieve IAP info.
   InAppPurchaseConnection.enablePendingPurchases();
   AdStatusManager.instance.listenForIap();
-  AdStatusManager.instance.populateIap();
+  unawaited(AdStatusManager.instance.populateIap());
 
   // Set up services that are guaranteed to start with getIt.
   await initializeServiceLocator(logHttpRequests: inDevMode, useDevEndpoints: useDevEndpoints);
@@ -85,24 +86,24 @@ Future<bool> _asyncInit() async {
   if (await onboardingManager.upgradingMustRun()) {
     Fimber.i('Starting upgrading');
     appStatusSubject.add(AppStatus.upgrading);
-    onboardingManager.start();
+    unawaited(onboardingManager.start());
   } else if (await onboardingManager.onboardingMustRun()) {
     Fimber.i('Starting onboarding');
     appStatusSubject.add(AppStatus.onboarding);
-    onboardingManager.start();
+    unawaited(onboardingManager.start());
   } else {
     Fimber.i('Starting the app normally');
     appStatusSubject.add(AppStatus.ready);
   }
 
-  // These tasks are not critical to startup and don't need to be awaited.
-  RemoteConfigWrapper.instance.then((rc) => Fimber.i('Remote config ready'));
+  RemoteConfigWrapper.initialAsyncInit();
 
-  FirebaseAdMob.instance
+  // TODO: Move this to a wrapper class
+  unawaited(FirebaseAdMob.instance
       .initialize(appId: appId(), analyticsEnabled: true)
-      .then((am) => Fimber.i('AdMob ready'));
+      .then((am) => Fimber.i('AdMob ready')));
 
-  configureUpdateDatabaseTask();
+  unawaited(configureUpdateDatabaseTask());
 
   return true;
 }

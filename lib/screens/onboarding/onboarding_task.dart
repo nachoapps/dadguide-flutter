@@ -119,7 +119,7 @@ class OnboardingTask with TaskPublisher {
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
-      final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
+      final archive = ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
       var archiveDbFile = archive.firstWhere((e) => e.name == DatabaseHelper.dbName);
       var dbFile = File(await DatabaseHelper.dbFilePath());
       pub(_SubTask.unpackDb, TaskStatus.started);
@@ -129,7 +129,7 @@ class OnboardingTask with TaskPublisher {
     } catch (e) {
       recordEvent('onboarding_failure_db_unpack');
       pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
-      throw e;
+      rethrow;
     }
   }
 
@@ -140,7 +140,7 @@ class OnboardingTask with TaskPublisher {
     pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
       final cacheManager = getIt<PermanentCacheManager>();
-      final archive = new ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
+      final archive = ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
       await cacheManager.storeImageArchive(archive,
           (progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
       pub(_SubTask.unpackImages, TaskStatus.finished);
@@ -148,7 +148,7 @@ class OnboardingTask with TaskPublisher {
     } catch (e) {
       recordEvent('onboarding_failure_icons_unpack');
       pub(_SubTask.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
-      throw e;
+      rethrow;
     }
   }
 
@@ -168,10 +168,10 @@ class OnboardingTask with TaskPublisher {
       return tmpFile;
     } on DioError catch (e) {
       pub(task, TaskStatus.failed, message: e.message);
-      throw e;
+      rethrow;
     } catch (e) {
       pub(task, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
-      throw e;
+      rethrow;
     }
   }
 

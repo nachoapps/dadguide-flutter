@@ -15,11 +15,15 @@ Future<void> showUpdateDialog(BuildContext context) async {
         updateManager.start().then((isFirst) {
           try {
             Navigator.pop(innerContext);
-          } catch (e) {} // Suppress this failure
+          } catch (e) {
+            // Suppress this failure
+          }
         }).catchError((e, st) {
           try {
             Navigator.pop(innerContext);
-          } catch (e) {} // Suppress this failure
+          } catch (e) {
+            // Suppress this failure
+          }
         });
         return SimpleDialog(
           title: Text(loc.updateModalTitle),

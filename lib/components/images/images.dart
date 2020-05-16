@@ -75,20 +75,20 @@ bool isMonsterId(int monsterId) {
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget awakeningContainer(int awakeningId, {double size: 24}) {
+Widget awakeningContainer(int awakeningId, {double size = 24}) {
   var useJp = Prefs.gameCountry == Country.jp && [40, 46, 47, 48].contains(awakeningId);
   var url = _imageUrl('awakenings', awakeningId, 3, useJp: useJp);
   return _sizedContainer(_loadingImage(url), size);
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget latentContainer(int latentId, {double size: 24}) {
+Widget latentContainer(int latentId, {double size = 24}) {
   var url = _imageUrl('latents', latentId, 3);
   return _sizedContainer(_loadingImage(url), size);
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget typeContainer(int typeId, {double size: 16, double leftPadding: 0}) {
+Widget typeContainer(int typeId, {double size = 16, double leftPadding = 0}) {
   if (typeId == null) return Container(width: 0.0, height: 0.0);
   var useJp = Prefs.gameCountry == Country.jp && typeId == 12;
   var url = _imageUrl('types', typeId, 3, useJp: useJp);
@@ -100,7 +100,7 @@ Widget typeContainer(int typeId, {double size: 16, double leftPadding: 0}) {
 
 ///
 Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
-    {double size: 32, String server: 'jp'}) {
+    {double size = 32, String server = 'jp'}) {
   var fileName = orbSkinId.toString().padLeft(3, '0');
   if (colorBlind) fileName += 'cb';
   fileName += '_';
@@ -110,7 +110,7 @@ Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
   return _sizedContainer(_loadingImage(url), size);
 }
 
-String _imageUrl(String category, int value, int length, {bool useJp: false}) {
+String _imageUrl(String category, int value, int length, {bool useJp = false}) {
   var paddedNo = value.toString().padLeft(length, '0');
   if (useJp) paddedNo += '_jp'; // Handle JP-specific assets
   paddedNo += '.png';
@@ -128,10 +128,10 @@ String voiceUrl(String server, int monsterId) {
 }
 
 Widget _sizedContainer(Widget child, double size) {
-  return new SizedBox(
+  return SizedBox(
     width: size,
     height: size,
-    child: new Center(child: child),
+    child: Center(child: child),
   );
 }
 

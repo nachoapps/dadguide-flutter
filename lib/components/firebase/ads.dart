@@ -9,6 +9,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:pedantic/pedantic.dart';
 
 /// Helper widget for reacting to ad availability status changes.
 ///
@@ -139,7 +140,7 @@ class BannerAdManager {
 
   Future<bool> dispose() async {
     if (_subscription != null) {
-      _subscription.cancel();
+      unawaited(_subscription.cancel());
       _subscription = null;
     }
     if (_bannerAd != null) {

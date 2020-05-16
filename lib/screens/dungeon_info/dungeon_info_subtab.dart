@@ -331,8 +331,7 @@ class DungeonEncounter extends StatelessWidget {
                         ]),
                         Text(_model.name()),
                         IconTheme(
-                          data:
-                              new IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
+                          data: IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
                           child: DefaultTextStyle(
                               style: Theme.of(context).textTheme.caption,
                               child: Row(

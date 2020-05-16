@@ -49,7 +49,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   int _selectedIndex = 0;
 
   /// Bottom ad to display.
-  BannerAdManager adManager = new BannerAdManager();
+  BannerAdManager adManager = BannerAdManager();
 
   @override
   void initState() {

@@ -13,6 +13,7 @@ import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor/moor.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:tuple/tuple.dart';
 
 // TODO: convert this to being supplied by getIt.
@@ -59,7 +60,7 @@ class UpdateManager with TaskPublisher {
       Fimber.e('Update failed', ex: ex, stacktrace: st);
       updateStatusSubject.addError(ex, st);
       updateStatusSubject.add(UpdateStatus.error);
-      throw ex;
+      rethrow;
     } finally {
       updateStatusSubject.add(UpdateStatus.idle);
       runningTask = null;
@@ -185,7 +186,9 @@ class UpdateTask with TaskPublisher {
     }
 
     // In case new scheduled events were inserted, reschedule all alarms.
-    getIt<NotificationManager>().ensureEventsScheduled();
+    if (table == _database.schedule && data.isNotEmpty) {
+      unawaited(getIt<NotificationManager>().ensureEventsScheduled());
+    }
   }
 
   /// Gets the server-side max timestamp for each table.

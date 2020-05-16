@@ -31,7 +31,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   DungeonsDao(DadGuideDatabase db) : super(db);
 
   Future<List<ListDungeon>> findListDungeons(DungeonSearchArgs args) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = select(dungeons).join([
       leftOuterJoin(monsters, dungeons.iconId.equalsExp(monsters.monsterId)),
     ])
@@ -75,7 +75,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   }
 
   Future<FullDungeon> lookupFullDungeon(int dungeonId, [int subDungeonId]) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     Fimber.d('doing full dungeon lookup for $dungeonId / $subDungeonId');
     final dungeonQuery = select(dungeons)..where((d) => d.dungeonId.equals(dungeonId));
     final dungeonItem = (await dungeonQuery.get()).first;
@@ -92,7 +92,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   }
 
   Future<FullSubDungeon> lookupFullSubDungeon(int subDungeonId) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final subDungeonQuery = select(subDungeons)
       ..where((sd) => sd.subDungeonId.equals(subDungeonId));
     final subDungeonItem = (await subDungeonQuery.get()).first;
@@ -119,7 +119,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
   }
 
   Future<List<FullEncounter>> lookupFullEncounters(int subDungeonId) async {
-    var s = new Stopwatch()..start();
+    var s = Stopwatch()..start();
     final query = (select(encounters)..where((sd) => sd.subDungeonId.equals(subDungeonId))).join([
       leftOuterJoin(monsters, monsters.monsterId.equalsExp(encounters.monsterId)),
       leftOuterJoin(enemyData, enemyData.enemyId.equalsExp(encounters.enemyId)),
