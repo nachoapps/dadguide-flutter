@@ -123,30 +123,40 @@ class BottomNavOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today),
-          title: Text(loc.tabEvent),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.format_line_spacing),
-          title: Text(loc.tabMonster),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text(loc.tabDungeon),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          title: Text(loc.tabSetting),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Divider(
+          height: 0,
+          thickness: 1,
+        ), // Put a very thin line separating the nav bar from the contents.
+        BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              title: Text(loc.tabEvent),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.format_line_spacing),
+              title: Text(loc.tabMonster),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text(loc.tabDungeon),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text(loc.tabSetting),
+            ),
+          ],
+          currentIndex: selectedIdx,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: grey(context, 1000),
+          showUnselectedLabels: true,
+          onTap: onTap,
+          type: BottomNavigationBarType.fixed,
         ),
       ],
-      currentIndex: selectedIdx,
-      selectedItemColor: Colors.blue,
-      unselectedItemColor: grey(context, 1000),
-      showUnselectedLabels: true,
-      onTap: onTap,
     );
   }
 }
