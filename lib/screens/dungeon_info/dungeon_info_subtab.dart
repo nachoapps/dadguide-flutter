@@ -290,17 +290,17 @@ class DungeonBattle extends StatelessWidget {
 }
 
 class DungeonEncounter extends StatelessWidget {
-  final FullEncounter _model;
+  final FullEncounter model;
 
-  const DungeonEncounter(this._model, {Key key}) : super(key: key);
+  const DungeonEncounter(this.model, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var dungeon = Provider.of<FullDungeon>(context);
-    var inputs = BehaviorWidgetInputs(_model.encounter.atk, dungeon.selectedSubDungeon.esLibrary);
+    var inputs = BehaviorWidgetInputs(model.encounter.atk, dungeon.selectedSubDungeon.esLibrary);
 
     var showBehaviors =
-        dungeon.selectedSubDungeon.subDungeon.technical && _model.levelBehaviors.isNotEmpty;
+        dungeon.selectedSubDungeon.subDungeon.technical && model.levelBehaviors.isNotEmpty;
 
     return Provider.value(
       value: inputs,
@@ -311,63 +311,39 @@ class DungeonEncounter extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    PadIcon(_model.monster.monsterId, monsterLink: true),
-                    SizedBox(height: 2),
-                    MonsterColorBar(_model.monster),
-                  ],
-                ),
+                PortraitAndColorBar(monster: model.monster),
                 SizedBox(width: 4),
-                Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(children: [
-                          typeContainer(_model.monster.type1Id, size: 18, leftPadding: 4),
-                          typeContainer(_model.monster.type2Id, size: 18, leftPadding: 4),
-                          typeContainer(_model.monster.type3Id, size: 18, leftPadding: 4),
-                        ]),
-                        Text(_model.name()),
-                        IconTheme(
-                          data: IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
-                          child: DefaultTextStyle(
-                              style: Theme.of(context).textTheme.caption,
-                              child: Row(
-                                children: [
-                                  item(1, Icons.refresh, _model.encounter.turns, context),
-                                  item(3, Feather.heart, _model.encounter.hp, context),
-                                  item(3, MaterialCommunityIcons.sword, _model.encounter.atk,
-                                      context),
-                                  item(3, Feather.shield, _model.encounter.defence, context),
-                                ],
-                              )),
-                        ),
-                      ]),
-                ),
+                Expanded(child: EncounterDetailsBar(model: model)),
                 Column(children: [
-                  for (var drop in _model.drops)
-                    PadIcon(drop.monsterId, size: 24, monsterLink: true)
+                  for (var drop in model.drops) PadIcon(drop.monsterId, size: 24, monsterLink: true)
                 ])
               ],
             ),
             if (showBehaviors)
               Padding(
                 padding: const EdgeInsets.only(top: 4, left: 2, right: 2),
-                child: EncounterBehavior(_model.approved, _model.levelBehaviors),
+                child: EncounterBehavior(model.approved, model.levelBehaviors),
               )
           ],
         ),
       ),
     );
   }
+}
 
-  Widget item(int flex, IconData iconData, int value, BuildContext context) {
-    return Expanded(
-        flex: flex,
-        child:
-            Row(children: [Icon(iconData, color: grey(context, 1000)), Text(commaFormat(value))]));
+class PortraitAndColorBar extends StatelessWidget {
+  final Monster monster;
+  const PortraitAndColorBar({Key key, this.monster}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        PadIcon(monster.monsterId, monsterLink: true),
+        SizedBox(height: 2),
+        MonsterColorBar(monster),
+      ],
+    );
   }
 }
 
@@ -412,6 +388,66 @@ class MonsterColorBar extends StatelessWidget {
       default:
         throw 'Unexpected attribute id: $attributeId';
     }
+  }
+}
+
+class EncounterDetailsBar extends StatelessWidget {
+  final FullEncounter model;
+  const EncounterDetailsBar({Key key, this.model}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onLongPress: () async {
+        await showDialog<void>(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: Text('Details for ${model.name()}'),
+              content: Table(
+                children: [
+                  TableRow(children: [Text('Enemy ID'), Text('${model.encounter.enemyId}')]),
+                  TableRow(children: [Text('Level'), Text('${model.encounter.level}')]),
+                  TableRow(children: [Text('XP'), Text('TODO: set this')]),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(children: [
+              typeContainer(model.monster.type1Id, size: 18, leftPadding: 4),
+              typeContainer(model.monster.type2Id, size: 18, leftPadding: 4),
+              typeContainer(model.monster.type3Id, size: 18, leftPadding: 4),
+            ]),
+            Text(model.name()),
+            IconTheme(
+              data: IconThemeData(size: Theme.of(context).textTheme.caption.fontSize),
+              child: DefaultTextStyle(
+                  style: Theme.of(context).textTheme.caption,
+                  child: Row(
+                    children: [
+                      item(1, Icons.refresh, model.encounter.turns, context),
+                      item(3, Feather.heart, model.encounter.hp, context),
+                      item(3, MaterialCommunityIcons.sword, model.encounter.atk, context),
+                      item(3, Feather.shield, model.encounter.defence, context),
+                    ],
+                  )),
+            ),
+          ]),
+    );
+  }
+
+  Widget item(int flex, IconData iconData, int value, BuildContext context) {
+    return Expanded(
+        flex: flex,
+        child:
+            Row(children: [Icon(iconData, color: grey(context, 1000)), Text(commaFormat(value))]));
   }
 }
 
