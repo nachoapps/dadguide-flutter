@@ -46,3 +46,16 @@ class FixInk extends StatelessWidget {
     return Material(color: Colors.transparent, child: child);
   }
 }
+
+/// Helper class that makes the widget have the appropriate background.
+/// This is useful for tabs that might otherwise animate into view see-through.
+class OpaqueContainer extends StatelessWidget {
+  final Widget child;
+
+  const OpaqueContainer({Key key, @required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(color: Theme.of(context).scaffoldBackgroundColor, child: child);
+  }
+}

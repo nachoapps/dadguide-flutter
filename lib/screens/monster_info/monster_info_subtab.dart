@@ -8,6 +8,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/buttons.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
@@ -60,8 +61,7 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+    return OpaqueContainer(
       child: Column(
         children: [
           // TODO: The possibility to click screenshot before the widget is loaded exists, fix it.

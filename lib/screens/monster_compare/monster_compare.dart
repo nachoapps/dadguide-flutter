@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/screens/monster_compare/src/state.dart';
 import 'package:dadguide2/screens/monster_compare/src/ui.dart';
@@ -12,8 +13,7 @@ class MonsterCompareScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+    return OpaqueContainer(
       child: ChangeNotifierProvider.value(
         value: state,
         child: CompareFrame(),

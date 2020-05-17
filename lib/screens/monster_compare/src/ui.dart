@@ -22,8 +22,7 @@ class CompareFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<CompareState>(context);
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+    return OpaqueContainer(
       child: Column(
         children: [
           TopBar(),

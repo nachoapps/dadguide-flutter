@@ -50,8 +50,7 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+    return OpaqueContainer(
       child: Column(
         children: [
           DungeonDetailActionsBar(screenshotController),

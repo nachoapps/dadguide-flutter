@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +34,7 @@ class _EggMachineScreenState extends State<EggMachineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: _retrieveMachines(),
-    );
+    return OpaqueContainer(child: _retrieveMachines());
   }
 
   FutureBuilder<List<FullEggMachine>> _retrieveMachines() {
