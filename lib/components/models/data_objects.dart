@@ -47,6 +47,32 @@ class LanguageSelector {
   }
 }
 
+class IdSelector {
+  static IdSelector visibleId(dynamic v) {
+    return IdSelector(v.monsterNoJp, v.monsterNoNa, v.monsterNoKr);
+  }
+
+  final int _jp;
+  final int _na;
+  final int _kr;
+
+  IdSelector(this._jp, this._na, this._kr);
+
+  int call() {
+    var gameCountry = Prefs.gameCountry;
+    if (gameCountry == Country.jp) {
+      return _jp;
+    } else if (gameCountry == Country.na) {
+      return _na;
+    } else if (gameCountry == Country.kr) {
+      return _kr;
+    } else {
+      Fimber.e('Unexpected game country: $gameCountry');
+      return _na;
+    }
+  }
+}
+
 /// Partial data displayed in the dungeon list view.
 class ListDungeon {
   final Dungeon dungeon;
@@ -180,6 +206,7 @@ class FullMonster {
   final StatComparison statComparison;
 
   final LanguageSelector name;
+  final IdSelector id;
 
   FullMonster(
       this.monster,
@@ -197,7 +224,8 @@ class FullMonster {
       this.materialForMonsters,
       this.transformations,
       this.statComparison)
-      : name = LanguageSelector.nameWithNaOverride(monster);
+      : name = LanguageSelector.nameWithNaOverride(monster),
+        id = IdSelector.visibleId(monster);
 
   List<FullAwakening> get awakenings => _awakenings.where((a) => !a.awakening.isSuper).toList();
   List<FullAwakening> get superAwakenings => _awakenings.where((a) => a.awakening.isSuper).toList();
@@ -228,9 +256,11 @@ class ListMonster {
   final ActiveSkillForSearch activeSkill;
 
   final LanguageSelector name;
+  final IdSelector id;
 
   ListMonster(this.monster, this._awakenings, this.activeSkill)
-      : name = LanguageSelector.nameWithNaOverride(monster);
+      : name = LanguageSelector.nameWithNaOverride(monster),
+        id = IdSelector.visibleId(monster);
 
   List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
   List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();

@@ -267,7 +267,7 @@ class MonsterDetailHeader extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(loc.monsterInfoNo(_data.monster.monsterNoNa)),
+                    Text(loc.monsterInfoNo(_data.id())),
                     Text(topRightText),
                   ],
                 ),

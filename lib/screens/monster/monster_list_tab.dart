@@ -203,7 +203,7 @@ class MonsterListRow extends StatelessWidget {
                     DefaultTextStyle(
                         style: textTheme.caption,
                         child: Row(children: [
-                          Text(loc.monsterListNo(m.monsterNoJp)),
+                          Text(loc.monsterListNo(_model.id())),
                           Spacer(),
                           Text(upperRightText),
                           TypeIcon(m.type1Id),
