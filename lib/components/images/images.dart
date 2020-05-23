@@ -28,6 +28,12 @@ Widget hqPortraitImage(int portraitId) {
   return _loadingImage(url);
 }
 
+/// Returns a widget with a loading indicator until the image loads from the cache.
+Widget iconImage(int iconId) {
+  var url = _imageUrl('icons', iconId, 5);
+  return _loadingImage(url);
+}
+
 /// Widget containing an icon for a monster or dungeon. When clicked it may optionally redirect
 /// to the underlying data. This makes sense for a monster or dungeon, but not as much for an icon
 /// representing an event or attached to a list.
@@ -83,8 +89,14 @@ Widget awakeningContainer(int awakeningId, {double size = 24}) {
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
 Widget latentContainer(int latentId, {double size = 24}) {
+  var image = latentImage(latentId);
+  return size == null ? image : _sizedContainer(image, size);
+}
+
+/// Returns a widget with a loading indicator until the image loads from the cache.
+Widget latentImage(int latentId) {
   var url = _imageUrl('latents', latentId, 3);
-  return _sizedContainer(_loadingImage(url), size);
+  return _loadingImage(url);
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
@@ -155,14 +167,14 @@ Widget _loadingImage(String url) {
 /// inserts the inheritable badge in the upper right.
 Widget wrapInheritable(BuildContext context, Widget child, double size) {
   return SizedBox(
-    width: size + 2,
-    height: size + 2,
+    width: size,
+    height: size,
     child: Stack(
       children: [
         Positioned(bottom: 0, left: 0, child: child),
         Positioned(
-          top: 0,
-          right: 0,
+          top: 1,
+          right: 1,
           child: DadGuideIcons.inheritableBadge,
         ),
       ],
