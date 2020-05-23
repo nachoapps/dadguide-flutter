@@ -193,13 +193,6 @@ class AttributeSection extends StatelessWidget {
   }
 }
 
-var greyscaleFilter = ColorFilter.matrix([
-  .33, .59, .11, 0, 0, // red
-  .33, .59, .11, 0, 0, //green
-  .33, .59, .11, 0, 0, // blue
-  .33, .59, .11, 1, 0, // alpha
-]);
-
 class ColorButton extends StatelessWidget {
   final int _attr;
   final Set<int> _selectedAttrs;
@@ -209,9 +202,7 @@ class ColorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<MonsterDisplayState>(context);
-    var widget = _selectedAttrs.contains(_attr)
-        ? _image
-        : ColorFiltered(colorFilter: greyscaleFilter, child: _image);
+    var widget = _selectedAttrs.contains(_attr) ? _image : Greyscale(_image);
     return Expanded(
       child: GestureDetector(
         child: widget,
@@ -367,9 +358,7 @@ class TypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var displayState = Provider.of<MonsterDisplayState>(context);
-    var widget = _selectedTypes.contains(_type)
-        ? _image
-        : ColorFiltered(colorFilter: greyscaleFilter, child: _image);
+    var widget = _selectedTypes.contains(_type) ? _image : Greyscale(_image);
     return GestureDetector(
       child: widget,
       onTap: () {

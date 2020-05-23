@@ -22,7 +22,7 @@ class TabOptionsBar extends StatelessWidget {
   }
 }
 
-/// Helper widget for development, wraps a widget with a red outline border.
+/// Outline a widget with a theme-appropriate color.
 class OutlineWidget extends StatelessWidget {
   final Widget child;
 
@@ -31,7 +31,21 @@ class OutlineWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: child,
-      decoration: BoxDecoration(color: Colors.red, border: Border.all()),
+      decoration: BoxDecoration(border: Border.all(color: grey(context, 1000))),
+    );
+  }
+}
+
+/// Helper widget for development, wraps a widget with a red outline border.
+class RedOutlineWidget extends StatelessWidget {
+  final Widget child;
+
+  const RedOutlineWidget({@required this.child, Key key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: child,
+      decoration: BoxDecoration(border: Border.all(color: Colors.red)),
     );
   }
 }
@@ -57,5 +71,23 @@ class OpaqueContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(color: Theme.of(context).scaffoldBackgroundColor, child: child);
+  }
+}
+
+var _greyscaleFilter = ColorFilter.matrix([
+  .33, .59, .11, 0, 0, // red
+  .33, .59, .11, 0, 0, //green
+  .33, .59, .11, 0, 0, // blue
+  .33, .59, .11, 1, 0, // alpha
+]);
+
+/// Converts a widget (probably an image) to greyscale.
+class Greyscale extends StatelessWidget {
+  final Widget child;
+
+  const Greyscale(this.child);
+  @override
+  Widget build(BuildContext context) {
+    return ColorFiltered(colorFilter: _greyscaleFilter, child: child);
   }
 }
