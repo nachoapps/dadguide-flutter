@@ -17,10 +17,9 @@ class TeamViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.teamViewerTitle),
+        title: Text(context.loc.teamViewerTitle),
         actions: <Widget>[
           ScreenshotButton(controller: screenshotController),
         ],

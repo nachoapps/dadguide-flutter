@@ -982,6 +982,11 @@ class DadGuideLocalizations {
   }
 }
 
+/// Exposes the DadGuideLocalizations directly on the BuildContext.
+extension DadGuideLocalizationExtension on BuildContext {
+  DadGuideLocalizations get loc => DadGuideLocalizations.of(this);
+}
+
 class DadGuideLocalizationsDelegate extends LocalizationsDelegate<DadGuideLocalizations> {
   const DadGuideLocalizationsDelegate();
 
