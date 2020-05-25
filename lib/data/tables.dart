@@ -15,6 +15,7 @@ import 'package:json_annotation/json_annotation.dart' as json_annotation;
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 
+part 'src/converters.dart';
 part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
 part 'src/exchanges.dart';
