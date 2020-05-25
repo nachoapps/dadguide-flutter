@@ -237,8 +237,8 @@ class FullMonster {
   OrbType get attr1 => OrbType.byId(monster.attribute1Id);
   OrbType get attr2 => OrbType.byId(monster.attribute2Id);
 
-  Set<KillerLatent> get killers {
-    var killers = Set<KillerLatent>();
+  Set<Latent> get killers {
+    var killers = Set<Latent>();
     killers.addAll(type1.killers);
     killers.addAll(type2?.killers ?? []);
     killers.addAll(type3?.killers ?? []);

@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 /// Enum class for monster typing.
 class MonsterType {
@@ -8,42 +9,42 @@ class MonsterType {
 
   final int id;
   final String Function() _name;
-  final List<KillerLatent> killers;
+  final List<Latent> killers;
 
   String get name => _name();
 
   static MonsterType evoMat = MonsterType._(0, () => localized.typeEvoMat, []);
   static MonsterType balanced = MonsterType._(1, () => localized.typeBalanced, [
-    KillerLatent.god,
-    KillerLatent.dragon,
-    KillerLatent.devil,
-    KillerLatent.machine,
-    KillerLatent.balanced,
-    KillerLatent.attacker,
-    KillerLatent.physical,
-    KillerLatent.healer,
+    Latent.killerGod,
+    Latent.killerDragon,
+    Latent.killerDevil,
+    Latent.killerMachine,
+    Latent.killerBalanced,
+    Latent.killerAttacker,
+    Latent.killerPhysical,
+    Latent.killerHealer,
   ]);
   static MonsterType physical = MonsterType._(2, () => localized.typePhysical, [
-    KillerLatent.machine,
-    KillerLatent.healer,
+    Latent.killerMachine,
+    Latent.killerHealer,
   ]);
   static MonsterType healer = MonsterType._(3, () => localized.typeHealer, [
-    KillerLatent.dragon,
-    KillerLatent.attacker,
+    Latent.killerDragon,
+    Latent.killerAttacker,
   ]);
   static MonsterType dragon = MonsterType._(4, () => localized.typeDragon, [
-    KillerLatent.machine,
-    KillerLatent.healer,
+    Latent.killerMachine,
+    Latent.killerHealer,
   ]);
-  static MonsterType god = MonsterType._(5, () => localized.typeGod, [KillerLatent.devil]);
+  static MonsterType god = MonsterType._(5, () => localized.typeGod, [Latent.killerDevil]);
   static MonsterType attacker = MonsterType._(6, () => localized.typeAttacker, [
-    KillerLatent.devil,
-    KillerLatent.physical,
+    Latent.killerDevil,
+    Latent.killerPhysical,
   ]);
-  static MonsterType devil = MonsterType._(7, () => localized.typeDevil, [KillerLatent.god]);
+  static MonsterType devil = MonsterType._(7, () => localized.typeDevil, [Latent.killerGod]);
   static MonsterType machine = MonsterType._(8, () => localized.typeMachine, [
-    KillerLatent.god,
-    KillerLatent.balanced,
+    Latent.killerGod,
+    Latent.killerBalanced,
   ]);
   static MonsterType enhance = MonsterType._(12, () => localized.typeEnhance, []);
   static MonsterType awoken = MonsterType._(14, () => localized.typeAwoken, []);
@@ -71,37 +72,191 @@ class MonsterType {
   }
 }
 
-/// Enum class for killer latents.
-class KillerLatent {
+/// Enum class for latents.
+class Latent {
   final int id;
   final String name;
+  final int slots;
 
-  const KillerLatent._(this.id, this.name);
+  const Latent._(this.id, this.name, this.slots);
 
-  static const KillerLatent god = KillerLatent._(20, 'God');
-  static const KillerLatent dragon = KillerLatent._(21, 'Dragon');
-  static const KillerLatent devil = KillerLatent._(22, 'Devil');
-  static const KillerLatent machine = KillerLatent._(23, 'Machine');
-  static const KillerLatent balanced = KillerLatent._(24, 'Balanced');
-  static const KillerLatent attacker = KillerLatent._(25, 'Attacker');
-  static const KillerLatent physical = KillerLatent._(26, 'Physical');
-  static const KillerLatent healer = KillerLatent._(27, 'Healer');
+  static const Latent enhancedHp = Latent._(1, '', 1);
+  static const Latent enhancedAttack = Latent._(2, '', 1);
+  static const Latent enhancedRecover = Latent._(3, '', 1);
+  static const Latent enhancedMove = Latent._(4, '', 1);
+  static const Latent autoRecover = Latent._(5, '', 1);
+  static const Latent reduceFire = Latent._(6, '', 1);
+  static const Latent reduceWater = Latent._(7, '', 1);
+  static const Latent reduceWood = Latent._(8, '', 1);
+  static const Latent reduceLight = Latent._(9, '', 1);
+  static const Latent reduceDark = Latent._(10, '', 1);
+  static const Latent reduceSkillDelay = Latent._(11, '', 1);
+  static const Latent enhancedAllStats = Latent._(12, '', 2);
+  static const Latent resistLeaderSwap = Latent._(13, '', 6);
+  static const Latent resistJammer = Latent._(14, '', 6);
+  static const Latent resistPoison = Latent._(15, '', 6);
+  static const Latent killerEvo = Latent._(16, '', 2);
+  static const Latent killerAwoken = Latent._(17, '', 2);
+  static const Latent killerEnhance = Latent._(18, '', 2);
+  static const Latent killerRedeemable = Latent._(19, '', 2);
+  static const Latent killerGod = Latent._(20, 'God Killer', 2);
+  static const Latent killerDragon = Latent._(21, 'Dragon Killer', 2);
+  static const Latent killerDevil = Latent._(22, 'Devil Killer', 2);
+  static const Latent killerMachine = Latent._(23, 'Machine Killer', 2);
+  static const Latent killerBalanced = Latent._(24, 'Balanced Killer', 2);
+  static const Latent killerAttacker = Latent._(25, 'Attacker Killer', 2);
+  static const Latent killerPhysical = Latent._(26, 'Physical Killer', 2);
+  static const Latent killerHealer = Latent._(27, 'Healer Killer', 2);
+  static const Latent superEnhancedHp = Latent._(28, '', 2);
+  static const Latent superEnhancedAttack = Latent._(29, '', 2);
+  static const Latent superEnhancedRecover = Latent._(30, '', 2);
+  static const Latent SuperEnhancedMove = Latent._(31, '', 2);
+  static const Latent superReduceFire = Latent._(32, '', 2);
+  static const Latent superReduceWater = Latent._(33, '', 2);
+  static const Latent superReduceWood = Latent._(34, '', 2);
+  static const Latent superReduceLight = Latent._(35, '', 2);
+  static const Latent superReduceDark = Latent._(36, '', 2);
+  static const Latent pierceVoidDamage = Latent._(37, '', 6);
+  static const Latent pierceVoidAttribute = Latent._(38, '', 6);
 
-  static const List<KillerLatent> all = [
-    god,
-    dragon,
-    devil,
-    machine,
-    balanced,
-    attacker,
-    physical,
-    healer,
+  static const List<Latent> all = [
+    enhancedHp,
+    enhancedAttack,
+    enhancedRecover,
+    enhancedMove,
+    autoRecover,
+    reduceFire,
+    reduceWater,
+    reduceWood,
+    reduceLight,
+    reduceDark,
+    reduceSkillDelay,
+    enhancedAllStats,
+    resistLeaderSwap,
+    resistJammer,
+    resistPoison,
+    killerEvo,
+    killerAwoken,
+    killerEnhance,
+    killerRedeemable,
+    killerGod,
+    killerDragon,
+    killerDevil,
+    killerMachine,
+    killerBalanced,
+    killerAttacker,
+    killerPhysical,
+    killerHealer,
+    superEnhancedHp,
+    superEnhancedAttack,
+    superEnhancedRecover,
+    SuperEnhancedMove,
+    superReduceFire,
+    superReduceWater,
+    superReduceWood,
+    superReduceLight,
+    superReduceDark,
+    pierceVoidDamage,
+    pierceVoidAttribute,
+  ];
+
+  static const List<Latent> killers = [
+    killerGod,
+    killerDragon,
+    killerDevil,
+    killerMachine,
+    killerBalanced,
+    killerAttacker,
+    killerPhysical,
+    killerHealer,
   ];
 
   static final _lookup = Map.fromIterable(all, key: (k) => k.id);
 
-  static MonsterType byId(int id) {
+  static Latent byId(int id) {
     return _lookup[id];
+  }
+}
+
+class KillerLatentConverter<T> implements JsonConverter<Latent, int> {
+  const KillerLatentConverter();
+
+  @override
+  Latent fromJson(Object json) {
+    return Latent.byId(json as int);
+  }
+
+  @override
+  int toJson(Latent object) {
+    return object.id;
+  }
+}
+
+/// Enum class for badges.
+class Badge {
+  final int id;
+  const Badge._(this.id);
+
+  static const Badge empty = Badge._(0);
+  static const Badge extraCost = Badge._(1);
+  static const Badge enhancedMove = Badge._(2);
+  static const Badge massAttack = Badge._(3);
+  static const Badge enhancedRecover = Badge._(4);
+  static const Badge enhancedHp = Badge._(5);
+  static const Badge enhancedAttack = Badge._(6);
+  static const Badge skillBoost = Badge._(7);
+  static const Badge resistBind = Badge._(8);
+  static const Badge resistSkillBind = Badge._(9);
+  static const Badge extraExp = Badge._(10);
+  static const Badge noSkyfall = Badge._(11);
+  static const Badge resistBlind = Badge._(12);
+  static const Badge resistJammer = Badge._(13);
+  static const Badge resistPoison = Badge._(14);
+  static const Badge superEnhancedRecover = Badge._(17);
+  static const Badge superEnhancedHp = Badge._(18);
+  static const Badge superEnhancedAttack = Badge._(19);
+  static const Badge superEnhancedMove = Badge._(21);
+
+  static const List<Badge> all = [
+    empty,
+    extraCost,
+    enhancedMove,
+    massAttack,
+    enhancedRecover,
+    enhancedHp,
+    enhancedAttack,
+    skillBoost,
+    resistBind,
+    resistSkillBind,
+    extraExp,
+    noSkyfall,
+    resistBlind,
+    resistJammer,
+    resistPoison,
+    superEnhancedRecover,
+    superEnhancedHp,
+    superEnhancedAttack,
+    superEnhancedMove,
+  ];
+
+  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+
+  static Badge byId(int id) {
+    return _lookup[id];
+  }
+}
+
+class BadgeConverter<T> implements JsonConverter<Badge, int> {
+  const BadgeConverter();
+
+  @override
+  Badge fromJson(Object json) {
+    return Badge.byId(json as int);
+  }
+
+  @override
+  int toJson(Badge object) {
+    return object.id;
   }
 }
 
@@ -455,15 +610,7 @@ class UiTheme {
 }
 
 class AwakeningE {
-  AwakeningE._(this.id);
-
   final int id;
-
-  static final fire = OrbType._(0, 'Fire', DadGuideIcons.fire);
-  static OrbType water = OrbType._(1, 'Water', DadGuideIcons.water);
-  static OrbType wood = OrbType._(2, 'Wood', DadGuideIcons.wood);
-  static OrbType light = OrbType._(3, 'Light', DadGuideIcons.light);
-  static OrbType dark = OrbType._(4, 'Dark', DadGuideIcons.dark);
 
   static final enhancedHp = AwakeningE._(1);
   static final enhancedAttack = AwakeningE._(2);
@@ -538,13 +685,97 @@ class AwakeningE {
   static final blessingJammer = AwakeningE._(71);
   static final blessingPoison = AwakeningE._(72);
 
-  static List<AwakeningE> all = [
-    // TODO: fill out
-  ];
+  AwakeningE._(this.id);
 
+  static final all = <AwakeningE>[
+    enhancedHp,
+    enhancedAttack,
+    enhancedRecovery,
+    reduceFire,
+    reduceWater,
+    reduceWood,
+    reduceLight,
+    reduceDark,
+    autoRecover,
+    resistBind,
+    resistBlind,
+    resistJammer,
+    resistPoison,
+    enhancedOrbFire,
+    enhancedOrbWater,
+    enhancedOrbWood,
+    enhancedOrbLight,
+    enhancedOrbDark,
+    enhancedMove,
+    recoverBind,
+    skillBoost,
+    enhancedRowFire,
+    enhancedRowWater,
+    enhancedRowWood,
+    enhancedRowLight,
+    enhancedRowDark,
+    twoProngedAttack,
+    resistSkillBind,
+    enhancedOrbHeal,
+    multiBoost,
+    killerDragon,
+    killerGod,
+    killerDevil,
+    killerMachine,
+    killerBalanced,
+    killerAttacker,
+    killerPhysical,
+    killerHealer,
+    killerEvo,
+    killerAwaken,
+    killerEnhance,
+    killerRedeemable,
+    enhancedCombo,
+    guardBreak,
+    bonusAttack,
+    enhancedTeamHp,
+    enhancedTeamRecovery,
+    damageVoidPiercer,
+    awokenAssist,
+    bonusAttackSuper,
+    skillCharge,
+    resistBindSuper,
+    enhancedMoveSuper,
+    resistCloud,
+    resistTape,
+    skillBoostSuper,
+    enhancedOver80,
+    enhancedUnder50,
+    lHealMatching,
+    lAttackMatching,
+    enhancedComboSuper,
+    comboOrb,
+    skillVoice,
+    dungeonBonus,
+    reducedHp,
+    reducedAttack,
+    reducedRecovery,
+    resistBlindSuper,
+    resistJammerSuper,
+    resistPoisonSuper,
+    blessingJammer,
+    blessingPoison,
+  ];
   static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
 
-  static AwakeningE byId(int id) {
-    return _lookup[id];
+  static AwakeningE byId(int id) => _lookup[id];
+}
+
+class AwakeningEConverter<T> implements JsonConverter<AwakeningE, int> {
+  const AwakeningEConverter();
+
+  @override
+  AwakeningE fromJson(Object json) {
+    return AwakeningE.byId(json as int);
+  }
+
+  @override
+  int toJson(AwakeningE object) {
+    return object.id;
   }
 }
