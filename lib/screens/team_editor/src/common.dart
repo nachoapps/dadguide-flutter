@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/data/local_tables.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -74,11 +76,13 @@ class ClickDialogIfEditable extends StatelessWidget {
 
 class TeamController with ChangeNotifier {
   final bool editable;
+  final EditableBuild item;
 
-  TeamController({this.editable = true});
+  TeamController({this.editable = true, this.item});
 
   void notify() {
     notifyListeners();
+    getIt<BuildsDao>().saveBuild(item.toBuild());
   }
 }
 

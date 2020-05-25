@@ -95,7 +95,7 @@ Widget latentContainer(int latentId, {double size = 24}) {
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
 Widget latentImage(int latentId) {
-  var url = _imageUrl('latents', latentId, 3);
+  var url = _imageUrl('latents_full', latentId, 3);
   return _loadingImage(url);
 }
 

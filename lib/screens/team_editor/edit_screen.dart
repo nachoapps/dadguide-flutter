@@ -1,7 +1,5 @@
-import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/data/local_tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/team_editor/team_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,26 +7,22 @@ import 'nav.dart';
 import 'src/common.dart';
 import 'src/display.dart';
 
-class TeamEditScreen extends StatelessWidget {
-  final TeamEditArgs args;
+class BuildEditScreen extends StatelessWidget {
+  final BuildEditArgs args;
 
-  const TeamEditScreen(this.args, {Key key}) : super(key: key);
+  const BuildEditScreen(this.args, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.teamEditorTitle),
+        title: Text(context.loc.teamEditorTitle),
       ),
-      body: SingleChildScrollView(child: TeamEditorContents(args.team)),
+      body: SingleChildScrollView(child: BuildEditContents(args.build)),
       resizeToAvoidBottomInset: false, // Prevent the keyboard from adjusting the view
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          getIt<LocalStorageDatabase>().saveTeam(TeamRow(
-            teamId: null,
-            jsonData: Team().toJsonString(),
-          ));
+//          await getIt<BuildsDao>().saveBuild(args.build);
         },
         backgroundColor: Colors.blue,
         child: Icon(Icons.add),
@@ -37,15 +31,15 @@ class TeamEditScreen extends StatelessWidget {
   }
 }
 
-class TeamEditorContents extends StatelessWidget {
-  final Team team;
-  const TeamEditorContents(this.team, {Key key}) : super(key: key);
+class BuildEditContents extends StatelessWidget {
+  final EditableBuild item;
+  const BuildEditContents(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TeamController(editable: true),
-      child: TeamDisplayTile(team),
+      create: (_) => TeamController(editable: true, item: item),
+      child: TeamDisplayTile(item),
     );
   }
 }

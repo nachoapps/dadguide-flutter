@@ -71,7 +71,7 @@ class EtcTab extends StatelessWidget {
           title: Text('Team editor'),
           leading: Icon(FlutterIcons.team_ant),
           onTap: () async =>
-              Navigator.pushNamed(context, TeamListArgs.routeName, arguments: TeamListArgs()),
+              Navigator.pushNamed(context, BuildListArgs.routeName, arguments: BuildListArgs()),
         ),
         Divider(),
         ListTile(

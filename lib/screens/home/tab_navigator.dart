@@ -32,9 +32,9 @@ class TabNavigatorRoutes {
   static const String eggMachines = EggMachineArgs.routeName;
   static const String exchanges = ExchangeArgs.routeName;
   static const String monsterCompare = MonsterCompareArgs.routeName;
-  static const String teamList = TeamListArgs.routeName;
-  static const String teamEdit = TeamEditArgs.routeName;
-  static const String teamView = TeamViewArgs.routeName;
+  static const String teamList = BuildListArgs.routeName;
+  static const String teamEdit = BuildEditArgs.routeName;
+  static const String teamView = BuildViewArgs.routeName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -84,14 +84,14 @@ class TabNavigator extends StatelessWidget {
               var args = routeSettings.arguments as MonsterCompareArgs;
               return MaterialPageRoute(builder: (context) => MonsterCompareScreen(args));
             case TabNavigatorRoutes.teamList:
-              var args = routeSettings.arguments as TeamListArgs;
-              return MaterialPageRoute(builder: (context) => TeamListScreen(args));
+              var args = routeSettings.arguments as BuildListArgs;
+              return MaterialPageRoute(builder: (context) => BuildListScreen(args));
             case TabNavigatorRoutes.teamEdit:
-              var args = routeSettings.arguments as TeamEditArgs;
-              return MaterialPageRoute(builder: (context) => TeamEditScreen(args));
+              var args = routeSettings.arguments as BuildEditArgs;
+              return MaterialPageRoute(builder: (context) => BuildEditScreen(args));
             case TabNavigatorRoutes.teamView:
-              var args = routeSettings.arguments as TeamViewArgs;
-              return MaterialPageRoute(builder: (context) => TeamViewScreen(args));
+              var args = routeSettings.arguments as BuildViewArgs;
+              return MaterialPageRoute(builder: (context) => BuildViewScreen(args));
             default:
               throw 'Unexpected route';
           }

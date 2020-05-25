@@ -11,28 +11,28 @@ import '../team_data.dart';
 import 'common.dart';
 
 class BaseImage extends StatelessWidget {
-  final TeamBase monster;
+  final TeamBase item;
 
-  const BaseImage(this.monster, {Key key}) : super(key: key);
+  const BaseImage(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<TeamController>(context);
     var widget = Stack(
       children: <Widget>[
-        SizedBox(width: 64, child: iconImage(monster.monsterId)),
+        SizedBox(width: 64, child: iconImage(item.monsterId)),
         Positioned(
           top: 1,
           right: 1,
           child: SizedBox(width: 18, child: DadGuideIcons.inheritableBadgeImage),
         ),
-        if (monster.superAwakening != null)
+        if (item.hasSuperAwakening)
           Positioned(
             top: 24,
             right: 1,
-            child: awakeningContainer(monster.superAwakening.id, size: 24),
+            child: awakeningContainer(item.superAwakening.awokenSkillId, size: 24),
           ),
-        if (monster.monsterId != 0)
+        if (item.hasMonster)
           Positioned(
             bottom: 0,
             left: 0,
@@ -43,30 +43,29 @@ class BaseImage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  if (monster.level != 0)
-                    OutlineText('Lv ${monster.level}', size: 11, outlineWidth: 2),
+                  OutlineText('Lv ${item.level}', size: 11, outlineWidth: 2),
                   Spacer(),
-                  OutlineText('${monster.monsterId}',
+                  OutlineText('${item.id()}',
                       size: 10, color: Colors.lightBlueAccent, outlineWidth: 3),
                 ],
               ),
             ),
           ),
-        if (monster.is297)
+        if (item.is297)
           Positioned(
             top: 2,
             left: 4,
             child: OutlineText('+297', color: Colors.yellow, size: 14, outlineWidth: 4),
           ),
-        if (!monster.is297 && monster.hasPluses)
+        if (!item.is297 && item.hasPluses)
           Positioned(
             top: 4,
             left: 4,
             child: Column(
               children: <Widget>[
-                OutlineText('+${monster.hpPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
-                OutlineText('+${monster.atkPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
-                OutlineText('+${monster.rcvPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
+                OutlineText('+${item.hpPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
+                OutlineText('+${item.atkPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
+                OutlineText('+${item.rcvPlus}', color: Colors.yellow, size: 13, outlineWidth: 4),
               ],
             ),
           ),
@@ -77,16 +76,16 @@ class BaseImage extends StatelessWidget {
         widget: widget,
         dialogBuilder: (_) => ChangeNotifierProvider.value(
               value: controller,
-              child: EditBaseDialog(context, monster),
+              child: EditBaseDialog(context, item),
             ));
   }
 }
 
 class EditBaseDialog extends StatelessWidget {
   final BuildContext outer;
-  final TeamBase monster;
+  final TeamBase item;
 
-  const EditBaseDialog(this.outer, this.monster, {Key key}) : super(key: key);
+  const EditBaseDialog(this.outer, this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,17 +100,18 @@ class EditBaseDialog extends StatelessWidget {
           children: [
             Row(
               children: <Widget>[
-                PadIcon(monster.monsterId),
+                PadIcon(item.monsterId),
                 SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(monster.name),
-                      Text('# ${monster.monsterId}'),
-                    ],
-                  ),
-                )
+                if (item.hasMonster)
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(item.name()),
+                        Text('# ${item.id()}'),
+                      ],
+                    ),
+                  )
               ],
             ),
             Row(
@@ -125,34 +125,34 @@ class EditBaseDialog extends StatelessWidget {
                         arguments: MonsterListArgs(MonsterListAction.returnResult));
                     if (m == null) return;
                     final fm = await getIt<MonstersDao>().fullMonster(m.monsterId);
-                    monster.loadFrom(fm);
+                    item.loadFrom(fm);
                     controller.notify();
                   },
                 ),
                 SizedBox(width: 32),
                 RaisedButton(
                   child: Text('Remove'),
-                  onPressed: monster.monsterId == 0
+                  onPressed: item.monsterId == 0
                       ? null
                       : () {
-                          monster.clear();
+                          item.clear();
                           controller.notify();
                         },
                 ),
               ],
             ),
-            if (monster.monsterId > 0) ...[
+            if (item.monsterId > 0) ...[
               Divider(),
               Row(
                 children: <Widget>[
                   RaisedButton(
                     child: Text('Max'),
                     onPressed: () {
-                      monster.level = 110;
-                      monster.awakenings = monster.awakeningOptions.length;
-                      monster.hpPlus = 99;
-                      monster.atkPlus = 99;
-                      monster.rcvPlus = 99;
+                      item.level = 110;
+                      item.awakenings = item.awakeningOptions.length;
+                      item.hpPlus = 99;
+                      item.atkPlus = 99;
+                      item.rcvPlus = 99;
                       controller.notify();
                     },
                   ),
@@ -160,11 +160,11 @@ class EditBaseDialog extends StatelessWidget {
                   RaisedButton(
                     child: Text('Min'),
                     onPressed: () {
-                      monster.level = 1;
-                      monster.awakenings = 0;
-                      monster.hpPlus = 0;
-                      monster.atkPlus = 0;
-                      monster.rcvPlus = 0;
+                      item.level = 1;
+                      item.awakenings = 0;
+                      item.hpPlus = 0;
+                      item.atkPlus = 0;
+                      item.rcvPlus = 0;
                       controller.notify();
                     },
                   ),
@@ -177,80 +177,80 @@ class EditBaseDialog extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      monster.awakenings = 0;
+                      item.awakenings = 0;
                       controller.notify();
                     },
                     child: Icon(Icons.clear),
                   ),
-                  for (int i = 0; i < monster.awakeningOptions.length; i++)
+                  for (int i = 0; i < item.awakeningOptions.length; i++)
                     GestureDetector(
                       onTap: () {
-                        monster.awakenings = i + 1;
+                        item.awakenings = i + 1;
                         controller.notify();
                       },
-                      child: monster.awakenings < i + 1
-                          ? Greyscale(awakeningContainer(monster.awakeningOptions[i].id))
-                          : awakeningContainer(monster.awakeningOptions[i].id),
+                      child: item.awakenings < i + 1
+                          ? Greyscale(awakeningContainer(item.awakeningOptions[i].awokenSkillId))
+                          : awakeningContainer(item.awakeningOptions[i].awokenSkillId),
                     ),
                 ],
               ),
               SizedBox(height: 16),
-              if (monster.superAwakeningOptions.isNotEmpty)
+              if (item.superAwakeningOptions.isNotEmpty)
                 Wrap(
                   spacing: 12,
                   runSpacing: 4,
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        monster.superAwakening = null;
+                        item.superAwakening = null;
                         controller.notify();
                       },
                       child: Icon(Icons.clear),
                     ),
-                    for (var sa in monster.superAwakeningOptions)
+                    for (var sa in item.superAwakeningOptions)
                       GestureDetector(
                         onTap: () {
-                          if (monster.superAwakening?.id == sa.id) {
-                            monster.superAwakening = null;
+                          if (item.superAwakening == sa) {
+                            item.superAwakening = null;
                           } else {
-                            monster.superAwakening = sa;
+                            item.superAwakening = sa;
                             controller.notify();
                           }
                         },
-                        child: monster.superAwakening?.id != sa.id
-                            ? Greyscale(awakeningContainer(sa.id))
-                            : awakeningContainer(sa.id),
+                        child: item.superAwakening != sa
+                            ? Greyscale(awakeningContainer(sa.awokenSkillId))
+                            : awakeningContainer(sa.awokenSkillId),
                       ),
                   ],
                 ),
               StatRow(
                 title: 'Lv    ',
-                getValue: () => monster.level,
-                setValue: (v) => monster.level = v,
+                getValue: () => item.level,
+                setValue: (v) => item.level = v,
                 minValue: 1,
-                altValue: monster.canLimitBreak ? monster.maxLevel : null,
-                maxValue: monster.canLimitBreak ? 110 : monster.maxLevel,
+                altValue: item.canLimitBreak ? item.monster.level : null,
+                maxValue: item.canLimitBreak ? 110 : item.monster.level,
               ),
               StatRow(
                 title: 'HP+ ',
-                getValue: () => monster.hpPlus,
-                setValue: (v) => monster.hpPlus = v,
+                getValue: () => item.hpPlus,
+                setValue: (v) => item.hpPlus = v,
                 minValue: 0,
                 altValue: 0,
                 maxValue: 99,
               ),
               StatRow(
                 title: 'ATK+',
-                getValue: () => monster.atkPlus,
-                setValue: (v) => monster.atkPlus = v,
+                getValue: () => item.atkPlus,
+                setValue: (v) => item.atkPlus = v,
                 minValue: 0,
                 altValue: 0,
                 maxValue: 99,
               ),
               StatRow(
                 title: 'RCV+',
-                getValue: () => monster.rcvPlus,
-                setValue: (v) => monster.rcvPlus = v,
+                getValue: () => item.rcvPlus,
+                setValue: (v) => item.rcvPlus = v,
                 minValue: 0,
                 altValue: 0,
                 maxValue: 99,

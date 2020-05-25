@@ -1,22 +1,22 @@
-import 'package:dadguide2/screens/team_editor/team_data.dart';
+import 'package:dadguide2/data/local_tables.dart';
 
-/// Arguments to the list teams route.
-class TeamListArgs {
-  static const routeName = '/teamList';
+/// Arguments to the list builds route.
+class BuildListArgs {
+  static const routeName = '/buildList';
 }
 
-/// Arguments to the edit a team route.
-class TeamEditArgs {
-  static const routeName = '/teamEdit';
+/// Arguments to the edit a build route.
+class BuildEditArgs {
+  static const routeName = '/buildEdit';
 
-  final Team team;
-  TeamEditArgs(this.team);
+  final EditableBuild build;
+  BuildEditArgs(this.build);
 }
 
-/// Arguments to the view a team route.
-class TeamViewArgs {
-  static const routeName = '/teamView';
+/// Arguments to the view a build route.
+class BuildViewArgs {
+  static const routeName = '/buildView';
 
-  final Team team;
-  TeamViewArgs(this.team);
+  final EditableBuild build;
+  BuildViewArgs(this.build);
 }

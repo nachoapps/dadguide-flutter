@@ -1,19 +1,24 @@
 import 'package:dadguide2/components/ui/containers.dart';
+import 'package:dadguide2/data/local_tables.dart';
 import 'package:dadguide2/screens/team_editor/team_data.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'assist_icon.dart';
 import 'base_icon.dart';
+import 'common.dart';
 import 'latents.dart';
 
 class TeamDisplayTile extends StatelessWidget {
-  final Team team;
+  final EditableBuild item;
 
-  const TeamDisplayTile(this.team, {Key key}) : super(key: key);
+  const TeamDisplayTile(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<TeamController>(context);
+    var team = item.team1;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -23,7 +28,11 @@ class TeamDisplayTile extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: TextField(
-                  controller: TextEditingController(text: team.name ?? ''),
+                  controller: TextEditingController(text: item.title),
+                  onSubmitted: (v) {
+                    item.title = v;
+                    controller.notify();
+                  },
                   decoration: InputDecoration(hintText: 'Enter build name'),
                   style: subtitle(context),
                 ),
@@ -54,6 +63,10 @@ class TeamDisplayTile extends StatelessWidget {
           child: TextField(
             maxLines: null,
             decoration: InputDecoration(hintText: 'Enter build details'),
+            onSubmitted: (v) {
+              item.description = v;
+              controller.notify();
+            },
           ),
         ),
       ],

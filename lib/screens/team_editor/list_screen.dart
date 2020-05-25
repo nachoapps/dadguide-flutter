@@ -10,28 +10,29 @@ import 'package:provider/provider.dart';
 import 'nav.dart';
 import 'src/common.dart';
 
-class TeamListScreen extends StatelessWidget {
-  final TeamListArgs args;
+class BuildListScreen extends StatelessWidget {
+  final BuildListArgs args;
 
-  const TeamListScreen(this.args, {Key key}) : super(key: key);
+  const BuildListScreen(this.args, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.teamListTitle),
+        title: Text(context.loc.teamListTitle),
       ),
       body: Column(
         children: [
-          Expanded(child: TeamEditorContents()),
+          Expanded(child: TeamListContents()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          getIt<LocalStorageDatabase>().saveTeam(TeamRow(
-            teamId: null,
-            jsonData: Team().toJsonString(),
+          await getIt<BuildsDao>().saveBuild(Build(
+            buildId: null,
+            title: '',
+            description: '',
+            team1: Team(),
           ));
         },
         backgroundColor: Colors.blue,
@@ -41,18 +42,19 @@ class TeamListScreen extends StatelessWidget {
   }
 }
 
-class TeamEditorContents extends StatelessWidget {
+class TeamListContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SimpleRxStreamBuilder<List<TeamRow>>(
-      stream: getIt<LocalStorageDatabase>().teamsStream(),
+    return SimpleRxStreamBuilder<List<Build>>(
+      stream: getIt<BuildsDao>().buildsStream(),
       builder: (context, data) {
+        print('got new data');
         return ListView.separated(
           itemBuilder: (context, idx) {
-            var team = Team.fromJsonString(data[idx].jsonData);
+            var item = data[idx];
             return ChangeNotifierProvider(
               create: (_) => TeamController(editable: false),
-              child: TeamTile(team),
+              child: ListBuildTile(item),
             );
           },
           separatorBuilder: (_, __) => Divider(),
@@ -64,24 +66,25 @@ class TeamEditorContents extends StatelessWidget {
   }
 }
 
-class TeamTile extends StatelessWidget {
-  final Team team;
+class ListBuildTile extends StatelessWidget {
+  final Build item;
 
-  const TeamTile(this.team, {Key key}) : super(key: key);
+  const ListBuildTile(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var team = item.team1;
     return ListTile(
-      title: Text(team.hasName() ? team.name : 'Untitled'),
+      title: Text(item.title.isNotEmpty ? item.title : 'Untitled'),
       leading: IconButton(
         icon: Icon(Icons.edit),
-        onPressed: () =>
-            Navigator.of(context).pushNamed(TeamEditArgs.routeName, arguments: TeamEditArgs(team)),
+        onPressed: () => Navigator.of(context)
+            .pushNamed(BuildEditArgs.routeName, arguments: BuildEditArgs(EditableBuild.copy(item))),
       ),
       trailing: IconButton(
         icon: Icon(Icons.image),
-        onPressed: () =>
-            Navigator.of(context).pushNamed(TeamViewArgs.routeName, arguments: TeamViewArgs(team)),
+        onPressed: () => Navigator.of(context)
+            .pushNamed(BuildViewArgs.routeName, arguments: BuildViewArgs(EditableBuild.copy(item))),
       ),
       subtitle: FittedBox(
         child: Row(

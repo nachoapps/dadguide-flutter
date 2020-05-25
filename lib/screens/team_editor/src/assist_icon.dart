@@ -2,6 +2,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,23 +10,23 @@ import '../team_data.dart';
 import 'common.dart';
 
 class AssistImage extends StatelessWidget {
-  final TeamAssist monster;
+  final TeamAssist item;
 
-  const AssistImage(this.monster, {Key key}) : super(key: key);
+  const AssistImage(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<TeamController>(context);
 
-    if (!controller.editable && monster.monsterId == 0) {
+    if (!controller.editable && !item.hasMonster) {
       return Container();
     }
 
     var widget = Stack(
       children: <Widget>[
-        SizedBox(width: 64, child: iconImage(monster.monsterId)),
-        if (monster.monsterId != 0) ...[
-          if (monster.is297)
+        SizedBox(width: 64, child: iconImage(item.monsterId)),
+        if (item.hasMonster) ...[
+          if (item.is297)
             Positioned(
               top: 2,
               left: 4,
@@ -40,9 +41,9 @@ class AssistImage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  if (monster.level != 0) OutlineText('LV ${monster.level}', size: 11),
+                  OutlineText('LV ${item.level}', size: 11),
                   Spacer(),
-                  OutlineText('${monster.monsterId}', size: 9),
+                  OutlineText('${item.id()}', size: 9),
                 ],
               ),
             ),
@@ -55,16 +56,16 @@ class AssistImage extends StatelessWidget {
         widget: widget,
         dialogBuilder: (_) => ChangeNotifierProvider.value(
               value: controller,
-              child: EditAssistDialog(context, monster),
+              child: EditAssistDialog(context, item),
             ));
   }
 }
 
 class EditAssistDialog extends StatelessWidget {
   final BuildContext outer;
-  final TeamAssist monster;
+  final TeamAssist item;
 
-  const EditAssistDialog(this.outer, this.monster, {Key key}) : super(key: key);
+  const EditAssistDialog(this.outer, this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +80,18 @@ class EditAssistDialog extends StatelessWidget {
           children: [
             Row(
               children: <Widget>[
-                PadIcon(monster.monsterId),
+                PadIcon(item.monsterId),
                 SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(monster.name),
-                      Text('# ${monster.monsterId}'),
-                    ],
-                  ),
-                )
+                if (item.hasMonster)
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(item.name()),
+                        Text('# ${item.monsterId}'),
+                      ],
+                    ),
+                  )
               ],
             ),
             Row(
@@ -103,31 +105,31 @@ class EditAssistDialog extends StatelessWidget {
                         arguments: MonsterListArgs(MonsterListAction.returnResult));
                     if (m == null) return;
                     final fm = await getIt<MonstersDao>().fullMonster(m.monsterId);
-                    monster.loadFrom(fm);
+                    item.loadFrom(fm);
                     controller.notify();
                   },
                 ),
                 SizedBox(width: 32),
                 RaisedButton(
                   child: Text('Remove'),
-                  onPressed: monster.monsterId == 0
+                  onPressed: !item.hasMonster
                       ? null
                       : () {
-                          monster.clear();
+                          item.clear();
                           controller.notify();
                         },
                 ),
               ],
             ),
-            if (monster.monsterId > 0) ...[
+            if (item.hasMonster) ...[
               Divider(),
               Row(
                 children: <Widget>[
                   RaisedButton(
                     child: Text('Max'),
                     onPressed: () {
-                      monster.level = monster.maxLevel;
-                      monster.is297 = true;
+                      item.level = item.monster.level;
+                      item.is297 = true;
                       controller.notify();
                     },
                   ),
@@ -135,8 +137,8 @@ class EditAssistDialog extends StatelessWidget {
                   RaisedButton(
                     child: Text('Min'),
                     onPressed: () {
-                      monster.level = 1;
-                      monster.is297 = false;
+                      item.level = 1;
+                      item.is297 = false;
                       controller.notify();
                     },
                   ),
@@ -145,20 +147,20 @@ class EditAssistDialog extends StatelessWidget {
               SizedBox(height: 16),
               StatRow(
                 title: 'Lv    ',
-                getValue: () => monster.level,
-                setValue: (v) => monster.level = v,
+                getValue: () => item.level,
+                setValue: (v) => item.level = v,
                 minValue: 1,
-                altValue: monster.canLimitBreak ? monster.maxLevel : null,
-                maxValue: monster.canLimitBreak ? 110 : monster.maxLevel,
+                altValue: item.canLimitBreak ? item.monster.level : null,
+                maxValue: item.canLimitBreak ? 110 : item.monster.level,
               ),
               Row(
                 children: <Widget>[
                   Text('+297'),
                   Checkbox(
                     activeColor: Colors.blue,
-                    value: monster.is297,
+                    value: item.is297,
                     onChanged: (v) {
-                      monster.is297 = v;
+                      item.is297 = v;
                       controller.notify();
                     },
                   ),
@@ -169,7 +171,7 @@ class EditAssistDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(child: Text('Done'), onPressed: () => Navigator.of(context).pop()),
+        FlatButton(child: Text(context.loc.close), onPressed: () => Navigator.of(context).pop()),
       ],
     );
   }
