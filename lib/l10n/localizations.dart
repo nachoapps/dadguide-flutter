@@ -21,6 +21,9 @@ class DadGuideLocalizations {
   String get tabDungeon =>
       Intl.message('Dungeons', name: 'tabDungeon', desc: 'Bottom tab title for dungeon list');
 
+  String get tabUtils =>
+      Intl.message('Utils', name: 'tabUtils', desc: 'Bottom tab title for utils list');
+
   String get tabSetting =>
       Intl.message('Settings', name: 'tabSetting', desc: 'Bottom tab title for settings');
 
@@ -951,6 +954,14 @@ class DadGuideLocalizations {
 
   String get iapLaunchFailed =>
       Intl.message('Failed to start purchase', name: 'iapLaunchFailed', desc: 'Error snackbar');
+
+  // ---- Team Editor ----
+  String get teamListTitle =>
+      Intl.message('Team List', name: 'teamListTitle', desc: 'Team list title bar');
+  String get teamEditorTitle =>
+      Intl.message('Team Editor', name: 'teamEditorTitle', desc: 'Team editor title bar');
+  String get teamViewerTitle =>
+      Intl.message('Team Viewer', name: 'teamViewerTitle', desc: 'Team viewer title bar');
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 

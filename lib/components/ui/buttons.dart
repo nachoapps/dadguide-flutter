@@ -41,7 +41,7 @@ class TopBarDivider extends StatelessWidget {
 class ScreenshotButton extends StatelessWidget {
   final ScreenshotController controller;
 
-  const ScreenshotButton({Key key, this.controller}) : super(key: key);
+  const ScreenshotButton({Key key, @required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

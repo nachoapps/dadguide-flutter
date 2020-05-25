@@ -9,6 +9,10 @@ import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/monster/monster_search_modal.dart';
 import 'package:dadguide2/screens/monster_compare/monster_compare.dart';
 import 'package:dadguide2/screens/monster_info/monster_info_subtab.dart';
+import 'package:dadguide2/screens/team_editor/edit_screen.dart';
+import 'package:dadguide2/screens/team_editor/list_screen.dart';
+import 'package:dadguide2/screens/team_editor/nav.dart';
+import 'package:dadguide2/screens/team_editor/view_screen.dart';
 import 'package:flutter/material.dart';
 
 /// Paths to the various screens that the user can navigate to.
@@ -28,6 +32,9 @@ class TabNavigatorRoutes {
   static const String eggMachines = EggMachineArgs.routeName;
   static const String exchanges = ExchangeArgs.routeName;
   static const String monsterCompare = MonsterCompareArgs.routeName;
+  static const String teamList = TeamListArgs.routeName;
+  static const String teamEdit = TeamEditArgs.routeName;
+  static const String teamView = TeamViewArgs.routeName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -76,6 +83,15 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.monsterCompare:
               var args = routeSettings.arguments as MonsterCompareArgs;
               return MaterialPageRoute(builder: (context) => MonsterCompareScreen(args));
+            case TabNavigatorRoutes.teamList:
+              var args = routeSettings.arguments as TeamListArgs;
+              return MaterialPageRoute(builder: (context) => TeamListScreen(args));
+            case TabNavigatorRoutes.teamEdit:
+              var args = routeSettings.arguments as TeamEditArgs;
+              return MaterialPageRoute(builder: (context) => TeamEditScreen(args));
+            case TabNavigatorRoutes.teamView:
+              var args = routeSettings.arguments as TeamViewArgs;
+              return MaterialPageRoute(builder: (context) => TeamViewScreen(args));
             default:
               throw 'Unexpected route';
           }

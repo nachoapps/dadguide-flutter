@@ -1,9 +1,10 @@
+import 'package:dadguide2/screens/team_editor/nav.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
-/// Displays various hypothetical sub-utilities (none implemented yet).
-/// This tab is currently hidden.
-class UtilsScreen extends StatelessWidget {
-  UtilsScreen({Key key}) : super(key: key);
+/// Displays various sub-utilities.
+class UtilsTab extends StatelessWidget {
+  UtilsTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +14,15 @@ class UtilsScreen extends StatelessWidget {
         appBar: AppBar(
           flexibleSpace: TabBar(
             tabs: [
-              Tab(text: "Data"),
               Tab(text: "Etc"),
+              Tab(text: "Data"),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            DataListTab(),
             EtcTab(),
+            DataListTab(),
           ],
         ),
       ),
@@ -62,22 +63,23 @@ class DataListTab extends StatelessWidget {
 }
 
 class EtcTab extends StatelessWidget {
-  final _widgets = [
-    'Compare Monster',
-    'Rank Chart',
-    'Rank-Up Calculator',
-    'Dungeon MP Ranking',
-    'Dungeon Rankings',
-    'EXP Calculator',
-    'Stamina Timer',
-    'Login Bonus',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _widgets.length,
-      itemBuilder: (context, index) => dummyTile(context, _widgets[index]),
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          title: Text('Team editor'),
+          leading: Icon(FlutterIcons.team_ant),
+          onTap: () async =>
+              Navigator.pushNamed(context, TeamListArgs.routeName, arguments: TeamListArgs()),
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Build editor'),
+          leading: Icon(FlutterIcons.teamspeak_faw5d),
+        ),
+        Divider(),
+      ],
     );
   }
 }

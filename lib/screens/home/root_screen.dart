@@ -7,6 +7,7 @@ import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/home/tab_navigator.dart';
 import 'package:dadguide2/screens/monster/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
+import 'package:dadguide2/screens/utils/utils_tab.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final eventNavKey = GlobalKey<NavigatorState>();
   static final monsterNavKey = GlobalKey<NavigatorState>();
   static final dungeonNavKey = GlobalKey<NavigatorState>();
+  static final utilsNavKey = GlobalKey<NavigatorState>();
   static final settingsNavKey = GlobalKey<NavigatorState>();
 
   static List<TabNavigator> _widgetOptions = [
@@ -31,13 +33,15 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
     ),
     TabNavigator(
       navigatorKey: monsterNavKey,
-      rootItem: MonsterTab(
-        args: MonsterListArgs(MonsterListAction.showDetails),
-      ),
+      rootItem: MonsterTab(args: MonsterListArgs(MonsterListAction.showDetails)),
     ),
     TabNavigator(
       navigatorKey: dungeonNavKey,
       rootItem: DungeonTab(),
+    ),
+    TabNavigator(
+      navigatorKey: utilsNavKey,
+      rootItem: UtilsTab(),
     ),
     TabNavigator(
       navigatorKey: settingsNavKey,
@@ -143,6 +147,10 @@ class BottomNavOptions extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               title: Text(loc.tabDungeon),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.move_to_inbox),
+              title: Text(loc.tabUtils),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
