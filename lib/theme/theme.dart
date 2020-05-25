@@ -9,6 +9,7 @@ ThemeData appTheme() {
   return ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.blue,
+    accentColor: Colors.blueAccent,
     textTheme: TextTheme(caption: TextStyle(fontSize: 10)),
     typography: Typography.material2018(),
   );
@@ -22,6 +23,7 @@ ThemeData darkAppTheme() {
     visualDensity: VisualDensity(),
     brightness: Brightness.dark,
     primaryColor: Colors.blue,
+    accentColor: Colors.blueAccent,
     textTheme: TextTheme(caption: TextStyle(fontSize: 10)),
     typography: Typography.material2018(),
   );
