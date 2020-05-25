@@ -88,6 +88,7 @@ class ListBuildTile extends StatelessWidget {
       ),
       subtitle: FittedBox(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TeamSlot(team.leader),
             SizedBox(width: 4),

@@ -47,6 +47,7 @@ class TeamDisplayTile extends StatelessWidget {
           ),
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TeamSlot(team.leader),
             SizedBox(width: 4),
