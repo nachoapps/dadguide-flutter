@@ -1,4 +1,5 @@
 import 'package:dadguide2/components/ui/buttons.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/data/local_tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class BuildViewScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Screenshot(
           controller: screenshotController,
-          child: BuildViewContents(args.build),
+          child: OpaqueContainer(child: BuildViewContents(args.build)),
         ),
       ),
     );

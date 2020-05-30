@@ -86,7 +86,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
 
           return SingleChildScrollView(
               child: Screenshot(
-                  controller: screenshotController, child: MonsterDetailContents(snapshot.data)));
+                  controller: screenshotController,
+                  child: OpaqueContainer(child: MonsterDetailContents(snapshot.data))));
         });
   }
 }
