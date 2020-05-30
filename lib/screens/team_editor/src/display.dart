@@ -1,3 +1,4 @@
+import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/screens/team_editor/team_data.dart';
@@ -235,6 +236,7 @@ class SelectBadgeDialog extends StatelessWidget {
     var controller = Provider.of<TeamController>(context);
 
     return AlertDialog(
+      insetPadding: dialogInsetsAccountingForAd(context),
       title: Text('Select Badge'),
       content: Wrap(
         spacing: 4,

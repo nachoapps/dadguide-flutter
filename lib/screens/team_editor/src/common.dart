@@ -60,6 +60,7 @@ class ClickDialogIfEditable extends StatelessWidget {
     return !editable
         ? widget
         : GestureDetector(
+            behavior: HitTestBehavior.opaque,
             child: editableWidget ?? widget,
             onTap: () async {
               await showDialog<void>(

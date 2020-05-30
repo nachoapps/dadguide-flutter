@@ -290,7 +290,7 @@ class EditBaseDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(child: Text('Done'), onPressed: () => Navigator.of(context).pop()),
+        OutlineButton(child: Text('Done'), onPressed: () => Navigator.of(context).pop()),
       ],
     );
   }
