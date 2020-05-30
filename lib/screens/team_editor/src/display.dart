@@ -47,8 +47,10 @@ class TeamDisplayTile1P extends StatelessWidget {
           ),
         ),
         TeamRow(team),
-        Divider(),
-        BuildDescriptionArea(),
+        if (!controller.hideText) ...[
+          Divider(),
+          BuildDescriptionArea(),
+        ],
       ],
     );
   }
@@ -91,8 +93,10 @@ class TeamDisplayTile2P extends StatelessWidget {
                 child: TeamRow(team2, isTwoPlayer: true, isSecondPlayer: true)),
           ],
         ),
-        Divider(),
-        BuildDescriptionArea(),
+        if (!controller.hideText) ...[
+          Divider(),
+          BuildDescriptionArea(),
+        ],
       ],
     );
   }
@@ -119,8 +123,10 @@ class TeamDisplayTile3P extends StatelessWidget {
         SizedBox(height: 8),
         Title3P(3, item.team3),
         TeamRow(item.team3),
-        Divider(),
-        BuildDescriptionArea(),
+        if (!controller.hideText) ...[
+          Divider(),
+          BuildDescriptionArea(),
+        ],
       ],
     );
   }

@@ -77,8 +77,9 @@ class ClickDialogIfEditable extends StatelessWidget {
 class TeamController with ChangeNotifier {
   final bool editable;
   final EditableBuild item;
+  final bool hideText;
 
-  TeamController({this.editable = true, @required this.item});
+  TeamController({@required this.item, this.editable = true, this.hideText = false});
 
   void notify() {
     notifyListeners();

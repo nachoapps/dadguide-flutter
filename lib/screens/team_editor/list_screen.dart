@@ -53,7 +53,8 @@ class TeamListContents extends StatelessWidget {
           itemBuilder: (context, idx) {
             var item = data[idx];
             return ChangeNotifierProvider(
-              create: (_) => TeamController(item: EditableBuild.copy(item), editable: false),
+              create: (_) =>
+                  TeamController(item: EditableBuild.copy(item), editable: false, hideText: true),
               child: GestureDetector(
                   onTap: () => Navigator.of(context).pushNamed(BuildEditArgs.routeName,
                       arguments: BuildEditArgs(EditableBuild.copy(item))),
