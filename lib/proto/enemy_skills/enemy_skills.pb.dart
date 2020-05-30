@@ -313,6 +313,7 @@ class Condition extends $pb.GeneratedMessage {
     ..a<$core.int>(13, 'limitedExecution', $pb.PbFieldType.O3)
     ..a<$core.int>(14, 'alwaysTriggerAbove', $pb.PbFieldType.O3)
     ..a<$core.int>(15, 'alwaysAfter', $pb.PbFieldType.O3)
+    ..a<$core.int>(16, 'skillSet', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -459,5 +460,14 @@ class Condition extends $pb.GeneratedMessage {
   $core.bool hasAlwaysAfter() => $_has(14);
   @$pb.TagNumber(15)
   void clearAlwaysAfter() => clearField(15);
+
+  @$pb.TagNumber(16)
+  $core.int get skillSet => $_getIZ(15);
+  @$pb.TagNumber(16)
+  set skillSet($core.int v) { $_setSignedInt32(15, v); }
+  @$pb.TagNumber(16)
+  $core.bool hasSkillSet() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearSkillSet() => clearField(16);
 }
 
