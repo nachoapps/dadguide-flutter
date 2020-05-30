@@ -21,7 +21,7 @@ class LatentsArea extends StatelessWidget {
 
     var row1 = <Latent>[];
     var row2 = <Latent>[];
-    int size = 0;
+    var size = 0;
     for (var l in monster.latents) {
       var lSize = min(4, l.slots);
       if (size + lSize <= 4) {
@@ -32,11 +32,30 @@ class LatentsArea extends StatelessWidget {
       size += lSize;
     }
 
-    var widget = monster.latents.isEmpty ? _contentWithout(editable) : _contentWith(row1, row2);
+    Widget widget;
+    if (monster.latents.isEmpty) {
+      if (editable) {
+        widget = OutlineWidget(
+          child: SizedBox(
+            width: 64,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(monster.hasMonster ? 'Latents' : '-'),
+              ),
+            ),
+          ),
+        );
+      } else {
+        widget = SizedBox(width: 100, height: 1);
+      }
+    } else {
+      widget = SizedBox(width: 64, child: _contentWith(row1, row2));
+    }
 
     return ClickDialogIfEditable(
         widget: widget,
-        editableWidget: OutlineWidget(child: SizedBox(width: 64, child: Center(child: widget))),
+        editableWidget: widget,
         dialogBuilder: (_) => ChangeNotifierProvider.value(
               value: controller,
               child: EditLatentsDialog(monster),
@@ -48,28 +67,24 @@ class LatentsArea extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            for (var l in row1) SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id)),
+            for (var l in row1)
+              SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id, tslim: true)),
           ],
         ),
+        SizedBox(height: 2),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (row2.isEmpty) SizedBox(height: 16),
             if (row2.isNotEmpty)
               for (var l in row2)
-                SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id)),
+                SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id, tslim: true)),
           ],
         ),
       ],
     );
-  }
-
-  Widget _contentWithout(bool editable) {
-    return editable
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            child: Text('Latents'),
-          )
-        : Container();
   }
 }
 
@@ -84,39 +99,42 @@ class EditLatentsDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text('Edit Latents'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (monster.latents.isNotEmpty) ...[
-            Text('Selected'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (monster.latents.isNotEmpty) ...[
+              Text('Selected'),
+              Wrap(
+                children: <Widget>[
+                  for (var l in monster.latents)
+                    InputChip(
+                      onDeleted: () {
+                        monster.latents.remove(l);
+                        controller.notify();
+                      },
+                      label: latentImage(l.id, tslim: true),
+                    ),
+                ],
+              ),
+            ],
+            Text('Available'),
             Wrap(
               children: <Widget>[
-                for (var l in monster.latents)
+                for (var l in monster.availableLatents)
                   InputChip(
-                    onDeleted: () {
-                      monster.latents.remove(l);
+                    isEnabled: monster.maxLatents >= (monster.currentLatents + l.slots),
+                    onSelected: (v) {
+                      monster.latents.add(l);
                       controller.notify();
                     },
-                    label: latentContainer(l.id, size: 32),
+                    label: latentImage(l.id, tslim: true),
                   ),
               ],
-            ),
+            )
           ],
-          Text('Available'),
-          Wrap(
-            children: <Widget>[
-              for (var l in Latent.all)
-                InputChip(
-                  onSelected: (v) {
-                    monster.latents.add(l);
-                    controller.notify();
-                  },
-                  label: latentContainer(l.id, size: 28),
-                ),
-            ],
-          )
-        ],
+        ),
       ),
       actions: <Widget>[
         FlatButton(

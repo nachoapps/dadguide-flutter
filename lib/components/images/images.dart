@@ -94,8 +94,17 @@ Widget latentContainer(int latentId, {double size = 24}) {
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget latentImage(int latentId) {
-  var url = _imageUrl('latents_full', latentId, 3);
+Widget latentImage(int latentId, {bool tslim = false, bool kslim = false}) {
+  var suffix = '';
+  if (tslim && [13, 14, 15, 37, 38].contains(latentId)) suffix = '_tslim';
+  if (kslim && [20, 21, 22, 23, 24, 25, 26, 27].contains(latentId)) suffix = '_kslim';
+  var url = _imageUrl('latents_full', latentId, 3, suffix: suffix);
+  return _loadingImage(url);
+}
+
+/// Returns a widget with a loading indicator until the image loads from the cache.
+Widget badgeImage(int badgeId) {
+  var url = _imageUrl('badges', badgeId, 3);
   return _loadingImage(url);
 }
 
@@ -122,9 +131,10 @@ Widget orbSkinOrb(int orbSkinId, int orbId, bool colorBlind,
   return _sizedContainer(_loadingImage(url), size);
 }
 
-String _imageUrl(String category, int value, int length, {bool useJp = false}) {
+String _imageUrl(String category, int value, int length, {bool useJp = false, String suffix = ''}) {
   var paddedNo = value.toString().padLeft(length, '0');
   if (useJp) paddedNo += '_jp'; // Handle JP-specific assets
+  paddedNo += suffix;
   paddedNo += '.png';
   return getIt<Endpoints>().media(category, paddedNo);
 }

@@ -8,6 +8,11 @@ Color grey(BuildContext context, int value) {
   return isLight ? Colors.grey[value] : Colors.grey[1000 - value];
 }
 
+/// Large page title.
+TextStyle headline(BuildContext context) {
+  return Theme.of(context).textTheme.headline5;
+}
+
 /// Slightly more compact than body1 with a bolder weight for headers.
 TextStyle subtitle(BuildContext context) {
   return Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500);

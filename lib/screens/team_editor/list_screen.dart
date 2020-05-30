@@ -53,8 +53,11 @@ class TeamListContents extends StatelessWidget {
           itemBuilder: (context, idx) {
             var item = data[idx];
             return ChangeNotifierProvider(
-              create: (_) => TeamController(editable: false),
-              child: ListBuildTile(item),
+              create: (_) => TeamController(item: EditableBuild.copy(item), editable: false),
+              child: GestureDetector(
+                  onTap: () => Navigator.of(context).pushNamed(BuildEditArgs.routeName,
+                      arguments: BuildEditArgs(EditableBuild.copy(item))),
+                  child: TeamDisplayTile()),
             );
           },
           separatorBuilder: (_, __) => Divider(),
@@ -62,45 +65,6 @@ class TeamListContents extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 72), // spacer for FAB
         );
       },
-    );
-  }
-}
-
-class ListBuildTile extends StatelessWidget {
-  final Build item;
-
-  const ListBuildTile(this.item, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var team = item.team1;
-    return ListTile(
-      title: Text(item.title.isNotEmpty ? item.title : 'Untitled'),
-      leading: IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () => Navigator.of(context)
-            .pushNamed(BuildEditArgs.routeName, arguments: BuildEditArgs(EditableBuild.copy(item))),
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.image),
-        onPressed: () => Navigator.of(context)
-            .pushNamed(BuildViewArgs.routeName, arguments: BuildViewArgs(EditableBuild.copy(item))),
-      ),
-      subtitle: FittedBox(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TeamSlot(team.leader),
-            SizedBox(width: 4),
-            TeamSlot(team.sub1),
-            TeamSlot(team.sub2),
-            TeamSlot(team.sub3),
-            TeamSlot(team.sub4),
-            SizedBox(width: 4),
-            TeamSlot(team.friend),
-          ],
-        ),
-      ),
     );
   }
 }

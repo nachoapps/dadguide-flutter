@@ -19,7 +19,7 @@ class AssistImage extends StatelessWidget {
     var controller = Provider.of<TeamController>(context);
 
     if (!controller.editable && !item.hasMonster) {
-      return Container();
+      return SizedBox(width: 100, height: 1);
     }
 
     var widget = Stack(

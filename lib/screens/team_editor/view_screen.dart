@@ -41,8 +41,8 @@ class BuildViewContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TeamController(editable: false),
-      child: TeamDisplayTile(item),
+      create: (_) => TeamController(editable: false, item: item),
+      child: TeamDisplayTile(),
     );
   }
 }

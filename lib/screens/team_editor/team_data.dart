@@ -17,6 +17,9 @@ class Team {
   TeamMonster sub4;
   TeamMonster friend;
 
+  @BadgeConverter()
+  Badge badge;
+
   Team({
     TeamMonster leader,
     TeamMonster sub1,
@@ -24,12 +27,13 @@ class Team {
     TeamMonster sub3,
     TeamMonster sub4,
     TeamMonster friend,
-  })  : this.leader = leader ?? TeamMonster(),
-        this.sub1 = sub1 ?? TeamMonster(),
-        this.sub2 = sub2 ?? TeamMonster(),
-        this.sub3 = sub3 ?? TeamMonster(),
-        this.sub4 = sub4 ?? TeamMonster(),
-        this.friend = friend ?? TeamMonster();
+    this.badge = Badge.empty,
+  })  : leader = leader ?? TeamMonster(),
+        sub1 = sub1 ?? TeamMonster(),
+        sub2 = sub2 ?? TeamMonster(),
+        sub3 = sub3 ?? TeamMonster(),
+        sub4 = sub4 ?? TeamMonster(),
+        friend = friend ?? TeamMonster();
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
   Map<String, dynamic> toJson() => _$TeamToJson(this);
@@ -183,8 +187,11 @@ class TeamBase {
     this.skillLevel = 0,
     this.awakenings = 0,
     this.superAwakening,
-    this.latents = const [],
+    this.latents,
   }) {
+    latents ??= [];
+    awakeningOptions ??= [];
+    superAwakeningOptions ??= [];
     if (monster != null) {
       // Database-set dependencies
       name = LanguageSelector.nameWithNaOverride(monster);
@@ -197,8 +204,11 @@ class TeamBase {
   int get monsterId => monster?.monsterId ?? 0;
   bool get is297 => hpPlus == 99 && atkPlus == 99 && rcvPlus == 99;
   bool get hasPluses => hpPlus > 0 || atkPlus > 0 && rcvPlus > 0;
-  bool get canLimitBreak => monster?.limitMult != null;
-  int get maxLatents => 6; // TODO: need to populate this with 8 if SR
+  bool get canLimitBreak => (monster?.limitMult ?? 0) > 1;
+  int get maxLatents => (monster?.isReincarnated ?? false) ? 8 : 6;
+  int get currentLatents => latents.map((l) => l.slots).fold(0, (p, e) => p + e);
+  bool get displayBadge => awakenings > 0 && awakenings == awakeningOptions.length;
+  int get maxLevel => monster?.level;
 
   void clear() {
     // Monster-dependent items.
@@ -209,8 +219,8 @@ class TeamBase {
     monster = null;
     active = null;
     leader = null;
-    awakeningOptions = null;
-    superAwakeningOptions = null;
+    awakeningOptions = [];
+    superAwakeningOptions = [];
 
     // User-set items.
     level = 1;
@@ -245,6 +255,20 @@ class TeamBase {
     rcvPlus = 99;
     skillLevel = active != null ? active.turnMax - active.turnMin + 1 : 0;
     awakenings = awakeningOptions.length;
+  }
+
+  List<Latent> get availableLatents {
+    var latentsWithoutKillers = List.of(Latent.all);
+    latentsWithoutKillers.removeWhere((e) => MonsterType.balanced.killers.contains(e));
+    latentsWithoutKillers.remove(Latent.reduceSkillDelay);
+    latentsWithoutKillers.sort((l, r) => (l.slots * 1000 + l.id) - (r.slots * 1000 + r.id));
+    var killers = monster == null ? [] : monster.killers.toList();
+
+    return <Latent>[
+      Latent.reduceSkillDelay,
+      ...killers,
+      ...latentsWithoutKillers,
+    ];
   }
 
   factory TeamBase.fromJson(Map<String, dynamic> json) => _$TeamBaseFromJson(json);

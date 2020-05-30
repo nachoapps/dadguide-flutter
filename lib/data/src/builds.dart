@@ -54,4 +54,6 @@ class EditableBuild {
       team3: team3,
     );
   }
+
+  String get displayTitle => title.isEmpty ? 'Untitled' : title;
 }

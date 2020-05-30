@@ -110,7 +110,7 @@ class Latent {
   static const Latent superEnhancedHp = Latent._(28, '', 2);
   static const Latent superEnhancedAttack = Latent._(29, '', 2);
   static const Latent superEnhancedRecover = Latent._(30, '', 2);
-  static const Latent SuperEnhancedMove = Latent._(31, '', 2);
+  static const Latent superEnhancedMove = Latent._(31, '', 2);
   static const Latent superReduceFire = Latent._(32, '', 2);
   static const Latent superReduceWater = Latent._(33, '', 2);
   static const Latent superReduceWood = Latent._(34, '', 2);
@@ -150,7 +150,7 @@ class Latent {
     superEnhancedHp,
     superEnhancedAttack,
     superEnhancedRecover,
-    SuperEnhancedMove,
+    superEnhancedMove,
     superReduceFire,
     superReduceWater,
     superReduceWood,
@@ -178,8 +178,8 @@ class Latent {
   }
 }
 
-class KillerLatentConverter<T> implements JsonConverter<Latent, int> {
-  const KillerLatentConverter();
+class LatentConverter<T> implements JsonConverter<Latent, int> {
+  const LatentConverter();
 
   @override
   Latent fromJson(Object json) {

@@ -78,12 +78,19 @@ class TeamController with ChangeNotifier {
   final bool editable;
   final EditableBuild item;
 
-  TeamController({this.editable = true, this.item});
+  TeamController({this.editable = true, @required this.item});
 
   void notify() {
     notifyListeners();
     getIt<BuildsDao>().saveBuild(item.toBuild());
   }
+
+  bool get is1p => item.team2 == null;
+  bool get is2p => item.team2 != null && item.team3 == null;
+  bool get is3p => item.team3 != null;
+
+  bool get badgeEnabled => !is2p;
+  bool get saEnabled => !is2p;
 }
 
 class StatRow extends StatelessWidget {
@@ -110,8 +117,7 @@ class StatRow extends StatelessWidget {
 
     return Row(
       children: <Widget>[
-        Text(title),
-        SizedBox(width: 8),
+        SizedBox(width: 50, child: Text(title)),
         SizedBox(
           width: 46,
           child: BoxedNumberInput(
@@ -126,26 +132,26 @@ class StatRow extends StatelessWidget {
             key: ValueKey(getValue),
           ),
         ),
-        SizedBox(width: 8),
-        if (altValue != null)
-          SizedBox(
-            width: 88,
-            child: FlatButton(
-                onPressed: () {
-                  setValue(altValue);
-                  controller.notify();
-                },
-                child: Text('Set $altValue')),
-          ),
-        SizedBox(
-          width: 88,
-          child: FlatButton(
-              onPressed: () {
-                setValue(maxValue);
-                controller.notify();
-              },
-              child: Text('Set $maxValue')),
-        ),
+//        SizedBox(width: 8),
+//        if (altValue != null)
+//          SizedBox(
+//            width: 88,
+//            child: FlatButton(
+//                onPressed: () {
+//                  setValue(altValue);
+//                  controller.notify();
+//                },
+//                child: Text('Set $altValue')),
+//          ),
+//        SizedBox(
+//          width: 88,
+//          child: FlatButton(
+//              onPressed: () {
+//                setValue(maxValue);
+//                controller.notify();
+//              },
+//              child: Text('Set $maxValue')),
+//        ),
       ],
     );
   }
@@ -162,10 +168,11 @@ class BoxedNumberInput extends StatelessWidget {
     return SizedBox(
       height: 24,
       child: TextFormField(
+        textAlign: TextAlign.right,
         keyboardType: TextInputType.number,
         inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         initialValue: _text,
-        onChanged: _onChanged,
+        onFieldSubmitted: _onChanged,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),

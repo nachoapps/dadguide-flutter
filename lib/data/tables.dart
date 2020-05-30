@@ -22,6 +22,7 @@ part 'src/exchanges.dart';
 part 'src/monsters.dart';
 part 'src/monster_search.dart';
 part 'src/schedule.dart';
+part 'extensions.dart';
 part 'tables.g.dart';
 
 // Classes used for database code generation and the master DadGuideDatabase.

@@ -21,11 +21,12 @@ class BaseImage extends StatelessWidget {
     var widget = Stack(
       children: <Widget>[
         SizedBox(width: 64, child: iconImage(item.monsterId)),
-        Positioned(
-          top: 1,
-          right: 1,
-          child: SizedBox(width: 18, child: DadGuideIcons.inheritableBadgeImage),
-        ),
+        if (item.displayBadge)
+          Positioned(
+            top: 1,
+            right: 1,
+            child: SizedBox(width: 18, child: DadGuideIcons.inheritableBadgeImage),
+          ),
         if (item.hasSuperAwakening)
           Positioned(
             top: 24,
@@ -129,7 +130,7 @@ class EditBaseDialog extends StatelessWidget {
                     controller.notify();
                   },
                 ),
-                SizedBox(width: 32),
+                SizedBox(width: 8),
                 RaisedButton(
                   child: Text('Remove'),
                   onPressed: item.monsterId == 0
@@ -143,32 +144,48 @@ class EditBaseDialog extends StatelessWidget {
             ),
             if (item.monsterId > 0) ...[
               Divider(),
-              Row(
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text('Max'),
-                    onPressed: () {
-                      item.level = 110;
-                      item.awakenings = item.awakeningOptions.length;
-                      item.hpPlus = 99;
-                      item.atkPlus = 99;
-                      item.rcvPlus = 99;
-                      controller.notify();
-                    },
-                  ),
-                  SizedBox(width: 32),
-                  RaisedButton(
-                    child: Text('Min'),
-                    onPressed: () {
-                      item.level = 1;
-                      item.awakenings = 0;
-                      item.hpPlus = 0;
-                      item.atkPlus = 0;
-                      item.rcvPlus = 0;
-                      controller.notify();
-                    },
-                  ),
-                ],
+              FittedBox(
+                child: Row(
+                  children: <Widget>[
+                    if (item.canLimitBreak) ...[
+                      RaisedButton(
+                        child: Text('110'),
+                        onPressed: () {
+                          item.level = 110;
+                          item.awakenings = item.awakeningOptions.length;
+                          item.hpPlus = 99;
+                          item.atkPlus = 99;
+                          item.rcvPlus = 99;
+                          controller.notify();
+                        },
+                      ),
+                      SizedBox(width: 8),
+                    ],
+                    RaisedButton(
+                      child: Text('Max (${item.level})'),
+                      onPressed: () {
+                        item.level = item.level;
+                        item.awakenings = item.awakeningOptions.length;
+                        item.hpPlus = 99;
+                        item.atkPlus = 99;
+                        item.rcvPlus = 99;
+                        controller.notify();
+                      },
+                    ),
+                    SizedBox(width: 8),
+                    RaisedButton(
+                      child: Text('Min'),
+                      onPressed: () {
+                        item.level = 1;
+                        item.awakenings = 0;
+                        item.hpPlus = 0;
+                        item.atkPlus = 0;
+                        item.rcvPlus = 0;
+                        controller.notify();
+                      },
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 16),
               Wrap(
@@ -195,7 +212,7 @@ class EditBaseDialog extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 16),
-              if (item.superAwakeningOptions.isNotEmpty)
+              if (item.superAwakeningOptions.isNotEmpty) ...[
                 Wrap(
                   spacing: 12,
                   runSpacing: 4,
@@ -223,37 +240,50 @@ class EditBaseDialog extends StatelessWidget {
                       ),
                   ],
                 ),
-              StatRow(
-                title: 'Lv    ',
-                getValue: () => item.level,
-                setValue: (v) => item.level = v,
-                minValue: 1,
-                altValue: item.canLimitBreak ? item.monster.level : null,
-                maxValue: item.canLimitBreak ? 110 : item.monster.level,
+                SizedBox(height: 16),
+              ],
+              Row(
+                children: <Widget>[
+                  StatRow(
+                    title: 'Lv    ',
+                    getValue: () => item.level,
+                    setValue: (v) => item.level = v,
+                    minValue: 1,
+                    altValue: item.canLimitBreak ? item.monster.level : null,
+                    maxValue: item.canLimitBreak ? 110 : item.monster.level,
+                  ),
+                  SizedBox(width: 16),
+                  StatRow(
+                    title: 'HP+ ',
+                    getValue: () => item.hpPlus,
+                    setValue: (v) => item.hpPlus = v,
+                    minValue: 0,
+                    altValue: 0,
+                    maxValue: 99,
+                  ),
+                ],
               ),
-              StatRow(
-                title: 'HP+ ',
-                getValue: () => item.hpPlus,
-                setValue: (v) => item.hpPlus = v,
-                minValue: 0,
-                altValue: 0,
-                maxValue: 99,
-              ),
-              StatRow(
-                title: 'ATK+',
-                getValue: () => item.atkPlus,
-                setValue: (v) => item.atkPlus = v,
-                minValue: 0,
-                altValue: 0,
-                maxValue: 99,
-              ),
-              StatRow(
-                title: 'RCV+',
-                getValue: () => item.rcvPlus,
-                setValue: (v) => item.rcvPlus = v,
-                minValue: 0,
-                altValue: 0,
-                maxValue: 99,
+              SizedBox(height: 8),
+              Row(
+                children: <Widget>[
+                  StatRow(
+                    title: 'ATK+',
+                    getValue: () => item.atkPlus,
+                    setValue: (v) => item.atkPlus = v,
+                    minValue: 0,
+                    altValue: 0,
+                    maxValue: 99,
+                  ),
+                  SizedBox(width: 16),
+                  StatRow(
+                    title: 'RCV+',
+                    getValue: () => item.rcvPlus,
+                    setValue: (v) => item.rcvPlus = v,
+                    minValue: 0,
+                    altValue: 0,
+                    maxValue: 99,
+                  ),
+                ],
               ),
             ],
           ],

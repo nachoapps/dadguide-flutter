@@ -121,7 +121,7 @@ class MonsterSearchArgs {
     } catch (ex) {
       Fimber.e('failed to encode:', ex: ex);
     }
-    return "{}";
+    return '{}';
   }
 }
 
