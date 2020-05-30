@@ -1,4 +1,9 @@
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
-  exclude: ['**/*.pbjson.dart']
+  exclude: [
+    '**/*.pbjson.dart',
+    '**/*.pb.dart',
+    '**/messages_*.dart',
+
+  ]
