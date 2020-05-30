@@ -133,8 +133,12 @@ class BehaviorWidget extends StatelessWidget {
     var inputs = Provider.of<BehaviorWidgetInputs>(context);
     var skill = inputs.esLibrary[behavior.enemySkillId];
 
-    var nameText = LanguageSelector.name(skill).call();
-    var descText = LanguageSelector.desc(skill).call();
+    var nameText = skill != null
+        ? LanguageSelector.name(skill).call()
+        : 'Unknown skill ${behavior.enemySkillId}';
+    var descText = skill != null
+        ? LanguageSelector.desc(skill).call()
+        : 'Unknown skill ${behavior.enemySkillId}';
     var conditionText = formatCondition(context, behavior.condition, inputs.esLibrary);
     if (conditionText.isNotEmpty) {
       descText = '$descText ($conditionText)';
@@ -220,6 +224,10 @@ String formatCondition(BuildContext context, Condition cond, Map<int, EnemySkill
   var loc = DadGuideLocalizations.of(context);
   var parts = <String>[];
 
+  if (cond.skillSet > 0) {
+    parts.add(loc.esCondSkillSet(cond.skillSet));
+  }
+
   if (![0, 100].contains(cond.useChance)) {
     parts.add(loc.esCondUseChance(cond.useChance));
   }
@@ -259,7 +267,8 @@ String formatCondition(BuildContext context, Condition cond, Map<int, EnemySkill
 
   if (cond.alwaysAfter > 0) {
     var skill = esLibrary[cond.alwaysAfter];
-    var nameText = LanguageSelector.name(skill).call();
+    var nameText =
+        skill != null ? LanguageSelector.name(skill).call() : 'Unknown skill ${cond.alwaysAfter}';
     parts.add(loc.esCondTriggerAfter(nameText));
   }
 

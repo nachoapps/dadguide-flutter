@@ -720,6 +720,13 @@ class DadGuideLocalizations {
       Intl.message('<error>', name: 'esGroupError', desc: 'Enemy behavior group title');
 
   // ---- Conditions ----
+  String esCondSkillSet(int number) => Intl.message(
+        'Skillset $number',
+        name: 'esCondSkillSet',
+        args: [number],
+        desc: 'Condition text (group or behavior)',
+      );
+
   String esCondUseChance(int number) => Intl.message(
         '$number% chance',
         name: 'esCondUseChance',
