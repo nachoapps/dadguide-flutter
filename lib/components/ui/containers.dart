@@ -1,5 +1,6 @@
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 
 /// Grey bar suitible for sticking at the bottom of a tab, resting above the tab navigation.
 class TabOptionsBar extends StatelessWidget {
@@ -89,5 +90,20 @@ class Greyscale extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(colorFilter: _greyscaleFilter, child: child);
+  }
+}
+
+/// Wraps a child widget with a Screenshot and provides a background matching the scaffold.
+/// This prevents screenshots from being transparent.
+class ScreenshotContainer extends StatelessWidget {
+  final ScreenshotController controller;
+  final Widget child;
+
+  const ScreenshotContainer({Key key, @required this.controller, @required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Screenshot(controller: controller, child: OpaqueContainer(child: child));
   }
 }

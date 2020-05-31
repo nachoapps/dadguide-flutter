@@ -100,22 +100,20 @@ class DungeonDetailContents extends StatelessWidget {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Screenshot(
+              child: ScreenshotContainer(
                 controller: screenshotController,
-                child: OpaqueContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DungeonHeader(_data),
-                      DungeonSubHeader(_data.selectedSubDungeon),
-                      ...battleWidgets,
-                      SizedBox(height: 8),
-                      GreyBar(
-                          children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
-                      SubDungeonList(_data),
-                      MailIssues(_data),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DungeonHeader(_data),
+                    DungeonSubHeader(_data.selectedSubDungeon),
+                    ...battleWidgets,
+                    SizedBox(height: 8),
+                    GreyBar(
+                        children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
+                    SubDungeonList(_data),
+                    MailIssues(_data),
+                  ],
                 ),
               ),
             ),

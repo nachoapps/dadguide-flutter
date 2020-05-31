@@ -4,6 +4,7 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
@@ -16,17 +17,24 @@ import 'package:fimber_io/fimber_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:tuple/tuple.dart';
 
 class CompareFrame extends StatelessWidget {
+  final screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<CompareState>(context);
     return OpaqueContainer(
       child: Column(
         children: [
-          TopBar(),
-          Expanded(child: SingleChildScrollView(child: CompareContents(state.left, state.right))),
+          TopBar(screenshotController),
+          Expanded(
+              child: SingleChildScrollView(
+                  child: ScreenshotContainer(
+                      controller: screenshotController,
+                      child: CompareContents(state.left, state.right)))),
           BottomBar(state),
         ],
       ),
@@ -35,6 +43,10 @@ class CompareFrame extends StatelessWidget {
 }
 
 class TopBar extends StatelessWidget {
+  final ScreenshotController screenshotController;
+
+  TopBar(this.screenshotController);
+
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
@@ -54,7 +66,7 @@ class TopBar extends StatelessWidget {
             Spacer(),
             Text(loc.monsterCompareTitle),
             Spacer(),
-            SizedBox(width: 32, height: 32),
+            ScreenshotButton(controller: screenshotController),
           ],
         ));
   }

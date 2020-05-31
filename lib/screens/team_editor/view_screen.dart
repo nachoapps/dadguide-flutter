@@ -26,9 +26,9 @@ class BuildViewScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Screenshot(
+        child: ScreenshotContainer(
           controller: screenshotController,
-          child: OpaqueContainer(child: BuildViewContents(args.build)),
+          child: BuildViewContents(args.build),
         ),
       ),
     );

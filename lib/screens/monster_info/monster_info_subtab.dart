@@ -47,7 +47,7 @@ class MonsterDetailScreen extends StatefulWidget {
 
 class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
   Future<FullMonster> loadingFuture;
-  ScreenshotController screenshotController = ScreenshotController();
+  final screenshotController = ScreenshotController();
 
   _MonsterDetailScreenState();
 
@@ -83,9 +83,8 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
           }
 
           return SingleChildScrollView(
-              child: Screenshot(
-                  controller: screenshotController,
-                  child: OpaqueContainer(child: MonsterDetailContents(snapshot.data))));
+              child: ScreenshotContainer(
+                  controller: screenshotController, child: MonsterDetailContents(snapshot.data)));
         });
   }
 }
