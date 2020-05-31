@@ -1,14 +1,10 @@
-
 part of '../local_tables.dart';
 
 @UseDao(tables: [Builds])
 class BuildsDao extends DatabaseAccessor<LocalStorageDatabase> with _$BuildsDaoMixin {
-  BuildsDao(LocalStorageDatabase db) : super(db) {
-    delete(builds).go();
-  }
+  BuildsDao(LocalStorageDatabase db) : super(db);
 
   ValueStream<List<Build>> buildsStream() {
-    print('req to watch');
     return ValueConnectableStream(select(builds).watch())..autoConnect();
   }
 
