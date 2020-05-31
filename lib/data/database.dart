@@ -6,6 +6,8 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
+import 'moor_isolate.dart';
+
 /// Wrapper for database loading and reloading.
 class DatabaseHelper {
   /// The on-disk unwrapped database file name stored in the sqlite database dir.
@@ -88,6 +90,10 @@ class DatabaseHelper {
       allAwokenSkills = await monsterDao.allAwokenSkills();
       allActiveSkillTags = await monsterDao.allActiveSkillTags();
       allLeaderSkillTags = await monsterDao.allLeaderSkillTags();
+      if (useIsolate) {
+        await tmpDatabase.close();
+        tmpDatabase = await createDadGuideDatabaseOnIsolate();
+      }
     } catch (ex) {
       Fimber.e('Failed to get static info from db, probably corrupt', ex: ex);
       try {
@@ -107,4 +113,17 @@ class DatabaseHelper {
     _database = tmpDatabase;
     Fimber.i('Database init complete');
   }
+}
+
+/// If enabled, uses the isolate instead of the foreground database runner.
+/// Testing shows that this reduces the lag time in the UI, although it seems
+/// to be overall a bit slower.
+bool useIsolate = true;
+
+/// Create the LocalStorageDatabase on an isolate.
+Future<DadGuideDatabase> createDadGuideDatabaseOnIsolate() async {
+  final isolate = await createMoorIsolate(DatabaseHelper.dbName);
+  final connection = await isolate.connect();
+  print('created on isolate!');
+  return DadGuideDatabase.connect(connection);
 }

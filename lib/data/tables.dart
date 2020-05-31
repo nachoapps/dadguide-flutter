@@ -612,6 +612,7 @@ class Timestamps extends Table {
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
   DadGuideDatabase(String dbPath) : super(VmDatabase(File(dbPath)));
+  DadGuideDatabase.connect(DatabaseConnection c) : super.connect(c);
 
   @override
   int get schemaVersion => 1;
