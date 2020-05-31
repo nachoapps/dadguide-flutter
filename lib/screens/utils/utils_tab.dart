@@ -8,26 +8,35 @@ class UtilsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: TabBar(
-            tabs: [
-              Tab(text: 'Etc'),
-              Tab(text: 'Data'),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            EtcTab(),
-            DataListTab(),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Utilities'),
       ),
+      body: EtcTab(),
     );
   }
+//  @override
+//  Widget build(BuildContext context) {
+//    return DefaultTabController(
+//      length: 2,
+//      child: Scaffold(
+//        appBar: AppBar(
+//          flexibleSpace: TabBar(
+//            tabs: [
+//              Tab(text: 'Etc'),
+//              Tab(text: 'Data'),
+//            ],
+//          ),
+//        ),
+//        body: TabBarView(
+//          children: [
+//            EtcTab(),
+//            DataListTab(),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
 }
 
 ListTile dummyTile(BuildContext context, String title) {
@@ -74,11 +83,11 @@ class EtcTab extends StatelessWidget {
               Navigator.pushNamed(context, BuildListArgs.routeName, arguments: BuildListArgs()),
         ),
         Divider(),
-        ListTile(
-          title: Text('Build editor'),
-          leading: Icon(FlutterIcons.teamspeak_faw5d),
-        ),
-        Divider(),
+//        ListTile(
+//          title: Text('Build editor'),
+//          leading: Icon(FlutterIcons.teamspeak_faw5d),
+//        ),
+//        Divider(),
       ],
     );
   }
