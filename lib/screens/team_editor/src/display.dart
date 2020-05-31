@@ -269,12 +269,12 @@ class TeamRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var assistRow = generateRow(
-      AssistImage(team.leader.assist),
-      AssistImage(team.sub1.assist),
-      AssistImage(team.sub2.assist),
-      AssistImage(team.sub3.assist),
-      AssistImage(team.sub4.assist),
-      AssistImage(team.friend.assist),
+      AssistImage(team.leader.assist, team.leader.base),
+      AssistImage(team.sub1.assist, team.sub1.base),
+      AssistImage(team.sub2.assist, team.sub2.base),
+      AssistImage(team.sub3.assist, team.sub3.base),
+      AssistImage(team.sub4.assist, team.sub4.base),
+      AssistImage(team.friend.assist, team.friend.base),
     );
     var baseRow = generateRow(
       BaseImage(team.leader.base),
@@ -291,15 +291,18 @@ class TeamRow extends StatelessWidget {
       LatentsArea(team.sub3.base),
       LatentsArea(team.sub4.base),
       LatentsArea(team.friend.base),
+      decoration: isTwoPlayer
+          ? BoxDecoration(border: Border(top: BorderSide(color: grey(context, 200))))
+          : null,
     );
     var rowData = isTwoPlayer ? [assistRow, latentsRow, baseRow] : [assistRow, baseRow, latentsRow];
-    if (isSecondPlayer) rowData.reversed.toList();
+    if (isSecondPlayer) rowData = rowData.reversed.toList();
     return Table(children: rowData);
   }
 
   TableRow generateRow(
       Widget lead, Widget sub1, Widget sub2, Widget sub3, Widget sub4, Widget friend,
-      {bool doFit = true}) {
+      {Decoration decoration}) {
     Widget leadWidget;
     Widget friendWidget;
     if (!isTwoPlayer) {
@@ -314,6 +317,7 @@ class TeamRow extends StatelessWidget {
     }
 
     return TableRow(
+      decoration: decoration,
       children: [
         if (leadWidget != null) leadWidget,
         sub1,
@@ -321,12 +325,12 @@ class TeamRow extends StatelessWidget {
         sub3,
         sub4,
         if (friendWidget != null) friendWidget,
-      ].map((e) => fitAndPad(e, doFit, 2)).toList(),
+      ].map((e) => fitAndPad(e, 2)).toList(),
     );
   }
 }
 
-Widget fitAndPad(Widget child, bool fit, double bottom) {
+Widget fitAndPad(Widget child, double bottom) {
   // I'm not sure why this is necessary, but it sometimes explodes with height is not > 0 errors
   // unless this is put in, although rendering works properly.
   child = ConstrainedBox(
