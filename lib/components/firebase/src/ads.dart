@@ -29,7 +29,7 @@ class AdStatusManager {
   static final _iap = InAppPurchaseConnection.instance;
   bool _iapAvailable = false;
   List<ProductDetails> _productDetails = [];
-  Map<String, PurchaseDetails> _purchaseDetails = {};
+  final Map<String, PurchaseDetails> _purchaseDetails = {};
 
   AdStatusManager._internal();
 
@@ -262,9 +262,8 @@ double getBannerHeight(BuildContext context) {
 /// viewport. Since the app cannot rotate, this only needs to be checked once.
 /// see https://developers.google.com/admob/android/banner#smart_banners
 double getSmartBannerHeight(BuildContext context) {
-  MediaQueryData mediaScreen = MediaQuery.of(context);
   // The app is fixed into portrait orientation so no need to check.
-  double dpHeight = mediaScreen.size.height;
+  final dpHeight = MediaQuery.of(context).size.height;
   if (dpHeight <= 400.0) {
     return 32.0;
   }
@@ -275,7 +274,7 @@ double getSmartBannerHeight(BuildContext context) {
 }
 
 EdgeInsets dialogInsetsAccountingForAd(BuildContext context) {
-  var offset = AdStatusManager.instance.status.value == AdStatus.disabled ? 0 : getBannerHeight(context);
-  return EdgeInsets.only(
-      left: 40.0, right: 40.0, top: 24.0, bottom: 48 + offset);
+  var offset =
+      AdStatusManager.instance.status.value == AdStatus.disabled ? 0 : getBannerHeight(context);
+  return EdgeInsets.only(left: 40.0, right: 40.0, top: 24.0, bottom: 48 + offset);
 }

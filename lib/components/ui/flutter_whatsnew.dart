@@ -78,7 +78,7 @@ class WhatsNewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Changelog: $changelog");
+    print('Changelog: $changelog');
     if (!kIsWeb && Platform.isIOS && !forceAndroid) {
       return _buildIOS(context);
     }
@@ -115,11 +115,7 @@ class WhatsNewPage extends StatelessWidget {
                   title: RaisedButton(
                     child: buttonText,
                     color: buttonColor ?? Colors.blue,
-                    onPressed: onButtonPressed != null
-                        ? onButtonPressed
-                        : () {
-                            Navigator.pop(context);
-                          },
+                    onPressed: onButtonPressed ?? () => Navigator.pop(context),
                   ),
                 ),
               ),
@@ -168,8 +164,7 @@ class WhatsNewPage extends StatelessWidget {
                 title: RaisedButton(
                   child: buttonText,
                   color: buttonColor ?? Colors.blue,
-                  onPressed:
-                      onButtonPressed != null ? onButtonPressed : () => Navigator.pop(context),
+                  onPressed: onButtonPressed ?? () => Navigator.pop(context),
                 ),
               ),
             ),
@@ -196,11 +191,7 @@ class WhatsNewPage extends StatelessWidget {
         automaticallyImplyMiddle: false,
         trailing: CupertinoButton(
           child: buttonText,
-          onPressed: onButtonPressed != null
-              ? onButtonPressed
-              : () {
-                  Navigator.pop(context);
-                },
+          onPressed: onButtonPressed ?? () => Navigator.pop(context),
         ),
       ),
       child: SafeArea(
@@ -225,7 +216,7 @@ class _ChangeLogViewState extends State<ChangeLogView> {
   @override
   void initState() {
     if (widget?.changes == null) {
-      rootBundle.loadString(widget?.path ?? "CHANGELOG.md").then((data) {
+      rootBundle.loadString(widget?.path ?? 'CHANGELOG.md').then((data) {
         setState(() {
           _changelog = data;
         });

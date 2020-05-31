@@ -42,7 +42,7 @@ class MonsterDisplayState with ChangeNotifier {
     );
   }
 
-  get searchText => _searchText;
+  String get searchText => _searchText;
 
   set searchText(String text) {
     _searchText = text?.trim();

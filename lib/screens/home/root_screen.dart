@@ -26,7 +26,7 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
   static final utilsNavKey = GlobalKey<NavigatorState>();
   static final settingsNavKey = GlobalKey<NavigatorState>();
 
-  static List<TabNavigator> _widgetOptions = [
+  static final List<TabNavigator> _widgetOptions = [
     TabNavigator(
       navigatorKey: eventNavKey,
       rootItem: EventTab(),

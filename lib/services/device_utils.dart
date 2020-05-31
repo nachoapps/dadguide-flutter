@@ -5,12 +5,12 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 
 Future<String> getDeviceId() async {
   try {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
-      IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+      final iosDeviceInfo = await deviceInfo.iosInfo;
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
-      AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+      final androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   } catch (ex) {
@@ -61,7 +61,7 @@ class DeviceOsVersion {
 
   // Expects something like "10.0", or "11.2.3"
   factory DeviceOsVersion.fromVersionString(String versionString) {
-    var split = versionString.split(".");
+    var split = versionString.split('.');
 
     var major, minor, patch = 0;
 
@@ -82,6 +82,6 @@ class DeviceOsVersion {
 
   @override
   String toString() {
-    return "$major.$minor.$patch";
+    return '$major.$minor.$patch';
   }
 }

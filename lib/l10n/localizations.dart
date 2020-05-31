@@ -973,9 +973,9 @@ class DadGuideLocalizations {
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 
   static Future<DadGuideLocalizations> load(Locale locale) {
-    final String languageCode = locale?.languageCode ?? 'xx';
-    final String name = locale.countryCode == null ? languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+    final languageCode = locale?.languageCode ?? 'xx';
+    final name = locale.countryCode == null ? languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
 
     return initializeMessages(localeName).then((bool _) {
       Intl.defaultLocale = localeName;

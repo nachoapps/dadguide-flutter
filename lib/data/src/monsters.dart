@@ -29,19 +29,19 @@ part of '../tables.dart';
         'SELECT from_id AS "fromMonsterId" FROM evolutions WHERE to_id = :monsterId',
     'childMonsterId': 'SELECT to_id AS "toMonsterId" FROM evolutions WHERE from_id = :monsterId',
     'dropDungeons':
-        ('SELECT dungeons.dungeon_id AS "dungeonId", name_jp AS "nameJp", name_na AS "nameNa", name_kr AS "nameKr"' +
-            ' FROM dungeons' +
-            ' INNER JOIN encounters USING (dungeon_id)' +
-            ' INNER JOIN drops USING (encounter_id)' +
-            ' WHERE drops.monster_id = :monsterId' +
+        ('SELECT dungeons.dungeon_id AS "dungeonId", name_jp AS "nameJp", name_na AS "nameNa", name_kr AS "nameKr"'
+            ' FROM dungeons'
+            ' INNER JOIN encounters USING (dungeon_id)'
+            ' INNER JOIN drops USING (encounter_id)'
+            ' WHERE drops.monster_id = :monsterId'
             ' GROUP BY 1, 2, 3, 4'),
-    'materialForIds': ('SELECT to_id as "monsterId" FROM evolutions' +
-        ' WHERE mat_1_id = :monsterId' +
-        ' OR mat_2_id = :monsterId' +
-        ' OR mat_3_id = :monsterId' +
-        ' OR mat_4_id = :monsterId' +
+    'materialForIds': ('SELECT to_id as "monsterId" FROM evolutions'
+        ' WHERE mat_1_id = :monsterId'
+        ' OR mat_2_id = :monsterId'
+        ' OR mat_3_id = :monsterId'
+        ' OR mat_4_id = :monsterId'
         ' OR mat_5_id = :monsterId'
-            ' GROUP BY 1'),
+        ' GROUP BY 1'),
     'baseForTransformation':
         'SELECT monster_id AS "monsterId" FROM monsters WHERE linked_monster_id = :monsterId',
     'targetForTransformation':
@@ -85,7 +85,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
         ? <int>[]
         : await skillUpMonsterIds(resultMonster.activeSkillId).get();
 
-    var skillUpDungeons = Map<int, List<BasicDungeon>>();
+    var skillUpDungeons = <int, List<BasicDungeon>>{};
     for (var monsterId in skillUpMonsterIdsResult) {
       var skillUpMonsterDropLocations = await findDropDungeons(monsterId);
       skillUpDungeons[monsterId] = skillUpMonsterDropLocations;
@@ -101,7 +101,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
 
     final transformationList = await allTransformationsForTree(evoTreeIds);
 
-    var dropLocations = Map<int, List<BasicDungeon>>();
+    var dropLocations = <int, List<BasicDungeon>>{};
     for (var evoTreeId in evoTreeIds) {
       dropLocations[evoTreeId] = await findDropDungeons(evoTreeId);
     }
@@ -256,7 +256,7 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     var ancestorMonster =
         await (select(monsters)..where((m) => m.monsterId.equals(ancestorId))).getSingle();
 
-    List<FullEvolution> results = [];
+    final results = <FullEvolution>[];
     var toSearch = [ancestorMonster];
 
     while (toSearch.isNotEmpty) {

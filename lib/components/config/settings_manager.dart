@@ -175,14 +175,14 @@ class Prefs {
   /// Sorted by insert order. Consider sorting?
   /// Note the app and database uses dungeonId as an int, but shared_preferences only has a list of strings for storage.
   static List<int> addTrackedDungeon(int dungeonId) {
-    List<int> trackedDungeons = Prefs.trackedDungeons;
+    final trackedDungeons = Prefs.trackedDungeons;
     trackedDungeons.add(dungeonId);
     setTrackedDungeons(trackedDungeons);
     return trackedDungeons;
   }
 
   static List<int> removeTrackedDungeon(int dungeonId) {
-    List<int> trackedDungeons = Prefs.trackedDungeons;
+    final trackedDungeons = Prefs.trackedDungeons;
     trackedDungeons.remove(dungeonId);
     setTrackedDungeons(trackedDungeons);
     return trackedDungeons;
@@ -206,7 +206,7 @@ class Prefs {
 
   /// Determine if the update needs to run by comparing the current time against the last run time.
   static bool updateRequired() {
-    DateTime lastUpdate =
+    final lastUpdate =
         DateTime.fromMillisecondsSinceEpoch(PrefService.getInt(PrefKeys.lastUpdateExecution));
     return DateTime.now().difference(lastUpdate).inMinutes > 10;
   }

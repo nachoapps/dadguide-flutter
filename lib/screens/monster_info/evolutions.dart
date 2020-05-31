@@ -19,13 +19,10 @@ class MonsterEvolutions extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     var evos = fullMonster.evolutions;
-    List<FullEvolution> baseEvos = evos.where((e) => e.type == EvolutionType.evo).toList();
-    List<FullEvolution> reversableEvos =
-        evos.where((e) => e.type == EvolutionType.reversible).toList();
-    List<FullEvolution> nonReversableEvos =
-        evos.where((e) => e.type == EvolutionType.non_reversible).toList();
-
-    List<Transformation> transformations = fullMonster.transformations;
+    final baseEvos = evos.where((e) => e.type == EvolutionType.evo).toList();
+    final reversableEvos = evos.where((e) => e.type == EvolutionType.reversible).toList();
+    final nonReversableEvos = evos.where((e) => e.type == EvolutionType.non_reversible).toList();
+    final transformations = fullMonster.transformations;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

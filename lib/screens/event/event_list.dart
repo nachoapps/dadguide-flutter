@@ -195,7 +195,7 @@ class EventListRowContents extends StatelessWidget {
   }
 
   String headerText() {
-    String text = model.dungeonName() ?? model.eventInfo();
+    var text = model.dungeonName() ?? model.eventInfo();
     if (model.event.groupName != null) {
       text = '[${model.event.groupName}] $text';
     }

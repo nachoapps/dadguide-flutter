@@ -50,7 +50,7 @@ Future<void> initializeServiceLocator(
   var notificationManager = NotificationManager();
   getIt.registerSingleton(notificationManager);
 
-  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+  final googleSignIn = GoogleSignIn(scopes: ['email']);
   getIt.registerSingleton(googleSignIn);
 
   var localDb = await createLocalStorageDatabase();

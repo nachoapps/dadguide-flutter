@@ -88,9 +88,11 @@ class DungeonDetailContents extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     var battles = _data.selectedSubDungeon.battles;
-    var battleWidgets = <Widget>[]..addAll(battles.length > 11
-        ? partition(battles, 5).map((c) => ExpandableDungeonTile(c))
-        : battles.map((b) => DungeonBattle(b)));
+    var battleWidgets = <Widget>[
+      ...(battles.length > 11
+          ? partition(battles, 5).map((c) => ExpandableDungeonTile(c))
+          : battles.map((b) => DungeonBattle(b)))
+    ];
 
     return Provider.value(
       value: _data,

@@ -99,7 +99,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
     final fullEncountersList = await lookupFullEncounters(subDungeonId);
 
     // Scan through all the enemy skill ids for the behavior of every encounter and load them.
-    var esLibrary = Map<int, EnemySkill>();
+    var esLibrary = <int, EnemySkill>{};
     for (var e in fullEncountersList) {
       for (var esId in extractSkillIds(e.levelBehaviors)) {
         if (esLibrary.containsKey(esId)) {

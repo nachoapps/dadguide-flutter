@@ -38,14 +38,14 @@ class TimedEvent {
       return loc.eventClosed;
     }
 
-    String text = '';
+    var text = '';
     if (!isOpen()) {
       text = _adjDate(displayedDate, startTime);
     }
     text += ' ~ ';
     text += _adjDate(displayedDate, endTime);
 
-    int deltaDays = daysUntilClose();
+    var deltaDays = daysUntilClose();
     if (deltaDays > 0) {
       var dayText = loc.eventDays(deltaDays);
       text += ' [$dayText]';

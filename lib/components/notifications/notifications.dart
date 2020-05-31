@@ -36,7 +36,7 @@ class NotificationSingleton {
   Stream<String> get selectNotification => _notificationController.stream;
 
   Future<void> _onNotificationTap(String payload) async {
-    Fimber.v("Notification pressed: $payload");
+    Fimber.v('Notification pressed: $payload');
     _notificationController.sink.add(payload);
   }
 
@@ -76,18 +76,18 @@ class NotificationManager {
       var event = listEvent.event;
       var dungeonName = listEvent.dungeonName.call().trim();
       var country = Country.byId(event.serverId);
-      String endTimeText = _formatTime(_eventDateTime(event.endTimestamp));
+      final endTimeText = _formatTime(_eventDateTime(event.endTimestamp));
 
-      List<String> titleComponents = [
-        "[${country.countryCode}]",
-        if (event.groupName != null) "[${event.groupName}]",
+      final titleComponents = <String>[
+        '[${country.countryCode}]',
+        if (event.groupName != null) '[${event.groupName}]',
         '$dungeonName active',
       ];
 
-      String title = titleComponents.join(" ");
-      String body = 'Available until $endTimeText';
-      DateTime startTime = _eventDateTime(event.startTimestamp);
-      String payload = JsonEncoder().convert(event);
+      final title = titleComponents.join(' ');
+      final body = 'Available until $endTimeText';
+      final startTime = _eventDateTime(event.startTimestamp);
+      final payload = JsonEncoder().convert(event);
 
       // startTime = DateTime.now().add(Duration(seconds: Random().nextInt(30) + 5));
       await _scheduleNotification(event.eventId, title, body, startTime, payload);

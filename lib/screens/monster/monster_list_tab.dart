@@ -26,7 +26,7 @@ class MonsterTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MonsterSearchArgs defaultState =
+    final defaultState =
         args.useArgsFromPrefs ? Prefs.monsterSearchArgs : MonsterSearchArgs.defaults();
     return ChangeNotifierProvider<MonsterDisplayState>(
       create: (_) => MonsterDisplayState(defaultState),

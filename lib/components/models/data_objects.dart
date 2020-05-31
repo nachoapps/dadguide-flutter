@@ -279,7 +279,7 @@ class FullEvolution {
   FullEvolution(this.evolution, this.fromMonster, this.toMonster);
 
   List<int> get evoMatIds {
-    List<int> result = [];
+    final result = <int>[];
     result.add(evolution.mat1Id);
     if (evolution.mat2Id != null) result.add(evolution.mat2Id);
     if (evolution.mat3Id != null) result.add(evolution.mat3Id);

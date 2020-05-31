@@ -114,7 +114,7 @@ class OnboardingTask with TaskPublisher {
   }
 
   Future<void> _downloadDb() async {
-    File tmpFile = await _downloadFileWithProgress(
+    final tmpFile = await _downloadFileWithProgress(
         _SubTask.downloadDb, OnboardingTaskManager.remoteDbFile(), 'db.zip');
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
@@ -134,7 +134,7 @@ class OnboardingTask with TaskPublisher {
   }
 
   Future<void> _downloadIcons() async {
-    File tmpFile = await _downloadFileWithProgress(
+    final tmpFile = await _downloadFileWithProgress(
         _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile(), 'icons.zip');
 
     pub(_SubTask.unpackImages, TaskStatus.idle);
@@ -156,7 +156,7 @@ class OnboardingTask with TaskPublisher {
       _SubTask task, String remoteZipFile, String tmpFileName) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
-      File tmpFile = await _newTmpFile(tmpFileName);
+      final tmpFile = await _newTmpFile(tmpFileName);
       await getIt<Dio>().download(
         remoteZipFile,
         tmpFile.path,

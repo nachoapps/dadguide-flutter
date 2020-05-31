@@ -36,6 +36,7 @@ abstract class Endpoints {
 /// Right now this points to my personal machine; if you're doing dev work against a local server,
 /// update it to point to your own.
 class DevEndpoints extends Endpoints {
+  @override
   String api(String tableName, {int tstamp}) {
     var url = 'http://$_emulatingMachineId:8001/dadguide/api/serve?table=$tableName';
     if (tstamp != null) {
@@ -46,10 +47,12 @@ class DevEndpoints extends Endpoints {
     return url;
   }
 
+  @override
   String donor(String email) {
     return null;
   }
 
+  @override
   String purchase() {
     return 'http://$_emulatingMachineId:8001/dadguide/api/v1/purchases';
   }
@@ -57,6 +60,7 @@ class DevEndpoints extends Endpoints {
 
 /// Points to the production server.
 class ProdEndpoints extends Endpoints {
+  @override
   String api(String tableName, {int tstamp}) {
     var url = 'http://miru.info/dadguide/api/serve.php?table=$tableName';
     if (tstamp != null) {
@@ -67,10 +71,12 @@ class ProdEndpoints extends Endpoints {
     return url;
   }
 
+  @override
   String donor(String email) {
     return 'http://miru.info/dadguide/api/serve_donor.php?email=$email';
   }
 
+  @override
   String purchase() {
     return 'http://api.miru.info/dadguide/api/v1/purchases';
   }

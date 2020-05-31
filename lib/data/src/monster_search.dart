@@ -8,7 +8,7 @@ class MonsterSortArgs {
   MonsterSortType sortType;
 
   MonsterSortArgs({this.sortAsc = false, MonsterSortType sortType})
-      : this.sortType = sortType ?? MonsterSortType.released;
+      : sortType = sortType ?? MonsterSortType.released;
   factory MonsterSortArgs.fromJson(Map<String, dynamic> json) => _$MonsterSortArgsFromJson(json);
   Map<String, dynamic> toJson() => _$MonsterSortArgsToJson(this);
 }
@@ -68,14 +68,14 @@ class MonsterFilterArgs {
       this.favoritesOnly = false,
       Set<int> activeTags,
       Set<int> leaderTags})
-      : this.mainAttr = mainAttr ?? {},
-        this.subAttr = subAttr ?? {},
-        this.rarity = rarity ?? MinMax(),
-        this.cost = cost ?? MinMax(),
-        this.types = types ?? {},
-        this.awokenSkills = awokenSkills ?? [],
-        this.activeTags = activeTags ?? {},
-        this.leaderTags = leaderTags ?? {};
+      : mainAttr = mainAttr ?? {},
+        subAttr = subAttr ?? {},
+        rarity = rarity ?? MinMax(),
+        cost = cost ?? MinMax(),
+        types = types ?? {},
+        awokenSkills = awokenSkills ?? [],
+        activeTags = activeTags ?? {},
+        leaderTags = leaderTags ?? {};
 
   factory MonsterFilterArgs.fromJson(Map<String, dynamic> json) =>
       _$MonsterFilterArgsFromJson(json);
@@ -348,7 +348,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   /// This is a performance drain, which is why it is optional. We should add an 'awakenings'
   /// field to monster to eliminate this join.
   Future<Map<int, List<Awakening>>> _maybeLoadAwakenings(bool shouldRequestAwakenings) async {
-    var monsterAwakenings = Map<int, List<Awakening>>();
+    var monsterAwakenings = <int, List<Awakening>>{};
     if (!shouldRequestAwakenings) return monsterAwakenings;
 
     var awakeningResults = [];

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
@@ -100,10 +98,10 @@ class MonsterDetailContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
+    final loc = DadGuideLocalizations.of(context);
 
-    var activeSkill = _data.activeSkill;
-    bool hasSkillups = activeSkill != null && activeSkill.turnMin != activeSkill.turnMax;
+    final activeSkill = _data.activeSkill;
+    final hasSkillups = activeSkill != null && activeSkill.turnMin != activeSkill.turnMax;
 
     return Column(
       children: [
@@ -986,7 +984,7 @@ class AwokenSkillSection extends StatelessWidget {
     var loc = DadGuideLocalizations.of(context);
 
     // Create map to merge multiple instances of same awakening
-    var map = LinkedHashMap();
+    var map = <int, Tuple2<FullAwakening, int>>{};
     for (var a in _awakenings) {
       var value = map[a.awokenSkillId]?.item2 ?? 0;
       map[a.awokenSkillId] = Tuple2(a, value + 1);
@@ -1024,7 +1022,7 @@ class AwokenSkillSection extends StatelessWidget {
                     children: [
                       // Show number of same awakenings if applicable
                       if (data.item2 > 1)
-                        Text(data.item1.name() + " x" + data.item2.toString())
+                        Text(data.item1.name() + ' x' + data.item2.toString())
                       else
                         Text(data.item1.name()),
                       Text(data.item1.desc(), style: secondary(context)),

@@ -21,8 +21,8 @@ class DgUser {
   final bool verified;
 
   DgUser.anonymous()
-      : userName = "",
-        email = "",
+      : userName = '',
+        email = '',
         loggedIn = false,
         verified = false;
 

@@ -8,7 +8,7 @@ import 'package:pedantic/pedantic.dart';
 class RemoteConfigWrapper {
   RemoteConfigWrapper._internal();
 
-  static Completer<RemoteConfig> _initCompleter = Completer<RemoteConfig>();
+  static final Completer<RemoteConfig> _initCompleter = Completer<RemoteConfig>();
 
   /// Should be called at startup. Triggers the async init without waiting, and logs when complete.
   static void initialAsyncInit() {

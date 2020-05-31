@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 /// This uses a hacky workaround; I couldn't get the MaterialApp to rebuild via
 /// a ChangeNotifierProvider and I'm not sure why.
 class ReloadAppChangeNotifier with ChangeNotifier {
-  State _state;
+  final State _state;
 
   ReloadAppChangeNotifier(this._state);
 

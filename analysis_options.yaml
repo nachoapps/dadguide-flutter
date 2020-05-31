@@ -5,5 +5,4 @@ analyzer:
     '**/*.pbjson.dart',
     '**/*.pb.dart',
     '**/messages_*.dart',
-
   ]

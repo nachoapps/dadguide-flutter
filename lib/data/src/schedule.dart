@@ -35,8 +35,8 @@ class ScheduleDao extends DatabaseAccessor<DadGuideDatabase> with _$ScheduleDaoM
       query.where(schedule.serverId.isIn(args.serverIds));
     }
 
-    int dateStartTimestamp = args.dateStart.millisecondsSinceEpoch ~/ 1000;
-    int dateEndTimestamp = args.dateEnd.millisecondsSinceEpoch ~/ 1000;
+    final dateStartTimestamp = args.dateStart.millisecondsSinceEpoch ~/ 1000;
+    final dateEndTimestamp = args.dateEnd.millisecondsSinceEpoch ~/ 1000;
     var inDateRangePredicate = schedule.startTimestamp.isSmallerThanValue(dateEndTimestamp) &
         schedule.endTimestamp.isBiggerThanValue(dateStartTimestamp);
 

@@ -22,8 +22,8 @@ Future<FirebaseUser> googleSignIn() async {
   var googleUser = await googleSignIn.signIn();
   if (googleUser == null) throw LoginErrorException('Login canceled');
 
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
+  final googleAuth = await googleUser.authentication;
+  final credential = GoogleAuthProvider.getCredential(
     accessToken: googleAuth.accessToken,
     idToken: googleAuth.idToken,
   );

@@ -53,6 +53,7 @@ class _DataUpdaterWidgetState extends State<DataUpdaterWidget> {
     return widget.child;
   }
 
+  @override
   void dispose() {
     super.dispose();
     if (_subscription != null) {

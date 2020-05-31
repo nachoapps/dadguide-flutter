@@ -15,14 +15,14 @@ import 'package:json_annotation/json_annotation.dart' as json_annotation;
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 
+part 'extensions.dart';
 part 'src/converters.dart';
 part 'src/dungeons.dart';
 part 'src/egg_machines.dart';
 part 'src/exchanges.dart';
-part 'src/monsters.dart';
 part 'src/monster_search.dart';
+part 'src/monsters.dart';
 part 'src/schedule.dart';
-part 'extensions.dart';
 part 'tables.g.dart';
 
 // Classes used for database code generation and the master DadGuideDatabase.
@@ -62,7 +62,7 @@ class ActiveSkills extends Table {
 
 /// This class is a hack; for some queries we only care about a subset of columns (the turn min/max
 /// and tags) so there's no need to retrieve them.
-@DataClassName("ActiveSkillForSearch")
+@DataClassName('ActiveSkillForSearch')
 class ActiveSkillsForSearch extends Table {
   IntColumn get activeSkillId => integer().autoIncrement()();
 
@@ -226,7 +226,7 @@ class Encounters extends Table {
   IntColumn get tstamp => integer()();
 }
 
-@DataClassName("EnemyDataItem")
+@DataClassName('EnemyDataItem')
 class EnemyData extends Table {
   IntColumn get enemyId => integer().autoIncrement()();
 
@@ -353,7 +353,7 @@ class LeaderSkillTags extends Table {
   IntColumn get tstamp => integer()();
 }
 
-@DataClassName("LeaderSkillForSearch")
+@DataClassName('LeaderSkillForSearch')
 class LeaderSkillsForSearch extends Table {
   IntColumn get leaderSkillId => integer().autoIncrement()();
 
@@ -471,7 +471,7 @@ class Monsters extends Table {
   IntColumn get tstamp => integer()();
 }
 
-@DataClassName("ScheduleEvent")
+@DataClassName('ScheduleEvent')
 class Schedule extends Table {
   IntColumn get eventId => integer().autoIncrement()();
 
@@ -500,7 +500,7 @@ class Schedule extends Table {
   IntColumn get tstamp => integer()();
 }
 
-@DataClassName("SeriesData")
+@DataClassName('SeriesData')
 class Series extends Table {
   IntColumn get seriesId => integer().autoIncrement()();
 

@@ -30,7 +30,7 @@ var _foreverDuration = Duration(days: 9999);
 ///
 /// Also extends the base cache to allow for bulk insertion of cache items.
 class PermanentCacheManager extends BaseCacheManager {
-  static const key = "libCachedImageData";
+  static const key = 'libCachedImageData';
 
   PermanentCacheManager()
       : super(key,
@@ -38,6 +38,7 @@ class PermanentCacheManager extends BaseCacheManager {
             maxNrOfCacheObjects: 99999,
             fileFetcher: _loggingHttpGetter);
 
+  @override
   Future<String> getFilePath() async {
     var directory = await getTemporaryDirectory();
     return join(directory.path, key);
@@ -55,7 +56,7 @@ class PermanentCacheManager extends BaseCacheManager {
   Future<File> putFile(String url, Uint8List fileBytes,
       {String eTag,
       Duration maxAge = const Duration(days: 30), // This value is ignored.
-      String fileExtension = "file"}) async {
+      String fileExtension = 'file'}) async {
     return super.putFile(url, fileBytes,
         eTag: null, maxAge: _foreverDuration, fileExtension: fileExtension);
   }
@@ -64,7 +65,7 @@ class PermanentCacheManager extends BaseCacheManager {
   ///
   /// Based on cache_manager.dart:putFile and reimplemented for bulk put efficiency.
   Future<void> storeImageArchive(Archive archive, Function progressCallback) async {
-    List<_UnzipArgs> allArgs = [];
+    final allArgs = <_UnzipArgs>[];
 
     var baseFile = Directory(await getFilePath());
     if (!(await baseFile.exists())) {
@@ -73,7 +74,7 @@ class PermanentCacheManager extends BaseCacheManager {
 
     for (var archiveFile in archive) {
       var url = urlForImageNamed(archiveFile.name);
-      var relativePath = "${Uuid().v1()}.file";
+      var relativePath = '${Uuid().v1()}.file';
       var cacheObject = CacheObject(url, relativePath: relativePath);
       cacheObject.validTill = DateTime.now().add(_foreverDuration);
       cacheObject.eTag = null;

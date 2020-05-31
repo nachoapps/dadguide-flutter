@@ -38,7 +38,7 @@ class TrackedChip extends StatelessWidget {
 /// Displays the menu, trigger by a long press of the dungeon row.
 Future<bool> showDungeonMenu(BuildContext context, int dungeonId, bool currentlyTracked) async {
   var loc = DadGuideLocalizations.of(context);
-  String addOrRemoveText =
+  final addOrRemoveText =
       currentlyTracked ? loc.trackingPopupStopTrackingText : loc.trackingPopupStartTrackingText;
 
   var value = await showMenu(
@@ -63,7 +63,7 @@ Future<bool> showDungeonMenu(BuildContext context, int dungeonId, bool currently
       await _startTracking(dungeonId);
     }
   } catch (ex, stacktrace) {
-    Fimber.e("Failed to swap tracking for $dungeonId from tracked:$currentlyTracked",
+    Fimber.e('Failed to swap tracking for $dungeonId from tracked:$currentlyTracked',
         ex: ex, stacktrace: stacktrace);
   }
   return !currentlyTracked;
@@ -86,7 +86,7 @@ Future<void> _stopTracking(int dungeonId) async {
 RelativeRect _buttonMenuPosition(BuildContext c) {
   final RenderBox bar = c.findRenderObject();
   final RenderBox overlay = Overlay.of(c).context.findRenderObject();
-  final RelativeRect position = RelativeRect.fromRect(
+  final position = RelativeRect.fromRect(
     Rect.fromPoints(
       bar.localToGlobal(bar.size.centerLeft(Offset.zero), ancestor: overlay),
       bar.localToGlobal(bar.size.centerLeft(Offset.zero), ancestor: overlay),

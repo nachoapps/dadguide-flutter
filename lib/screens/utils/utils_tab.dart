@@ -14,8 +14,8 @@ class UtilsTab extends StatelessWidget {
         appBar: AppBar(
           flexibleSpace: TabBar(
             tabs: [
-              Tab(text: "Etc"),
-              Tab(text: "Data"),
+              Tab(text: 'Etc'),
+              Tab(text: 'Data'),
             ],
           ),
         ),

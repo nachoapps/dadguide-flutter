@@ -31,6 +31,7 @@ class AsyncSwitchPreference extends StatefulWidget {
     this.switchActiveColor,
   });
 
+  @override
   _AsyncSwitchPreferenceState createState() => _AsyncSwitchPreferenceState();
 }
 
@@ -67,7 +68,7 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
     );
   }
 
-  onEnable() async {
+  Future<void> onEnable() async {
     setState(() {
       _stateDisabled = true;
     });
@@ -89,7 +90,7 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
     }
   }
 
-  onDisable() async {
+  Future<void> onDisable() async {
     setState(() {
       _stateDisabled = true;
     });

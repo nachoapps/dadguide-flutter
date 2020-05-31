@@ -90,7 +90,7 @@ class UpdateTask with TaskPublisher {
     var timestamps = await _retrieveTimestamps();
 
     // Compare the remote table timestamps against the local one to determine what work to do.
-    List<Tuple2<TableInfo, int>> tablesToUpdate = [];
+    final tablesToUpdate = <Tuple2<TableInfo, int>>[];
     for (var table in _updateOrder()) {
       var tableTstamp = await _database.maxTstamp(table) ?? 0;
       var remoteTstamp = timestamps[table.actualTableName] ?? 0;
@@ -122,7 +122,7 @@ class UpdateTask with TaskPublisher {
 
     var data = await _retrieveTableData(table.actualTableName, tstamp: localTstamp);
     Fimber.i('Retrieved ${data.length} rows for ${table.actualTableName}');
-    int complete = 0;
+    var complete = 0;
     progressFn(complete * 100 ~/ data.length);
     for (var row in data) {
 //      var item = table.map(row) as Insertable;
@@ -194,7 +194,7 @@ class UpdateTask with TaskPublisher {
   /// Gets the server-side max timestamp for each table.
   Future<Map<String, int>> _retrieveTimestamps() async {
     var items = await _retrieveTableData('timestamps');
-    return Map.fromIterable(items, key: (i) => i['name'], value: (i) => i['tstamp']);
+    return {for (var i in items) i['name']: i['tstamp']};
   }
 
   /// Gets the actual data for a table that needs upserting.

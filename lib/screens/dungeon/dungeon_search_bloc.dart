@@ -21,7 +21,7 @@ class DungeonDisplayState with ChangeNotifier {
   }
 
   set searchText(String searchText) {
-    this._searchText = searchText.trim();
+    _searchText = searchText.trim();
     search();
     notifyListeners();
   }

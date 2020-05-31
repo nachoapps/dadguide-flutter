@@ -50,10 +50,9 @@ class SimpleRxStreamBuilder<T> extends StatelessWidget {
       Widget whileError,
       Widget whileNull})
       : assert(builder != null),
-        this.whileWaiting = whileWaiting ?? Center(child: CircularProgressIndicator()),
-        this.whileError = whileError ?? Center(child: Icon(Icons.error_outline, color: Colors.red)),
-        this.whileNull =
-            whileNull ?? Center(child: Icon(Icons.error_outline, color: Colors.yellow)),
+        whileWaiting = whileWaiting ?? Center(child: CircularProgressIndicator()),
+        whileError = whileError ?? Center(child: Icon(Icons.error_outline, color: Colors.red)),
+        whileNull = whileNull ?? Center(child: Icon(Icons.error_outline, color: Colors.yellow)),
         super(key: key);
 
   @override
