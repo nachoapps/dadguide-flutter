@@ -162,9 +162,9 @@ class EditBaseDialog extends StatelessWidget {
                       SizedBox(width: 8),
                     ],
                     RaisedButton(
-                      child: Text('Max (${item.level})'),
+                      child: Text('Max (${item.monster.level})'),
                       onPressed: () {
-                        item.level = item.level;
+                        item.level = item.monster.level;
                         item.awakenings = item.awakeningOptions.length;
                         item.hpPlus = 99;
                         item.atkPlus = 99;

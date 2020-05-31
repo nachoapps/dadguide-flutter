@@ -134,26 +134,6 @@ class StatRow extends StatelessWidget {
             key: ValueKey(getValue),
           ),
         ),
-//        SizedBox(width: 8),
-//        if (altValue != null)
-//          SizedBox(
-//            width: 88,
-//            child: FlatButton(
-//                onPressed: () {
-//                  setValue(altValue);
-//                  controller.notify();
-//                },
-//                child: Text('Set $altValue')),
-//          ),
-//        SizedBox(
-//          width: 88,
-//          child: FlatButton(
-//              onPressed: () {
-//                setValue(maxValue);
-//                controller.notify();
-//              },
-//              child: Text('Set $maxValue')),
-//        ),
       ],
     );
   }
