@@ -48,8 +48,7 @@ class TeamListContents extends StatelessWidget {
     return SimpleRxStreamBuilder<List<Build>>(
       stream: getIt<BuildsDao>().buildsStream(),
       builder: (context, data) {
-        print('got new data');
-        return ListView.separated(
+        return ListView.builder(
           itemBuilder: (context, idx) {
             var item = data[idx];
             return ChangeNotifierProvider(
@@ -58,10 +57,12 @@ class TeamListContents extends StatelessWidget {
               child: GestureDetector(
                   onTap: () => Navigator.of(context).pushNamed(BuildEditArgs.routeName,
                       arguments: BuildEditArgs(EditableBuild.copy(item))),
-                  child: TeamDisplayTile()),
+                  child: Card(
+                    elevation: 2,
+                    child: TeamDisplayTile(),
+                  )),
             );
           },
-          separatorBuilder: (_, __) => Divider(),
           itemCount: data.length,
           padding: EdgeInsets.only(bottom: 72), // spacer for FAB
         );
