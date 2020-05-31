@@ -11,8 +11,9 @@ import 'common.dart';
 
 class AssistImage extends StatelessWidget {
   final TeamAssist item;
+  final TeamBase base;
 
-  const AssistImage(this.item, {Key key}) : super(key: key);
+  const AssistImage(this.item, this.base, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class AssistImage extends StatelessWidget {
       children: <Widget>[
         SizedBox(width: 64, child: iconImage(item.monsterId)),
         if (item.hasMonster) ...[
-          if (item.is297)
+          if (canContributeStats && item.is297)
             Positioned(
               top: 2,
               left: 4,
@@ -41,7 +42,7 @@ class AssistImage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  OutlineText('LV ${item.level}', size: 11),
+                  if (canContributeStats) OutlineText('LV ${item.level}', size: 11),
                   Spacer(),
                   OutlineText('${item.id()}', size: 9),
                 ],
@@ -59,6 +60,9 @@ class AssistImage extends StatelessWidget {
               child: EditAssistDialog(context, item),
             ));
   }
+
+  bool get canContributeStats =>
+      item.hasMonster && base.hasMonster && item.monster.attr1 == base.monster.attr1;
 }
 
 class EditAssistDialog extends StatelessWidget {
