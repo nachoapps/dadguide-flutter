@@ -96,7 +96,7 @@ class UpdateTask with TaskPublisher {
       var remoteTstamp = timestamps[table.actualTableName] ?? 0;
 
       if (remoteTstamp > tableTstamp) {
-        Fimber.i('Table $table needs update, $remoteTstamp > $tableTstamp');
+        Fimber.i('Table ${table.actualTableName} needs update, $remoteTstamp > $tableTstamp');
         tablesToUpdate.add(Tuple2(table, tableTstamp));
       }
     }
@@ -125,27 +125,7 @@ class UpdateTask with TaskPublisher {
     var complete = 0;
     progressFn(complete * 100 ~/ data.length);
     for (var row in data) {
-//      var item = table.map(row) as Insertable;
-//      await _database.upsertData(table, item);
-
-      // TODO: ughhh this is super gross and must be fixable but dart is complaining about types.
-      if (table == _database.activeSkills) {
-        await _database.upsertData(_database.activeSkills, _database.activeSkills.map(row));
-      } else if (table == _database.activeSkillTags) {
-        await _database.upsertData(_database.activeSkillTags, _database.activeSkillTags.map(row));
-      } else if (table == _database.awakenings) {
-        await _database.upsertData(_database.awakenings, _database.awakenings.map(row));
-      } else if (table == _database.awokenSkills) {
-        await _database.upsertData(_database.awokenSkills, _database.awokenSkills.map(row));
-      } else if (table == _database.drops) {
-        await _database.upsertData(_database.drops, _database.drops.map(row));
-      } else if (table == _database.dungeons) {
-        await _database.upsertData(_database.dungeons, _database.dungeons.map(row));
-      } else if (table == _database.eggMachines) {
-        await _database.upsertData(_database.eggMachines, _database.eggMachines.map(row));
-      } else if (table == _database.encounters) {
-        await _database.upsertData(_database.encounters, _database.encounters.map(row));
-      } else if (table == _database.enemyData) {
+      if (table == _database.enemyData) {
         // EnemyData needs custom deserialization since it has an encoded blob.
         var enemyId = row['enemy_id'] as int;
         var status = row['status'] as int;
@@ -160,27 +140,11 @@ class UpdateTask with TaskPublisher {
           tstamp: tstamp,
         );
         await _database.upsertData(_database.enemyData, item);
-      } else if (table == _database.enemySkills) {
-        await _database.upsertData(_database.enemySkills, _database.enemySkills.map(row));
-      } else if (table == _database.evolutions) {
-        await _database.upsertData(_database.evolutions, _database.evolutions.map(row));
-      } else if (table == _database.exchanges) {
-        await _database.upsertData(_database.exchanges, _database.exchanges.map(row));
-      } else if (table == _database.leaderSkills) {
-        await _database.upsertData(_database.leaderSkills, _database.leaderSkills.map(row));
-      } else if (table == _database.leaderSkillTags) {
-        await _database.upsertData(_database.leaderSkillTags, _database.leaderSkillTags.map(row));
-      } else if (table == _database.monsters) {
-        await _database.upsertData(_database.monsters, _database.monsters.map(row));
-      } else if (table == _database.schedule) {
-        await _database.upsertData(_database.schedule, _database.schedule.map(row));
-      } else if (table == _database.series) {
-        await _database.upsertData(_database.series, _database.series.map(row));
-      } else if (table == _database.subDungeons) {
-        await _database.upsertData(_database.subDungeons, _database.subDungeons.map(row));
       } else {
-        throw 'Unexpected table: ${table.actualTableName}';
+        var item = table.map(row) as Insertable;
+        await _database.upsertData(table, item);
       }
+
       complete++;
       progressFn(complete * 100 ~/ data.length);
     }
