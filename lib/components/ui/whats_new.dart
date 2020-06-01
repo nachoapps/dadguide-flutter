@@ -10,6 +10,8 @@ Future<void> showChangelog(BuildContext context) {
 }
 
 class DadGuideChangelog extends StatelessWidget {
+  static final changelogVersion = 'v14';
+
   final VoidCallback onButtonPressed;
 
   const DadGuideChangelog({Key key, this.onButtonPressed}) : super(key: key);

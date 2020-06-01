@@ -33,7 +33,8 @@ When ready to release, determine what the next version would be by checking the 
 CodeMagic build number and adding 1, e.g. if the last build is 83 the next release tag should
 be `2.0.84`.
 
-Update CHANGELOG.md with the release notes and the presumptive release link.
+Update CHANGELOG.md with the release notes and the link to the release milestone. Add a link to the
+previous release if necessary.
 
 Create a new release with that number, add a description, and link to the 'closed issues' tab of
 the release milestone.

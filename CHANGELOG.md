@@ -1,4 +1,12 @@
-## [Version 13](https://github.com/nachoapps/dadguide-flutter/releases)
+## [Version 14](https://github.com/nachoapps/dadguide-flutter/releases)
+
+Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/14?closed=1)
+
+* Team editor in utils tab
+* Add screenshot to compare screen
+* Fix screenshot background being transparent
+
+## [Version 13](https://github.com/nachoapps/dadguide-flutter/releases/tag/2.0.105)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/13?closed=1)
 
