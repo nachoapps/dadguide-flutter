@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dadguide2/components/config/service_locator.dart';
+import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/data/local_tables.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
@@ -142,25 +143,31 @@ class StatRow extends StatelessWidget {
 class BoxedNumberInput extends StatelessWidget {
   final String _text;
   final ValueChanged<String> _onChanged;
+  final focusNode = FocusNode();
 
-  const BoxedNumberInput(this._text, this._onChanged, {Key key}) : super(key: key);
+  BoxedNumberInput(this._text, this._onChanged, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('hi');
     return SizedBox(
       height: 24,
-      child: TextFormField(
-        textAlign: TextAlign.right,
-        keyboardType: TextInputType.number,
-        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-        initialValue: _text,
-        onFieldSubmitted: _onChanged,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          fillColor: grey(context, 200),
-          filled: true,
+      child: EnsureVisibleWhenFocused(
+        focusNode: focusNode,
+        child: TextFormField(
+          focusNode: focusNode,
+          textAlign: TextAlign.right,
+          keyboardType: TextInputType.number,
+          inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+          initialValue: _text,
+          onFieldSubmitted: _onChanged,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            fillColor: grey(context, 200),
+            filled: true,
+          ),
         ),
       ),
     );
