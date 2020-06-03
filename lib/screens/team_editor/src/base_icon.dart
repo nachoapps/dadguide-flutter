@@ -44,10 +44,9 @@ class BaseImage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  OutlineText('Lv ${item.level}', size: 11, outlineWidth: 2),
+                  OutlineText('Lv ${item.level}', size: 11),
                   Spacer(),
-                  OutlineText('${item.id()}',
-                      size: 10, color: Colors.lightBlueAccent, outlineWidth: 3),
+                  OutlineText('${item.id()}', size: 10, color: Colors.lightBlueAccent[100]),
                 ],
               ),
             ),

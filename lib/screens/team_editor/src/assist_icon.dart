@@ -44,7 +44,7 @@ class AssistImage extends StatelessWidget {
                 children: <Widget>[
                   if (canContributeStats) OutlineText('LV ${item.level}', size: 11),
                   Spacer(),
-                  OutlineText('${item.id()}', size: 9),
+                  OutlineText('${item.id()}', size: 10, color: Colors.lightBlueAccent[100]),
                 ],
               ),
             ),
