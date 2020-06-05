@@ -159,6 +159,10 @@ class DadGuideLocalizations {
       Intl.message('No Data', name: 'noData', desc: 'Displayed when a search finds no results');
 
   String get close => Intl.message('Close', name: 'close', desc: 'Close button text for subviews');
+  String get confirm =>
+      Intl.message('Confirm', name: 'confirm', desc: 'Close button text for confirmation dialogs');
+  String get cancel =>
+      Intl.message('Cancel', name: 'cancel', desc: 'Close button text for confirmation dialogs');
 
   String get warning => Intl.message('Warning', name: 'warning', desc: 'Title for alert dialogs');
 
@@ -965,10 +969,80 @@ class DadGuideLocalizations {
   // ---- Team Editor ----
   String get teamListTitle =>
       Intl.message('Team List', name: 'teamListTitle', desc: 'Team list title bar');
+
+  String get teamActionButtonDelete =>
+      Intl.message('Delete team', name: 'teamActionButtonDelete', desc: 'Action button text');
+  String get teamActionButtonDeleteConfirmation =>
+      Intl.message('Are you sure you want to permanently delete this team?',
+          name: 'teamActionButtonDeleteConfirmation', desc: 'Confirmation dialog text');
+
+  String teamActionButtonConvertNum(int number) => Intl.message(
+        'Convert to ${number}P',
+        name: 'teamActionButtonConvertNum',
+        args: [number],
+        desc: 'Action button text',
+      );
+  String get teamActionButtonConvertNumConfirmation =>
+      Intl.message('Are you sure? This will permanently delete a team.',
+          name: 'teamActionButtonConvertNumConfirmation', desc: 'Confirmation dialog text');
+
   String get teamEditorTitle =>
       Intl.message('Team Editor', name: 'teamEditorTitle', desc: 'Team editor title bar');
+
+  String get teamEditorBuildNameHint => Intl.message('Enter build name',
+      name: 'teamEditorBuildNameHint', desc: 'Hint text for the name input box');
+  String get teamEditorBuildDescHint => Intl.message('Enter build details',
+      name: 'teamEditorBuildDescHint', desc: 'Hint text for the description input box');
+
+  String get teamEditBadgeDialogTitle => Intl.message('Select Badge',
+      name: 'teamEditBadgeDialogTitle', desc: 'Dialog title for selecting a badge');
+
+  String get teamEditDialogSelect => Intl.message('Select',
+      name: 'teamEditDialogSelect',
+      desc: 'Button text in assist/base dialogs for selecting a monster');
+  String get teamEditDialogRemove => Intl.message('Remove',
+      name: 'teamEditDialogRemove',
+      desc: 'Button text in assist/base dialogs for removing a monster');
+  String get teamEditDialogMax => Intl.message('Max',
+      name: 'teamEditDialogMax', desc: 'Button text in assist/base dialogs for max stat a monster');
+
+  String teamEditDialogMaxLevel(int level) => Intl.message(
+        'Max ($level)',
+        name: 'teamEditDialogMaxLevel',
+        args: [level],
+        desc: 'Button text in assist/base dialogs for max stat a monster, with the specific level',
+      );
+
+  String get teamEditDialogMin => Intl.message('Min',
+      name: 'teamEditDialogMin', desc: 'Button text in assist/base dialogs for min stat a monster');
+
+  String get teamEditBaseDialogTitle => Intl.message('Edit Monster',
+      name: 'teamEditBaseDialogTitle', desc: 'Edit base monster dialog title');
+  String get teamEditAssistDialogTitle => Intl.message('Edit Assist',
+      name: 'teamEditAssistDialogTitle', desc: 'Edit assist monster dialog title');
+
+  String get teamEditLatentsPlaceholder => Intl.message('Latents',
+      name: 'teamEditLatentsPlaceholder', desc: 'Placeholder text in the latents display box');
+  String get teamEditLatentsDialogTitle => Intl.message('Edit Latents',
+      name: 'teamEditLatentsDialogTitle', desc: 'Edit latents dialog title');
+  String get teamEditLatentsSelected => Intl.message('Selected',
+      name: 'teamEditLatentsSelected', desc: 'Displays above selected latents');
+  String get teamEditLatentsAvailable => Intl.message('Available',
+      name: 'teamEditLatentsAvailable', desc: 'Displays above available latents');
+
   String get teamViewerTitle =>
       Intl.message('Team Viewer', name: 'teamViewerTitle', desc: 'Team viewer title bar');
+
+  String get teamViewerP1 =>
+      Intl.message('P1', name: 'teamViewerP1', desc: 'Team viewer 2p indicator for player 1');
+  String get teamViewerP2 =>
+      Intl.message('P2', name: 'teamViewerP2', desc: 'Team viewer 2p indicator for player 2');
+  String teamViewerPlayerNum(int number) => Intl.message(
+        'Player $number',
+        name: 'teamViewerPlayerNum',
+        args: [number],
+        desc: 'Team viewer 3p indicator for player x',
+      );
 
   // ---- Everything below here is boilerplate that doesn't matter to a translator ----
 

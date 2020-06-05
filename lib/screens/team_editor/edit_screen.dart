@@ -41,12 +41,14 @@ class BuildEditScreen extends StatelessWidget {
             SpeedDialChild(
                 child: Icon(Icons.delete_forever),
                 backgroundColor: Colors.red,
-                label: 'Delete',
+                label: context.loc.teamActionButtonDelete,
                 labelStyle: TextStyle(fontSize: 18.0, color: grey(context, 0)),
                 labelBackgroundColor: grey(context, 800),
                 onTap: () async {
-                  final result = await showConfirmDialog(context, 'Delete team',
-                      'Are you sure you want to permanently delete this team?');
+                  final result = await showConfirmDialog(
+                      context,
+                      context.loc.teamActionButtonDelete,
+                      context.loc.teamActionButtonDeleteConfirmation);
                   if (result) {
                     await getIt<BuildsDao>().deleteBuild(build.toBuild());
                     Navigator.of(context).pop();
@@ -56,7 +58,7 @@ class BuildEditScreen extends StatelessWidget {
               SpeedDialChild(
                 child: Icon(Icons.swap_horizontal_circle),
                 backgroundColor: Colors.yellow,
-                label: 'Convert 3P',
+                label: context.loc.teamActionButtonConvertNum(3),
                 labelStyle: TextStyle(fontSize: 18.0, color: grey(context, 0)),
                 labelBackgroundColor: grey(context, 800),
                 onTap: () async {
@@ -71,13 +73,15 @@ class BuildEditScreen extends StatelessWidget {
               SpeedDialChild(
                 child: Icon(Icons.swap_horizontal_circle),
                 backgroundColor: Colors.yellow,
-                label: 'Convert 2P',
+                label: context.loc.teamActionButtonConvertNum(2),
                 labelStyle: TextStyle(fontSize: 18.0, color: grey(context, 0)),
                 labelBackgroundColor: grey(context, 800),
                 onTap: () async {
                   if (build.team3 != null) {
-                    final result = await showConfirmDialog(context, 'Convert to 1P',
-                        'Are you sure? This will permanently delete the 3P team.');
+                    final result = await showConfirmDialog(
+                        context,
+                        context.loc.teamActionButtonConvertNum(2),
+                        context.loc.teamActionButtonConvertNumConfirmation);
                     if (result) {
                       build.team2 = null;
                       build.team3 = null;
@@ -97,12 +101,14 @@ class BuildEditScreen extends StatelessWidget {
               SpeedDialChild(
                 child: Icon(Icons.swap_horizontal_circle),
                 backgroundColor: Colors.yellow,
-                label: 'Convert 1P',
+                label: context.loc.teamActionButtonConvertNum(1),
                 labelStyle: TextStyle(fontSize: 18.0, color: grey(context, 0)),
                 labelBackgroundColor: grey(context, 800),
                 onTap: () async {
-                  final result = await showConfirmDialog(context, 'Convert to 1P',
-                      'Are you sure? This will permanently delete the 2P/3P teams.');
+                  final result = await showConfirmDialog(
+                      context,
+                      context.loc.teamActionButtonConvertNum(1),
+                      context.loc.teamActionButtonConvertNumConfirmation);
                   if (result) {
                     build.team2 = null;
                     build.team3 = null;

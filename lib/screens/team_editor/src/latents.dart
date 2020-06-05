@@ -5,6 +5,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/team_editor/team_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class LatentsArea extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(monster.hasMonster ? 'Latents' : '-'),
+                child: Text(monster.hasMonster ? context.loc.teamEditLatentsPlaceholder : '-'),
               ),
             ),
           ),
@@ -106,7 +107,7 @@ class EditLatentsDialog extends StatelessWidget {
       insetPadding: dialogInsetsAccountingForAd(context),
       title: Row(
         children: <Widget>[
-          Text('Edit Latents'),
+          Text(context.loc.teamEditLatentsDialogTitle),
           Spacer(),
           ExitButton(),
         ],
@@ -119,7 +120,7 @@ class EditLatentsDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (monster.latents.isNotEmpty) ...[
-                Text('Selected'),
+                Text(context.loc.teamEditLatentsSelected),
                 Wrap(
                   children: <Widget>[
                     for (var l in monster.latents)
@@ -133,7 +134,7 @@ class EditLatentsDialog extends StatelessWidget {
                   ],
                 ),
               ],
-              Text('Available'),
+              Text(context.loc.teamEditLatentsAvailable),
               Wrap(
                 children: <Widget>[
                   for (var l in monster.availableLatents)

@@ -76,7 +76,7 @@ class EditAssistDialog extends StatelessWidget {
     var controller = Provider.of<TeamController>(context);
 
     return AlertDialog(
-      title: Text('Edit Monster'),
+      title: Text(context.loc.teamEditAssistDialogTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -101,7 +101,7 @@ class EditAssistDialog extends StatelessWidget {
             Row(
               children: <Widget>[
                 RaisedButton(
-                  child: Text('Select'),
+                  child: Text(context.loc.teamEditDialogSelect),
                   onPressed: () async {
                     await Navigator.of(context).pop();
                     final m = await Navigator.of(outer).pushNamed<Monster>(
@@ -115,7 +115,7 @@ class EditAssistDialog extends StatelessWidget {
                 ),
                 SizedBox(width: 32),
                 RaisedButton(
-                  child: Text('Remove'),
+                  child: Text(context.loc.teamEditDialogRemove),
                   onPressed: !item.hasMonster
                       ? null
                       : () {
@@ -130,7 +130,7 @@ class EditAssistDialog extends StatelessWidget {
               Row(
                 children: <Widget>[
                   RaisedButton(
-                    child: Text('Max'),
+                    child: Text(context.loc.teamEditDialogMax),
                     onPressed: () {
                       item.level = item.monster.level;
                       item.is297 = true;
@@ -139,7 +139,7 @@ class EditAssistDialog extends StatelessWidget {
                   ),
                   SizedBox(width: 32),
                   RaisedButton(
-                    child: Text('Min'),
+                    child: Text(context.loc.teamEditDialogMin),
                     onPressed: () {
                       item.level = 1;
                       item.is297 = false;

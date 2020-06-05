@@ -1,6 +1,7 @@
 import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/enums.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/team_editor/team_data.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,7 @@ class TeamDisplayTile2P extends StatelessWidget {
             Flexible(
                 flex: 1,
                 fit: FlexFit.tight,
-                child: Center(child: Text('P1', style: subtitle(context)))),
+                child: Center(child: Text(context.loc.teamViewerP1, style: subtitle(context)))),
           ],
         ),
         SizedBox(height: 8),
@@ -87,7 +88,7 @@ class TeamDisplayTile2P extends StatelessWidget {
             Flexible(
                 flex: 1,
                 fit: FlexFit.tight,
-                child: Center(child: Text('P2', style: subtitle(context)))),
+                child: Center(child: Text(context.loc.teamViewerP2, style: subtitle(context)))),
             Flexible(
                 flex: 5,
                 fit: FlexFit.tight,
@@ -145,7 +146,7 @@ class Title3P extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Text('Player $playerId', style: subtitle(context)),
+            Text(context.loc.teamViewerPlayerNum(playerId), style: subtitle(context)),
             SizedBox(width: 8),
             BadgeButton(team),
           ],
@@ -169,7 +170,7 @@ class BuildNameArea extends StatelessWidget {
             child: TextField(
               controller: TextEditingController(text: item.title),
               onChanged: (v) => item.title = v,
-              decoration: InputDecoration(hintText: 'Enter build name'),
+              decoration: InputDecoration(hintText: context.loc.teamEditorBuildNameHint),
               style: headline(context),
             ),
           )
@@ -195,7 +196,7 @@ class BuildDescriptionArea extends StatelessWidget {
               child: TextField(
                 controller: TextEditingController(text: item.description),
                 maxLines: null,
-                decoration: InputDecoration(hintText: 'Enter build details'),
+                decoration: InputDecoration(hintText: context.loc.teamEditorBuildDescHint),
                 onChanged: (v) => item.description = v,
               ),
             )
@@ -237,7 +238,7 @@ class SelectBadgeDialog extends StatelessWidget {
 
     return AlertDialog(
       insetPadding: dialogInsetsAccountingForAd(context),
-      title: Text('Select Badge'),
+      title: Text(context.loc.teamEditBadgeDialogTitle),
       content: Wrap(
         spacing: 4,
         runSpacing: 4,

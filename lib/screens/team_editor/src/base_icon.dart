@@ -4,6 +4,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -92,7 +93,7 @@ class EditBaseDialog extends StatelessWidget {
     var controller = Provider.of<TeamController>(context);
 
     return AlertDialog(
-      title: Text('Edit Monster'),
+      title: Text(context.loc.teamEditBaseDialogTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -117,7 +118,7 @@ class EditBaseDialog extends StatelessWidget {
             Row(
               children: <Widget>[
                 RaisedButton(
-                  child: Text('Select'),
+                  child: Text(context.loc.teamEditDialogSelect),
                   onPressed: () async {
                     await Navigator.of(context).pop();
                     final m = await Navigator.of(outer).pushNamed<Monster>(
@@ -131,7 +132,7 @@ class EditBaseDialog extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 RaisedButton(
-                  child: Text('Remove'),
+                  child: Text(context.loc.teamEditDialogRemove),
                   onPressed: item.monsterId == 0
                       ? null
                       : () {
@@ -161,7 +162,7 @@ class EditBaseDialog extends StatelessWidget {
                       SizedBox(width: 8),
                     ],
                     RaisedButton(
-                      child: Text('Max (${item.monster.level})'),
+                      child: Text(context.loc.teamEditDialogMaxLevel(item.monster.level)),
                       onPressed: () {
                         item.level = item.monster.level;
                         item.awakenings = item.awakeningOptions.length;
@@ -173,7 +174,7 @@ class EditBaseDialog extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     RaisedButton(
-                      child: Text('Min'),
+                      child: Text(context.loc.teamEditDialogMin),
                       onPressed: () {
                         item.level = 1;
                         item.awakenings = 0;
@@ -289,7 +290,7 @@ class EditBaseDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        OutlineButton(child: Text('Done'), onPressed: () => Navigator.of(context).pop()),
+        OutlineButton(child: Text(context.loc.close), onPressed: () => Navigator.of(context).pop()),
       ],
     );
   }
