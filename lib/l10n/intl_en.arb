@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2020-05-06T09:29:19.547198",
+  "@@last_modified": "2020-06-05T18:32:47.013061",
   "title": "DadGuide",
   "@title": {
     "description": "The application title",
@@ -22,6 +22,12 @@
   "tabDungeon": "Dungeons",
   "@tabDungeon": {
     "description": "Bottom tab title for dungeon list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tabUtils": "Utils",
+  "@tabUtils": {
+    "description": "Bottom tab title for utils list",
     "type": "text",
     "placeholders": {}
   },
@@ -282,6 +288,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Close button text for confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Close button text for confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
   "warning": "Warning",
   "@warning": {
     "description": "Title for alert dialogs",
@@ -393,6 +411,12 @@
   "updateModalTitle": "Updating DadGuide data",
   "@updateModalTitle": {
     "description": "Title for update data action modal",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterListSearchText": "Search: Monster Name/No.",
+  "@monsterListSearchText": {
+    "description": "Hint text inside search box",
     "type": "text",
     "placeholders": {}
   },
@@ -517,6 +541,12 @@
   "monsterFilterModalAwokens": "Awoken Skills",
   "@monsterFilterModalAwokens": {
     "description": "Section header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monsterFilterModalSearchSuper": "Include Super",
+  "@monsterFilterModalSearchSuper": {
+    "description": "Switch widget title",
     "type": "text",
     "placeholders": {}
   },
@@ -1284,6 +1314,14 @@
     "type": "text",
     "placeholders": {}
   },
+  "esCondSkillSet": "Skillset {number}",
+  "@esCondSkillSet": {
+    "description": "Condition text (group or behavior)",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
   "esCondUseChance": "{number}% chance",
   "@esCondUseChance": {
     "description": "Condition text (group or behavior)",
@@ -1629,5 +1667,155 @@
     "description": "Error snackbar",
     "type": "text",
     "placeholders": {}
+  },
+  "teamListTitle": "Team List",
+  "@teamListTitle": {
+    "description": "Team list title bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamActionButtonDelete": "Delete team",
+  "@teamActionButtonDelete": {
+    "description": "Action button text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamActionButtonDeleteConfirmation": "Are you sure you want to permanently delete this team?",
+  "@teamActionButtonDeleteConfirmation": {
+    "description": "Confirmation dialog text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamActionButtonConvertNum": "Convert to {number}P",
+  "@teamActionButtonConvertNum": {
+    "description": "Action button text",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "teamActionButtonConvertNumConfirmation": "Are you sure? This will permanently delete a team.",
+  "@teamActionButtonConvertNumConfirmation": {
+    "description": "Confirmation dialog text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditorTitle": "Team Editor",
+  "@teamEditorTitle": {
+    "description": "Team editor title bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditorBuildNameHint": "Enter build name",
+  "@teamEditorBuildNameHint": {
+    "description": "Hint text for the name input box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditorBuildDescHint": "Enter build details",
+  "@teamEditorBuildDescHint": {
+    "description": "Hint text for the description input box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditBadgeDialogTitle": "Select Badge",
+  "@teamEditBadgeDialogTitle": {
+    "description": "Dialog title for selecting a badge",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditDialogSelect": "Select",
+  "@teamEditDialogSelect": {
+    "description": "Button text in assist/base dialogs for selecting a monster",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditDialogRemove": "Remove",
+  "@teamEditDialogRemove": {
+    "description": "Button text in assist/base dialogs for removing a monster",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditDialogMax": "Max",
+  "@teamEditDialogMax": {
+    "description": "Button text in assist/base dialogs for max stat a monster",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditDialogMaxLevel": "Max ({level})",
+  "@teamEditDialogMaxLevel": {
+    "description": "Button text in assist/base dialogs for max stat a monster, with the specific level",
+    "type": "text",
+    "placeholders": {
+      "level": {}
+    }
+  },
+  "teamEditDialogMin": "Min",
+  "@teamEditDialogMin": {
+    "description": "Button text in assist/base dialogs for min stat a monster",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditBaseDialogTitle": "Edit Monster",
+  "@teamEditBaseDialogTitle": {
+    "description": "Edit base monster dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditAssistDialogTitle": "Edit Assist",
+  "@teamEditAssistDialogTitle": {
+    "description": "Edit assist monster dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditLatentsPlaceholder": "Latents",
+  "@teamEditLatentsPlaceholder": {
+    "description": "Placeholder text in the latents display box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditLatentsDialogTitle": "Edit Latents",
+  "@teamEditLatentsDialogTitle": {
+    "description": "Edit latents dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditLatentsSelected": "Selected",
+  "@teamEditLatentsSelected": {
+    "description": "Displays above selected latents",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamEditLatentsAvailable": "Available",
+  "@teamEditLatentsAvailable": {
+    "description": "Displays above available latents",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamViewerTitle": "Team Viewer",
+  "@teamViewerTitle": {
+    "description": "Team viewer title bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamViewerP1": "P1",
+  "@teamViewerP1": {
+    "description": "Team viewer 2p indicator for player 1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamViewerP2": "P2",
+  "@teamViewerP2": {
+    "description": "Team viewer 2p indicator for player 2",
+    "type": "text",
+    "placeholders": {}
+  },
+  "teamViewerPlayerNum": "Player {number}",
+  "@teamViewerPlayerNum": {
+    "description": "Team viewer 3p indicator for player x",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
   }
 }
