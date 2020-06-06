@@ -18,9 +18,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
 import 'package:random_string/random_string.dart';
 
-// TODO: convert to being supplied by getIt
-var onboardingManager = OnboardingTaskManager._();
-
 /// The different stages that the onboarding runs through.
 class _SubTask {
   final int id;
@@ -47,6 +44,16 @@ class _SubTask {
 
 /// Singleton that manages the onboarding workflow.
 class OnboardingTaskManager {
+  OnboardingTaskManager._internal() {
+    Fimber.i('Created OnboardingTaskManager');
+  }
+
+  static OnboardingTaskManager _instance;
+  static OnboardingTaskManager get instance {
+    _instance ??= OnboardingTaskManager._internal();
+    return _instance;
+  }
+
   /// Server-side database version name. Should be updated whenever the structure of the DB changes.
   static String remoteDbFile() {
     return getIt<Endpoints>().db('v2_dadguide.sqlite.zip');
@@ -57,9 +64,7 @@ class OnboardingTaskManager {
     return getIt<Endpoints>().db('icons.zip');
   }
 
-  OnboardingTask instance;
-
-  OnboardingTaskManager._();
+  OnboardingTask task;
 
   Future<bool> onboardingMustRun() async {
     return await DatabaseHelper.instance.database == null || !Prefs.iconsDownloaded;
@@ -71,12 +76,12 @@ class OnboardingTaskManager {
 
   /// Start the onboarding flow. Attempting to start this more than once is unexpected.
   Future<void> start() {
-    if (instance != null) {
+    if (task != null) {
       Fimber.w('Already started onboarding');
       return null;
     }
-    instance = OnboardingTask();
-    return instance.start();
+    task = OnboardingTask();
+    return task.start();
   }
 }
 
@@ -178,7 +183,6 @@ class OnboardingTask with TaskPublisher {
   }
 
   void pub(_SubTask curTask, TaskStatus status, {int progress, String message}) {
-    Fimber.i('Task ${curTask.id} publishing status $status: $message');
     publish(TaskProgress(curTask.text, curTask.id, taskCount(), status,
         progress: progress, message: message));
   }

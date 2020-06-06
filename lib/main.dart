@@ -82,14 +82,14 @@ Future<bool> _asyncInit() async {
   // when the database needs to be upgraded.
   await tryInitializeServiceLocatorDb();
 
-  if (await onboardingManager.upgradingMustRun()) {
+  if (await OnboardingTaskManager.instance.upgradingMustRun()) {
     Fimber.i('Starting upgrading');
     appStatusSubject.add(AppStatus.upgrading);
-    unawaited(onboardingManager.start());
-  } else if (await onboardingManager.onboardingMustRun()) {
+    unawaited(OnboardingTaskManager.instance.start());
+  } else if (await OnboardingTaskManager.instance.onboardingMustRun()) {
     Fimber.i('Starting onboarding');
     appStatusSubject.add(AppStatus.onboarding);
-    unawaited(onboardingManager.start());
+    unawaited(OnboardingTaskManager.instance.start());
   } else {
     Fimber.i('Starting the app normally');
     appStatusSubject.add(AppStatus.ready);

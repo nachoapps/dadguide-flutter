@@ -27,7 +27,7 @@ class UpgradingScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Divider(),
-                TaskListProgress(onboardingManager.instance),
+                TaskListProgress(OnboardingTaskManager.instance.task),
                 SizedBox(height: 5),
                 Divider(),
                 ListTile(
