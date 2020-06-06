@@ -88,17 +88,15 @@ Widget awakeningContainer(int awakeningId, {double size = 24}) {
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget latentContainer(int latentId, {double size = 24}) {
-  var image = latentImage(latentId);
-  return size == null ? image : _sizedContainer(image, size);
+Widget monsterInfoKillers(int latentId) {
+  var url = _imageUrl('latents/info_killers', latentId, 3);
+  return _loadingImage(url);
 }
 
 /// Returns a widget with a loading indicator until the image loads from the cache.
-Widget latentImage(int latentId, {bool tslim = false, bool kslim = false}) {
-  var suffix = '';
-  if (tslim && [13, 14, 15, 37, 38].contains(latentId)) suffix = '_tslim';
-  if (kslim && [20, 21, 22, 23, 24, 25, 26, 27].contains(latentId)) suffix = '_kslim';
-  var url = _imageUrl('latents_full', latentId, 3, suffix: suffix);
+Widget teamDisplayLatents(int latentId) {
+  var useJp = Prefs.gameCountry == Country.jp && [17].contains(latentId);
+  var url = _imageUrl('latents_full', latentId, 3, useJp: useJp);
   return _loadingImage(url);
 }
 

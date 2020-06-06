@@ -76,7 +76,7 @@ class LatentsArea extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             for (var l in row1)
-              SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id, tslim: true)),
+              SizedBox(width: 64 / 4 * min(4, l.slots), child: teamDisplayLatents(l.id)),
           ],
         ),
         SizedBox(height: 2),
@@ -86,7 +86,7 @@ class LatentsArea extends StatelessWidget {
             if (row2.isEmpty) SizedBox(height: 16),
             if (row2.isNotEmpty)
               for (var l in row2)
-                SizedBox(width: 64 / 4 * min(4, l.slots), child: latentImage(l.id, tslim: true)),
+                SizedBox(width: 64 / 4 * min(4, l.slots), child: teamDisplayLatents(l.id)),
           ],
         ),
       ],
@@ -129,7 +129,7 @@ class EditLatentsDialog extends StatelessWidget {
                           monster.latents.remove(l);
                           controller.notify();
                         },
-                        label: latentImage(l.id, tslim: true),
+                        label: teamDisplayLatents(l.id),
                       ),
                   ],
                 ),
@@ -144,7 +144,7 @@ class EditLatentsDialog extends StatelessWidget {
                         monster.latents.add(l);
                         controller.notify();
                       },
-                      label: latentImage(l.id, tslim: true),
+                      label: teamDisplayLatents(l.id),
                     ),
                 ],
               )

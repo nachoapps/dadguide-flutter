@@ -145,7 +145,7 @@ class MonsterDetailContents extends StatelessWidget {
                       for (var killer in _data.killers)
                         Padding(
                             padding: EdgeInsets.only(right: 4),
-                            child: latentContainer(killer.id, size: 36))
+                            child: monsterInfoKillers(killer.id))
                     ]),
                   ],
                 ),
