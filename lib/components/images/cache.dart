@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:archive/archive.dart';
 import 'package:fimber/fimber.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 /// Importing this so I can manually bulk cache files which is not supported by the library.
@@ -12,7 +10,6 @@ import 'package:flutter_cache_manager/src/cache_object.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:quiver/iterables.dart' as iterables;
 import 'package:uuid/uuid.dart';
 
 /// Logs all HTTP requests for the cache (mainly images). Used to verify that the cache is working
@@ -64,48 +61,33 @@ class PermanentCacheManager extends BaseCacheManager {
   /// Unzip files directly from an archive into the cache.
   ///
   /// Based on cache_manager.dart:putFile and reimplemented for bulk put efficiency.
-  Future<void> storeImageArchive(Archive archive, Function progressCallback) async {
-    final allArgs = <_UnzipArgs>[];
-
+  Future<void> storeImageDir(Directory unpackDir, Function progressCallback) async {
     var baseFile = Directory(await getFilePath());
     if (!(await baseFile.exists())) {
       baseFile.createSync(recursive: true);
     }
 
-    for (var archiveFile in archive) {
-      var url = urlForImageNamed(archiveFile.name);
+    final prefix = '${unpackDir.path}/';
+    var filesUnpacked = 0;
+    var archiveFiles = unpackDir.listSync(recursive: true);
+    for (var archiveFile in archiveFiles) {
+      if (archiveFile.statSync().type == FileSystemEntityType.directory) {
+        // Skip directories.
+        continue;
+      }
+
+      final fileName = archiveFile.path.substring(prefix.length);
+      var url = urlForImageNamed(fileName);
       var relativePath = '${Uuid().v1()}.file';
       var cacheObject = CacheObject(url, relativePath: relativePath);
       cacheObject.validTill = DateTime.now().add(_foreverDuration);
       cacheObject.eTag = null;
       await store.putFile(cacheObject);
 
-      var path = join(baseFile.path, cacheObject.relativePath);
-      allArgs.add(_UnzipArgs(archiveFile, File(path)));
-    }
-
-    // TODO: maybe move this chunk back into onboarding_task.dart
-    var filesUnpacked = 0;
-    for (var argsChunk in iterables.partition(allArgs, allArgs.length ~/ 8)) {
-      await compute(_decompressFiles, argsChunk);
-      filesUnpacked += argsChunk.length;
-      progressCallback(100 * filesUnpacked ~/ allArgs.length);
-      Fimber.v('Finished writing chunk, $filesUnpacked files unpacked total');
+      final path = join(baseFile.path, cacheObject.relativePath);
+      await archiveFile.rename(path);
+      filesUnpacked += 1;
+      progressCallback(100 * filesUnpacked ~/ archiveFiles.length);
     }
   }
-}
-
-/// Synchronously decompresses a list of files. Intended to be used as part of a compute call.
-void _decompressFiles(List<_UnzipArgs> args) {
-  for (var arg in args) {
-    arg.destFile.writeAsBytesSync(arg.archiveFile.content, flush: true);
-  }
-}
-
-/// Helper argument for _decompressFiles() received via compute().
-class _UnzipArgs {
-  final ArchiveFile archiveFile;
-  final File destFile;
-
-  _UnzipArgs(this.archiveFile, this.destFile);
 }

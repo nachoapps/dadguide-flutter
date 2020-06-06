@@ -34,6 +34,10 @@ class DatabaseHelper {
     return join(await sqflite.getDatabasesPath(), dbName);
   }
 
+  static Future<Directory> dbDirectory() async {
+    return Directory(await sqflite.getDatabasesPath());
+  }
+
   /// Private constructor.
   DatabaseHelper._internal();
 

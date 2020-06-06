@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:archive/archive.dart';
 import 'package:dadguide2/components/config/app_state.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
@@ -12,11 +11,9 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/services/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
-import 'package:random_string/random_string.dart';
 
 /// The different stages that the onboarding runs through.
 class _SubTask {
@@ -92,7 +89,11 @@ class OnboardingTask with TaskPublisher {
     while (await DatabaseHelper.instance.database == null) {
       try {
         await _downloadDb();
+        Prefs.currentDbVersion = DatabaseHelper.dbVersion;
         Prefs.updateRan();
+
+        // Now that the database has downloaded successfully, redo initialization.
+        await tryInitializeServiceLocatorDb();
       } catch (e) {
         Fimber.w('Downloading DB failed', ex: e);
         recordEvent('onboarding_failure_db');
@@ -112,26 +113,38 @@ class OnboardingTask with TaskPublisher {
       }
     }
 
-    // Now that the database has downloaded successfully, redo initialization.
-    await tryInitializeServiceLocatorDb();
     appStatusSubject.add(AppStatus.ready);
-
     finishStream();
   }
 
   Future<void> _downloadDb() async {
-    final tmpFile =
-        await _downloadFileWithProgress(_SubTask.downloadDb, OnboardingTaskManager.remoteDbFile());
+    final tmpFile = await _downloadZipFileWithProgress(
+        _SubTask.downloadDb, OnboardingTaskManager.remoteDbFile(), 'db.download');
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
-      final archive = ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
-      var archiveDbFile = archive.firstWhere((e) => e.name == DatabaseHelper.dbName);
-      var dbFile = File(await DatabaseHelper.dbFilePath());
       pub(_SubTask.unpackDb, TaskStatus.started);
-      await compute(_decompressLargeFile, _UnzipArgs(archiveDbFile, dbFile));
+      final unpackDir = await _newTmpDir('db.unpack');
+      await _nativeUnzipLargeFile(tmpFile, unpackDir);
+
+      final unzippedDbFile = File(join(unpackDir.path, DatabaseHelper.dbName));
+      if (!unzippedDbFile.existsSync()) {
+        throw 'File does not exist: ${unzippedDbFile.path}';
+      }
+
+      final targetFile = await DatabaseHelper.dbFilePath();
+      Fimber.i('Moving ${unzippedDbFile.path} to $targetFile}');
+      await unzippedDbFile.rename(targetFile);
+      Fimber.i('Done moving to $targetFile');
+
       pub(_SubTask.unpackDb, TaskStatus.finished);
-      await tmpFile.delete();
+
+      try {
+        await tmpFile.delete();
+        await unpackDir.delete(recursive: true);
+      } catch (ex) {
+        Fimber.w('Failed to delete tmp db files', ex: ex);
+      }
     } catch (e) {
       recordEvent('onboarding_failure_db_unpack');
       pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
@@ -140,17 +153,26 @@ class OnboardingTask with TaskPublisher {
   }
 
   Future<void> _downloadIcons() async {
-    final tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile());
+    final tmpFile = await _downloadZipFileWithProgress(
+        _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile(), 'icons');
 
     pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
+      final unpackDir = await _newTmpDir('icons.unpack');
+      await _nativeUnzipLargeFile(tmpFile, unpackDir);
+
       final cacheManager = getIt<PermanentCacheManager>();
-      final archive = ZipDecoder().decodeBytes(tmpFile.readAsBytesSync());
-      await cacheManager.storeImageArchive(archive,
+      await cacheManager.storeImageDir(unpackDir,
           (progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
+
       pub(_SubTask.unpackImages, TaskStatus.finished);
-      await tmpFile.delete();
+
+      try {
+        await tmpFile.delete();
+        await unpackDir.delete(recursive: true);
+      } catch (ex) {
+        Fimber.w('Failed to delete tmp icon files', ex: ex);
+      }
     } catch (e) {
       recordEvent('onboarding_failure_icons_unpack');
       pub(_SubTask.unpackImages, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
@@ -158,10 +180,13 @@ class OnboardingTask with TaskPublisher {
     }
   }
 
-  Future<File> _downloadFileWithProgress(_SubTask task, String remoteZipFile) async {
+  Future<File> _downloadZipFileWithProgress(
+      _SubTask task, String remoteZipFile, String fileInfo) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
-      final tmpFile = await _newTmpFile('zip');
+      final tmpDir = await _newTmpDir(fileInfo);
+      final tmpFile = File(join(tmpDir.path, '$fileInfo.zip'));
+      Fimber.i('Starting download of $remoteZipFile');
       var resp = await getIt<Dio>().download(
         remoteZipFile,
         tmpFile.path,
@@ -192,21 +217,13 @@ class OnboardingTask with TaskPublisher {
   }
 }
 
-/// When used with compute(), efficiently extracts a file from an archive off the main thread.
-void _decompressLargeFile(_UnzipArgs args) {
-  args.destFile.writeAsBytesSync(args.archiveFile.content, flush: true);
+Future<void> _nativeUnzipLargeFile(File zipFile, Directory destinationDir) async {
+  Fimber.i('Unpacking ${zipFile.path} to ${destinationDir.path}');
+  await FlutterArchive.unzip(zipFile: zipFile, destinationDir: destinationDir);
+  final fileCount = await destinationDir.list().length;
+  Fimber.i('Done unpacking $fileCount files to ${destinationDir.path}');
 }
 
-/// Helper argument for _decompressLargeFile() received via compute().
-class _UnzipArgs {
-  final ArchiveFile archiveFile;
-  final File destFile;
-
-  _UnzipArgs(this.archiveFile, this.destFile);
-}
-
-Future<File> _newTmpFile(String fileType) async {
-  var tmpDir = await getTemporaryDirectory();
-  var fileName = randomString(10);
-  return File(join(tmpDir.path, '$fileName.$fileType'));
+Future<Directory> _newTmpDir(String dirType) async {
+  return Directory.systemTemp.createTemp(dirType);
 }

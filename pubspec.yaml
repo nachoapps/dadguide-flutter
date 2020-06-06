@@ -123,13 +123,19 @@ dependencies:
   #    git: https://github.com/nachoapps/flutter_whatsnew.git
 
   # Fast list scrolling
-  scrollable_positioned_list: ^0.1.5
+  scrollable_positioned_list: ^0.1.6
 
   # Linting, included for the 'unawaited' function.
   pedantic: ^1.4.0
 
   # FAB with actions
   flutter_speed_dial: ^1.2.5
+
+  # Random strings for file names and shortcodes
+  random_string: ^2.0.1
+
+  # Native archive unzipping
+  flutter_archive: ^0.1.4
 
 
 dev_dependencies:
