@@ -16,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:preferences/preferences.dart';
+import 'package:random_string/random_string.dart';
 
 // TODO: convert to being supplied by getIt
 var onboardingManager = OnboardingTaskManager._();
@@ -114,8 +115,8 @@ class OnboardingTask with TaskPublisher {
   }
 
   Future<void> _downloadDb() async {
-    final tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadDb, OnboardingTaskManager.remoteDbFile(), 'db.zip');
+    final tmpFile =
+        await _downloadFileWithProgress(_SubTask.downloadDb, OnboardingTaskManager.remoteDbFile());
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
     try {
@@ -135,7 +136,7 @@ class OnboardingTask with TaskPublisher {
 
   Future<void> _downloadIcons() async {
     final tmpFile = await _downloadFileWithProgress(
-        _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile(), 'icons.zip');
+        _SubTask.downloadImages, OnboardingTaskManager.remoteIconsFile());
 
     pub(_SubTask.unpackImages, TaskStatus.idle);
     try {
@@ -152,18 +153,19 @@ class OnboardingTask with TaskPublisher {
     }
   }
 
-  Future<File> _downloadFileWithProgress(
-      _SubTask task, String remoteZipFile, String tmpFileName) async {
+  Future<File> _downloadFileWithProgress(_SubTask task, String remoteZipFile) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
-      final tmpFile = await _newTmpFile(tmpFileName);
-      await getIt<Dio>().download(
+      final tmpFile = await _newTmpFile('zip');
+      var resp = await getIt<Dio>().download(
         remoteZipFile,
         tmpFile.path,
         onReceiveProgress: (received, total) {
           pub(task, TaskStatus.started, progress: received * 100 ~/ total);
         },
       );
+      Fimber.i(
+          'Finished downloading file ${tmpFile.path}: ${resp.statusCode} : ${resp.statusMessage}');
       pub(task, TaskStatus.finished);
       return tmpFile;
     } on DioError catch (e) {
@@ -176,6 +178,7 @@ class OnboardingTask with TaskPublisher {
   }
 
   void pub(_SubTask curTask, TaskStatus status, {int progress, String message}) {
+    Fimber.i('Task ${curTask.id} publishing status $status: $message');
     publish(TaskProgress(curTask.text, curTask.id, taskCount(), status,
         progress: progress, message: message));
   }
@@ -198,11 +201,8 @@ class _UnzipArgs {
   _UnzipArgs(this.archiveFile, this.destFile);
 }
 
-Future<File> _newTmpFile(String name) async {
+Future<File> _newTmpFile(String fileType) async {
   var tmpDir = await getTemporaryDirectory();
-  var tmpFile = File(join(tmpDir.path, name));
-  if (await tmpFile.exists()) {
-    await tmpFile.delete();
-  }
-  return tmpFile;
+  var fileName = randomString(10);
+  return File(join(tmpDir.path, '$fileName.$fileType'));
 }
