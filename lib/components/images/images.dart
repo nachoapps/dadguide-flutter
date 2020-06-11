@@ -96,7 +96,7 @@ Widget monsterInfoKillers(int latentId) {
 /// Returns a widget with a loading indicator until the image loads from the cache.
 Widget teamDisplayLatents(int latentId) {
   var useJp = Prefs.gameCountry == Country.jp && [17].contains(latentId);
-  var url = _imageUrl('latents_full', latentId, 3, useJp: useJp);
+  var url = _imageUrl('latents/team_display', latentId, 3, useJp: useJp);
   return _loadingImage(url);
 }
 

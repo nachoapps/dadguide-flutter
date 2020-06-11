@@ -161,8 +161,7 @@ class TeamBase {
   @AwokenSkillConverter()
   AwokenSkill superAwakening;
 
-//  @KillerLatentConverter()
-  @JsonKey(ignore: true)
+  @LatentConverter()
   List<Latent> latents;
 
   // Database-set dependencies.
