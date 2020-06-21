@@ -21,11 +21,15 @@ class DungeonTab extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DungeonDisplayState(DungeonTabKey.special)),
         ChangeNotifierProvider(create: (_) => TrackingNotifier()),
       ],
-      child: Column(children: [
-        DungeonSearchBar(),
-        Expanded(child: DungeonList(key: UniqueKey())),
-        DungeonDisplayOptionsBar(),
-      ]),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(40),
+          child: AppBar(flexibleSpace: DungeonSearchBar()),
+        ),
+        body: DungeonList(key: UniqueKey()),
+        bottomNavigationBar: DungeonDisplayOptionsBar(),
+        resizeToAvoidBottomInset: false, // prevents buttons from moving when keyboard is open
+      ),
     );
   }
 }

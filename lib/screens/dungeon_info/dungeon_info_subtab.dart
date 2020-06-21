@@ -35,28 +35,34 @@ class DungeonDetailScreen extends StatefulWidget {
 }
 
 class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
-  final DungeonDetailArgs _args;
+  final DungeonDetailArgs args;
 
   Future<FullDungeon> loadingFuture;
   ScreenshotController screenshotController = ScreenshotController();
 
-  _DungeonDetailScreenState(this._args);
+  _DungeonDetailScreenState(this.args);
 
   @override
   void initState() {
     super.initState();
-    loadingFuture = getIt<DungeonsDao>().lookupFullDungeon(_args.dungeonId, _args.subDungeonId);
+    loadingFuture = getIt<DungeonsDao>().lookupFullDungeon(args.dungeonId, args.subDungeonId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return OpaqueContainer(
-      child: Column(
-        children: [
-          DungeonDetailActionsBar(screenshotController),
-          Expanded(child: _retrieveDungeon()),
+    // TODO: rip out the async loading
+    return Scaffold(
+      appBar: AppBar(
+        // TODO: Stick the icon/dungeon name in here
+        // title: ,
+        actions: [
+          ScreenshotButton(controller: screenshotController),
         ],
       ),
+      body: _retrieveDungeon(),
+      // TODO: Move the DungeonDetailOptionsBar in here
+      // bottomNavigationBar: ,
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -405,7 +411,7 @@ class EncounterDetailsBar extends StatelessWidget {
           barrierDismissible: true,
           builder: (BuildContext dialogContext) {
             return AlertDialog(
-              title: Text('Details for ${model.name()}'),
+              title: Text('${model.name()}'),
               content: Table(
                 children: [
                   TableRow(children: [Text('Enemy ID'), Text('${model.encounter.enemyId}')]),

@@ -4,7 +4,6 @@ import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
@@ -21,60 +20,20 @@ import 'package:screenshot/screenshot.dart';
 import 'package:tuple/tuple.dart';
 
 class CompareFrame extends StatelessWidget {
-  final screenshotController = ScreenshotController();
-
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<CompareState>(context);
-    return OpaqueContainer(
-      child: Column(
-        children: [
-          TopBar(screenshotController),
-          Expanded(
-              child: SingleChildScrollView(
-                  child: ScreenshotContainer(
-                      controller: screenshotController,
-                      child: CompareContents(state.left, state.right)))),
-          BottomBar(state),
-        ],
+    var controller = Provider.of<ScreenshotController>(context);
+    return SingleChildScrollView(
+      child: ScreenshotContainer(
+        controller: controller,
+        child: CompareContents(state.left, state.right),
       ),
     );
   }
 }
 
-class TopBar extends StatelessWidget {
-  final ScreenshotController screenshotController;
-
-  TopBar(this.screenshotController);
-
-  @override
-  Widget build(BuildContext context) {
-    var loc = DadGuideLocalizations.of(context);
-    return Container(
-        color: Colors.blue,
-        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 32,
-              height: 32,
-              child: InkWell(
-                child: Icon(Icons.chevron_left),
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ),
-            Spacer(),
-            Text(loc.monsterCompareTitle),
-            Spacer(),
-            ScreenshotButton(controller: screenshotController),
-          ],
-        ));
-  }
-}
-
 class BottomBar extends StatelessWidget {
-  BottomBar(CompareState state);
-
   static Future<Tuple2<FullMonster, FullMonster>> reload(Monster m, FullMonster fm) async {
     final newRarity = min(m.rarity, fm.monster.rarity);
     var dao = getIt<MonstersDao>();

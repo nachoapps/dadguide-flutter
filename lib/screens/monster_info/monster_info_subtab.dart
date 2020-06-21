@@ -9,6 +9,7 @@ import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/monster.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
+import 'package:dadguide2/components/ui/notifiers.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/youtube.dart';
 import 'package:dadguide2/data/tables.dart';
@@ -19,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:tuple/tuple.dart';
 
@@ -59,14 +59,34 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return OpaqueContainer(
-      child: Column(
-        children: [
-          // TODO: The possibility to click screenshot before the widget is loaded exists, fix it.
-          MonsterDetailBar(widget.args.monsterId, screenshotController),
-          Expanded(child: _retrieveMonster()),
+    var monsterId = widget.args.monsterId;
+
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          ScreenshotButton(controller: screenshotController),
+          IconButton(
+            icon: Icon(FontAwesome.balance_scale),
+            onPressed: () async {
+              var otherMonsterId = Prefs.lastComparedMonster;
+              Prefs.lastComparedMonster = monsterId;
+              await goToMonsterCompare(context, monsterId, otherMonsterId);
+            },
+          ),
+          TopBarDivider(),
+          SimpleNotifier(
+            builder: (_, notifier) => IconButton(
+              icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star) : Icon(Icons.star_border),
+              onPressed: () {
+                Prefs.toggleFavorite(monsterId);
+                notifier.rebuild();
+              },
+            ),
+          ),
         ],
       ),
+      body: _retrieveMonster(),
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -311,59 +331,6 @@ class TypeIconText extends StatelessWidget {
         child: Text(_monsterType.name, style: Theme.of(context).textTheme.caption),
       )
     ]);
-  }
-}
-
-/// Bar across the top of the monster view; currently only the back button.
-class MonsterDetailBar extends StatelessWidget {
-  final int monsterId;
-  final ScreenshotController screenshotController;
-
-  MonsterDetailBar(this.monsterId, this.screenshotController);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => RebuildMonsterScreenNotifier(),
-      child: Consumer<RebuildMonsterScreenNotifier>(
-        builder: (_, notifier, __) => Container(
-            color: Colors.blue,
-            padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-            child: Row(
-              children: [
-                TrimmedMaterialIconButton(
-                    child: IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  icon: Icon(Icons.chevron_left),
-                  onPressed: () => Navigator.of(context).pop(),
-                )),
-                Spacer(),
-                ScreenshotButton(controller: screenshotController),
-                TrimmedMaterialIconButton(
-                  child: IconButton(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    icon: Icon(FontAwesome.balance_scale),
-                    onPressed: () async {
-                      var otherMonsterId = Prefs.lastComparedMonster;
-                      Prefs.lastComparedMonster = monsterId;
-                      await goToMonsterCompare(context, monsterId, otherMonsterId);
-                    },
-                  ),
-                ),
-                TopBarDivider(),
-                TrimmedMaterialIconButton(
-                    child: IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star) : Icon(Icons.star_border),
-                  onPressed: () {
-                    Prefs.toggleFavorite(monsterId);
-                    notifier.rebuild();
-                  },
-                )),
-              ],
-            )),
-      ),
-    );
   }
 }
 
