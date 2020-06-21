@@ -8,7 +8,7 @@ import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/dungeon/dungeon_search_bloc.dart';
+import 'package:dadguide2/screens/dungeon_list/dungeon_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
