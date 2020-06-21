@@ -114,8 +114,7 @@ Function goToSubDungeonSelectionFn(BuildContext context, FullDungeon dungeon) {
   };
 }
 
-/// Arguments for the sub dungeon selection view. We are guaranteed to have the dungeon data at
-/// this point, so it's injected directly instead of by id.
+/// Arguments for the filter modification view. Contains the filter that needs to be updated.
 class FilterMonstersArgs {
   static const routeName = '/filterMonsters';
   final MonsterDisplayState displayState;
@@ -123,7 +122,7 @@ class FilterMonstersArgs {
   FilterMonstersArgs(this.displayState);
 }
 
-/// Returns a Function which when executed, sends the user to sub dungeon selection.
+/// Returns a Function which when executed, sends the user to modify filter screen.
 Function goToFilterMonstersFn(BuildContext context, MonsterDisplayState displayState) {
   return () async {
     return Navigator.pushNamed(context, FilterMonstersArgs.routeName,
