@@ -6,7 +6,7 @@ import 'package:dadguide2/components/notifications/tracking.dart';
 import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/event/event_search_bloc.dart';
+import 'package:dadguide2/screens/event_list/event_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';

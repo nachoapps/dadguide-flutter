@@ -3,7 +3,7 @@ import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
-import 'package:dadguide2/screens/event/event_tab.dart';
+import 'package:dadguide2/screens/event_list/event_tab.dart';
 import 'package:dadguide2/screens/home/tab_navigator.dart';
 import 'package:dadguide2/screens/monster_list/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';

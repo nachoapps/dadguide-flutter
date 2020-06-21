@@ -7,7 +7,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/update_state.dart';
 import 'package:dadguide2/components/utils/streams.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/event/server_select_modal.dart';
+import 'package:dadguide2/screens/event_list/server_select_modal.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_week/calendar_week.dart';
