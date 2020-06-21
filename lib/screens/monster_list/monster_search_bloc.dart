@@ -19,6 +19,8 @@ class MonsterDisplayState with ChangeNotifier {
       : _searchText = searchArgs.text ?? '',
         filterArgs = searchArgs.filter ?? MonsterFilterArgs(),
         sortArgs = searchArgs.sort ?? MonsterSortArgs(),
+        _pictureMode = Prefs.monsterListPictureMode,
+        _showAwakenings = Prefs.monsterListAwakeningMode,
         searchBloc = MonsterSearchBloc() {
     searchBloc.search(toSearchArgs());
   }
@@ -85,12 +87,14 @@ class MonsterDisplayState with ChangeNotifier {
 
   set showAwakenings(bool value) {
     _showAwakenings = value;
+    Prefs.monsterListAwakeningMode = value;
     doSearch();
     notifyListeners();
   }
 
   set pictureMode(bool value) {
     _pictureMode = value;
+    Prefs.monsterListPictureMode = value;
     notifyListeners();
   }
 

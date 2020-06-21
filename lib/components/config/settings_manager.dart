@@ -43,6 +43,9 @@ class PrefKeys {
   static const monsterSearchArgs = 'monster_search_args';
 
   static const purchaseDetails = 'purchase_details';
+
+  static const monsterListPictureMode = 'monster_list_picture_mode';
+  static const monsterListAwakeningMode = 'monster_list_awakening_mode';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -100,6 +103,8 @@ class Prefs {
       PrefKeys.adsEnabled: true,
       PrefKeys.monsterSearchArgs: MonsterSearchArgs.defaults().toJsonString(),
       PrefKeys.purchaseDetails: <String>[],
+      PrefKeys.monsterListPictureMode: false,
+      PrefKeys.monsterListAwakeningMode: false,
     });
   }
 
@@ -270,6 +275,15 @@ class Prefs {
   static set changelogSeenVersion(String v) =>
       PrefService.setString(PrefKeys.changelogSeenVersion, v);
   static String get changelogSeenVersion => PrefService.getString(PrefKeys.changelogSeenVersion);
+
+  static set monsterListAwakeningMode(bool v) =>
+      PrefService.setBool(PrefKeys.monsterListAwakeningMode, v);
+  static bool get monsterListAwakeningMode =>
+      PrefService.getBool(PrefKeys.monsterListAwakeningMode);
+
+  static set monsterListPictureMode(bool v) =>
+      PrefService.setBool(PrefKeys.monsterListPictureMode, v);
+  static bool get monsterListPictureMode => PrefService.getBool(PrefKeys.monsterListPictureMode);
 }
 
 List<int> stringToIntList(String s) {
