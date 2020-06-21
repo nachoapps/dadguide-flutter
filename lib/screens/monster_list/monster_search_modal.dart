@@ -7,7 +7,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/data/database.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
-import 'package:dadguide2/screens/monster/monster_search_bloc.dart';
+import 'package:dadguide2/screens/monster_list/monster_search_bloc.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

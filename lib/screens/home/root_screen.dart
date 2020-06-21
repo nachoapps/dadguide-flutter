@@ -5,7 +5,7 @@ import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/event/event_tab.dart';
 import 'package:dadguide2/screens/home/tab_navigator.dart';
-import 'package:dadguide2/screens/monster/monster_list_tab.dart';
+import 'package:dadguide2/screens/monster_list/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
 import 'package:dadguide2/screens/utils/utils_tab.dart';
 import 'package:dadguide2/theme/style.dart';

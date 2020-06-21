@@ -1,7 +1,7 @@
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
-import 'package:dadguide2/screens/monster/src/state.dart';
+import 'package:dadguide2/screens/monster_list/src/state.dart';
 import 'package:flutter/widgets.dart';
 
 /// Intermediary between monster list model and the UI.
