@@ -764,6 +764,18 @@ class AwakeningE {
   static final _lookup = {for (var k in all) k.id: k};
 
   static AwakeningE byId(int id) => _lookup[id];
+
+  static final equivalents = <AwakeningE, List<AwakeningE>>{
+    resistBindSuper: [resistBind, resistBind],
+    skillBoostSuper: [skillBoost, skillBoost],
+    resistBlindSuper: [resistBlind, resistBlind, resistBlind, resistBlind, resistBlind],
+    resistJammerSuper: [resistJammer, resistJammer, resistJammer, resistJammer, resistJammer],
+    resistPoisonSuper: [resistPoison, resistPoison, resistPoison, resistPoison, resistPoison],
+  };
+
+  static int toId(AwakeningE e) => e.id;
+  static final equivalentsById =
+      equivalents.map((k, v) => MapEntry(toId(k), List<int>.unmodifiable(v.map(toId))));
 }
 
 class AwakeningEConverter<T> implements JsonConverter<AwakeningE, int> {

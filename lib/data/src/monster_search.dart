@@ -343,20 +343,43 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       return true;
     }
 
-    // Copy the filter to avoid mutating it.
-    var filterCopy = List.of(filterSkills);
-    for (var awokenSkillId in awakenings) {
+    // Explode the filter, converting 'super' awakenings into their N un-super equiv amounts.
+    // Also copies the list, avoiding possible mutations.
+    var filterCopy = filterSkills.expand<int>((e) => AwakeningE.equivalentsById[e] ?? [e]).toList();
+
+    // Do the same for the monster normal awakenings.
+    var mappedAwakenings =
+        awakenings.expand<int>((e) => AwakeningE.equivalentsById[e] ?? [e]).toList();
+
+    // Super awakenings need to be treated a bit differently, since only one can be selected.
+    var mappedSuperAwakenings =
+        superAwakenings.map((e) => (AwakeningE.equivalentsById[e] ?? [e]).toList()).toList();
+
+    // Remove matched awakenings from the filter.
+    for (var awokenSkillId in mappedAwakenings) {
       filterCopy.remove(awokenSkillId);
     }
-    for (var awokenSkillId in superAwakenings) {
-      if (filterCopy.contains(awokenSkillId)) {
-        filterCopy.remove(awokenSkillId);
-        // Only match one super awokenSkillId.
-        break;
+
+    // For the super awakenings, if the remaining filter is a subset of any exploded super
+    // awakening, that's considered a match.
+    for (var superAwokenSkillIds in mappedSuperAwakenings) {
+      if (_matchSuperAwakenings(filterCopy, superAwokenSkillIds)) {
+        return true;
       }
     }
 
     // If the list of filters is empty, this monster is a match.
     return filterCopy.isEmpty;
   }
+}
+
+bool _matchSuperAwakenings(List<int> filterCopy, List<int> mappedSuperAwakenings) {
+  for (var remainingAwakening in filterCopy) {
+    if (mappedSuperAwakenings.contains(remainingAwakening)) {
+      mappedSuperAwakenings.remove(remainingAwakening);
+    } else {
+      return false;
+    }
+  }
+  return true;
 }

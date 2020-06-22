@@ -82,12 +82,14 @@ class MonsterDisplayState with ChangeNotifier {
 
   void clearSelectedAwakenings() {
     filterArgs.awokenSkills.clear();
+    showAwakenings = false;
   }
 
   void addAwakening(int awakeningId) {
     filterArgs.awokenSkills
       ..add(awakeningId)
       ..sort();
+    showAwakenings = true;
   }
 
   set showAwakenings(bool value) {
