@@ -58,6 +58,8 @@ class ActiveSkills extends Table {
 
   TextColumn get tags => text()();
 
+  BlobColumn get logic => blob().nullable()();
+
   IntColumn get tstamp => integer()();
 }
 
@@ -224,6 +226,8 @@ class Encounters extends Table {
 
   IntColumn get defence => integer()();
 
+  IntColumn get exp => integer()();
+
   IntColumn get tstamp => integer()();
 }
 
@@ -258,6 +262,8 @@ class EnemySkills extends Table {
   IntColumn get maxHits => integer()();
 
   IntColumn get atkMult => integer()();
+
+  BlobColumn get logic => blob().nullable()();
 
   IntColumn get tstamp => integer()();
 }
@@ -335,7 +341,11 @@ class LeaderSkills extends Table {
 
   RealColumn get maxShield => real()();
 
+  IntColumn get maxCombos => integer()();
+
   TextColumn get tags => text()();
+
+  BlobColumn get logic => blob().nullable()();
 
   IntColumn get tstamp => integer()();
 }
@@ -431,6 +441,10 @@ class Monsters extends Table {
 
   IntColumn get type3Id => integer().named('type_3_id').nullable()();
 
+  TextColumn get awakenings => text()();
+
+  TextColumn get superAwakenings => text()();
+
   BoolColumn get inheritable => boolean()();
 
   IntColumn get fodderExp => integer()();
@@ -448,6 +462,14 @@ class Monsters extends Table {
   BoolColumn get onNa => boolean()();
 
   BoolColumn get onKr => boolean()();
+
+  BoolColumn get diffStats => boolean()();
+
+  BoolColumn get diffAwakenings => boolean()();
+
+  BoolColumn get diffLeaderSkill => boolean()();
+
+  BoolColumn get diffActiveSkill => boolean()();
 
   BoolColumn get palEgg => boolean()();
 

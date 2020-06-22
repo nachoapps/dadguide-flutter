@@ -19,7 +19,7 @@ class DatabaseHelper {
   /// Controls the logical DB version, stored in a preference key and used to determine if we need
   /// to download the initial data db again. This should probably keep in sync with `dbZipFileName`
   /// but can be adjusted to force a re-download of the data for testing purposes.
-  static const dbVersion = 6;
+  static const dbVersion = 7;
 
   /// Statically loaded AwokenSkills loaded when the database is opened (for performance).
   static var allAwokenSkills = <AwokenSkill>[];
