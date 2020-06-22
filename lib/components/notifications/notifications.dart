@@ -112,7 +112,7 @@ class NotificationManager {
 
     for (var payload in payloads) {
       if (payload['dungeonId'] == dungeonId) {
-        await cancelByEventId(payload['eventId'], update: false);
+        await cancelByEventId(payload['eventId'] as int, update: false);
       }
     }
     await _logAndStoreNotifications();

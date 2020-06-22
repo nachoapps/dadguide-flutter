@@ -97,7 +97,7 @@ class OnboardingTask with TaskPublisher {
       } catch (e) {
         Fimber.w('Downloading DB failed', ex: e);
         recordEvent('onboarding_failure_db');
-        await Future.delayed(Duration(seconds: 5));
+        await Future<void>.delayed(Duration(seconds: 5));
       }
     }
 
@@ -109,7 +109,7 @@ class OnboardingTask with TaskPublisher {
       } catch (e) {
         Fimber.w('Downloading icons failed', ex: e);
         recordEvent('onboarding_failure_icons');
-        await Future.delayed(Duration(seconds: 5));
+        await Future<void>.delayed(Duration(seconds: 5));
       }
     }
 
@@ -163,7 +163,7 @@ class OnboardingTask with TaskPublisher {
 
       final cacheManager = getIt<PermanentCacheManager>();
       await cacheManager.storeImageDir(unpackDir,
-          (progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
+          (int progress) => pub(_SubTask.unpackImages, TaskStatus.started, progress: progress));
 
       pub(_SubTask.unpackImages, TaskStatus.finished);
 

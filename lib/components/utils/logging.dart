@@ -3,7 +3,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path_provider/path_provider.dart';
 
 final _fimberTree = FimberTree();
-var _fileTree;
+FimberFileTree _fileTree;
 
 /// Initializes the static console logger.
 void initLogging() {

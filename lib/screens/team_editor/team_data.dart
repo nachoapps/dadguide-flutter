@@ -39,7 +39,7 @@ class Team {
   Map<String, dynamic> toJson() => _$TeamToJson(this);
 
   factory Team.fromJsonString(String jsonStr) {
-    return Team.fromJson(jsonDecode(jsonStr));
+    return Team.fromJson(jsonDecode(jsonStr) as Map<String, dynamic>);
   }
 
   String toJsonString() {
@@ -261,7 +261,7 @@ class TeamBase {
     latentsWithoutKillers.removeWhere((e) => MonsterType.balanced.killers.contains(e));
     latentsWithoutKillers.remove(Latent.reduceSkillDelay);
     latentsWithoutKillers.sort((l, r) => (l.slots * 1000 + l.id) - (r.slots * 1000 + r.id));
-    var killers = monster == null ? [] : monster.killers.toList();
+    var killers = monster == null ? <Latent>[] : monster.killers.toList();
 
     return <Latent>[
       Latent.reduceSkillDelay,

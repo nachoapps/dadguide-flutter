@@ -56,8 +56,8 @@ class DungeonSearchBar extends StatelessWidget {
         },
       ),
       controller: textController,
-      onSubmitted: (t) => searchIfDifferent(controller, t),
-      onChanged: (t) => searchIfDifferent(controller, t),
+      onSubmitted: (t) => searchIfDifferent(controller, t as String),
+      onChanged: (t) => searchIfDifferent(controller, t as String),
       key: UniqueKey(),
     );
   }

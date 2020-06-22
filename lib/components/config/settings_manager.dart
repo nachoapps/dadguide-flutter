@@ -78,7 +78,7 @@ class Prefs {
         DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch ~/ 1000;
 
     await PrefService.init();
-    PrefService.setDefaultValues({
+    PrefService.setDefaultValues(<String, dynamic>{
       PrefKeys.changelogSeenVersion: '',
       PrefKeys.currentDbVersion: 0,
       PrefKeys.iconsDownloaded: false,

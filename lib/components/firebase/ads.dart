@@ -23,7 +23,7 @@ class AdAvailabilityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<AdStatus>(
       initialData: AdStatusManager.instance.status.value,
       stream: AdStatusManager.instance.status.stream,
       builder: (context, snapshot) {

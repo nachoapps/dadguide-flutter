@@ -54,9 +54,7 @@ class DungeonsDao extends DatabaseAccessor<DadGuideDatabase> with _$DungeonsDaoM
       ));
     }
 
-    var mpAndSrankResults =
-        Map.fromIterable(await mpAndSrankForDungeons().get(), key: (r) => r.dungeonId);
-
+    var mpAndSrankResults = {for (var r in await mpAndSrankForDungeons().get()) r.dungeonId: r};
     var results = await query.get().then((rows) {
       return Future.wait(rows.map((row) async {
         var dungeon = row.readTable(dungeons);

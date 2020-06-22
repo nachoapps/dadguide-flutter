@@ -41,26 +41,26 @@ class OnboardingScreen extends StatelessWidget {
                   subtitle: Text(loc.onboardingWaitingSubTitle),
                 ),
                 SizedBox(height: 16),
-                DropdownPreference(
+                DropdownPreference<int>(
                   loc.onboardingDisplayLanguage,
                   PrefKeys.infoLanguage,
                   desc: loc.onboardingDisplayLanguageDesc,
                   defaultVal: Prefs.defaultUiLanguageValue,
                   values: Prefs.languageValues,
                   displayValues: Prefs.languageDisplayValues,
-                  onChange: (v) {
+                  onChange: (int v) {
                     Prefs.setAllLanguage(v);
                     Provider.of<ReloadAppChangeNotifier>(context).notify();
                   },
                 ),
-                DropdownPreference(
+                DropdownPreference<int>(
                   loc.onboardingGameCountry,
                   PrefKeys.gameCountry,
                   desc: loc.onboardingGameCountryDesc,
                   defaultVal: Prefs.defaultGameCountryValue,
                   values: Prefs.countryValues,
                   displayValues: Prefs.countryDisplayValues,
-                  onChange: (v) => Prefs.setAllCountry(v),
+                  onChange: (int v) => Prefs.setAllCountry(v),
                 ),
               ],
             )),

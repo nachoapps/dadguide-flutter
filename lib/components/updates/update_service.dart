@@ -158,7 +158,7 @@ class UpdateTask with TaskPublisher {
   /// Gets the server-side max timestamp for each table.
   Future<Map<String, int>> _retrieveTimestamps() async {
     var items = await _retrieveTableData('timestamps');
-    return {for (var i in items) i['name']: i['tstamp']};
+    return {for (var i in items) i['name'] as String: i['tstamp'] as int};
   }
 
   /// Gets the actual data for a table that needs upserting.
@@ -220,8 +220,8 @@ class UpdateTask with TaskPublisher {
         var rowsToDelete = await _retrieveTableData('deleted_rows', tstamp: tsLastDeleted);
         for (var row in rowsToDelete) {
           try {
-            var tableName = row['table_name'] ?? '';
-            var tableRowId = row['table_row_id'] ?? 0;
+            var tableName = row['table_name'] as String ?? '';
+            var tableRowId = row['table_row_id'] as int ?? 0;
             if (tableName == '' || tableRowId == 0) {
               recordEvent('delete_bad_row');
               Fimber.w('Cannot delete table row: $tableName - $tableRowId');

@@ -114,8 +114,8 @@ class MonsterSearchBar extends StatelessWidget {
         },
       ),
       controller: textController,
-      onSubmitted: (t) => searchIfDifferent(controller, t),
-      onChanged: (t) => searchIfDifferent(controller, t),
+      onSubmitted: (dynamic t) => searchIfDifferent(controller, t as String),
+      onChanged: (dynamic t) => searchIfDifferent(controller, t as String),
     );
   }
 
@@ -279,5 +279,5 @@ class TypeIcon extends StatelessWidget {
   }
 }
 
-int _weighted(num hp, num atk, num rcv, {limitMult = 100}) =>
+int _weighted(num hp, num atk, num rcv, {int limitMult = 100}) =>
     (hp / 10 + atk / 5 + rcv / 3) * limitMult ~/ 100;

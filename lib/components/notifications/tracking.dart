@@ -84,8 +84,9 @@ Future<void> _stopTracking(int dungeonId) async {
 /// showMenu() needs to be given the menu position as a parameter.
 /// This calculates where the context's Widget was on the screen.
 RelativeRect _buttonMenuPosition(BuildContext c) {
-  final RenderBox bar = c.findRenderObject();
-  final RenderBox overlay = Overlay.of(c).context.findRenderObject();
+  // RenderBox
+  final bar = c.findRenderObject() as RenderBox;
+  final overlay = Overlay.of(c).context.findRenderObject() as RenderBox;
   final position = RelativeRect.fromRect(
     Rect.fromPoints(
       bar.localToGlobal(bar.size.centerLeft(Offset.zero), ancestor: overlay),

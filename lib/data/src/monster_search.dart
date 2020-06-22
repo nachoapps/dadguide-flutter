@@ -108,7 +108,7 @@ class MonsterSearchArgs {
 
   factory MonsterSearchArgs.fromJsonString(String jsonStr) {
     try {
-      return MonsterSearchArgs.fromJson(jsonDecode(jsonStr));
+      return MonsterSearchArgs.fromJson(jsonDecode(jsonStr) as Map<String, dynamic>);
     } catch (ex) {
       Fimber.e('failed to decode:', ex: ex);
     }
@@ -206,7 +206,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   }
 
   /// Apply a series of where clauses to the query based on the filter, sort, and search text.
-  Expression _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort) {
+  Expression<bool> _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort) {
     Expression<bool> fullExpr = Constant(true);
     if (filter.favoritesOnly) {
       fullExpr &= monsters.monsterId.isIn(FavoriteManager.favoriteMonsters);
@@ -296,7 +296,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     }
 
     // These sorts are straight column orderings.
-    final mapping = {
+    final mapping = <MonsterSortType, Column>{
       MonsterSortType.released: monsters.regDate,
       MonsterSortType.no: monsters.monsterNoJp,
       MonsterSortType.atk: monsters.atkMax,
@@ -351,7 +351,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     var monsterAwakenings = <int, List<Awakening>>{};
     if (!shouldRequestAwakenings) return monsterAwakenings;
 
-    var awakeningResults = [];
+    var awakeningResults = <Awakening>[];
     if (shouldRequestAwakenings) {
       awakeningResults = await select(awakenings).get();
     }

@@ -190,7 +190,7 @@ class _DadGuideAppState extends State<DadGuideApp> {
 class AppOrOnboardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<AppStatus>(
       initialData: AppStatus.initializing,
       stream: appStatusSubject.stream,
       builder: (context, snapshot) {

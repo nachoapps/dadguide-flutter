@@ -63,7 +63,7 @@ class DeviceOsVersion {
   factory DeviceOsVersion.fromVersionString(String versionString) {
     var split = versionString.split('.');
 
-    var major, minor, patch = 0;
+    var major = 0, minor = 0, patch = 0;
 
     if (split.isNotEmpty) {
       major = int.parse(split.elementAt(0)) ?? 0;

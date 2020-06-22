@@ -275,6 +275,6 @@ double getSmartBannerHeight(BuildContext context) {
 
 EdgeInsets dialogInsetsAccountingForAd(BuildContext context) {
   var offset =
-      AdStatusManager.instance.status.value == AdStatus.disabled ? 0 : getBannerHeight(context);
+      AdStatusManager.instance.status.value == AdStatus.disabled ? 0.0 : getBannerHeight(context);
   return EdgeInsets.only(left: 40.0, right: 40.0, top: 24.0, bottom: 48 + offset);
 }

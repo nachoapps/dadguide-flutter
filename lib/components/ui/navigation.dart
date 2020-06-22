@@ -47,7 +47,7 @@ Widget wrapMonsterLink(BuildContext context, Widget child, int monsterId, {bool 
 }
 
 /// Returns a Function which when executed, sends the user to a specific monster.
-Function goToMonsterFn(BuildContext context, int monsterId, {bool replace = false}) {
+VoidCallback goToMonsterFn(BuildContext context, int monsterId, {bool replace = false}) {
   return () async {
     if ((monsterId ?? 0) == 0) {
       return null;
@@ -86,7 +86,7 @@ Widget wrapDungeonLink(BuildContext context, Widget child, int dungeonId,
 }
 
 /// Returns a Function which when executed, sends the user to a specific dungeon/subdungeon.
-Function goToDungeonFn(BuildContext context, int dungeonId, [int subDungeonId]) {
+VoidCallback goToDungeonFn(BuildContext context, int dungeonId, [int subDungeonId]) {
   return () async {
     if ((dungeonId ?? 0) == 0) {
       return null;
@@ -107,7 +107,7 @@ class SubDungeonSelectionArgs {
 }
 
 /// Returns a Function which when executed, sends the user to sub dungeon selection.
-Function goToSubDungeonSelectionFn(BuildContext context, FullDungeon dungeon) {
+VoidCallback goToSubDungeonSelectionFn(BuildContext context, FullDungeon dungeon) {
   return () async {
     return Navigator.pushNamed(context, SubDungeonSelectionArgs.routeName,
         arguments: SubDungeonSelectionArgs(dungeon));
@@ -123,7 +123,7 @@ class FilterMonstersArgs {
 }
 
 /// Returns a Function which when executed, sends the user to modify filter screen.
-Function goToFilterMonstersFn(BuildContext context, MonsterDisplayState displayState) {
+VoidCallback goToFilterMonstersFn(BuildContext context, MonsterDisplayState displayState) {
   return () async {
     return Navigator.pushNamed(context, FilterMonstersArgs.routeName,
         arguments: FilterMonstersArgs(displayState));
@@ -139,7 +139,7 @@ class EggMachineArgs {
 }
 
 /// Returns a Function which when executed, sends the user to the egg machines display.
-Function goToEggMachineFn(BuildContext context, Country server) {
+VoidCallback goToEggMachineFn(BuildContext context, Country server) {
   return () async {
     return Navigator.pushNamed(context, EggMachineArgs.routeName,
         arguments: EggMachineArgs(server));
@@ -155,7 +155,7 @@ class ExchangeArgs {
 }
 
 /// Returns a Function which when executed, sends the user to the exchange display.
-Function goToExchangeFn(BuildContext context, Country server) {
+VoidCallback goToExchangeFn(BuildContext context, Country server) {
   return () async {
     return Navigator.pushNamed(context, ExchangeArgs.routeName, arguments: ExchangeArgs(server));
   };
@@ -173,7 +173,7 @@ class MonsterCompareArgs {
 /// Returns a Function which when executed, sends the user to the monster compare screen.
 ///
 /// left and right are optional, used to prepopulate the view.
-Function goToMonsterCompareFn(BuildContext context, {FullMonster left, FullMonster right}) {
+VoidCallback goToMonsterCompareFn(BuildContext context, {FullMonster left, FullMonster right}) {
   return () async {
     return Navigator.pushNamed(context, MonsterCompareArgs.routeName,
         arguments: MonsterCompareArgs(left, right));

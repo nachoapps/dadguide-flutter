@@ -4,5 +4,12 @@ analyzer:
   exclude: [
     '**/*.pbjson.dart',
     '**/*.pb.dart',
+    '**/*.g.dart',
     '**/messages_*.dart',
+    '**/ensure_visibility.dart', # This was imported from a stackoverflow answer
   ]
+
+  strong-mode:
+    implicit-casts: false
+    # TODO: implicit-dynamic causes a lot of errors I don't want to fix now =(
+    # implicit-dynamic: false

@@ -35,7 +35,7 @@ class SubDungeonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    var rewards = [];
+    var rewards = <int>[];
     try {
       if (data.rewardIconIds != null) {
         rewards = data.rewardIconIds.split(',').map(int.parse).toList();

@@ -60,7 +60,7 @@ class TabNavigator extends StatelessWidget {
               // update ever occurs while the tab is loaded.
               return MaterialPageRoute(builder: (context) => DataUpdaterWidget(rootItem));
             case TabNavigatorRoutes.monsterDetail:
-              MonsterDetailArgs args = routeSettings.arguments;
+              var args = routeSettings.arguments as MonsterDetailArgs;
               return MaterialPageRoute(builder: (context) => MonsterDetailScreen(args));
             case TabNavigatorRoutes.monsterList:
               var args = routeSettings.arguments as MonsterListArgs;

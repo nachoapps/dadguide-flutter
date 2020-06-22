@@ -40,7 +40,7 @@ Future<void> initializeServiceLocator(
   var deviceInfo = await createDeviceInfo();
   getIt.registerSingleton(deviceInfo);
 
-  dio.options.headers = {
+  dio.options.headers = <String, String>{
     HttpHeaders.userAgentHeader:
         'DadGuide v${versionInfo.projectCode} - ${versionInfo.platformVersion}',
   };

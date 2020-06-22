@@ -78,7 +78,7 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
         try {
           await widget.onEnable();
         } catch (e) {
-          if (mounted) PrefService.showError(context, e.message);
+          if (mounted) PrefService.showError(context, e.message as String);
         }
       }
     } finally {
@@ -100,7 +100,7 @@ class _AsyncSwitchPreferenceState extends State<AsyncSwitchPreference> {
         try {
           await widget.onDisable();
         } catch (e) {
-          if (mounted) PrefService.showError(context, e.message ?? 'An error occurred');
+          if (mounted) PrefService.showError(context, e.message as String ?? 'An error occurred');
         }
       }
     } finally {

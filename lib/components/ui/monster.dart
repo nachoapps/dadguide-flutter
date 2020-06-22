@@ -63,7 +63,7 @@ class MonsterLeaderInfoTable extends StatelessWidget {
             cell(ls.maxShield == 0 ? '-' : '${ls.maxShield * 100} %'),
             cell(ls.maxShield == 0
                 ? '-'
-                : '${_truncateNumber(100 * (1 - pow(1 - ls.maxShield, 2)))} %'),
+                : '${_truncateNumber(100.0 * (1 - pow(1 - ls.maxShield, 2)))} %'),
           ]),
         ],
       ),

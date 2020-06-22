@@ -15,15 +15,16 @@ class LanguageSelector {
   }
 
   static LanguageSelector name(dynamic v) {
-    return LanguageSelector(v.nameJp, v.nameNa, v.nameKr);
+    return LanguageSelector(v.nameJp as String, v.nameNa as String, v.nameKr as String);
   }
 
   static LanguageSelector nameWithNaOverride(dynamic v) {
-    return LanguageSelector(v.nameJp, v.nameNaOverride ?? v.nameNa, v.nameKr);
+    return LanguageSelector(
+        v.nameJp as String, (v.nameNaOverride ?? v.nameNa) as String, v.nameKr as String);
   }
 
   static LanguageSelector desc(dynamic v) {
-    return LanguageSelector(v.descJp, v.descNa, v.descKr);
+    return LanguageSelector(v.descJp as String, v.descNa as String, v.descKr as String);
   }
 
   final String _jp;
@@ -49,7 +50,7 @@ class LanguageSelector {
 
 class IdSelector {
   static IdSelector visibleId(dynamic v) {
-    return IdSelector(v.monsterNoJp, v.monsterNoNa, v.monsterNoKr);
+    return IdSelector(v.monsterNoJp as int, v.monsterNoNa as int, v.monsterNoKr as int);
   }
 
   final int _jp;
@@ -134,7 +135,7 @@ class FullSubDungeon {
       .toList();
 
   static List<Battle> _computeBattles(List<FullEncounter> encounters) {
-    return groupBy(encounters, (x) => x.encounter.stage)
+    return groupBy<FullEncounter, int>(encounters, (x) => x.encounter.stage)
         .entries
         .map((e) => Battle(
             e.key, e.value.toList()..sort((l, r) => l.encounter.orderIdx - r.encounter.orderIdx)))
@@ -344,7 +345,7 @@ class FullActiveSkill {
 
   List<ActiveSkillTag> get tags {
     var tagItems = skill.tags.split(',').map((v) => v.replaceAll(RegExp('[()]'), ''));
-    var asMap = Map.fromIterable(DatabaseHelper.allActiveSkillTags, key: (i) => i.activeSkillTagId);
+    var asMap = {for (var i in DatabaseHelper.allActiveSkillTags) i.activeSkillTagId: i};
     return [
       for (var tag in tagItems) asMap[int.tryParse(tag)],
     ]..removeWhere((v) => v == null);
@@ -362,7 +363,7 @@ class FullLeaderSkill {
 
   List<LeaderSkillTag> get tags {
     var tagItems = skill.tags.split(',').map((v) => v.replaceAll(RegExp('[()]'), ''));
-    var lsMap = Map.fromIterable(DatabaseHelper.allLeaderSkillTags, key: (i) => i.leaderSkillTagId);
+    var lsMap = {for (var i in DatabaseHelper.allLeaderSkillTags) i.leaderSkillTagId: i};
     return [
       for (var tag in tagItems) lsMap[int.tryParse(tag)],
     ]..removeWhere((v) => v == null);

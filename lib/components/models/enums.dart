@@ -65,7 +65,7 @@ class MonsterType {
     vendor
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+  static final _lookup = {for (var mt in all) mt.id: mt};
 
   static MonsterType byId(int id) {
     return _lookup[id];
@@ -171,7 +171,7 @@ class Latent {
     killerHealer,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static Latent byId(int id) {
     return _lookup[id];
@@ -239,7 +239,7 @@ class Badge {
     superEnhancedMove,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static Badge byId(int id) {
     return _lookup[id];
@@ -279,7 +279,7 @@ class Language {
     ko,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static Language byId(int id) {
     return _lookup[id];
@@ -307,7 +307,7 @@ class Country {
     kr,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static Country byId(int id) {
     return _lookup[id];
@@ -331,7 +331,7 @@ class StarterDragon {
     green,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (k) => k.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static StarterDragon byId(int id) {
     return _lookup[id];
@@ -358,7 +358,7 @@ class ScheduleTabKey {
     news,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static ScheduleTabKey byId(int id) {
     return _lookup[id];
@@ -380,7 +380,7 @@ class ScheduleSubSection {
     special,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static ScheduleSubSection byId(int id) {
     return _lookup[id];
@@ -407,7 +407,7 @@ class DungeonTabKey {
     multiranking,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static DungeonTabKey byId(int id) {
     return _lookup[id];
@@ -433,7 +433,7 @@ class DungeonSubSection {
     series,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static DungeonSubSection byId(int id) {
     return _lookup[id];
@@ -466,7 +466,7 @@ class DungeonType {
     multiplayer,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static DungeonType byId(int id) {
     return _lookup[id] ?? DungeonType.unknown_value;
@@ -490,7 +490,7 @@ class EvolutionType {
     non_reversible,
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static EvolutionType byId(int id) {
     return _lookup[id] ?? EvolutionType.unknown_value;
@@ -547,7 +547,7 @@ class MonsterSortType {
     lsShield
   ];
 
-  static final _lookup = Map.fromIterable(allValues, key: (k) => k.id);
+  static final _lookup = {for (var k in allValues) k.id: k};
 
   static MonsterSortType byId(int id) {
     return _lookup[id] ?? MonsterSortType.no;
@@ -578,7 +578,7 @@ class OrbType {
     dark,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static OrbType byId(int id) {
     return _lookup[id];
@@ -602,7 +602,7 @@ class UiTheme {
     darkBlue,
   ];
 
-  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static UiTheme byId(int id) {
     return _lookup[id];
@@ -761,7 +761,7 @@ class AwakeningE {
     blessingJammer,
     blessingPoison,
   ];
-  static final _lookup = Map.fromIterable(all, key: (mt) => mt.id);
+  static final _lookup = {for (var k in all) k.id: k};
 
   static AwakeningE byId(int id) => _lookup[id];
 }
