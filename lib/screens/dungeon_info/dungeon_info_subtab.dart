@@ -416,7 +416,7 @@ class EncounterDetailsBar extends StatelessWidget {
                 children: [
                   TableRow(children: [Text('Enemy ID'), Text('${model.encounter.enemyId}')]),
                   TableRow(children: [Text('Level'), Text('${model.encounter.level}')]),
-                  TableRow(children: [Text('XP'), Text('TODO: set this')]),
+                  TableRow(children: [Text('XP'), Text(commaFormat(model.encounter.exp))]),
                 ],
               ),
             );
