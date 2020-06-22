@@ -209,7 +209,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
   Expression _computeFilters(MonsterFilterArgs filter, MonsterSortArgs sort) {
     Expression<bool> fullExpr = Constant(true);
     if (filter.favoritesOnly) {
-      fullExpr &= monsters.monsterId.isIn(Prefs.favoriteMonsters);
+      fullExpr &= monsters.monsterId.isIn(FavoriteManager.favoriteMonsters);
     }
 
     if (sort.sortType == MonsterSortType.skillTurn) {

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/favorites/favorites.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/monster_list/src/state.dart';
@@ -14,6 +17,8 @@ class MonsterDisplayState with ChangeNotifier {
   bool _pictureMode = false;
   bool _showAwakenings = false;
 
+  StreamSubscription _favoriteSubscription;
+
   /// Create a display state and immediately request search results.
   MonsterDisplayState(MonsterSearchArgs searchArgs)
       : _searchText = searchArgs.text ?? '',
@@ -23,6 +28,15 @@ class MonsterDisplayState with ChangeNotifier {
         _showAwakenings = Prefs.monsterListAwakeningMode,
         searchBloc = MonsterSearchBloc() {
     searchBloc.search(toSearchArgs());
+    _favoriteSubscription = FavoriteManager.instance.updateStream.listen((event) {
+      if (filterArgs.favoritesOnly) searchBloc.search(toSearchArgs());
+    });
+  }
+
+  @override
+  void dispose() {
+    if (_favoriteSubscription != null) _favoriteSubscription.cancel();
+    super.dispose();
   }
 
   void notify() {

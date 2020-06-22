@@ -1,5 +1,6 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/favorites/favorites.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
@@ -76,9 +77,11 @@ class _MonsterDetailScreenState extends State<MonsterDetailScreen> {
           TopBarDivider(),
           SimpleNotifier(
             builder: (_, notifier) => IconButton(
-              icon: Prefs.isFavorite(monsterId) ? Icon(Icons.star) : Icon(Icons.star_border),
+              icon: FavoriteManager.isFavorite(monsterId)
+                  ? Icon(Icons.star)
+                  : Icon(Icons.star_border),
               onPressed: () {
-                Prefs.toggleFavorite(monsterId);
+                FavoriteManager.instance.toggle(monsterId);
                 notifier.rebuild();
               },
             ),

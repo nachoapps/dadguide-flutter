@@ -231,25 +231,6 @@ class Prefs {
   static set mediaWarningDisplayed(bool value) =>
       PrefService.setBool(PrefKeys.mediaWarningDisplayed, value);
 
-  static List<int> get favoriteMonsters =>
-      stringToIntList(PrefService.getString(PrefKeys.favoriteMonsters));
-  static set favoriteMonsters(Iterable<int> monsters) =>
-      PrefService.setString(PrefKeys.favoriteMonsters, monsters.join(','));
-  static void addFavoriteMonster(int monsterId) =>
-      favoriteMonsters = favoriteMonsters..add(monsterId);
-  static void removeFavoriteMonster(int monsterId) =>
-      favoriteMonsters = favoriteMonsters..remove(monsterId);
-  static bool isFavorite(int monsterId) => favoriteMonsters.contains(monsterId);
-  static void toggleFavorite(int monsterId) {
-    var favs = favoriteMonsters;
-    if (favs.contains(monsterId)) {
-      favs.remove(monsterId);
-    } else {
-      favs.add(monsterId);
-    }
-    favoriteMonsters = favs;
-  }
-
   static set lastComparedMonster(int monsterId) =>
       PrefService.setInt(PrefKeys.lastComparedMonster, monsterId);
   static int get lastComparedMonster => PrefService.getInt(PrefKeys.lastComparedMonster);

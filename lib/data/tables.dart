@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/favorites/favorites.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
