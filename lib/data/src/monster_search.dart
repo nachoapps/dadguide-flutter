@@ -87,21 +87,13 @@ class MonsterSearchArgs {
   final String text;
   final MonsterSortArgs sort;
   final MonsterFilterArgs filter;
-  final bool awakeningsRequired;
-
-  bool get shouldRequestAwakenings => awakeningsRequired || filter.awokenSkills.isNotEmpty;
 
   MonsterSearchArgs.defaults()
       : text = '',
         sort = MonsterSortArgs(),
-        filter = MonsterFilterArgs(),
-        awakeningsRequired = false;
+        filter = MonsterFilterArgs();
 
-  MonsterSearchArgs(
-      {@required this.text,
-      @required this.sort,
-      @required this.filter,
-      @required this.awakeningsRequired});
+  MonsterSearchArgs({@required this.text, @required this.sort, @required this.filter});
   factory MonsterSearchArgs.fromJson(Map<String, dynamic> json) =>
       _$MonsterSearchArgsFromJson(json);
   Map<String, dynamic> toJson() => _$MonsterSearchArgsToJson(this);
@@ -149,9 +141,6 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     query.where(_computeFilters(filter, sort));
     query.orderBy(_computeOrdering(sort));
 
-    // Loading awakenings is currently pretty slow (~1s) so avoid it if possible.
-    var monsterAwakenings = await _maybeLoadAwakenings(args.shouldRequestAwakenings);
-
     // Read each result, optionally check awakenings, and create a ListMonster result.
     var results = <ListMonster>[];
     for (var row in await query.get()) {
@@ -159,14 +148,15 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       var active = row.readTable(activeSkillsForSearch);
       // We join against other tables, but they're used for filtering or sorting.
 
+      var awakenings = parseCsvIntList(monster.awakenings);
+      var superAwakenings = parseCsvIntList(monster.superAwakenings);
+
       // Optionally find/compare awakenings.
-      var awakeningList = (monsterAwakenings[monster.monsterId] ?? [])
-        ..sort((a, b) => a.orderIdx - b.orderIdx);
-      if (!isAwakeningMatch(filter, awakeningList)) {
+      if (!isAwakeningMatch(filter, awakenings, superAwakenings)) {
         continue;
       }
 
-      results.add(ListMonster(monster, awakeningList, active));
+      results.add(ListMonster(monster, awakenings, superAwakenings, active));
     }
 
     Fimber.d('mwa lookup complete in: ${s.elapsed} with result count ${results.length}');
@@ -344,29 +334,10 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     return orderingTerms;
   }
 
-  /// Loads and organizes awakenings for every monster in the DB (if requested), else an empty map.
-  /// This is a performance drain, which is why it is optional. We should add an 'awakenings'
-  /// field to monster to eliminate this join.
-  Future<Map<int, List<Awakening>>> _maybeLoadAwakenings(bool shouldRequestAwakenings) async {
-    var monsterAwakenings = <int, List<Awakening>>{};
-    if (!shouldRequestAwakenings) return monsterAwakenings;
-
-    var awakeningResults = <Awakening>[];
-    if (shouldRequestAwakenings) {
-      awakeningResults = await select(awakenings).get();
-    }
-
-    awakeningResults.forEach((a) {
-      monsterAwakenings.putIfAbsent(a.monsterId, () => []).add(a);
-    });
-
-    return monsterAwakenings;
-  }
-
   /// It's too hard to apply this filter during the query, so once we have the awakenings,
   /// strip the IDs of those awakenings out of a copy of the filter. If the filter is now empty,
   /// it's a good match, otherwise skip this row.
-  bool isAwakeningMatch(MonsterFilterArgs filter, List<Awakening> monsterSkills) {
+  bool isAwakeningMatch(MonsterFilterArgs filter, List<int> awakenings, List<int> superAwakenings) {
     var filterSkills = filter.awokenSkills;
     if (filterSkills.isEmpty) {
       return true;
@@ -374,17 +345,13 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
 
     // Copy the filter to avoid mutating it.
     var filterCopy = List.of(filterSkills);
-    var regularAwakenings = monsterSkills.where((a) => !a.isSuper).toList();
-    var superAwakenings =
-        filter.searchSuperAwakenings ? monsterSkills.where((a) => a.isSuper).toList() : [];
-
-    for (var awakening in regularAwakenings) {
-      filterCopy.remove(awakening.awokenSkillId);
+    for (var awokenSkillId in awakenings) {
+      filterCopy.remove(awokenSkillId);
     }
-    for (var awakening in superAwakenings) {
-      if (filterCopy.contains(awakening.awokenSkillId)) {
-        filterCopy.remove(awakening.awokenSkillId);
-        // Only match one super awakening.
+    for (var awokenSkillId in superAwakenings) {
+      if (filterCopy.contains(awokenSkillId)) {
+        filterCopy.remove(awokenSkillId);
+        // Only match one super awokenSkillId.
         break;
       }
     }

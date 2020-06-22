@@ -8,6 +8,7 @@ import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/components/utils/kana.dart';
+import 'package:dadguide2/components/utils/parsing.dart';
 import 'package:dadguide2/data/src/utils.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';

@@ -253,18 +253,16 @@ class FullMonster {
 /// Partial monster info displayed in monster list view.
 class ListMonster {
   final Monster monster;
-  final List<Awakening> _awakenings;
+  final List<int> awakenings;
+  final List<int> superAwakenings;
   final ActiveSkillForSearch activeSkill;
 
   final LanguageSelector name;
   final IdSelector id;
 
-  ListMonster(this.monster, this._awakenings, this.activeSkill)
+  ListMonster(this.monster, this.awakenings, this.superAwakenings, this.activeSkill)
       : name = LanguageSelector.nameWithNaOverride(monster),
         id = IdSelector.visibleId(monster);
-
-  List<Awakening> get awakenings => _awakenings.where((a) => !a.isSuper).toList();
-  List<Awakening> get superAwakenings => _awakenings.where((a) => a.isSuper).toList();
 
   MonsterType get type1 => MonsterType.byId(monster.type1Id);
   MonsterType get type2 => MonsterType.byId(monster.type2Id);

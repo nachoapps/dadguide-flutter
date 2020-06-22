@@ -232,17 +232,17 @@ class MonsterListRow extends StatelessWidget {
                       ),
                     if (displayState.showAwakenings && _model.awakenings.isNotEmpty)
                       Row(children: [
-                        for (var awakening in _model.awakenings)
+                        for (var awokenSkillId in _model.awakenings)
                           Padding(
                               padding: EdgeInsets.only(right: 2),
-                              child: awakeningContainer(awakening.awokenSkillId, size: 16))
+                              child: awakeningContainer(awokenSkillId, size: 16))
                       ]),
                     if (displayState.showAwakenings && _model.superAwakenings.isNotEmpty)
                       Row(children: [
-                        for (var awakening in _model.superAwakenings)
+                        for (var awokenSkillId in _model.superAwakenings)
                           Padding(
                               padding: EdgeInsets.only(right: 2),
-                              child: awakeningContainer(awakening.awokenSkillId, size: 16)),
+                              child: awakeningContainer(awokenSkillId, size: 16)),
                       ]),
                   ],
                 ),

@@ -54,7 +54,6 @@ class MonsterDisplayState with ChangeNotifier {
       text: _searchText.trim(),
       sort: sortArgs,
       filter: filterArgs,
-      awakeningsRequired: _showAwakenings,
     );
   }
 
@@ -83,26 +82,17 @@ class MonsterDisplayState with ChangeNotifier {
 
   void clearSelectedAwakenings() {
     filterArgs.awokenSkills.clear();
-    showAwakeningsQuiet = false;
   }
 
   void addAwakening(int awakeningId) {
     filterArgs.awokenSkills
       ..add(awakeningId)
       ..sort();
-    showAwakeningsQuiet = true;
-  }
-
-  /// A 'quiet' way of toggling awakening state that doesn't search.
-  set showAwakeningsQuiet(bool value) {
-    _showAwakenings = value;
-    notifyListeners();
   }
 
   set showAwakenings(bool value) {
     _showAwakenings = value;
     Prefs.monsterListAwakeningMode = value;
-    doSearch();
     notifyListeners();
   }
 
