@@ -24,7 +24,7 @@ enum AdStatus {
 /// asyncInitFromFirestore() before launching the app.
 class AdStatusManager {
   static final removeAdsProductId = 'dadguide.remove_ads.1';
-  static final AdStatusManager instance = AdStatusManager._internal();
+  static final instance = AdStatusManager._internal();
 
   static final _iap = InAppPurchaseConnection.instance;
   bool _iapAvailable = false;
