@@ -125,25 +125,13 @@ class UpdateTask with TaskPublisher {
     var complete = 0;
     progressFn(complete * 100 ~/ data.length);
     for (var row in data) {
-      if (table == _database.enemyData) {
-        // EnemyData needs custom deserialization since it has an encoded blob.
-        var enemyId = row['enemy_id'] as int;
-        var status = row['status'] as int;
-        var encodedBehavior = row['behavior'] as String;
-        var tstamp = row['tstamp'] as int;
-        encodedBehavior = encodedBehavior.substring(2); // Strip the 0x prefix
-        var decodedBehavior = Uint8List.fromList(hex.decode(encodedBehavior));
-        var item = EnemyDataItem(
-          enemyId: enemyId,
-          status: status,
-          behavior: decodedBehavior,
-          tstamp: tstamp,
-        );
-        await _database.upsertData(_database.enemyData, item);
-      } else {
-        var item = table.map(row) as Insertable;
-        await _database.upsertData(table, item);
-      }
+      // The API returns blobs as 0x<hex>, but the table.map function expects them already
+      // converted as Uint8List. If we used fromJson then we could do this more cleanly... but the
+      // json key names are lowerCamel and we provide lower_snake casing.
+      row.updateAll(correctHexValues);
+
+      var item = table.map(row) as Insertable;
+      await _database.upsertData(table, item);
 
       complete++;
       progressFn(complete * 100 ~/ data.length);
@@ -250,4 +238,14 @@ class UpdateTask with TaskPublisher {
     }
     recordEvent(deleteFailed ? 'delete_failed' : 'delete_succeded');
   }
+}
+
+// If the value looks like a hex string and the key is in a whitelist of names, decode the value.
+dynamic correctHexValues(String key, dynamic value) {
+  if (['behavior', 'logic'].contains(key) && value is String) {
+    var v = value;
+    v = v.substring(2); // Strip the 0x prefix
+    return Uint8List.fromList(hex.decode(v));
+  }
+  return value;
 }
