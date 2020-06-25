@@ -1,4 +1,3 @@
-import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/firebase/analytics.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/images/images.dart';
@@ -23,34 +22,16 @@ import 'package:screenshot/screenshot.dart';
 
 import 'dungeon_behavior.dart';
 
-class DungeonDetailScreen extends StatefulWidget {
+class DungeonDetailScreen extends StatelessWidget {
   final DungeonDetailArgs args;
+  final screenshotController = ScreenshotController();
 
   DungeonDetailScreen(this.args) {
     screenChangeEvent(runtimeType.toString());
   }
 
   @override
-  _DungeonDetailScreenState createState() => _DungeonDetailScreenState(args);
-}
-
-class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
-  final DungeonDetailArgs args;
-
-  Future<FullDungeon> loadingFuture;
-  ScreenshotController screenshotController = ScreenshotController();
-
-  _DungeonDetailScreenState(this.args);
-
-  @override
-  void initState() {
-    super.initState();
-    loadingFuture = getIt<DungeonsDao>().lookupFullDungeon(args.dungeonId, args.subDungeonId);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // TODO: rip out the async loading
     return Scaffold(
       appBar: AppBar(
         // TODO: Stick the icon/dungeon name in here
@@ -59,41 +40,24 @@ class _DungeonDetailScreenState extends State<DungeonDetailScreen> {
           ScreenshotButton(controller: screenshotController),
         ],
       ),
-      body: _retrieveDungeon(),
-      // TODO: Move the DungeonDetailOptionsBar in here
-      // bottomNavigationBar: ,
+      body: DungeonDetailContents(args.dungeon, screenshotController),
+      bottomNavigationBar: DungeonDetailOptionsBar(args.dungeon),
       resizeToAvoidBottomInset: false,
     );
-  }
-
-  FutureBuilder<FullDungeon> _retrieveDungeon() {
-    return FutureBuilder<FullDungeon>(
-        future: loadingFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            Fimber.e('Error retrieving dungeon', ex: snapshot.error);
-            return Center(child: Icon(Icons.error));
-          }
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          return DungeonDetailContents(snapshot.data, screenshotController);
-        });
   }
 }
 
 class DungeonDetailContents extends StatelessWidget {
-  final FullDungeon _data;
+  final FullDungeon data;
   final ScreenshotController screenshotController;
 
-  const DungeonDetailContents(this._data, this.screenshotController, {Key key}) : super(key: key);
+  const DungeonDetailContents(this.data, this.screenshotController, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    var battles = _data.selectedSubDungeon.battles;
+    var battles = data.selectedSubDungeon.battles;
     var battleWidgets = <Widget>[
       ...(battles.length > 11
           ? partition(battles, 5).map((c) => ExpandableDungeonTile(c))
@@ -101,7 +65,7 @@ class DungeonDetailContents extends StatelessWidget {
     ];
 
     return Provider.value(
-      value: _data,
+      value: data,
       child: Column(
         children: [
           Expanded(
@@ -111,20 +75,19 @@ class DungeonDetailContents extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DungeonHeader(_data),
-                    DungeonSubHeader(_data.selectedSubDungeon),
+                    DungeonHeader(data),
+                    DungeonSubHeader(data.selectedSubDungeon),
                     ...battleWidgets,
                     SizedBox(height: 8),
                     GreyBar(
                         children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
-                    SubDungeonList(_data),
-                    MailIssues(_data),
+                    SubDungeonList(data),
+                    MailIssues(data),
                   ],
                 ),
               ),
             ),
           ),
-          DungeonDetailOptionsBar(_data),
         ],
       ),
     );

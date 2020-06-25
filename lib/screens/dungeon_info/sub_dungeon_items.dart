@@ -54,13 +54,7 @@ class SubDungeonRow extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushReplacementNamed(
-          DungeonDetailArgs.routeName,
-          result: data,
-          arguments: DungeonDetailArgs(data.dungeonId, data.subDungeonId),
-        );
-      },
+      onTap: goToDungeonFn(context, data.dungeonId, data.subDungeonId, true),
       child: Container(
         decoration: BoxDecoration(border: Border(bottom: BorderSide(width: .1))),
         child: Padding(

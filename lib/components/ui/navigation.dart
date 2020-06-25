@@ -64,13 +64,11 @@ VoidCallback goToMonsterFn(BuildContext context, int monsterId, {bool replace = 
 }
 
 /// Arguments to the dungeon detail route.
-/// subDungeonId is optional.
 class DungeonDetailArgs {
   static const routeName = '/dungeonDetail';
-  final int dungeonId;
-  final int subDungeonId;
+  final FullDungeon dungeon;
 
-  const DungeonDetailArgs(this.dungeonId, this.subDungeonId);
+  const DungeonDetailArgs(this.dungeon);
 }
 
 /// Wraps a widget with an onClick that sends them to the dungeon. If ink is specified, will add a
@@ -86,14 +84,20 @@ Widget wrapDungeonLink(BuildContext context, Widget child, int dungeonId,
 }
 
 /// Returns a Function which when executed, sends the user to a specific dungeon/subdungeon.
-VoidCallback goToDungeonFn(BuildContext context, int dungeonId, [int subDungeonId]) {
+VoidCallback goToDungeonFn(BuildContext context, int dungeonId,
+    [int subDungeonId, bool replace = false]) {
   return () async {
     if ((dungeonId ?? 0) == 0) {
       return null;
     }
     Fimber.i('Navigating to dungeon $dungeonId / $subDungeonId');
-    return Navigator.pushNamed(context, DungeonDetailArgs.routeName,
-        arguments: DungeonDetailArgs(dungeonId, subDungeonId));
+    final fullDungeon = await getIt<DungeonsDao>().lookupFullDungeon(dungeonId, subDungeonId);
+    var args = DungeonDetailArgs(fullDungeon);
+    if (replace) {
+      return Navigator.pushReplacementNamed(context, DungeonDetailArgs.routeName, arguments: args);
+    } else {
+      return Navigator.pushNamed(context, DungeonDetailArgs.routeName, arguments: args);
+    }
   };
 }
 
