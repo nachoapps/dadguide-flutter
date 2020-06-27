@@ -132,6 +132,16 @@ class DadGuideLocalizations {
   String get battleDrop =>
       Intl.message('Drop', name: 'battleDrop', desc: 'Label in encounter section');
 
+  String battleForStage(int stage) {
+    if (stage == -1) {
+      return battleInvades;
+    } else if (stage == 0) {
+      return battleCommon;
+    } else {
+      return battleFloor(stage);
+    }
+  }
+
   String get battleCommon =>
       Intl.message('Common Monsters', name: 'battleCommon', desc: 'Header for encounter section');
 

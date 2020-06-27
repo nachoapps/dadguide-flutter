@@ -242,15 +242,9 @@ class DungeonBattle extends StatelessWidget {
   Widget build(BuildContext context) {
     var loc = DadGuideLocalizations.of(context);
 
-    var text = loc.battleFloor(_model.stage);
-    if (_model.stage == -1) {
-      text = loc.battleInvades;
-    } else if (_model.stage == 0) {
-      text = loc.battleCommon;
-    }
     return Column(children: [
       GreyBar(children: [
-        Text(text),
+        Text(loc.battleForStage(_model.stage)),
         Spacer(),
         Text(loc.battleDrop),
       ]),
