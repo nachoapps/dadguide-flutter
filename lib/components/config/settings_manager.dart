@@ -46,6 +46,11 @@ class PrefKeys {
 
   static const monsterListPictureMode = 'monster_list_picture_mode';
   static const monsterListAwakeningMode = 'monster_list_awakening_mode';
+
+  static const dungeonOverviewColumns = 'dungeon_overview_columns';
+  static const dungeonOverviewType = 'dungeon_overview_type';
+  static const dungeonOverviewShowType = 'dungeon_overview_show_type';
+  static const dungeonOverviewShowAbilities = 'dungeon_overview_show_abilities';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -78,6 +83,7 @@ class Prefs {
         DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch ~/ 1000;
 
     await PrefService.init();
+    Prefs.dungeonOverviewType = DungeonOverviewType.floors;
     PrefService.setDefaultValues(<String, dynamic>{
       PrefKeys.changelogSeenVersion: '',
       PrefKeys.currentDbVersion: 0,
@@ -105,6 +111,10 @@ class Prefs {
       PrefKeys.purchaseDetails: <String>[],
       PrefKeys.monsterListPictureMode: false,
       PrefKeys.monsterListAwakeningMode: false,
+      PrefKeys.dungeonOverviewColumns: 1,
+      PrefKeys.dungeonOverviewType: DungeonOverviewType.floors.id,
+      PrefKeys.dungeonOverviewShowType: true,
+      PrefKeys.dungeonOverviewShowAbilities: true,
     });
   }
 
@@ -265,6 +275,15 @@ class Prefs {
   static set monsterListPictureMode(bool v) =>
       PrefService.setBool(PrefKeys.monsterListPictureMode, v);
   static bool get monsterListPictureMode => PrefService.getBool(PrefKeys.monsterListPictureMode);
+
+  static int get dungeonOverviewColumns => PrefService.getInt(PrefKeys.dungeonOverviewColumns);
+  static DungeonOverviewType get dungeonOverviewType =>
+      DungeonOverviewType.byId(PrefService.getInt(PrefKeys.dungeonOverviewType));
+  static set dungeonOverviewType(DungeonOverviewType v) =>
+      PrefService.setInt(PrefKeys.dungeonOverviewType, v.id);
+  static bool get dungeonOverviewShowType => PrefService.getBool(PrefKeys.dungeonOverviewShowType);
+  static bool get dungeonOverviewShowAbilities =>
+      PrefService.getBool(PrefKeys.dungeonOverviewShowAbilities);
 }
 
 List<int> stringToIntList(String s) {

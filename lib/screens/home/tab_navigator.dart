@@ -2,6 +2,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/data_update.dart';
 import 'package:dadguide2/data/tables.dart';
 import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
+import 'package:dadguide2/screens/dungeon_info/src/overview.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';
 import 'package:dadguide2/screens/egg_machine/egg_machine_subtab.dart';
 import 'package:dadguide2/screens/exchange/exchange_subtab.dart';
@@ -35,6 +36,7 @@ class TabNavigatorRoutes {
   static const String teamList = BuildListArgs.routeName;
   static const String teamEdit = BuildEditArgs.routeName;
   static const String teamView = BuildViewArgs.routeName;
+  static const String dungeonOverview = DungeonDetailArgs.dungeonOverviewRouteName;
 }
 
 /// Each tab is represented by a TabNavigator with a different rootItem. The tabs all have the
@@ -92,6 +94,9 @@ class TabNavigator extends StatelessWidget {
             case TabNavigatorRoutes.teamView:
               var args = routeSettings.arguments as BuildViewArgs;
               return MaterialPageRoute(builder: (context) => BuildViewScreen(args));
+            case TabNavigatorRoutes.dungeonOverview:
+              var args = routeSettings.arguments as DungeonDetailArgs;
+              return MaterialPageRoute(builder: (context) => DungeonOverviewScreen(args));
             default:
               throw 'Unexpected route';
           }

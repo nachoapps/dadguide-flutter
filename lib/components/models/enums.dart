@@ -791,3 +791,25 @@ class AwakeningEConverter<T> implements JsonConverter<AwakeningE, int> {
     return object.id;
   }
 }
+
+class DungeonOverviewType {
+  DungeonOverviewType._(this.id, this._name);
+  final int id;
+  final String Function() _name;
+
+  String get name => _name();
+
+  static DungeonOverviewType floors = DungeonOverviewType._(1, () => 'Floors');
+  static DungeonOverviewType killers = DungeonOverviewType._(2, () => 'Killers');
+
+  static List<DungeonOverviewType> all = [
+    floors,
+    killers,
+  ];
+
+  static final _lookup = {for (var k in all) k.id: k};
+
+  static DungeonOverviewType byId(int id) {
+    return _lookup[id];
+  }
+}

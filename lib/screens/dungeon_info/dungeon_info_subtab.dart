@@ -37,6 +37,13 @@ class DungeonDetailScreen extends StatelessWidget {
         // TODO: Stick the icon/dungeon name in here
         // title: ,
         actions: [
+          if (args.dungeon.selectedSubDungeon.battles.length > 3)
+            IconButton(
+              icon: Icon(Icons.map),
+              onPressed: () => Navigator.pushNamed(
+                  context, DungeonDetailArgs.dungeonOverviewRouteName,
+                  arguments: args),
+            ),
           ScreenshotButton(controller: screenshotController),
         ],
       ),

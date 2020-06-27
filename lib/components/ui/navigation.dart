@@ -66,6 +66,7 @@ VoidCallback goToMonsterFn(BuildContext context, int monsterId, {bool replace = 
 /// Arguments to the dungeon detail route.
 class DungeonDetailArgs {
   static const routeName = '/dungeonDetail';
+  static const dungeonOverviewRouteName = '/dungeonDetail/dungeonOverview';
   final FullDungeon dungeon;
 
   const DungeonDetailArgs(this.dungeon);
