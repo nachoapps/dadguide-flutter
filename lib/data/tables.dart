@@ -660,6 +660,17 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     await into(info).insert(entity, mode: InsertMode.insertOrReplace);
   }
 
+  Future<void> bulkUpsertData<TD extends Table, D extends DataClass>(
+      TableInfo<TD, D> info,
+      List<Map<String, dynamic>> data,
+      Insertable<D> Function(Map<String, dynamic>) mapper) async {
+    return transaction(() async {
+      for (var row in data) {
+        await upsertData(info, mapper(row));
+      }
+    });
+  }
+
   Future<int> deleteByPrimaryKey(String tableName, String tablePrimaryKey, int tableRowId) async {
     var deleteSql = 'DELETE FROM $tableName WHERE $tablePrimaryKey = $tableRowId';
     Fimber.v('Deleting row: $deleteSql');

@@ -124,18 +124,18 @@ class UpdateTask with TaskPublisher {
     Fimber.i('Retrieved ${data.length} rows for ${table.actualTableName}');
     var complete = 0;
     progressFn(complete * 100 ~/ data.length);
-    for (var row in data) {
+
+    await _database.bulkUpsertData(table, data, (row) {
       // The API returns blobs as 0x<hex>, but the table.map function expects them already
       // converted as Uint8List. If we used fromJson then we could do this more cleanly... but the
       // json key names are lowerCamel and we provide lower_snake casing.
       row.updateAll(correctHexValues);
 
-      var item = table.map(row) as Insertable;
-      await _database.upsertData(table, item);
-
       complete++;
       progressFn(complete * 100 ~/ data.length);
-    }
+
+      return table.map(row) as Insertable;
+    });
 
     // In case new scheduled events were inserted, reschedule all alarms.
     if (table == _database.schedule && data.isNotEmpty) {
