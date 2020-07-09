@@ -1,4 +1,16 @@
-## [Version 14](https://github.com/nachoapps/dadguide-flutter/releases)
+## [Version 15](https://github.com/nachoapps/dadguide-flutter/releases/tag/v15)
+
+Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/15?closed=1)
+
+This release got rushed out a bit early to fix a bug where new installs would fail when updating.
+
+* Ability to create a summary issue with spawns for the dungeon
+* Monster filter considers equivalent awakenings (e.g. full jammer resist for jammer resist)
+* Improve load time for monster view when awakenings are displayed
+* Save monster list view settings (including show awakenings, icon view)
+* Improve speed of large updates (if you haven't opened the app in a while)
+
+## [Version 14](https://github.com/nachoapps/dadguide-flutter/releases/tag/v14)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/14?closed=1)
 
