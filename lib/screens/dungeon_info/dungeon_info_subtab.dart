@@ -4,6 +4,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
+import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
@@ -73,29 +74,22 @@ class DungeonDetailContents extends StatelessWidget {
 
     return Provider.value(
       value: data,
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: ScreenshotContainer(
-                controller: screenshotController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DungeonHeader(data),
-                    DungeonSubHeader(data.selectedSubDungeon),
-                    ...battleWidgets,
-                    SizedBox(height: 8),
-                    GreyBar(
-                        children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
-                    SubDungeonList(data),
-                    MailIssues(data),
-                  ],
-                ),
-              ),
-            ),
+      child: ScrollableScrollView(
+        child: ScreenshotContainer(
+          controller: screenshotController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DungeonHeader(data),
+              DungeonSubHeader(data.selectedSubDungeon),
+              ...battleWidgets,
+              SizedBox(height: 8),
+              GreyBar(children: [Text(loc.subDungeonSelectionTitle, style: subtitle(context))]),
+              SubDungeonList(data),
+              MailIssues(data),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
