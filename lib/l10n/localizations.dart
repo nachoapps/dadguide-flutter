@@ -408,6 +408,25 @@ class DadGuideLocalizations {
         desc: 'Monster info number text',
       );
 
+  String monsterInfoDiff(String types) => Intl.message(
+        'Data displayed is for the Japanese server. The data on your server differs for the following categories: $types',
+        name: 'monsterInfoDiff',
+        args: [types],
+        desc: 'Monster info warning for JP -> NA/KR diff. Types are displayed comma-separated',
+      );
+
+  String get diffStats =>
+      Intl.message('stats', name: 'diffStats', desc: 'Diff type name for stats');
+
+  String get diffActive =>
+      Intl.message('active skill', name: 'diffActive', desc: 'Diff type name for active skill');
+
+  String get diffAwakenings =>
+      Intl.message('awakenings', name: 'diffAwakenings', desc: 'Diff type name for awakenings');
+
+  String get diffLeader =>
+      Intl.message('leader skill', name: 'diffLeader', desc: 'Diff type name for leader skill');
+
   String get monsterInfo297Awoken => Intl.message('+297 & fully awoken',
       name: 'monsterInfo297Awoken', desc: 'Text above the 297+awoken table');
 

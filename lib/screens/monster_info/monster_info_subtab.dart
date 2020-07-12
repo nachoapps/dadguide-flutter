@@ -124,6 +124,7 @@ class MonsterDetailContents extends StatelessWidget {
 
     final activeSkill = _data.activeSkill;
     final hasSkillups = activeSkill != null && activeSkill.turnMin != activeSkill.turnMax;
+    final displayDiffs = _data.monster.hasDiffs && Prefs.gameCountry != Country.jp;
 
     return Column(
       children: [
@@ -137,6 +138,12 @@ class MonsterDetailContents extends StatelessWidget {
             children: [
               // Comment here to maintain spacing.
               MonsterDetailHeader(_data),
+
+              if (displayDiffs)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: DiffWarning(_data.monster),
+                ),
 
               SizedBox(height: 4),
               MonsterLevelStatTable(_data),
@@ -1002,6 +1009,43 @@ class AwokenSkillSection extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// Displays a red warning label about a diff between JP and NA/KR
+class DiffWarning extends StatelessWidget {
+  final Monster monster;
+
+  const DiffWarning(this.monster, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var loc = DadGuideLocalizations.of(context);
+
+    final types = [
+      if (monster.diffStats) loc.diffStats,
+      if (monster.diffAwakenings) loc.diffAwakenings,
+      if (monster.diffActiveSkill) loc.diffActive,
+      if (monster.diffLeaderSkill) loc.diffLeader,
+    ];
+
+    final typesText = types.join(', ');
+    final warningText = loc.monsterInfoDiff(typesText);
+
+    return Container(
+      padding: EdgeInsets.all(4),
+      decoration: ShapeDecoration(
+        color: Colors.red,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.info_outline),
+          SizedBox(width: 8),
+          Flexible(child: Text(warningText)),
+        ],
+      ),
     );
   }
 }

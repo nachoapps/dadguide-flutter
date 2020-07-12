@@ -23,4 +23,6 @@ extension MonsterExtension on Monster {
 
   bool get isReincarnated => nameNa.toLowerCase().contains('reincarnated') ||
           nameJp.toLowerCase().contains('転生');
+
+  bool get hasDiffs => diffStats || diffActiveSkill || diffAwakenings || diffLeaderSkill;
 }
