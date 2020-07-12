@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 /// Top level state for the event tab; contains the selected date and server.
 class ScheduleDisplayState with ChangeNotifier {
-  List<Country> servers = [Prefs.eventCountry];
+  Country _server = Prefs.eventCountry;
   List<StarterDragon> starters = Prefs.eventStarters;
   bool hideClosed = Prefs.eventHideClosed;
   DateTime _currentEventDate = _toStartOfDay(DateTime.now());
@@ -22,9 +22,11 @@ class ScheduleDisplayState with ChangeNotifier {
 
   DateTime get currentEventDate => _currentEventDate;
 
+  Country get server => _server;
+
   set server(Country country) {
+    _server = country;
     Prefs.eventCountry = country;
-    servers = [Prefs.eventCountry];
     notifyListeners();
   }
 }
@@ -33,7 +35,7 @@ class ScheduleDisplayState with ChangeNotifier {
 class ScheduleTabState with ChangeNotifier {
   final searchBloc = EventSearchBloc();
 
-  final List<Country> servers;
+  final Country server;
   final List<StarterDragon> starters;
   final ScheduleTabKey tab;
   final DateTime dateStart;
@@ -41,7 +43,7 @@ class ScheduleTabState with ChangeNotifier {
 
   StreamSubscription<void> _updateSubscription;
 
-  ScheduleTabState(this.servers, this.starters, this.tab, this.dateStart, this.hideClosed) {
+  ScheduleTabState(this.server, this.starters, this.tab, this.dateStart, this.hideClosed) {
     _updateSubscription = updateStatusSubject.listen((_) {
       search();
     });
@@ -50,7 +52,7 @@ class ScheduleTabState with ChangeNotifier {
 
   void search() {
     searchBloc.search(EventSearchArgs.from(
-        servers, starters, tab, dateStart, dateStart.add(Duration(days: 1)), hideClosed));
+        [server], starters, tab, dateStart, dateStart.add(Duration(days: 1)), hideClosed));
   }
 
   @override

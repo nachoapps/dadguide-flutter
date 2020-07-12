@@ -139,15 +139,17 @@ VoidCallback goToFilterMonstersFn(BuildContext context, MonsterDisplayState disp
 class EggMachineArgs {
   static const routeName = '/eggMachines';
   final Country server;
+  final List<FullEggMachine> machines;
 
-  EggMachineArgs(this.server);
+  EggMachineArgs(this.server, this.machines);
 }
 
 /// Returns a Function which when executed, sends the user to the egg machines display.
 VoidCallback goToEggMachineFn(BuildContext context, Country server) {
   return () async {
+    final machines = await getIt<EggMachinesDao>().findEggMachines(server);
     return Navigator.pushNamed(context, EggMachineArgs.routeName,
-        arguments: EggMachineArgs(server));
+        arguments: EggMachineArgs(server, machines));
   };
 }
 
@@ -155,14 +157,17 @@ VoidCallback goToEggMachineFn(BuildContext context, Country server) {
 class ExchangeArgs {
   static const routeName = '/exchanges';
   final Country server;
+  final List<FullExchange> exchanges;
 
-  ExchangeArgs(this.server);
+  ExchangeArgs(this.server, this.exchanges);
 }
 
 /// Returns a Function which when executed, sends the user to the exchange display.
 VoidCallback goToExchangeFn(BuildContext context, Country server) {
   return () async {
-    return Navigator.pushNamed(context, ExchangeArgs.routeName, arguments: ExchangeArgs(server));
+    var exchanges = await getIt<ExchangesDao>().findExchanges(server);
+    return Navigator.pushNamed(context, ExchangeArgs.routeName,
+        arguments: ExchangeArgs(server, exchanges));
   };
 }
 

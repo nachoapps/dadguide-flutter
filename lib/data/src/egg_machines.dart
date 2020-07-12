@@ -9,12 +9,13 @@ part of '../tables.dart';
 class EggMachinesDao extends DatabaseAccessor<DadGuideDatabase> with _$EggMachinesDaoMixin {
   EggMachinesDao(DadGuideDatabase db) : super(db);
 
-  Future<List<FullEggMachine>> findEggMachines() async {
+  Future<List<FullEggMachine>> findEggMachines(Country server) async {
     var s = Stopwatch()..start();
     final query = select(eggMachines);
 
     var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     query.where((em) => em.endTimestamp.isBiggerThanValue(nowTimestamp));
+    query.where((em) => em.serverId.equals(server.id));
 
     var results = <FullEggMachine>[];
     var queryResults = await query.get();

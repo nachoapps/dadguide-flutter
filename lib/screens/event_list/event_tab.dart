@@ -1,4 +1,3 @@
-import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/images/icons.dart';
 import 'package:dadguide2/components/models/enums.dart';
@@ -120,7 +119,7 @@ class EventList extends StatelessWidget {
         key: UniqueKey(),
         providers: [
           ChangeNotifierProvider(
-              create: (context) => ScheduleTabState(displayState.servers, displayState.starters,
+              create: (context) => ScheduleTabState(displayState.server, displayState.starters,
                   _tabKey, displayState.currentEventDate, displayState.hideClosed)),
           ChangeNotifierProvider(create: (_) => TrackingNotifier()),
         ],
@@ -132,6 +131,8 @@ class EventList extends StatelessWidget {
 class DateSelectBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var displayState = Provider.of<ScheduleDisplayState>(context);
+
     return Container(
       color: grey(context, 200),
       child: Padding(
@@ -146,7 +147,7 @@ class DateSelectBar extends StatelessWidget {
                 height: 32,
                 width: 64,
                 child: FlatButton(
-                  onPressed: goToExchangeFn(context, Prefs.eventCountry),
+                  onPressed: goToExchangeFn(context, displayState.server),
                   child: Icon(FontAwesome.exchange),
                 ),
               ),
@@ -155,7 +156,7 @@ class DateSelectBar extends StatelessWidget {
                 height: 32,
                 width: 64,
                 child: FlatButton(
-                  onPressed: goToEggMachineFn(context, Prefs.eventCountry),
+                  onPressed: goToEggMachineFn(context, displayState.server),
                   child: Icon(MaterialCommunityIcons.egg_easter),
                 ),
               ),

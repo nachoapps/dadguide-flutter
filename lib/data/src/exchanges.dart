@@ -9,13 +9,14 @@ part of '../tables.dart';
 class ExchangesDao extends DatabaseAccessor<DadGuideDatabase> with _$ExchangesDaoMixin {
   ExchangesDao(DadGuideDatabase db) : super(db);
 
-  Future<List<FullExchange>> findExchanges() async {
+  Future<List<FullExchange>> findExchanges(Country server) async {
     var s = Stopwatch()..start();
     final query = select(exchanges);
+    query.where((ex) => ex.serverId.equals(server.id));
 
     var nowTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    query.where(
-        (ex) => ex.endTimestamp.isBiggerThanValue(nowTimestamp) | ex.permanent.equals(true));
+    query
+        .where((ex) => ex.endTimestamp.isBiggerThanValue(nowTimestamp) | ex.permanent.equals(true));
 
     var results = await query.get();
     Fimber.d('exchange lookup complete in: ${s.elapsed}');
