@@ -326,11 +326,11 @@ class MonsterColorBar extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            color: _colorFor(_model.attribute1Id),
+            color: _colorFor(_model.attribute2Id ?? _model.attribute1Id),
             child: SizedBox(width: 23, height: 6),
           ),
           Container(
-            color: _colorFor(_model.attribute2Id ?? _model.attribute1Id),
+            color: _colorFor(_model.attribute1Id),
             child: SizedBox(width: 23, height: 6),
           ),
         ],
