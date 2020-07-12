@@ -1,7 +1,7 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/utils/kana.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:fimber_io/fimber_io.dart';
 import 'package:rxdart/rxdart.dart';
 

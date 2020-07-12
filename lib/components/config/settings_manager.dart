@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:preferences/preferences.dart';
 import 'package:tuple/tuple.dart';

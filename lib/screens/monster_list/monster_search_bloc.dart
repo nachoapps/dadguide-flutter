@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/favorites/favorites.dart';
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/screens/monster_list/src/state.dart';
 import 'package:flutter/widgets.dart';
 

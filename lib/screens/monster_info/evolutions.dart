@@ -2,7 +2,7 @@ import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster_info/utils.dart';
 import 'package:dadguide2/theme/style.dart';

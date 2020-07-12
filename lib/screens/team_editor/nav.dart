@@ -1,4 +1,4 @@
-import 'package:dadguide2/data/local_tables.dart';
+import 'package:dadguide2/data_local/local_tables.dart';
 
 /// Arguments to the list builds route.
 class BuildListArgs {

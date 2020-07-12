@@ -1,4 +1,4 @@
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 
 String skillLevelText(DadGuideLocalizations loc, ActiveSkill skill) {

@@ -6,7 +6,7 @@ import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';

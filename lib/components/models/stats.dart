@@ -1,4 +1,4 @@
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 
 /// Simplifies the process of calculating various monster stat adjustments.
 ///

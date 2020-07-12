@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/ui/ensure_visibility.dart';
-import 'package:dadguide2/data/local_tables.dart';
+import 'package:dadguide2/data_local/local_tables.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

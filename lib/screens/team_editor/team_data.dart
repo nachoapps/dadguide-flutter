@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annotation;
 import 'package:json_annotation/json_annotation.dart';
 

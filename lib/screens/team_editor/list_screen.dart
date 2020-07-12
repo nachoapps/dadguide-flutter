@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/utils/streams.dart';
-import 'package:dadguide2/data/local_tables.dart';
+import 'package:dadguide2/data_local/local_tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/team_editor/src/display.dart';
 import 'package:dadguide2/screens/team_editor/team_data.dart';

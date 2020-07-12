@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/theme/style.dart';

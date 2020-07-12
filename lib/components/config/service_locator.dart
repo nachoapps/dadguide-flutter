@@ -1,12 +1,12 @@
 import 'dart:io' show HttpHeaders;
 
+import 'package:dadguide2/components/db/dadguide_database.dart';
+import 'package:dadguide2/components/db/local_database.dart';
 import 'package:dadguide2/components/images/cache.dart';
 import 'package:dadguide2/components/notifications/notifications.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
-import 'package:dadguide2/data/database.dart';
-import 'package:dadguide2/data/local_database.dart';
-import 'package:dadguide2/data/local_tables.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
+import 'package:dadguide2/data_local/local_tables.dart';
 import 'package:dadguide2/services/api.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:dadguide2/services/endpoints.dart';

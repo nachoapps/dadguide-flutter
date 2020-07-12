@@ -5,7 +5,7 @@ import 'package:dadguide2/components/ui/lists.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/ui/text_input.dart';
 import 'package:dadguide2/components/utils/streams.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster_list/monster_sort_modal.dart';
 import 'package:dadguide2/screens/monster_list/src/state.dart';

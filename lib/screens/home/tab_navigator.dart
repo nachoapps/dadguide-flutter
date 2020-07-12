@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/updates/data_update.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/screens/dungeon_info/dungeon_info_subtab.dart';
 import 'package:dadguide2/screens/dungeon_info/src/overview.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_sheet.dart';

@@ -13,7 +13,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/ui/notifiers.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/youtube.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/monster_info/utils.dart';
 import 'package:dadguide2/theme/style.dart';

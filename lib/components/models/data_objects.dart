@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/db/dadguide_database.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/components/utils/time.dart';
-import 'package:dadguide2/data/database.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/proto/enemy_skills/enemy_skills.pb.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';

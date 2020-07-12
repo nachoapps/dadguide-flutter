@@ -1,7 +1,7 @@
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/images/images.dart';
 import 'package:dadguide2/components/ui/navigation.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,6 @@
 import 'package:dadguide2/components/ui/buttons.dart';
 import 'package:dadguide2/components/ui/containers.dart';
-import 'package:dadguide2/data/local_tables.dart';
+import 'package:dadguide2/data_local/local_tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

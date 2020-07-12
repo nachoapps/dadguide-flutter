@@ -9,7 +9,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/components/utils/formatting.dart';
 import 'package:dadguide2/components/utils/youtube.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon_info/sub_dungeon_items.dart';
 import 'package:dadguide2/theme/style.dart';

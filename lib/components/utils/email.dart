@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/components/utils/logging.dart';
 import 'package:dadguide2/components/utils/version_info.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:dadguide2/services/device_utils.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
-import 'package:dadguide2/data/tables.dart';
+import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -128,6 +128,5 @@ bool useIsolate = true;
 Future<DadGuideDatabase> createDadGuideDatabaseOnIsolate() async {
   final isolate = await createMoorIsolate(DatabaseHelper.dbName);
   final connection = await isolate.connect();
-  print('created on isolate!');
   return DadGuideDatabase.connect(connection);
 }
