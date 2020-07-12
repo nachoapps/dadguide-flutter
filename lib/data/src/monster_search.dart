@@ -232,17 +232,17 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     }
 
     if (filter.leaderTags.isNotEmpty) {
-      Expression<bool> expr = Constant(false);
+      Expression<bool> expr = Constant(true);
       filter.leaderTags.forEach((tag) {
-        expr = expr | leaderSkillsForSearch.tags.contains('($tag)');
+        expr = expr & leaderSkillsForSearch.tags.contains('($tag)');
       });
       fullExpr &= expr;
     }
 
     if (filter.activeTags.isNotEmpty) {
-      Expression<bool> expr = Constant(false);
+      Expression<bool> expr = Constant(true);
       filter.activeTags.forEach((tag) {
-        expr = expr | activeSkillsForSearch.tags.contains('($tag)');
+        expr = expr & activeSkillsForSearch.tags.contains('($tag)');
       });
       fullExpr &= expr;
     }
