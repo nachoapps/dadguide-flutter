@@ -24,3 +24,40 @@ List<int> parseCsvIntList(String input) {
       .where((item) => item != null)
       .toList();
 }
+
+/// Temporary hack to fix null-safety for blobs.
+class NullSafeDefaultValueSerializer extends ValueSerializer {
+  const NullSafeDefaultValueSerializer();
+
+  @override
+  T fromJson<T>(dynamic json) {
+    if (json == null) {
+      return null;
+    }
+    if (T == DateTime) {
+      return DateTime.fromMillisecondsSinceEpoch(json as int) as T;
+    }
+
+    if (T == double && json is int) {
+      return json.toDouble() as T;
+    }
+
+    // blobs are encoded as a regular json array, so we manually convert that to
+    // a Uint8List
+    if (T == Uint8List && json is! Uint8List) {
+      final asList = (json as List).cast<int>();
+      return Uint8List.fromList(asList) as T;
+    }
+
+    return json as T;
+  }
+
+  @override
+  dynamic toJson<T>(T value) {
+    if (value is DateTime) {
+      return value.millisecondsSinceEpoch;
+    }
+
+    return value;
+  }
+}

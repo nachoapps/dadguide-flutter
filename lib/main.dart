@@ -2,6 +2,7 @@ import 'package:dadguide2/components/auth/user.dart';
 import 'package:dadguide2/components/config/app_state.dart';
 import 'package:dadguide2/components/config/service_locator.dart';
 import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/db/utils.dart';
 import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/firebase/src/ads.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:moor/moor.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +56,9 @@ void _syncInit() {
 
   // Set up logging.
   initLogging();
+
+  // Hack to fix blob null-safety, temporary.
+  moorRuntimeOptions.defaultSerializer = NullSafeDefaultValueSerializer();
 }
 
 /// Long running actions that we expect to complete before starting the app.
