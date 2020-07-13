@@ -63,7 +63,8 @@ class SimpleRxStreamBuilder<T> extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return whileWaiting;
         } else if (snapshot.hasError) {
-          Fimber.e('Error occurred: ${snapshot.error}');
+          var err = snapshot.error as Error;
+          Fimber.e('Snapshot has error', ex: err, stacktrace: err.stackTrace);
           return whileError;
         } else if (snapshot.data == null) {
           Fimber.e('Data unexpectedly null');
