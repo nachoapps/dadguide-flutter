@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
@@ -9,13 +8,11 @@ import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/components/models/stats.dart';
 import 'package:dadguide2/components/utils/kana.dart';
-import 'package:dadguide2/components/utils/parsing.dart';
 import 'package:dadguide2/proto/utils/enemy_skills_utils.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annotation;
 import 'package:moor/moor.dart';
-import 'package:moor_ffi/moor_ffi.dart';
 
 part 'extensions.dart';
 part 'src/converters.dart';
@@ -635,7 +632,7 @@ class Timestamps extends Table {
   queries: {},
 )
 class DadGuideDatabase extends _$DadGuideDatabase {
-  DadGuideDatabase(String dbPath) : super(VmDatabase(File(dbPath)));
+  DadGuideDatabase(QueryExecutor executor) : super(executor);
   DadGuideDatabase.connect(DatabaseConnection c) : super.connect(c);
 
   @override
@@ -660,10 +657,8 @@ class DadGuideDatabase extends _$DadGuideDatabase {
     await into(info).insert(entity, mode: InsertMode.insertOrReplace);
   }
 
-  Future<void> bulkUpsertData<TD extends Table, D extends DataClass>(
-      TableInfo<TD, D> info,
-      List<Map<String, dynamic>> data,
-      Insertable<D> Function(Map<String, dynamic>) mapper) async {
+  Future<void> bulkUpsertData<TD extends Table, D extends DataClass>(TableInfo<TD, D> info,
+      List<Map<String, dynamic>> data, Insertable<D> Function(Map<String, dynamic>) mapper) async {
     return transaction(() async {
       for (var row in data) {
         await upsertData(info, mapper(row));

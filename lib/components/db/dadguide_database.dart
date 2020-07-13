@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/data_dadguide/tables.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
+import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
@@ -86,7 +87,7 @@ class DatabaseHelper {
 
     // Database seems good; try loading it and reading some data.
     Fimber.d('Creating DB');
-    var tmpDatabase = DadGuideDatabase(await dbFilePath());
+    var tmpDatabase = DadGuideDatabase(VmDatabase(File(await dbFilePath())));
 
     try {
       Fimber.d('Loading static data');
