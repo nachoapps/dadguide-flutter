@@ -216,6 +216,8 @@ String convertGroup(BuildContext context, BehaviorGroup_GroupType groupType, Con
       return condStr.isEmpty ? loc.esGroupStandard : condStr;
     case BehaviorGroup_GroupType.UNKNOWN_USE:
       return loc.esGroupUnknownUse;
+    case BehaviorGroup_GroupType.HIGHEST_PRIORITY:
+      return loc.esGroupHighestPriority;
   }
   return loc.esGroupUnknown;
 }

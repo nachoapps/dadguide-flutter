@@ -38,6 +38,7 @@ class BehaviorGroup_GroupType extends $pb.ProtobufEnum {
   static const BehaviorGroup_GroupType STANDARD = BehaviorGroup_GroupType._(6, 'STANDARD');
   static const BehaviorGroup_GroupType DEATH = BehaviorGroup_GroupType._(7, 'DEATH');
   static const BehaviorGroup_GroupType UNKNOWN_USE = BehaviorGroup_GroupType._(8, 'UNKNOWN_USE');
+  static const BehaviorGroup_GroupType HIGHEST_PRIORITY = BehaviorGroup_GroupType._(9, 'HIGHEST_PRIORITY');
 
   static const $core.List<BehaviorGroup_GroupType> values = <BehaviorGroup_GroupType> [
     UNSPECIFIED,
@@ -49,6 +50,7 @@ class BehaviorGroup_GroupType extends $pb.ProtobufEnum {
     STANDARD,
     DEATH,
     UNKNOWN_USE,
+    HIGHEST_PRIORITY,
   ];
 
   static final $core.Map<$core.int, BehaviorGroup_GroupType> _byValue = $pb.ProtobufEnum.initByValue(values);

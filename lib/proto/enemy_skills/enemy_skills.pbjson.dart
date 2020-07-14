@@ -65,6 +65,7 @@ const BehaviorGroup_GroupType$json = const {
     const {'1': 'STANDARD', '2': 6},
     const {'1': 'DEATH', '2': 7},
     const {'1': 'UNKNOWN_USE', '2': 8},
+    const {'1': 'HIGHEST_PRIORITY', '2': 9},
   ],
 };
 

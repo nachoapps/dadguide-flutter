@@ -747,6 +747,8 @@ class DadGuideLocalizations {
       Intl.message('Standard', name: 'esGroupStandard', desc: 'Enemy behavior group title');
   String get esGroupUnknownUse =>
       Intl.message('Unknown usage', name: 'esGroupUnknownUse', desc: 'Enemy behavior group title');
+  String get esGroupHighestPriority => Intl.message('Use with highest priority',
+      name: 'esGroupHighestPriority', desc: 'Enemy behavior group title');
   String get esGroupUnknown =>
       Intl.message('Unknown', name: 'esGroupUnknown', desc: 'Enemy behavior group title');
   String get esGroupError =>
