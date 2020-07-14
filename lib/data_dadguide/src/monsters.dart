@@ -160,14 +160,28 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
     return fullMonster;
   }
 
+  Future<BuildMonster> monsterForBuild(int monsterId) async {
+    final query = (select(monsters)..where((m) => m.monsterId.equals(monsterId))).join([
+      leftOuterJoin(activeSkills, activeSkills.activeSkillId.equalsExp(monsters.activeSkillId)),
+      leftOuterJoin(leaderSkills, leaderSkills.leaderSkillId.equalsExp(monsters.leaderSkillId)),
+    ]);
+
+    final row = await query.getSingle();
+    final monster = row.readTable(monsters);
+    final activeSkill = row.readTable(activeSkills);
+    final leaderSkill = row.readTable(leaderSkills);
+    final awakenings = parseCsvIntList(monster.awakenings);
+    final superAwakenings = parseCsvIntList(monster.superAwakenings);
+
+    return BuildMonster(monster, activeSkill, leaderSkill, awakenings, superAwakenings);
+  }
+
   Future<FullSeries> fullSeries(int seriesId) async {
     if (seriesId == null) return null;
-    final s = Stopwatch()..start();
     final seriesValue =
         await (select(series)..where((s) => s.seriesId.equals(seriesId))).getSingle();
     final seriesMonsters = (await seriesMonsterIds(seriesId).get());
     final result = FullSeries(seriesValue, seriesMonsters);
-    Fimber.d('series lookup complete in: ${s.elapsed}');
     return result;
   }
 
@@ -336,4 +350,19 @@ class MonstersDao extends DatabaseAccessor<DadGuideDatabase> with _$MonstersDaoM
   Future<Monster> loadMonster(int monsterId) async {
     return await (select(monsters)..where((m) => m.monsterId.equals(monsterId))).getSingle();
   }
+
+  Future<ActiveSkill> loadActiveSkill(int activeSkillId) async {
+    return await (select(activeSkills)..where((a) => a.activeSkillId.equals(activeSkillId)))
+        .getSingle();
+  }
+
+  Future<LeaderSkill> loadLeaderSkill(int leaderSkillId) async {
+    return await (select(leaderSkills)..where((l) => l.leaderSkillId.equals(leaderSkillId)))
+        .getSingle();
+  }
+}
+
+class ConverterUtils {
+  static AwokenSkill awokenSkillFromId(int id) => AwokenSkill.fromJson({'awokenSkillId': id});
+  static List<AwokenSkill> awokenSkillsFromIds(List<int> ids) => ids.map(awokenSkillFromId).toList();
 }

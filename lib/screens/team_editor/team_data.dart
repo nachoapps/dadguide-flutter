@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dadguide2/components/models/data_objects.dart';
 import 'package:dadguide2/components/models/enums.dart';
 import 'package:dadguide2/data_dadguide/tables.dart';
@@ -20,6 +18,9 @@ class Team {
   @BadgeConverter()
   Badge badge;
 
+  List<TeamMonster> get allMonsters =>
+      [leader, sub1, sub2, sub3, sub4, friend]..where((e) => e != null).toList();
+
   Team({
     TeamMonster leader,
     TeamMonster sub1,
@@ -37,14 +38,6 @@ class Team {
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
   Map<String, dynamic> toJson() => _$TeamToJson(this);
-
-  factory Team.fromJsonString(String jsonStr) {
-    return Team.fromJson(jsonDecode(jsonStr) as Map<String, dynamic>);
-  }
-
-  String toJsonString() {
-    return jsonEncode(toJson());
-  }
 }
 
 @json_annotation.JsonSerializable()
@@ -64,7 +57,6 @@ class TeamMonster {
 @json_annotation.JsonSerializable()
 class TeamAssist {
   // Database-set.
-
   @MonsterConverter()
   Monster monster;
   @ActiveSkillConverter()
@@ -118,19 +110,24 @@ class TeamAssist {
     skillLevel = 0;
   }
 
-  void loadFrom(FullMonster fm) {
+  void loadFrom(BuildMonster bm) {
     // Just to be safe clear data.
     clear();
 
+    // Set 'static' data.
+    setMonster(bm);
+
+    // Leave the monster values as the zero'd out defaults, they rarely matter.
+  }
+
+  void setMonster(BuildMonster bm) {
     // Set fields from the database.
-    monster = fm.monster;
-    active = fm.activeSkill;
+    monster = bm.monster;
+    active = bm.activeSkill;
 
     // Set dependent fields.
     name = LanguageSelector.nameWithNaOverride(monster);
     id = IdSelector.visibleId(monster);
-
-    // Leave the monster values as the zero'd out defaults, they rarely matter.
   }
 
   factory TeamAssist.fromJson(Map<String, dynamic> json) => _$TeamAssistFromJson(json);
@@ -232,20 +229,12 @@ class TeamBase {
     latents = [];
   }
 
-  void loadFrom(FullMonster fm) {
+  void loadFrom(BuildMonster bm) {
     // Just to be safe clear data.
     clear();
 
-    // Set fields from the database.
-    monster = fm.monster;
-    leader = fm.leaderSkill;
-    active = fm.activeSkill;
-    awakeningOptions = fm.awakenings.map((fa) => fa.awokenSkill).toList();
-    superAwakeningOptions = fm.superAwakenings.map((fa) => fa.awokenSkill).toList();
-
-    // Set dependent fields.
-    name = LanguageSelector.nameWithNaOverride(monster);
-    id = IdSelector.visibleId(monster);
+    // Set 'static' data.
+    setMonster(bm);
 
     // Default the monster values to hypermax.
     level = monster.level;
@@ -254,6 +243,19 @@ class TeamBase {
     rcvPlus = 99;
     skillLevel = active != null ? active.turnMax - active.turnMin + 1 : 0;
     awakenings = awakeningOptions.length;
+  }
+
+  void setMonster(BuildMonster bm) {
+    // Set fields from the database.
+    monster = bm.monster;
+    active = bm.activeSkill;
+    leader = bm.leaderSkill;
+    awakeningOptions = ConverterUtils.awokenSkillsFromIds(bm.awakenings);
+    superAwakeningOptions = ConverterUtils.awokenSkillsFromIds(bm.superAwakenings);
+
+    // Set dependent fields.
+    name = LanguageSelector.nameWithNaOverride(monster);
+    id = IdSelector.visibleId(monster);
   }
 
   List<Latent> get availableLatents {

@@ -108,7 +108,7 @@ class EditAssistDialog extends StatelessWidget {
                         MonsterListArgs.routeName,
                         arguments: MonsterListArgs(MonsterListAction.returnResult));
                     if (m == null) return;
-                    final fm = await getIt<MonstersDao>().fullMonster(m.monsterId);
+                    final fm = await getIt<MonstersDao>().monsterForBuild(m.monsterId);
                     item.loadFrom(fm);
                     controller.notify();
                   },

@@ -8,6 +8,39 @@ class BuildsDao extends DatabaseAccessor<LocalStorageDatabase> with _$BuildsDaoM
     return ValueConnectableStream(select(builds).watch())..autoConnect();
   }
 
+  /// Returns an inflated build, required for editing/display.
+  /// A non-inflated build is only necessary for the 'list' view.
+  Future<Build> inflateBuild(Build build) async {
+    var monstersDao = getIt<MonstersDao>();
+    final teams = [
+      build.team1,
+      if (build.team2 != null) build.team2,
+      if (build.team3 != null) build.team3,
+    ];
+    // Inflate the items in the team
+    for (var team in teams) {
+      for (var m in team.allMonsters) {
+        if (m.assist.monsterId != 0) {
+          try {
+            m.assist.setMonster(await monstersDao.monsterForBuild(m.assist.monsterId));
+          } catch (ex) {
+            Fimber.e('Failed to load assist', ex: ex);
+            m.assist.clear();
+          }
+        }
+        if (m.base.monsterId != 0) {
+          try {
+            m.base.setMonster(await monstersDao.monsterForBuild(m.base.monsterId));
+          } catch (ex) {
+            Fimber.e('Failed to load base', ex: ex);
+            m.base.clear();
+          }
+        }
+      }
+    }
+    return build;
+  }
+
   Future<Build> saveBuild(Build build) async {
     try {
       var newId = await into(builds).insert(build, mode: InsertMode.insertOrReplace);

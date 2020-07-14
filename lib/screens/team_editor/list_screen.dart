@@ -45,8 +45,9 @@ class BuildListScreen extends StatelessWidget {
 class TeamListContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var buildsDao = getIt<BuildsDao>();
     return SimpleRxStreamBuilder<List<Build>>(
-      stream: getIt<BuildsDao>().buildsStream(),
+      stream: buildsDao.buildsStream(),
       builder: (context, data) {
         return ListView.builder(
           itemBuilder: (context, idx) {
@@ -56,8 +57,12 @@ class TeamListContents extends StatelessWidget {
               key: ValueKey(item),
               create: (_) => TeamController(item: editableItem, editable: false, hideText: true),
               child: GestureDetector(
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(BuildEditArgs.routeName, arguments: BuildEditArgs(editableItem)),
+                  onTap: () async {
+                    var loadedItem = await buildsDao.inflateBuild(item);
+                    var loadedEditableItem = EditableBuild.copy(loadedItem);
+                    return Navigator.of(context).pushNamed(BuildEditArgs.routeName,
+                        arguments: BuildEditArgs(loadedEditableItem));
+                  },
                   child: Card(elevation: 2, child: TeamDisplayTile())),
             );
           },

@@ -269,6 +269,19 @@ class ListMonster {
   MonsterType get type3 => MonsterType.byId(monster.type3Id);
 }
 
+/// Partial monster info used to inflate the monster in the build table.
+/// The Awakenings are inflated from the Monster shortcut, so they're missing some info.
+class BuildMonster {
+  final Monster monster;
+  final ActiveSkill activeSkill;
+  final LeaderSkill leaderSkill;
+  final List<int> awakenings;
+  final List<int> superAwakenings;
+
+  BuildMonster(
+      this.monster, this.activeSkill, this.leaderSkill, this.awakenings, this.superAwakenings);
+}
+
 /// Evolution data for the monster detail view.
 class FullEvolution {
   final Evolution evolution;
