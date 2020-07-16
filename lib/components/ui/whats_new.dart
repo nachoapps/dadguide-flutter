@@ -10,7 +10,7 @@ Future<void> showChangelog(BuildContext context) {
 }
 
 class DadGuideChangelog extends StatelessWidget {
-  static final changelogVersion = 'v14';
+  static final changelogVersion = 'v16';
 
   final VoidCallback onButtonPressed;
 

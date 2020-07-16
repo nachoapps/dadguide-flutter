@@ -1,3 +1,16 @@
+## [Version 16](https://github.com/nachoapps/dadguide-flutter/releases/tag/v16)
+
+Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/16?closed=1)
+
+When you rush things out sometimes things break =(
+
+This release fixes a problem the build editor, and bundles a few changes I had prepped for the
+next release. Hopefully rushing this one out didn't break anything else.
+
+* Build view works again
+* Warn when data displayed is live in JP but not yet in NA/KR
+* Swap tag filtering to use intersection, not union
+
 ## [Version 15](https://github.com/nachoapps/dadguide-flutter/releases/tag/v15)
 
 Full release notes [here](https://github.com/nachoapps/dadguide-flutter/milestone/15?closed=1)
