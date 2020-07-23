@@ -15,27 +15,29 @@ class UpgradingScreen extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(title: Text(loc.title)),
-        body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  loc.upgradingDbTitle,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                SizedBox(height: 8),
-                Divider(),
-                TaskListProgress(OnboardingTaskManager.instance.task),
-                SizedBox(height: 5),
-                Divider(),
-                ListTile(
-                  title: Text(loc.upgradingInfoTitle),
-                  subtitle: Text(loc.upgradingInfoText),
-                ),
-              ],
-            )),
+        body: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    loc.upgradingDbTitle,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  SizedBox(height: 8),
+                  Divider(),
+                  TaskListProgress(OnboardingTaskManager.instance.task),
+                  SizedBox(height: 5),
+                  Divider(),
+                  ListTile(
+                    title: Text(loc.upgradingInfoTitle),
+                    subtitle: Text(loc.upgradingInfoText),
+                  ),
+                ],
+              )),
+        ),
       ),
     );
   }

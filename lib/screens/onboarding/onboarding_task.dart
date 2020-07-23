@@ -77,6 +77,7 @@ class OnboardingTaskManager {
       Fimber.w('Already started onboarding');
       return null;
     }
+    Prefs.onboardingFailureCount = 0;
     task = OnboardingTask();
     return task.start();
   }
@@ -95,8 +96,13 @@ class OnboardingTask with TaskPublisher {
         // Now that the database has downloaded successfully, redo initialization.
         await tryInitializeServiceLocatorDb();
       } catch (e) {
+        Prefs.incrementOnboardingFailureCount();
         Fimber.w('Downloading DB failed', ex: e);
         recordEvent('onboarding_failure_db');
+
+        if (Prefs.onboardingFailureCount >= 3) {
+          throw 'Onboarding failed too many times';
+        }
         await Future<void>.delayed(Duration(seconds: 5));
       }
     }
@@ -107,8 +113,13 @@ class OnboardingTask with TaskPublisher {
         await _downloadIcons();
         Prefs.setIconsDownloaded(true);
       } catch (e) {
+        Prefs.incrementOnboardingFailureCount();
         Fimber.w('Downloading icons failed', ex: e);
         recordEvent('onboarding_failure_icons');
+
+        if (Prefs.onboardingFailureCount >= 3) {
+          throw 'Onboarding failed too many times';
+        }
         await Future<void>.delayed(Duration(seconds: 5));
       }
     }

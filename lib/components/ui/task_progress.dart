@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dadguide2/components/config/settings_manager.dart';
+import 'package:dadguide2/components/utils/email.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +9,8 @@ import 'package:flutter/material.dart';
 ///
 /// This is used for the first launch flow, and the interactive update tables dialog.
 class TaskListProgress extends StatefulWidget {
+  // TODO: This class ended up not being reused for anything so just make it onboarding specific.
+
   final TaskPublisher _tasks;
 
   const TaskListProgress(this._tasks, {Key key}) : super(key: key);
@@ -73,6 +77,7 @@ class _TaskListProgressState extends State<TaskListProgress> {
               padding: const EdgeInsets.all(8.0),
               child: LinearProgressIndicator(value: update.progress / 100),
             ),
+          MultipleFailureWidget(),
         ],
       ),
     );
@@ -91,7 +96,11 @@ class _TaskListProgressState extends State<TaskListProgress> {
             title: Text(loc.taskFailedWithCount(update.index, update.taskCount)),
             subtitle: Text(update.taskName),
           ),
-          Text(update.message ?? loc.taskRestarting),
+          ListTile(
+            title: Text('Exception occurred'),
+            subtitle: Text(update.message ?? loc.taskRestarting),
+          ),
+          MultipleFailureWidget(),
         ],
       ),
     );
@@ -169,5 +178,22 @@ mixin TaskPublisher {
   @protected
   void pipeTo(TaskPublisher sink) {
     stream.listen((e) => sink.controller.add(e));
+  }
+}
+
+class MultipleFailureWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    if (Prefs.onboardingFailureCount == 0) return Container();
+
+    return Card(
+      child: ListTile(
+        title: Text('Onboarding has failed ${Prefs.onboardingFailureCount} times'),
+        subtitle: RaisedButton(
+          child: Text('Submit logs to developer'),
+          onPressed: () => sendOnboardingError(),
+        ),
+      ),
+    );
   }
 }

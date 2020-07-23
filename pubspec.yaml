@@ -137,6 +137,9 @@ dependencies:
   # Native archive unzipping
   flutter_archive: ^0.1.4
 
+  # Locking, mainly for DB access
+  synchronized: ^2.2.0+2
+
 
 dev_dependencies:
   flutter_test:

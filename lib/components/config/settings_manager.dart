@@ -51,6 +51,8 @@ class PrefKeys {
   static const dungeonOverviewType = 'dungeon_overview_type';
   static const dungeonOverviewShowType = 'dungeon_overview_show_type';
   static const dungeonOverviewShowAbilities = 'dungeon_overview_show_abilities';
+
+  static const onboardingFailureCount = 'onboarding_failure_count';
 }
 
 /// Wrapper for reading and writing preferences.
@@ -115,6 +117,7 @@ class Prefs {
       PrefKeys.dungeonOverviewType: DungeonOverviewType.floors.id,
       PrefKeys.dungeonOverviewShowType: true,
       PrefKeys.dungeonOverviewShowAbilities: true,
+      PrefKeys.onboardingFailureCount: 0,
     });
   }
 
@@ -284,6 +287,11 @@ class Prefs {
   static bool get dungeonOverviewShowType => PrefService.getBool(PrefKeys.dungeonOverviewShowType);
   static bool get dungeonOverviewShowAbilities =>
       PrefService.getBool(PrefKeys.dungeonOverviewShowAbilities);
+
+  static int get onboardingFailureCount => PrefService.getInt(PrefKeys.onboardingFailureCount);
+  static set onboardingFailureCount(int v) =>
+      PrefService.setInt(PrefKeys.onboardingFailureCount, v);
+  static void incrementOnboardingFailureCount() => onboardingFailureCount += 1;
 }
 
 List<int> stringToIntList(String s) {

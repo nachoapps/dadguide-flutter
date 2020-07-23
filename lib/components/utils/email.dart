@@ -24,19 +24,9 @@ Future<void> sendDungeonErrorEmail(Dungeon dungeon, SubDungeon subDungeon) async
 
 /// Launches the device email client with an error email.
 Future<void> sendErrorEmail(String subject) async {
-  var info = await getVersionInfo();
-  var deviceId = await getDeviceId();
-  var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode} - $deviceId)]';
+  var body = await _deviceInfoBody();
   body += '\n\nPlease describe the issue below:\n';
-
-  var logFilePath = await _getLoggingFilePath();
-  var email = Email(
-    subject: subject,
-    body: body,
-    recipients: ['tactical0retreat@gmail.com'],
-    attachmentPath: logFilePath,
-  );
-  await FlutterEmailSender.send(email);
+  await _sendEmailWithLogs(subject, body);
 }
 
 /// Launches the device email client with an feedback email.
@@ -46,12 +36,28 @@ Future<void> sendFeedback() async {
     Fimber.i(detail);
   }
 
+  var body = await _deviceInfoBody() + '\n';
+  await _sendEmailWithLogs('Feedback', body);
+}
+
+/// Launches the device email client with an feedback email.
+Future<void> sendOnboardingError() async {
   var info = await getVersionInfo();
   var body = '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode})]\n';
+  body += 'Submitting logs for an onboarding failure';
+  await _sendEmailWithLogs('Onboarding issue', body);
+}
 
+Future<String> _deviceInfoBody() async {
+  var info = await getVersionInfo();
+  var deviceId = await getDeviceId();
+  return '[${info.platformVersion} - ${info.projectVersion}(${info.projectCode} - $deviceId)]';
+}
+
+Future<void> _sendEmailWithLogs(String subject, String body) async {
   var logFilePath = await _getLoggingFilePath();
   var email = Email(
-    subject: 'Feedback',
+    subject: subject,
     body: body,
     recipients: ['tactical0retreat@gmail.com'],
     attachmentPath: logFilePath,
