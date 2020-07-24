@@ -56,6 +56,10 @@ class OnboardingTaskManager {
     return getIt<Endpoints>().db('v2_dadguide.sqlite.zip');
   }
 
+  static String remoteUnzippedDbFile() {
+    return getIt<Endpoints>().db('dadguide.sqlite');
+  }
+
   /// Server-side icon/awakening/latent zip file name. Probably never changes.
   static String remoteIconsFile() {
     return getIt<Endpoints>().db('icons.zip');
@@ -86,40 +90,81 @@ class OnboardingTaskManager {
 /// Executes the onboarding workflow, publishing updates as it goes.
 class OnboardingTask with TaskPublisher {
   Future<void> start() async {
-    // Keep trying to download and update the database until it exists (accounts for failures).
-    while (await DatabaseHelper.instance.database == null) {
+    // If we're here, we're either in an initial run, or we already determined
+    // that an update is necessary and the DB has been cleared.
+    Prefs.currentDbVersion = DatabaseHelper.dbVersion;
+    Prefs.updateRan();
+    Prefs.onboardingFailureCount = 0;
+
+    // Try the download zip and then unzip workflow.
+    if (await DatabaseHelper.instance.database == null) {
       try {
         await _downloadDb();
-        Prefs.currentDbVersion = DatabaseHelper.dbVersion;
-        Prefs.updateRan();
-
-        // Now that the database has downloaded successfully, redo initialization.
-        await tryInitializeServiceLocatorDb();
-      } catch (e) {
+      } catch (ex) {
         Prefs.incrementOnboardingFailureCount();
-        Fimber.w('Downloading DB failed', ex: e);
-        recordEvent('onboarding_failure_db');
-
-        if (Prefs.onboardingFailureCount >= 3) {
-          throw 'Onboarding failed too many times';
-        }
-        await Future<void>.delayed(Duration(seconds: 5));
+        Fimber.w('Downloading zipped DB failed', ex: ex);
+        recordEvent('onboarding_failure_db_zipped');
+        pub(_SubTask.unpackDb, TaskStatus.failed, message: 'ZIP file unpacking failed');
       }
     }
+
+    // Try the unzipped download workflow.
+    if (await DatabaseHelper.instance.database == null) {
+      await Future<void>.delayed(Duration(seconds: 1));
+      Prefs.incrementOnboardingFailureCount();
+      recordEvent('onboarding_failure_db_zipped_bad');
+      try {
+        await _downloadUnpackedDb();
+      } catch (ex) {
+        Prefs.incrementOnboardingFailureCount();
+        Fimber.w('Downloading unzipped DB failed', ex: ex);
+        recordEvent('onboarding_failure_db_unzipped');
+        pub(_SubTask.downloadDb, TaskStatus.failed, message: 'DB File download failed');
+        await Future<void>.delayed(Duration(seconds: 1));
+      }
+    }
+
+    // The database should be available by now, if not, we've failed onboarding.
+    if (await DatabaseHelper.instance.database == null) {
+      Prefs.incrementOnboardingFailureCount();
+      Fimber.e('Since database was still null, onboarding permanently failed');
+      await Future<void>.delayed(Duration(seconds: 1));
+      pub(_SubTask.unpackDb, TaskStatus.permanently_failed,
+          message: 'Database initialization failed');
+      return;
+    }
+
+    try {
+      await tryInitializeServiceLocatorDb();
+    } catch (ex) {
+      Fimber.e('Could not register DB to service locator', ex: ex);
+      recordEvent('onboarding_failure_registration');
+      pub(_SubTask.unpackDb, TaskStatus.permanently_failed,
+          message: 'Database registration failed');
+      Prefs.incrementOnboardingFailureCount();
+      return;
+    }
+
+    // If we got here, we skipped whatever failures occurred earlier.
+    Prefs.onboardingFailureCount = 0;
 
     // Keep trying to download and unpack the icons until it succeeds (accounts for failures).
     while (!Prefs.iconsDownloaded) {
       try {
         await _downloadIcons();
         Prefs.setIconsDownloaded(true);
-      } catch (e) {
+      } catch (ex) {
         Prefs.incrementOnboardingFailureCount();
-        Fimber.w('Downloading icons failed', ex: e);
+        Fimber.w('Downloading icons failed', ex: ex);
         recordEvent('onboarding_failure_icons');
 
+        // If we can't download the icons that's fine. It will just be slower for the user.
         if (Prefs.onboardingFailureCount >= 3) {
-          throw 'Onboarding failed too many times';
+          Fimber.e('Abandoning icon download');
+          break;
         }
+
+        // If we still have retries, pause for a bit before continuing.
         await Future<void>.delayed(Duration(seconds: 5));
       }
     }
@@ -133,34 +178,33 @@ class OnboardingTask with TaskPublisher {
         _SubTask.downloadDb, OnboardingTaskManager.remoteDbFile(), 'db.download');
 
     pub(_SubTask.unpackDb, TaskStatus.idle);
-    try {
-      pub(_SubTask.unpackDb, TaskStatus.started);
-      final unpackDir = await _newTmpDir('db.unpack');
-      await _nativeUnzipLargeFile(tmpFile, unpackDir);
+    pub(_SubTask.unpackDb, TaskStatus.started);
+    final unpackDir = await _newTmpDir('db.unpack');
+    await _nativeUnzipLargeFile(tmpFile, unpackDir);
 
-      final unzippedDbFile = File(join(unpackDir.path, DatabaseHelper.dbName));
-      if (!unzippedDbFile.existsSync()) {
-        throw 'File does not exist: ${unzippedDbFile.path}';
-      }
-
-      final targetFile = await DatabaseHelper.dbFilePath();
-      Fimber.i('Moving ${unzippedDbFile.path} to $targetFile}');
-      await unzippedDbFile.rename(targetFile);
-      Fimber.i('Done moving to $targetFile');
-
-      pub(_SubTask.unpackDb, TaskStatus.finished);
-
-      try {
-        await tmpFile.delete();
-        await unpackDir.delete(recursive: true);
-      } catch (ex) {
-        Fimber.w('Failed to delete tmp db files', ex: ex);
-      }
-    } catch (e) {
-      recordEvent('onboarding_failure_db_unpack');
-      pub(_SubTask.unpackDb, TaskStatus.failed, message: 'Unexpected error: ${e.toString()}');
-      rethrow;
+    final unzippedDbFile = File(join(unpackDir.path, DatabaseHelper.dbName));
+    if (!unzippedDbFile.existsSync()) {
+      throw 'File does not exist: ${unzippedDbFile.path}';
     }
+
+    final targetFile = await DatabaseHelper.dbFilePath();
+    Fimber.i('Moving ${unzippedDbFile.path} to $targetFile}');
+    await unzippedDbFile.rename(targetFile);
+    Fimber.i('Done moving to $targetFile');
+
+    pub(_SubTask.unpackDb, TaskStatus.finished);
+
+    try {
+      await tmpFile.delete();
+      await unpackDir.delete(recursive: true);
+    } catch (ex) {
+      Fimber.w('Failed to delete tmp db files', ex: ex);
+    }
+  }
+
+  Future<void> _downloadUnpackedDb() async {
+    await _downloadFileWithProgress(_SubTask.downloadDb,
+        OnboardingTaskManager.remoteUnzippedDbFile(), await DatabaseHelper.dbFilePath());
   }
 
   Future<void> _downloadIcons() async {
@@ -192,23 +236,27 @@ class OnboardingTask with TaskPublisher {
   }
 
   Future<File> _downloadZipFileWithProgress(
-      _SubTask task, String remoteZipFile, String fileInfo) async {
+      _SubTask task, String remoteZipFile, String fileName) async {
+    final tmpDir = await _newTmpDir(fileName);
+    final tmpFile = File(join(tmpDir.path, '$fileName.zip'));
+    await _downloadFileWithProgress(task, remoteZipFile, tmpFile.path);
+    return tmpFile;
+  }
+
+  Future<void> _downloadFileWithProgress(_SubTask task, String remoteFile, String localFile) async {
     pub(task, TaskStatus.idle, progress: 0);
     try {
-      final tmpDir = await _newTmpDir(fileInfo);
-      final tmpFile = File(join(tmpDir.path, '$fileInfo.zip'));
-      Fimber.i('Starting download of $remoteZipFile');
+      Fimber.i('Starting download of $remoteFile to $localFile');
       var resp = await getIt<Dio>().download(
-        remoteZipFile,
-        tmpFile.path,
+        remoteFile,
+        localFile,
         onReceiveProgress: (received, total) {
           pub(task, TaskStatus.started, progress: received * 100 ~/ total);
         },
       );
       Fimber.i(
-          'Finished downloading file ${tmpFile.path}: ${resp.statusCode} : ${resp.statusMessage}');
+          'Finished downloading file ${localFile}: ${resp.statusCode} : ${resp.statusMessage}');
       pub(task, TaskStatus.finished);
-      return tmpFile;
     } on DioError catch (e) {
       pub(task, TaskStatus.failed, message: e.message);
       rethrow;
