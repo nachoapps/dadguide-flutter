@@ -108,6 +108,8 @@ class DatabaseHelper {
       allAwokenSkills = await monsterDao.allAwokenSkills();
       allActiveSkillTags = await monsterDao.allActiveSkillTags();
       allLeaderSkillTags = await monsterDao.allLeaderSkillTags();
+      Fimber.d(
+          'Done loading static data: ${allAwokenSkills.length} - ${allActiveSkillTags.length} - ${allLeaderSkillTags.length}');
 
       // Database seems not corrupt, activate it.
       if (useIsolate) {
