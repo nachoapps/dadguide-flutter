@@ -15,7 +15,8 @@ Future<void> initAsyncLogging() async {
   try {
     var tempDir = await getTemporaryDirectory();
     await tempDir.create(recursive: true);
-    _fileTree = SizeRollingFileTree(DataSize(kilobytes: 10), filenamePrefix: '${tempDir.path}/log');
+    _fileTree =
+        SizeRollingFileTree(DataSize(kilobytes: 100), filenamePrefix: '${tempDir.path}/log');
     Fimber.plantTree(_fileTree);
     Fimber.w('File logger init complete');
   } catch (e) {
