@@ -85,7 +85,11 @@ Future<bool> _asyncInit() async {
 
   // Try to initialize the DB and register it with getIt; this will fail on first-launch or
   // when the database needs to be upgraded.
-  await tryInitializeServiceLocatorDb();
+  try {
+    await tryInitializeServiceLocatorDb();
+  } catch (ex) {
+    Fimber.w('Init of DB in main failed', ex: ex);
+  }
 
   if (await OnboardingTaskManager.instance.upgradingMustRun()) {
     Fimber.i('Starting upgrading');

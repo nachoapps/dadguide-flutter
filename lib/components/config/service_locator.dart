@@ -62,20 +62,16 @@ Future<void> initializeServiceLocator(
 ///
 /// This may fail if the database has not been downloaded.
 Future<void> tryInitializeServiceLocatorDb() async {
-  try {
-    var db = await DatabaseHelper.instance.database;
-    if (db == null) {
-      Fimber.e('Could not register db, as it was null');
-      return;
-    }
-    getIt.registerSingleton<DadGuideDatabase>(db);
-    getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
-    getIt.registerSingleton<EggMachinesDao>(db.eggMachinesDao);
-    getIt.registerSingleton<ExchangesDao>(db.exchangesDao);
-    getIt.registerSingleton<MonstersDao>(db.monstersDao);
-    getIt.registerSingleton<MonsterSearchDao>(db.monsterSearchDao);
-    getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
-  } catch (ex) {
-    Fimber.e('Failed to initialize db inside service locator', ex: ex);
+  var db = await DatabaseHelper.instance.database;
+  if (db == null) {
+    Fimber.e('Could not register db, as it was null');
+    return;
   }
+  getIt.registerSingleton<DadGuideDatabase>(db);
+  getIt.registerSingleton<DungeonsDao>(db.dungeonsDao);
+  getIt.registerSingleton<EggMachinesDao>(db.eggMachinesDao);
+  getIt.registerSingleton<ExchangesDao>(db.exchangesDao);
+  getIt.registerSingleton<MonstersDao>(db.monstersDao);
+  getIt.registerSingleton<MonsterSearchDao>(db.monsterSearchDao);
+  getIt.registerSingleton<ScheduleDao>(db.scheduleDao);
 }
