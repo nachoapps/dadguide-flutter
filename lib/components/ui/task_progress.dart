@@ -29,27 +29,41 @@ class _TaskListProgressState extends State<TaskListProgress> {
     return StreamBuilder<TaskProgress>(
         stream: _tasks.stream,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
-            return buildIdle(context);
-          }
+          final taskWidget = buildStreamResult(snapshot);
 
-          if (snapshot.hasError) {
-            return buildFatalError(context, snapshot.error);
-          }
-
-          switch (snapshot.data.status) {
-            case TaskStatus.failed:
-              return buildFailed(context, snapshot.data);
-            case TaskStatus.started:
-              return buildRunning(context, snapshot.data);
-            case TaskStatus.idle:
-              return buildRunning(context, snapshot.data);
-            case TaskStatus.finished:
-              return buildFinished(context);
-            default:
-              throw 'Unexpected status ${snapshot.data.status}';
-          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              taskWidget,
+              MultipleFailureWidget(),
+            ],
+          );
         });
+  }
+
+  Widget buildStreamResult(AsyncSnapshot<TaskProgress> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
+      return buildIdle(context);
+    }
+
+    if (snapshot.hasError) {
+      return buildFatalError(context, error: snapshot.error);
+    }
+
+    switch (snapshot.data.status) {
+      case TaskStatus.failed:
+        return buildFailed(context, snapshot.data);
+      case TaskStatus.permanently_failed:
+        return buildFatalError(context, error: snapshot.data.message);
+      case TaskStatus.started:
+        return buildRunning(context, snapshot.data);
+      case TaskStatus.idle:
+        return buildRunning(context, snapshot.data);
+      case TaskStatus.finished:
+        return buildFinished(context);
+      default:
+        throw 'Unexpected status ${snapshot.data.status}';
+    }
   }
 
   Widget buildRunning(BuildContext context, TaskProgress update) {
@@ -77,7 +91,6 @@ class _TaskListProgressState extends State<TaskListProgress> {
               padding: const EdgeInsets.all(8.0),
               child: LinearProgressIndicator(value: update.progress / 100),
             ),
-          MultipleFailureWidget(),
         ],
       ),
     );
@@ -100,7 +113,6 @@ class _TaskListProgressState extends State<TaskListProgress> {
             title: Text('Exception occurred'),
             subtitle: Text(update.message ?? loc.taskRestarting),
           ),
-          MultipleFailureWidget(),
         ],
       ),
     );
@@ -117,12 +129,13 @@ class _TaskListProgressState extends State<TaskListProgress> {
     );
   }
 
-  Widget buildFatalError(BuildContext context, Object error) {
+  Widget buildFatalError(BuildContext context, {Object error}) {
     var loc = DadGuideLocalizations.of(context);
 
     return Card(
       child: ListTile(
-        leading: SizedBox(width: 36, height: 36, child: Icon(Icons.check, color: Colors.red)),
+        leading:
+            SizedBox(width: 36, height: 36, child: Icon(Icons.error_outline, color: Colors.red)),
         title: Text(loc.taskFatalError),
         subtitle: Text(error?.toString() ?? 'unknown error'),
       ),
@@ -142,7 +155,7 @@ class _TaskListProgressState extends State<TaskListProgress> {
 }
 
 /// Possible states for a task. The various states trigger different UI displays.
-enum TaskStatus { idle, started, failed, finished }
+enum TaskStatus { idle, started, failed, permanently_failed, finished }
 
 /// An update that a task can publish to adjust the UI.
 class TaskProgress {
@@ -188,7 +201,7 @@ class MultipleFailureWidget extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Text('Onboarding has failed ${Prefs.onboardingFailureCount} times'),
+        title: Text('Onboarding experienced ${Prefs.onboardingFailureCount} errors'),
         subtitle: RaisedButton(
           child: Text('Submit logs to developer'),
           onPressed: () => sendOnboardingError(),
