@@ -7,7 +7,6 @@ import 'package:dadguide2/components/firebase/ads.dart';
 import 'package:dadguide2/components/firebase/remote_config.dart';
 import 'package:dadguide2/components/firebase/src/ads.dart';
 import 'package:dadguide2/components/ui/whats_new.dart';
-import 'package:dadguide2/components/updates/background_fetch.dart';
 import 'package:dadguide2/components/utils/app_reloader.dart';
 import 'package:dadguide2/components/utils/logging.dart';
 import 'package:dadguide2/l10n/localizations.dart';
@@ -110,8 +109,6 @@ Future<bool> _asyncInit() async {
   unawaited(FirebaseAdMob.instance
       .initialize(appId: appId(), analyticsEnabled: true)
       .then((am) => Fimber.i('AdMob ready')));
-
-  unawaited(configureUpdateDatabaseTask());
 
   return true;
 }
