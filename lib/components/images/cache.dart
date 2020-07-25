@@ -6,7 +6,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 /// Importing this so I can manually bulk cache files which is not supported by the library.
 /// ignore: implementation_imports
-import 'package:flutter_cache_manager/src/cache_object.dart';
+import 'package:flutter_cache_manager/src/storage/cache_object.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,7 +15,7 @@ import 'package:uuid/uuid.dart';
 /// Logs all HTTP requests for the cache (mainly images). Used to verify that the cache is working
 /// properly.
 Future<FileFetcherResponse> _loggingHttpGetter(String url, {Map<String, String> headers}) async {
-  Fimber.v('Retrieving $url');
+  Fimber.i('Retrieving $url');
   var httpResponse = await http.get(url, headers: headers);
   return HttpFileFetcherResponse(httpResponse);
 }

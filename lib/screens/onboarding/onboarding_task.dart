@@ -278,7 +278,7 @@ class OnboardingTask with TaskPublisher {
 
 Future<void> _nativeUnzipLargeFile(File zipFile, Directory destinationDir) async {
   Fimber.i('Unpacking ${zipFile.path} to ${destinationDir.path}');
-  await FlutterArchive.unzip(zipFile: zipFile, destinationDir: destinationDir);
+  await ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir);
   final fileCount = await destinationDir.list().length;
   Fimber.i('Done unpacking $fileCount files to ${destinationDir.path}');
 }

@@ -60,7 +60,7 @@ Future<void> _sendEmailWithLogs(String subject, String body) async {
     subject: subject,
     body: body,
     recipients: ['tactical0retreat@gmail.com'],
-    attachmentPath: logFilePath,
+    attachmentPaths: [logFilePath],
   );
   await FlutterEmailSender.send(email);
 }

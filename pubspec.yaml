@@ -31,14 +31,14 @@ dependencies:
   path: ^1.6.4
 
   stack_trace: ^1.9.3
-  cached_network_image: ^2.0.0
+  cached_network_image: ^2.2.0+1
   # If updating this, need to verify cache.dart
-  flutter_cache_manager: 1.1.3
+  flutter_cache_manager: 1.4.1
   protobuf: any
 
   # Database codegen
   moor: ^3.2.0
-  moor_ffi: ^0.5.0
+  moor_ffi: ^0.7.0
 
   # Notifications
   background_fetch: 0.5.4
@@ -80,7 +80,7 @@ dependencies:
       url: https://github.com/nachoapps/flutter_calendar_week
 
   # Send bad data email
-  flutter_email_sender: ^2.2.2
+  flutter_email_sender: ^3.0.1
   get_version: ^0.2.1
   device_info: ^0.4.2+1
 
@@ -91,7 +91,7 @@ dependencies:
   strings: ^0.1.2
 
   # Better stream patterns
-  rxdart: ^0.23.1
+  rxdart: ^0.24.1
 
   # Play animations
   video_player: ^0.10.8+1
@@ -112,13 +112,13 @@ dependencies:
   visibility_detector: ^0.1.4
 
   # Take screenshots of widgets
-  screenshot: ^0.1.1
+  screenshot: ^0.2.0
 
   # Save screenshots in the gallery
   gallery_saver: ^2.0.1
 
   # Changelog display
-  flutter_markdown: ^0.3.5
+  flutter_markdown: ^0.4.2
   #  flutter_whatsnew:
   #    git: https://github.com/nachoapps/flutter_whatsnew.git
 
@@ -126,7 +126,7 @@ dependencies:
   scrollable_positioned_list: ^0.1.6
 
   # Linting, included for the 'unawaited' function.
-  pedantic: ^1.4.0
+  pedantic: ^1.9.0
 
   # FAB with actions
   flutter_speed_dial: ^1.2.5
@@ -135,7 +135,7 @@ dependencies:
   random_string: ^2.0.1
 
   # Native archive unzipping
-  flutter_archive: ^0.1.4
+  flutter_archive: ^1.0.2
 
   # Locking, mainly for DB access
   synchronized: ^2.2.0+2
