@@ -19,6 +19,26 @@ Future<String> getDeviceId() async {
   }
 }
 
+void logDeviceInfo() async {
+  Fimber.w('Device Info');
+  try {
+    final deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      final info = await deviceInfo.iosInfo;
+      Fimber.w('${info.name} - ${info.systemName} - ${info.systemVersion} - ${info.model}');
+      Fimber.w('${info.utsname.machine} - ${info.utsname.release}');
+    } else {
+      final info = await deviceInfo.androidInfo;
+      Fimber.w('${info.brand} - ${info.device} - ${info.hardware} - ${info.model}');
+      Fimber.w('abis: ${info.supportedAbis}');
+      Fimber.w('abis32: ${info.supported32BitAbis}');
+      Fimber.w('abis64: ${info.supported64BitAbis}');
+    }
+  } catch (ex) {
+    Fimber.e('Failed to log device info', ex: ex);
+  }
+}
+
 Future<DeviceInfo> createDeviceInfo() async {
   try {
     var deviceInfo = DeviceInfoPlugin();

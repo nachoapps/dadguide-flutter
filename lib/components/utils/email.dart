@@ -55,6 +55,7 @@ Future<String> _deviceInfoBody() async {
 }
 
 Future<void> _sendEmailWithLogs(String subject, String body) async {
+  logDeviceInfo();
   var logFilePath = await _getLoggingFilePath();
   var email = Email(
     subject: subject,
