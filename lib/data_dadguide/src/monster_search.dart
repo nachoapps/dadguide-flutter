@@ -355,7 +355,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
     // Also check for the super awakening toggle here.
     var mappedSuperAwakenings = filter.searchSuperAwakenings
         ? superAwakenings.map((e) => (AwakeningE.equivalentsById[e] ?? [e]).toList()).toList()
-        : [];
+        : <List<int>>[];
 
     // Remove matched awakenings from the filter.
     for (var awokenSkillId in mappedAwakenings) {
