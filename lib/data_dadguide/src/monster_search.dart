@@ -343,7 +343,7 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
       return true;
     }
 
-    // Explode the filter, converting 'super' awakenings into their N un-super equiv amounts.
+    // Explode the filter, converting 'complete resist' awakenings into their N equiv amounts.
     // Also copies the list, avoiding possible mutations.
     var filterCopy = filterSkills.expand<int>((e) => AwakeningE.equivalentsById[e] ?? [e]).toList();
 
@@ -352,8 +352,10 @@ class MonsterSearchDao extends DatabaseAccessor<DadGuideDatabase> with _$Monster
         awakenings.expand<int>((e) => AwakeningE.equivalentsById[e] ?? [e]).toList();
 
     // Super awakenings need to be treated a bit differently, since only one can be selected.
-    var mappedSuperAwakenings =
-        superAwakenings.map((e) => (AwakeningE.equivalentsById[e] ?? [e]).toList()).toList();
+    // Also check for the super awakening toggle here.
+    var mappedSuperAwakenings = filter.searchSuperAwakenings
+        ? superAwakenings.map((e) => (AwakeningE.equivalentsById[e] ?? [e]).toList()).toList()
+        : [];
 
     // Remove matched awakenings from the filter.
     for (var awokenSkillId in mappedAwakenings) {
