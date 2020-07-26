@@ -11,7 +11,6 @@ import 'package:dadguide2/screens/monster_list/monster_sort_modal.dart';
 import 'package:dadguide2/screens/monster_list/src/state.dart';
 import 'package:dadguide2/theme/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -59,13 +58,7 @@ class MonsterList extends StatelessWidget {
             return GridView.builder(
               itemCount: data.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: PadIcon(
-                  data[index].monster.monsterId,
-                  monsterLink: true,
-                ),
-              ),
+              itemBuilder: (context, index) => MonsterListGridItem(data[index], action),
             );
           } else {
             return ScrollableStackWidget(
@@ -167,6 +160,23 @@ class MonsterDisplayOptionsBar extends StatelessWidget {
   }
 }
 
+class MonsterListGridItem extends StatelessWidget {
+  final ListMonster data;
+  final MonsterListAction action;
+
+  MonsterListGridItem(this.data, this.action);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () => action.execute(context, data.monster),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: PadIcon(data.monster.monsterId),
+        ));
+  }
+}
+
 /// Item representing a monster in the monster list.
 class MonsterListRow extends StatelessWidget {
   final ListMonster _model;
@@ -187,7 +197,7 @@ class MonsterListRow extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: () => _onClickAction(context),
+      onTap: () => action.execute(context, m),
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 4),
           child: Row(
@@ -250,19 +260,6 @@ class MonsterListRow extends StatelessWidget {
             ],
           )),
     );
-  }
-
-  void _onClickAction(BuildContext context) {
-    switch (action) {
-      case MonsterListAction.showDetails:
-        goToMonsterFn(context, _model.monster.monsterId)();
-        break;
-      case MonsterListAction.returnResult:
-        Navigator.of(context).pop(_model.monster);
-        break;
-      default:
-        Fimber.e('Unexpected action type: $action');
-    }
   }
 }
 

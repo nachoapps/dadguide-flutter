@@ -12,6 +12,21 @@ enum MonsterListAction {
   returnResult,
 }
 
+extension MonsterListActionExtension on MonsterListAction {
+  void execute(BuildContext context, Monster monster) {
+    switch (this) {
+      case MonsterListAction.showDetails:
+        goToMonsterFn(context, monster.monsterId)();
+        break;
+      case MonsterListAction.returnResult:
+        Navigator.of(context).pop(monster);
+        break;
+      default:
+        Fimber.e('Unexpected action type: $this');
+    }
+  }
+}
+
 /// Arguments to the monster list route.
 class MonsterListArgs {
   static const routeName = '/monsterList';
