@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:dadguide2/components/config/settings_manager.dart';
 import 'package:dadguide2/data_dadguide/tables.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:synchronized/synchronized.dart';
 
@@ -98,11 +100,12 @@ class DatabaseHelper {
       return;
     }
 
-    // Database seems good; try loading it and reading some data.
-    Fimber.d('Creating DB');
-    var tmpDatabase = DadGuideDatabase(VmDatabase(File(await dbFilePath())));
-
+    DadGuideDatabase tmpDatabase;
     try {
+      // Database seems good; try loading it and reading some data.
+      Fimber.d('Creating DB');
+      tmpDatabase = DadGuideDatabase(VmDatabase(File(await dbFilePath())));
+
       Fimber.d('Loading static data');
       var monsterDao = MonstersDao(tmpDatabase);
       allAwokenSkills = await monsterDao.allAwokenSkills();
@@ -123,8 +126,9 @@ class DatabaseHelper {
         _database = tmpDatabase;
         tmpDatabase = null;
       }
-    } catch (ex) {
-      Fimber.e('Failed to get static info from db, probably corrupt', ex: ex);
+    } catch (ex, st) {
+      Fimber.e('Failed to get static info from db, probably corrupt', ex: ex, stacktrace: st);
+      unawaited(Crashlytics.instance.recordError(ex, st, context: 'corrupt_db'));
       try {
         await tmpDatabase.close();
       } catch (ex) {
