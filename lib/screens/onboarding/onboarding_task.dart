@@ -150,8 +150,6 @@ class OnboardingTask with TaskPublisher {
 
     // Keep trying to download and unpack the icons until it succeeds (accounts for failures).
     if (!Prefs.iconsDownloaded) {
-      // Only try this once; if it fails, just continue.
-      Prefs.setIconsDownloaded(true);
       try {
         await _downloadIcons();
       } catch (ex) {
@@ -159,6 +157,9 @@ class OnboardingTask with TaskPublisher {
         Fimber.w('Downloading icons failed', ex: ex);
         recordEvent('onboarding_failure_icons');
         await Future<void>.delayed(Duration(seconds: 3));
+      } finally {
+        // Only try this once; if it fails, just continue.
+        Prefs.setIconsDownloaded(true);
       }
     }
 
