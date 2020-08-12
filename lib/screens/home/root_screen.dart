@@ -4,6 +4,7 @@ import 'package:dadguide2/components/ui/navigation.dart';
 import 'package:dadguide2/l10n/localizations.dart';
 import 'package:dadguide2/screens/dungeon_list/dungeon_list_tab.dart';
 import 'package:dadguide2/screens/event_list/event_tab.dart';
+import 'package:dadguide2/screens/home/announcements.dart';
 import 'package:dadguide2/screens/home/tab_navigator.dart';
 import 'package:dadguide2/screens/monster_list/monster_list_tab.dart';
 import 'package:dadguide2/screens/settings/settings_tab.dart';
@@ -96,7 +97,12 @@ class _StatefulHomeScreenState extends State<StatefulHomeScreen> {
               body: SafeArea(
                 // Might be extraneous but we have a SafeArea at the bottom already.
                 bottom: false,
-                child: _widgetOptions[_selectedIndex],
+                child: Column(
+                  children: [
+                    AnnouncementPanel(),
+                    Expanded(child: _widgetOptions[_selectedIndex]),
+                  ],
+                ),
               ),
               // Prevent the tabs at the bottom from floating above the keyboard.
               resizeToAvoidBottomInset: false,

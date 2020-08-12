@@ -33,12 +33,14 @@ class RemoteConfigWrapper {
     disableMedia = instance.getBool('disable_media');
     disableEggMachine = instance.getBool('disable_egg_machine');
     disableExchange = instance.getBool('disable_exchange');
+    announcement = instance.getString('announcement');
     iosBanner = instance.getString('ios_banner');
     androidBanner = instance.getString('android_banner');
 
     Fimber.i('disableMedia: $disableMedia'
         ', disableEggMachine: $disableEggMachine'
         ', disableExchange: $disableExchange'
+        ', announcement: ${announcement?.length}'
         ', iosBanner: ${iosBanner?.length}'
         ', androidBanner: ${androidBanner?.length}');
 
@@ -49,6 +51,9 @@ class RemoteConfigWrapper {
   static bool disableMedia = false;
   static bool disableEggMachine = false;
   static bool disableExchange = false;
+
+  // Announcement string, if set.
+  static String announcement = '';
 
   // Guaranteed to be set in RemoteConfig.
   static String iosBanner = '';
